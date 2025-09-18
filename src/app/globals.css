@@ -216,3 +216,21 @@ img, video { display: block; max-width: 100%; height: auto; }
   .backdrop-blur-md { backdrop-filter: blur(0px); }
   .transition-transform, .transition-opacity { transition: none !important; }
 }
+
+/* Hero: высота = экран минус фикс-хедер и челка iOS */
+.hero-fill {
+  height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
+  min-height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
+}
+@supports (height: 100dvh) {
+  .hero-fill {
+    height: calc(100dvh - var(--header-h) - env(safe-area-inset-top));
+    min-height: calc(100dvh - var(--header-h) - env(safe-area-inset-top));
+  }
+}
+@supports not (height: 100svh) {
+  .hero-fill {
+    height: calc(100vh - var(--header-h) - env(safe-area-inset-top));
+    min-height: calc(100vh - var(--header-h) - env(safe-area-inset-top));
+  }
+}

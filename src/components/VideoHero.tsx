@@ -23,22 +23,22 @@ export default function VideoHero() {
     return () => v.removeEventListener("canplay", onCanPlay);
   }, []);
 
-  return (
-    <section className="relative w-full h-ios-vh overflow-hidden">
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted={muted}
-        playsInline
-        preload="auto"
-        poster="/video/derived/hero-poster.jpg"
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      >
-        <source src="/video/derived/fallback-720.mp4" type="video/mp4" />
-        <source src="/video/derived/fallback-1080.mp4" type="video/mp4" />
-        Ваш браузер не поддерживает видео.
-      </video>
+return (
+  <section className="relative w-full hero-fill overflow-hidden">
+    <video
+      ref={videoRef}
+      autoPlay
+      loop
+      muted={muted}
+      playsInline
+      preload="auto"
+      poster="/video/derived/hero-poster.jpg"
+      className="absolute inset-0 w-full h-full object-cover"
+    >
+      <source src="/video/derived/fallback-720.mp4" type="video/mp4" />
+      <source src="/video/derived/fallback-1080.mp4" type="video/mp4" />
+      Ваш браузер не поддерживает видео.
+    </video>
 
       {/* затемняющий градиент */}
       <div className="absolute inset-0 bg-black/30 pointer-events-none z-10" />
