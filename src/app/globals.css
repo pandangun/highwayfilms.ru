@@ -5,28 +5,28 @@
    DESIGN TOKENS
    ========================= */
 :root {
-  color-scheme: dark;              /* корректные системные виджеты/формы в тёмной теме */
+  color-scheme: dark;
 
   /* colors */
-  --bgc: #0b0b0c;                  /* фон (почти чёрный)            */
-  --fgc: #f3f3f2;                  /* основной текст                */
-  --muted: #b0b0b0;                /* вторичный текст               */
+  --bgc: #0b0b0c;
+  --fgc: #f3f3f2;
+  --muted: #b0b0b0;
   --border: rgba(255,255,255,.12);
   --border-strong: rgba(255,255,255,.24);
-  --overlay: rgba(0,0,0,.70);       /* затемнение под модалки/меню   */
-  --accent: #f2f2f2;               /* «акцент-белый» (минимализм)   */
-  --brand: #7C3AED;                /* фиолетовый бренда (кнопки)    */
+  --overlay: rgba(0,0,0,.70);
+  --accent: #f2f2f2;        /* «акцент-белый» */
+  --brand: #7C3AED;         /* фиолетовый кнопок/линков */
 
-  /* radii & shadow */
+  /* radii & shadows */
   --r: 12px;
   --shadow: 0 10px 30px rgba(0,0,0,.35);
 
   /* layout */
   --container: 1200px;
-  --header-h: 56px;                /* высота фикс-хедера */
+  --header-h: 56px;         /* высота фикс-хедера */
 }
 
-/* map tokens to utilities */
+/* map tokens → утилиты */
 .bg-bgc        { background: var(--bgc); }
 .text-fgc      { color: var(--fgc); }
 .text-muted    { color: var(--muted); }
@@ -45,6 +45,7 @@ html, body { height: 100%; }
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -53,25 +54,29 @@ body {
   color: var(--fgc);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: none; /* избегаем «рывков» на iOS при скролле до края */
 }
 
-/* tap highlight off (iOS) */
+/* iOS tap highlight */
 a, button, [role="button"] { -webkit-tap-highlight-color: transparent; }
 
 /* selection */
 ::selection { background: rgba(255,255,255,.16); color: var(--fgc); }
 
-/* images/video sane defaults */
+/* медиа по умолчанию */
 img, video { display: block; max-width: 100%; height: auto; }
 
 /* =========================
    CONTAINER
    ========================= */
 .container {
-  max-width: var(--container);
+  max-width: min(100%, var(--container));
   margin-inline: auto;
   padding-inline: 24px;
 }
+
+/* узкий кламп для текста */
+.measure { max-width: 65ch; }
 
 /* =========================
    SAFE AREAS (iPhone)
@@ -80,22 +85,32 @@ img, video { display: block; max-width: 100%; height: auto; }
 .pt-safe { padding-top:  env(safe-area-inset-top); }
 .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
 
-/* отступ сверху = высота хедера + safe-area */
+/* отступ для контента ниже фикс-хедера */
 .pt-header-safe { padding-top: calc(var(--header-h) + env(safe-area-inset-top)); }
 
 /* =========================
    RELIABLE VIEWPORT HEIGHT
-   (для hero/видео/модалок)
    ========================= */
-/* базовый фолбэк */
 .h-ios-vh { height: 100vh; min-height: 100vh; }
-/* лучшее для старых мобильных Safari */
-@supports (height: 100svh) {
-  .h-ios-vh { height: 100svh; min-height: 100svh; }
+@supports (height: 100svh) { .h-ios-vh { height: 100svh; min-height: 100svh; } }
+@supports (height: 100dvh) { .h-ios-vh { height: 100dvh; min-height: 100dvh; } }
+
+/* Hero: высота = экран − (хедер + челка iOS) */
+.hero-fill {
+  height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
+  min-height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
 }
-/* самое корректное на новых браузерах */
 @supports (height: 100dvh) {
-  .h-ios-vh { height: 100dvh; min-height: 100dvh; }
+  .hero-fill {
+    height: calc(100dvh - var(--header-h) - env(safe-area-inset-top));
+    min-height: calc(100dvh - var(--header-h) - env(safe-area-inset-top));
+  }
+}
+@supports not (height: 100svh) {
+  .hero-fill {
+    height: calc(100vh - var(--header-h) - env(safe-area-inset-top));
+    min-height: calc(100vh - var(--header-h) - env(safe-area-inset-top));
+  }
 }
 
 /* =========================
@@ -108,6 +123,13 @@ img, video { display: block; max-width: 100%; height: auto; }
 }
 :focus:not(:focus-visible) { outline: none; }
 
+/* визуально скрыть, но оставить для скринридеров */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
 /* =========================
    SCROLLBARS
    ========================= */
@@ -115,30 +137,29 @@ img, video { display: block; max-width: 100%; height: auto; }
 *::-webkit-scrollbar { width: 8px; height: 8px; }
 *::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 8px; }
 
-/* утилита: скрыть скроллбары */
+/* скрыть скроллбары при необходимости */
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
-/* утилита: комфортные тапы для иконок */
+/* комфортные тапы для иконок */
 .tap-target { min-width: 44px; min-height: 44px; }
 
 /* =========================
    TYPOGRAPHY HELPERS
    ========================= */
 .h1 {
-  font-size: clamp(2.25rem, 1.2rem + 2.5vw, 3.5rem); /* ~36–56 */
+  font-size: clamp(2.25rem, 1.2rem + 2.5vw, 3.5rem);
   line-height: 1.1;
   letter-spacing: -0.01em;
   font-weight: 600;
   text-wrap: balance;
 }
 .lead {
-  font-size: 1.125rem; /* 18 */
+  font-size: 1.125rem;
   line-height: 1.7;
   color: var(--muted);
 }
-@media (min-width: 768px) { .lead { font-size: 1.25rem; } } /* 20 на десктопе */
-.measure { max-width: 65ch; }
+@media (min-width: 768px) { .lead { font-size: 1.25rem; } }
 
 .stat-value { font-size: clamp(2rem, 1.2rem + 2vw, 3rem); font-weight: 600; }
 .stat-label { color: var(--muted); }
@@ -155,7 +176,6 @@ img, video { display: block; max-width: 100%; height: auto; }
 }
 .card h3 { font-size: 1.0625rem; font-weight: 600; }
 .card p  { line-height: 1.6; }
-/* ховеры только там, где есть курсор */
 @media (hover: hover) and (pointer: fine) {
   .card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
 }
@@ -174,16 +194,12 @@ img, video { display: block; max-width: 100%; height: auto; }
 .btn:active  { transform: translateY(1px); }
 
 .btn-primary {
-  background: var(--brand);
-  color: #fff;
-  border-color: transparent;
+  background: var(--brand); color: #fff; border-color: transparent;
 }
 .btn-primary:hover { filter: brightness(1.05); }
 
 .btn-accent {
-  background: var(--accent);
-  color: #111;
-  border-color: transparent;
+  background: var(--accent); color: #111; border-color: transparent;
 }
 .btn-accent:hover { background: #fff; }
 
@@ -193,7 +209,7 @@ img, video { display: block; max-width: 100%; height: auto; }
 .overlay { background: var(--overlay); }
 
 /* =========================
-   ANIMATIONS (fade-in)
+   ANIMATIONS
    ========================= */
 .fade-in { animation: fade .6s ease both; }
 @keyframes fade {
@@ -212,25 +228,6 @@ img, video { display: block; max-width: 100%; height: auto; }
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  /* blur может «жрать» FPS на iOS — выключаем большие блюры */
   .backdrop-blur-md { backdrop-filter: blur(0px); }
   .transition-transform, .transition-opacity { transition: none !important; }
-}
-
-/* Hero: высота = экран минус фикс-хедер и челка iOS */
-.hero-fill {
-  height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
-  min-height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
-}
-@supports (height: 100dvh) {
-  .hero-fill {
-    height: calc(100dvh - var(--header-h) - env(safe-area-inset-top));
-    min-height: calc(100dvh - var(--header-h) - env(safe-area-inset-top));
-  }
-}
-@supports not (height: 100svh) {
-  .hero-fill {
-    height: calc(100vh - var(--header-h) - env(safe-area-inset-top));
-    min-height: calc(100vh - var(--header-h) - env(safe-area-inset-top));
-  }
 }
