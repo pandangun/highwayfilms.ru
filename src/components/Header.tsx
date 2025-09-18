@@ -12,20 +12,21 @@ export default function Header() {
   // Закрываем меню при смене роутов
   useEffect(() => { setIsOpen(false); }, [pathname]);
 
-  // Лочим скролл фона (особенно важно для iOS)
+  // Лочим скролл фона (важно для iOS)
   useEffect(() => {
     if (!isOpen) return;
     const root = document.documentElement;
-    const scrollY = window.scrollY;
+    const y = window.scrollY;
     root.style.position = "fixed";
     root.style.width = "100%";
-    root.style.top = `-${scrollY}px`;
+    root.style.top = `-${y}px`;
     return () => {
+      const stored = root.style.top;
       root.style.position = "";
       root.style.width = "";
-      const y = Math.abs(parseInt(root.style.top || "0", 10));
       root.style.top = "";
-      window.scrollTo(0, y);
+      const backY = stored ? Math.abs(parseInt(stored, 10)) : 0;
+      window.scrollTo(0, backY);
     };
   }, [isOpen]);
 
@@ -73,7 +74,6 @@ export default function Header() {
           headerHeight
         )}
         role="banner"
-        style={{ ['--header-h' as any]: '56px' }}
       >
         <div className="container flex h-full items-center justify-between">
           <Link
@@ -100,28 +100,33 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Оверлей — начинается под шапкой, чтобы хедер всегда был кликабелен */}
+      {/* Оверлей — начинается под шапкой */}
       <div
         className={clsx(
           "fixed inset-x-0 z-40 md:hidden bg-black/70 transition-opacity duration-300",
           isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
-        style={{ top: "calc(var(--header-h) + env(safe-area-inset-top))", bottom: 0 }}
+        style={{
+          top: "calc(var(--header-h) + env(safe-area-inset-top))",
+          bottom: "0",
+        }}
         onClick={() => setIsOpen(false)}
         aria-hidden={!isOpen}
       />
 
-      {/* Правая шторка под бургером, у правой стенки */}
+      {/* Правая шторка под бургером у правой стенки */}
       <aside
         id="mobile-drawer"
         className={clsx(
           "fixed right-0 z-[70] w-[86vw] max-w-[380px] md:hidden",
-          "bg-zinc-950", // глухой фон, не даём видео просвечивать
+          "bg-zinc-950",
           "transition-transform duration-300 will-change-transform",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
-        // начинаем ниже хедера и учитываем safe-area
-        style={{ top: "calc(var(--header-h) + env(safe-area-inset-top))", bottom: "env(safe-area-inset-bottom)" }}
+        style={{
+          top: "calc(var(--header-h) + env(safe-area-inset-top))",
+          bottom: "env(safe-area-inset-bottom)",
+        }}
         role="dialog"
         aria-modal="true"
         aria-label="Мобильное меню"
