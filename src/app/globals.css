@@ -1,147 +1,218 @@
+/* Tailwind v4 */
 @import "tailwindcss";
 
-/* === Design tokens === */
-:root{
+/* =========================
+   DESIGN TOKENS
+   ========================= */
+:root {
+  color-scheme: dark;              /* корректные системные виджеты/формы в тёмной теме */
+
   /* colors */
-  --bgc: #0b0b0c;          /* main background (почти чёрный) */
-  --fgc: #f3f3f2;          /* главный текст */
-  --muted: #b0b0b0;        /* вторичный текст */
+  --bgc: #0b0b0c;                  /* фон (почти чёрный)            */
+  --fgc: #f3f3f2;                  /* основной текст                */
+  --muted: #b0b0b0;                /* вторичный текст               */
   --border: rgba(255,255,255,.12);
   --border-strong: rgba(255,255,255,.24);
-  --accent: #f2f2f2;       /* акцент — белый (минимализм) */
-  --accent-ghost: rgba(255,255,255,.06);
-  --overlay: rgba(0,0,0,.36);
+  --overlay: rgba(0,0,0,.70);       /* затемнение под модалки/меню   */
+  --accent: #f2f2f2;               /* «акцент-белый» (минимализм)   */
+  --brand: #7C3AED;                /* фиолетовый бренда (кнопки)    */
 
-  /* radii & shadows */
-  --r: 12px;               /* радиус карточек */
+  /* radii & shadow */
+  --r: 12px;
   --shadow: 0 10px 30px rgba(0,0,0,.35);
 
-  /* container */
+  /* layout */
   --container: 1200px;
+  --header-h: 56px;                /* высота фикс-хедера */
 }
 
-/* map tokens to tailwind via utility classes */
-.bg-bgc { background: var(--bgc); }
-.text-fgc { color: var(--fgc); }
-.text-muted { color: var(--muted); }
-.border-base { border-color: var(--border); }
+/* map tokens to utilities */
+.bg-bgc        { background: var(--bgc); }
+.text-fgc      { color: var(--fgc); }
+.text-muted    { color: var(--muted); }
+.border-base   { border-color: var(--border); }
 .border-strong { border-color: var(--border-strong); }
-.card{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.02)}
-.btn-primary{background:#7C3AED;color:#fff;border-radius:12px}
-.h1{letter-spacing:-0.01em}
-.lead{color:#9CA3AF}
-.stat-value{font-size:clamp(2rem,1.2rem + 2vw,3rem);font-weight:600}
-.stat-label{color:#9CA3AF}
 
-/* Container utility */
+/* =========================
+   BASE / RENDERING
+   ========================= */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bgc);
+  color: var(--fgc);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* tap highlight off (iOS) */
+a, button, [role="button"] { -webkit-tap-highlight-color: transparent; }
+
+/* selection */
+::selection { background: rgba(255,255,255,.16); color: var(--fgc); }
+
+/* images/video sane defaults */
+img, video { display: block; max-width: 100%; height: auto; }
+
+/* =========================
+   CONTAINER
+   ========================= */
 .container {
   max-width: var(--container);
   margin-inline: auto;
   padding-inline: 24px;
 }
 
-/* Focus ring (доступность) */
+/* =========================
+   SAFE AREAS (iPhone)
+   ========================= */
+.safe-px { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+.pt-safe { padding-top:  env(safe-area-inset-top); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+/* отступ сверху = высота хедера + safe-area */
+.pt-header-safe { padding-top: calc(var(--header-h) + env(safe-area-inset-top)); }
+
+/* =========================
+   RELIABLE VIEWPORT HEIGHT
+   (для hero/видео/модалок)
+   ========================= */
+/* базовый фолбэк */
+.h-ios-vh { height: 100vh; min-height: 100vh; }
+/* лучшее для старых мобильных Safari */
+@supports (height: 100svh) {
+  .h-ios-vh { height: 100svh; min-height: 100svh; }
+}
+/* самое корректное на новых браузерах */
+@supports (height: 100dvh) {
+  .h-ios-vh { height: 100dvh; min-height: 100dvh; }
+}
+
+/* =========================
+   ACCESSIBILITY
+   ========================= */
 :focus-visible {
   outline: 2px solid rgba(255,255,255,.6);
   outline-offset: 2px;
   border-radius: 6px;
 }
+:focus:not(:focus-visible) { outline: none; }
 
-/* Selection */
-::selection { background: rgba(255,255,255,.16); color: var(--fgc); }
-
-/* Scrollbar (тонкий) */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,.2) transparent;
-}
-*::-webkit-scrollbar { height: 8px; width: 8px; }
+/* =========================
+   SCROLLBARS
+   ========================= */
+* { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
 *::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 8px; }
 
-/* Smooth fade-in */
-.fade-in { animation: fade .6s ease both; }
-@keyframes fade { from {opacity:.001; transform:translateY(6px)} to {opacity:1; transform:translateY(0)} }
+/* утилита: скрыть скроллбары */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
 
-/* Cards hover */
+/* утилита: комфортные тапы для иконок */
+.tap-target { min-width: 44px; min-height: 44px; }
+
+/* =========================
+   TYPOGRAPHY HELPERS
+   ========================= */
+.h1 {
+  font-size: clamp(2.25rem, 1.2rem + 2.5vw, 3.5rem); /* ~36–56 */
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+.lead {
+  font-size: 1.125rem; /* 18 */
+  line-height: 1.7;
+  color: var(--muted);
+}
+@media (min-width: 768px) { .lead { font-size: 1.25rem; } } /* 20 на десктопе */
+.measure { max-width: 65ch; }
+
+.stat-value { font-size: clamp(2rem, 1.2rem + 2vw, 3rem); font-weight: 600; }
+.stat-label { color: var(--muted); }
+
+/* =========================
+   CARDS
+   ========================= */
 .card {
   border: 1px solid var(--border);
   border-radius: var(--r);
   background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+  box-shadow: var(--shadow);
   transition: border-color .2s ease, transform .2s ease, background .2s ease;
 }
-.card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+.card h3 { font-size: 1.0625rem; font-weight: 600; }
+.card p  { line-height: 1.6; }
+/* ховеры только там, где есть курсор */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+}
 
-/* Buttons */
+/* =========================
+   BUTTONS
+   ========================= */
 .btn {
-  display:inline-flex; align-items:center; justify-content:center;
-  gap:10px; height:44px; padding:0 18px; border-radius:10px;
-  border:1px solid var(--border); background: transparent; color: var(--fgc);
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 10px; height: 44px; padding: 0 18px;
+  border-radius: 10px; border: 1px solid var(--border);
+  background: transparent; color: var(--fgc);
   transition: border-color .2s ease, background .2s ease, transform .1s ease;
 }
-.btn:hover { border-color: var(--border-strong); background: var(--accent-ghost); }
-.btn:active { transform: translateY(1px); }
-.btn-primary { background: var(--fgc); color:#111; border-color: transparent; }
-.btn-primary:hover { background:#fff; }
+.btn:hover   { border-color: var(--border-strong); background: rgba(255,255,255,.06); }
+.btn:active  { transform: translateY(1px); }
 
-/* === Typography helpers === */
-.h1 {
-  font-size: clamp(2.25rem, 1.2rem + 2.5vw, 3.5rem); /* ~36–56px */
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  font-weight: 600;
-  text-wrap: balance;       /* равномерные переносы в заголовке */
+.btn-primary {
+  background: var(--brand);
+  color: #fff;
+  border-color: transparent;
 }
+.btn-primary:hover { filter: brightness(1.05); }
 
-.lead {
-  font-size: 1.125rem;      /* 18px */
-  line-height: 1.7;
-  color: var(--muted);
+.btn-accent {
+  background: var(--accent);
+  color: #111;
+  border-color: transparent;
 }
-@media (min-width: 768px) {
-  .lead { font-size: 1.25rem; } /* 20px на десктопе */
-}
+.btn-accent:hover { background: #fff; }
 
-/* ограничение длины строки для комфортного чтения */
-.measure { max-width: 65ch; }
+/* =========================
+   OVERLAYS
+   ========================= */
+.overlay { background: var(--overlay); }
 
-/* карточкам — единый ритм */
-.card h3 { font-size: 1.0625rem; font-weight: 600; }
-.card p { line-height: 1.6; }
-
-/* цифры-статистики чуть мощнее */
-.stat-value { font-size: clamp(2rem, 1.2rem + 2vw, 3rem); font-weight: 600; }
-.stat-label { color: var(--muted); }
-
-/* === iOS safe viewport height (для хиро/видео) === */
-.h-ios-vh {
-  height: 100svh;
-  min-height: 100svh;
-}
-@supports not (height: 100svh) {
-  .h-ios-vh {
-    height: 100dvh;     /* fallback */
-    min-height: 100dvh;
-  }
-}
-.safe-px {
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-}
-.safe-pt {
-  padding-top: env(safe-area-inset-top);
-}
-.safe-pb {
-  padding-bottom: env(safe-area-inset-bottom);
+/* =========================
+   ANIMATIONS (fade-in)
+   ========================= */
+.fade-in { animation: fade .6s ease both; }
+@keyframes fade {
+  from { opacity:.001; transform: translateY(6px); }
+  to   { opacity:1;    transform: translateY(0); }
 }
 
-/* безопасная верхняя зона для iOS (чёлка) */
-.pt-safe {
-  padding-top: env(safe-area-inset-top);
-}
-
-/* На iOS Safari backdrop-blur иногда «жрёт» FPS.
-   Если пользователь просит меньше motion — уменьшаем blur/transition. */
+/* =========================
+   REDUCED MOTION
+   ========================= */
 @media (prefers-reduced-motion: reduce) {
+  html:focus-within { scroll-behavior: auto; }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* blur может «жрать» FPS на iOS — выключаем большие блюры */
   .backdrop-blur-md { backdrop-filter: blur(0px); }
   .transition-transform, .transition-opacity { transition: none !important; }
 }
