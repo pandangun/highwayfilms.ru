@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Видеопродакшн в Москве и Санкт-Петербурге — Highway Films",
@@ -64,20 +65,37 @@ export default function Page() {
         />
       </section>
 
-      {/* СЕТКА ПРЕВЬЮ (заглушка под кадры/кейсы) */}
+      {/* СЕТКА ПРЕВЬЮ */}
       <section className="mt-12">
         <h2 className="text-2xl md:text-3xl font-semibold">Визуальные референсы</h2>
         <p className="text-muted mt-2 measure">
           Короткая выборка кадров и настроений. Позже добавим кейсы с описанием задач и метрик.
         </p>
+
         <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-3">
-          {/* Положи jpg/avif в /public/images/frames/*.jpg и замени пути ниже */}
-          <img className="rounded-xl object-cover w-full aspect-video" src="/images/frames/f001.jpg" alt="" />
-          <img className="rounded-xl object-cover w-full aspect-video" src="/images/frames/f002.jpg" alt="" />
-          <img className="rounded-xl object-cover w-full aspect-video" src="/images/frames/f003.jpg" alt="" />
-          <img className="rounded-xl object-cover w-full aspect-video" src="/images/frames/f004.jpg" alt="" />
-          <img className="rounded-xl object-cover w-full aspect-video" src="/images/frames/f005.jpg" alt="" />
-          <img className="rounded-xl object-cover w-full aspect-video" src="/images/frames/f020.jpg" alt="" />
+          {/* Каждую картинку кладём в relative-блок с aspect-video и заполняем через fill */}
+          {[
+            { src: "/images/frames/f001.jpg", alt: "Референс кадр 1" },
+            { src: "/images/frames/f002.jpg", alt: "Референс кадр 2" },
+            { src: "/images/frames/f003.jpg", alt: "Референс кадр 3" },
+            { src: "/images/frames/f004.jpg", alt: "Референс кадр 4" },
+            { src: "/images/frames/f005.jpg", alt: "Референс кадр 5" },
+            { src: "/images/frames/f020.jpg", alt: "Референс кадр 6" },
+          ].map((it) => (
+            <div
+              key={it.src}
+              className="relative w-full aspect-video overflow-hidden rounded-xl border border-base"
+            >
+              <Image
+                src={it.src}
+                alt={it.alt}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 33vw"
+                priority={false}
+              />
+            </div>
+          ))}
         </div>
       </section>
 
@@ -108,7 +126,7 @@ export default function Page() {
         </ol>
       </section>
 
-      {/* ФОРМАТЫ / УСЛУГИ В РАМКАХ ПРОДАКШНА */}
+      {/* ФОРМАТЫ */}
       <section className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <Feature
           title="Product / Brand film"
