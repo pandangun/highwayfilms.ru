@@ -231,3 +231,15 @@ img, video { display: block; max-width: 100%; height: auto; }
   .backdrop-blur-md { backdrop-filter: blur(0px); }
   .transition-transform, .transition-opacity { transition: none !important; }
 }
+/* Жёстко задаём поведение видео в hero (фикс для iOS Safari) */
+.hero-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;   /* мобилка: заполняем, можно обрезать */
+  transform: none;                /* не перетираем другие transform-утилиты */
+}
+@media (min-width: 768px) {
+  .hero-video {
+    object-fit: contain !important; /* десктоп: «тютелька в тютельку» */
+  }
+}

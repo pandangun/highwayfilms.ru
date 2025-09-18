@@ -5,22 +5,18 @@ export default function VideoHero() {
   const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // iOS-friendly autoplay
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
     v.muted = true;
-
     const tryPlay = async () => { try { await v.play(); } catch {} };
     const onCanPlay = () => tryPlay();
-
     v.addEventListener("canplay", onCanPlay);
     if (v.readyState >= 2) tryPlay();
     return () => v.removeEventListener("canplay", onCanPlay);
   }, []);
 
   return (
-    // Высота: экран − (высота хедера + safe-area)
     <section className="relative w-full hero-fill overflow-hidden">
       <video
         ref={videoRef}
@@ -31,13 +27,11 @@ export default function VideoHero() {
         preload="auto"
         poster="/video/derived/hero-poster.jpg"
         className="
-          absolute inset-0
-          w-full h-full
-          object-cover             /* мобилка: заполняем контейнер */
-          scale-[1.25]             /* чуть увеличено только на мобиле */
-          md:object-contain        /* десктоп: вписать аккуратно */
-          md:scale-100
-          transform-gpu            /* без перезаписи transform! */
+          hero-video
+          absolute inset-0 w-full h-full
+          object-cover md:object-contain   /* дублируем для нормальных браузеров */
+          scale-[1.2] md:scale-100         /* чуть «заширяем» только на мобиле */
+          transform-gpu
         "
       >
         <source src="/video/derived/fallback-720.mp4" type="video/mp4" />
@@ -45,10 +39,8 @@ export default function VideoHero() {
         Ваш браузер не поддерживает видео.
       </video>
 
-      {/* затемнение для читаемости текста */}
       <div className="absolute inset-0 bg-black/30 pointer-events-none z-10" />
 
-      {/* текстовый блок */}
       <div className="absolute inset-0 flex items-end p-6 md:p-12 z-20">
         <div>
           <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
@@ -60,7 +52,6 @@ export default function VideoHero() {
         </div>
       </div>
 
-      {/* mute/unmute */}
       <button
         onClick={() => {
           const v = videoRef.current;
