@@ -11,9 +11,7 @@ export default function VideoHero() {
     if (!v) return;
     v.muted = true;
 
-    const tryPlay = async () => {
-      try { await v.play(); } catch {}
-    };
+    const tryPlay = async () => { try { await v.play(); } catch {} };
     const onCanPlay = () => tryPlay();
 
     v.addEventListener("canplay", onCanPlay);
@@ -22,7 +20,7 @@ export default function VideoHero() {
   }, []);
 
   return (
-    // высота секции = экран − (высота хедера + safe-area)
+    // высота: экран − (высота хедера + safe-area сверху)
     <section className="relative w-full hero-fill overflow-hidden">
       <video
         ref={videoRef}
@@ -33,18 +31,21 @@ export default function VideoHero() {
         preload="auto"
         poster="/video/derived/hero-poster.jpg"
         className="
-          absolute inset-0 w-full h-full
-          object-cover scale-[1.35]    /* Мобилка: заполняем и чуть увеличиваем */
-          md:object-contain md:scale-100  /* Десктоп: вписываем без обрезки */
+          absolute left-1/2 top-1/2
+          -translate-x-1/2 -translate-y-1/2
+          min-w-full min-h-full
+          w-auto h-auto
+          object-cover
+          scale-[1.25] md:scale-100
+          [transform:translate3d(-50%,-50%,0)]  /* сглаживаем капризы iOS */
         "
       >
-        {/* порядок источников важен для iOS */}
         <source src="/video/derived/fallback-720.mp4" type="video/mp4" />
         <source src="/video/derived/fallback-1080.mp4" type="video/mp4" />
         Ваш браузер не поддерживает видео.
       </video>
 
-      {/* затемнение для читаемости текста */}
+      {/* затемнение для читабельности текста */}
       <div className="absolute inset-0 bg-black/30 pointer-events-none z-10" />
 
       {/* текстовый блок */}
