@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "Highway Films — видеопродакшн полного цикла: идея, съёмка, постпродакшн. Рекламные и корпоративные ролики, музыкальные клипы.",
 };
 
-/* ——— UI helpers ——— */
+/* ========== UI helpers ========== */
 
 function GradientCard({
   title,
@@ -75,12 +75,12 @@ function Pill({ children }: { children: React.ReactNode }) {
   );
 }
 
-/* ——— Page ——— */
+/* ========== Page ========== */
 
 export default function AboutPage() {
   return (
     <>
-      {/* HERO с мягким фоном */}
+      {/* HERO с мягким фоном и тегами-«пилюлями» */}
       <section className="container py-12 md:py-16">
         <div className="relative overflow-hidden rounded-2xl ring-1 ring-white/10">
           <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent" />
@@ -91,9 +91,7 @@ export default function AboutPage() {
               <Pill>⚙️ Технологичность</Pill>
               <Pill>📈 Результат</Pill>
             </div>
-            <h1 className="h1">
-              Highway Films — видеопродакшн полного цикла
-            </h1>
+            <h1 className="h1">Highway Films — видеопродакшн полного цикла</h1>
             <p className="lead measure mt-3">
               Создаём рекламные и корпоративные ролики, бренд-фильмы и клипы.
               Фокус — на визуальной силе, чётком повествовании и измеримом
@@ -103,7 +101,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Ценности: разноцветные градиентные карточки */}
+      {/* Ценности — разноцветные градиентные карточки */}
       <section className="container">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <GradientCard
@@ -130,7 +128,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Цифры/факты — крупно и воздушно */}
+      {/* Цифры — крупно и воздушно */}
       <section className="container py-10 md:py-12">
         <div className="grid gap-3 sm:grid-cols-3">
           <Stat value="10+" label="лет опыта в продакшне" />
@@ -142,45 +140,45 @@ export default function AboutPage() {
         </p>
       </section>
 
-      {/* Чем занимаемся — mix: стеклянные карточки с кнопками */}
+      {/* Чем занимаемся — стеклянные карточки, кнопки выровнены по низу */}
       <section className="container">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <GlassCard>
+          <GlassCard className="h-full flex flex-col">
             <h3 className="text-lg font-semibold">Рекламные ролики</h3>
             <p className="mt-2 text-muted">
               Product/brand films, performance-форматы, имиджевые кампании.
             </p>
-            <Link href="/commercials" className="btn mt-4">
+            <Link href="/commercials" className="btn mt-auto">
               Подробнее
             </Link>
           </GlassCard>
 
-          <GlassCard>
+          <GlassCard className="h-full flex flex-col">
             <h3 className="text-lg font-semibold">Корпоративное видео</h3>
             <p className="mt-2 text-muted">
               Фильмы о компании, презентации/стенды, HR и внутренние коммуникации.
             </p>
-            <Link href="/corporate" className="btn mt-4">
+            <Link href="/corporate" className="btn mt-auto">
               Подробнее
             </Link>
           </GlassCard>
 
-          <GlassCard>
+          <GlassCard className="h-full flex flex-col">
             <h3 className="text-lg font-semibold">Музыкальные клипы</h3>
             <p className="mt-2 text-muted">
               Идея, постановка, съёмка, постпродакшн и релиз.
             </p>
-            <Link href="/music-videos" className="btn mt-4">
+            <Link href="/music-videos" className="btn mt-auto">
               Подробнее
             </Link>
           </GlassCard>
 
-          <GlassCard>
+          <GlassCard className="h-full flex flex-col">
             <h3 className="text-lg font-semibold">Постпродакшн</h3>
             <p className="mt-2 text-muted">
               Монтаж, цветокор, VFX, озвучание, субтитры, мастер-версии.
             </p>
-            <Link href="/videoproduction" className="btn mt-4">
+            <Link href="/videoproduction" className="btn mt-auto">
               Подробнее
             </Link>
           </GlassCard>
@@ -193,28 +191,15 @@ export default function AboutPage() {
           <h2 className="text-2xl md:text-3xl font-semibold">Как мы работаем</h2>
           <ol className="mt-6 grid gap-4 md:grid-cols-4 text-sm">
             {[
-              {
-                n: 1,
-                title: "Бриф и цели",
-                text: "Задача, аудитория, сообщения, KPI.",
-              },
-              {
-                n: 2,
-                title: "Креатив и план",
-                text: "Treatment, смета, таймлайн, команда и локации.",
-              },
-              {
-                n: 3,
-                title: "Продакшн",
-                text: "Съёмка и звук. Контроль качества на площадке.",
-              },
-              {
-                n: 4,
-                title: "Постпродакшн",
-                text: "Монтаж, цвет, графика. Master-версии под каналы.",
-              },
+              { n: 1, title: "Бриф и цели", text: "Задача, аудитория, сообщения, KPI." },
+              { n: 2, title: "Креатив и план", text: "Treatment, смета, таймлайн, команда и локации." },
+              { n: 3, title: "Продакшн", text: "Съёмка и звук. Контроль качества на площадке." },
+              { n: 4, title: "Постпродакшн", text: "Монтаж, цвет, графика. Master-версии под каналы." },
             ].map((s) => (
-              <li key={s.n} className="relative rounded-xl border border-white/10 bg-white/5 p-4">
+              <li
+                key={s.n}
+                className="relative rounded-xl border border-white/10 bg-white/5 p-4"
+              >
                 <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20">
                   <b>{s.n}</b>
                 </div>
@@ -232,14 +217,13 @@ export default function AboutPage() {
         </GlassCard>
       </section>
 
-      {/* Команда — placeholder */}
+      {/* Команда — плейсхолдер */}
       <section className="container pb-16">
         <GlassCard>
           <h2 className="text-2xl md:text-3xl font-semibold">Команда</h2>
           <p className="mt-2 text-muted measure">
-            Под каждый проект собираем компактную продакшн-группу:
-            режиссёр, продюсер, операторы, свет, звук, арт и постпродакшн.
-            Фото и расширенный состав добавим позже.
+            Под каждый проект собираем компактную продакшн-группу: режиссёр, продюсер,
+            операторы, свет, звук, арт и постпродакшн. Фото и расширенный состав добавим позже.
           </p>
         </GlassCard>
       </section>
