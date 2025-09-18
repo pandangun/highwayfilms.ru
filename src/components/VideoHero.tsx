@@ -5,52 +5,55 @@ export default function VideoHero() {
   const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // На всякий случай «пинаем» воспроизведение, когда готовы данные
+  // iOS: вручную пинаем autoplay, когда браузер уже всё смонтировал
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    const onCanPlay = () => {
-      const p = v.play();
-      if (p && typeof p.then === "function") {
-        p.catch(() => {
-          // игнор – иногда браузер блокирует, если вкладка не активна
-        });
+
+    // на всякий случай
+    v.muted = true;
+
+    const tryPlay = async () => {
+      try {
+        await v.play();
+      } catch (e) {
+        // если вдруг iOS всё равно не дал — просто оставим постер,
+        // пользователь сможет ткнуть кнопку звука/паузы сам
+        // console.warn("Autoplay was blocked:", e);
       }
     };
+
+    // когда можно играть — пробуем
+    const onCanPlay = () => tryPlay();
+
     v.addEventListener("canplay", onCanPlay);
+    // если уже может — пробуем сразу
+    if (v.readyState >= 2) tryPlay();
+
     return () => v.removeEventListener("canplay", onCanPlay);
   }, []);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section className="relative w-full h-ios-vh overflow-hidden">
       <video
         ref={videoRef}
         autoPlay
         loop
         muted={muted}
         playsInline
-        preload="metadata"
+        preload="auto"
         poster="/video/derived/hero-poster.jpg"
         className="absolute inset-0 h-full w-full object-cover z-0"
-        onError={(e) => console.warn("VIDEO ERROR", e.currentTarget.error)}
+        // важно: на iOS не ставим никакие controls, иначе потребует жест
+        // Safari иногда забивает на <source media> — поэтому первым идёт 720p
       >
-        {/* десктоп */}
-        <source
-          src="/video/derived/fallback-1080.mp4?v=1"
-          type="video/mp4"
-          media="(min-width:1025px)"
-        />
-        {/* мобайл/планшет */}
-        <source
-          src="/video/derived/fallback-720.mp4?v=1"
-          type="video/mp4"
-          media="(max-width:1024px)"
-        />
+        <source src="/video/derived/fallback-720.mp4" type="video/mp4" />
+        <source src="/video/derived/fallback-1080.mp4" type="video/mp4" />
         Ваш браузер не поддерживает видео.
       </video>
 
-      {/* затемняющий градиент */}
-      <div className="absolute inset-0 bg-black/30 z-10" />
+      {/* затемняющий градиент — и он не перехватывает клики */}
+      <div className="absolute inset-0 bg-black/30 pointer-events-none z-10" />
 
       {/* текст поверх */}
       <div className="absolute inset-0 flex items-end p-6 md:p-12 z-20">
@@ -66,7 +69,15 @@ export default function VideoHero() {
 
       {/* кнопка mute/unmute */}
       <button
-        onClick={() => setMuted(!muted)}
+        onClick={() => {
+          const v = videoRef.current;
+          if (!v) return;
+          const next = !muted;
+          setMuted(next);
+          v.muted = next;
+          // если звук включили — iOS иногда ставит на паузу, пнёем play()
+          if (!next) v.play().catch(() => {});
+        }}
         className="absolute bottom-4 right-4 p-3 rounded-full bg-black/50 border border-white/30 text-white hover:bg-black/70 transition z-30"
         aria-label="Toggle sound"
       >

@@ -40,7 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# большие исходники и кадры
-/public/video/original/
-/public/images/frames/
-/public/video/*-source.mp4
+/public/video/*
+/public/images/frames/*
+
+# если нужно оставить постер — разрешаем
+!/public/video/hero-poster.jpg
+

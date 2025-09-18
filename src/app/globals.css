@@ -111,3 +111,15 @@
 /* цифры-статистики чуть мощнее */
 .stat-value { font-size: clamp(2rem, 1.2rem + 2vw, 3rem); font-weight: 600; }
 .stat-label { color: var(--muted); }
+
+/* === iOS safe viewport height (для хиро/видео) === */
+.h-ios-vh {
+  height: 100svh;
+  min-height: 100svh;
+}
+@supports not (height: 100svh) {
+  .h-ios-vh {
+    height: 100dvh;     /* fallback */
+    min-height: 100dvh;
+  }
+}
