@@ -20,7 +20,7 @@ export default function VideoHero() {
   }, []);
 
   return (
-    // высота: экран − (высота хедера + safe-area сверху)
+    // Высота: экран − (высота хедера + safe-area)
     <section className="relative w-full hero-fill overflow-hidden">
       <video
         ref={videoRef}
@@ -31,13 +31,13 @@ export default function VideoHero() {
         preload="auto"
         poster="/video/derived/hero-poster.jpg"
         className="
-          absolute left-1/2 top-1/2
-          -translate-x-1/2 -translate-y-1/2
-          min-w-full min-h-full
-          w-auto h-auto
-          object-cover
-          scale-[1.25] md:scale-100
-          [transform:translate3d(-50%,-50%,0)]  /* сглаживаем капризы iOS */
+          absolute inset-0
+          w-full h-full
+          object-cover             /* мобилка: заполняем контейнер */
+          scale-[1.25]             /* чуть увеличено только на мобиле */
+          md:object-contain        /* десктоп: вписать аккуратно */
+          md:scale-100
+          transform-gpu            /* без перезаписи transform! */
         "
       >
         <source src="/video/derived/fallback-720.mp4" type="video/mp4" />
@@ -45,7 +45,7 @@ export default function VideoHero() {
         Ваш браузер не поддерживает видео.
       </video>
 
-      {/* затемнение для читабельности текста */}
+      {/* затемнение для читаемости текста */}
       <div className="absolute inset-0 bg-black/30 pointer-events-none z-10" />
 
       {/* текстовый блок */}
