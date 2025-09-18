@@ -9,10 +9,17 @@ export default function VideoHero() {
     const v = videoRef.current;
     if (!v) return;
     v.muted = true;
-    const tryPlay = async () => { try { await v.play(); } catch {} };
+
+    const tryPlay = async () => {
+      try {
+        await v.play();
+      } catch {}
+    };
     const onCanPlay = () => tryPlay();
+
     v.addEventListener("canplay", onCanPlay);
     if (v.readyState >= 2) tryPlay();
+
     return () => v.removeEventListener("canplay", onCanPlay);
   }, []);
 
@@ -26,28 +33,29 @@ export default function VideoHero() {
         playsInline
         preload="auto"
         poster="/video/derived/hero-poster.jpg"
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover z-0"
       >
-        {/* порядок важен: сначала 720, потом 1080 — для iOS стабильнее */}
         <source src="/video/derived/fallback-720.mp4" type="video/mp4" />
         <source src="/video/derived/fallback-1080.mp4" type="video/mp4" />
         Ваш браузер не поддерживает видео.
       </video>
 
-      {/* затемнение, чтобы белые буквы были читаемы на любом кадре */}
-      <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+      {/* затемняющий градиент */}
+      <div className="absolute inset-0 bg-black/30 pointer-events-none z-10" />
 
-      {/* контент */}
-      <div className="absolute inset-0 flex items-end p-6 md:p-12">
+      {/* текст */}
+      <div className="absolute inset-0 flex items-end p-6 md:p-12 z-20">
         <div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">Highway Films</h1>
+          <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">
+            Highway Films
+          </h1>
           <p className="mt-3 text-neutral-200 max-w-xl text-lg">
             Bold visuals. Clear storytelling. Results on screen.
           </p>
         </div>
       </div>
 
-      {/* mute/unmute */}
+      {/* кнопка mute/unmute */}
       <button
         onClick={() => {
           const v = videoRef.current;
@@ -57,7 +65,7 @@ export default function VideoHero() {
           v.muted = next;
           if (!next) v.play().catch(() => {});
         }}
-        className="absolute bottom-4 right-4 p-3 rounded-full bg-black/50 border border-white/30 text-white hover:bg-black/70 transition"
+        className="absolute bottom-4 right-4 p-3 rounded-full bg-black/50 border border-white/30 text-white hover:bg-black/70 transition z-30"
         aria-label="Toggle sound"
       >
         {muted ? "🔇" : "🔊"}
