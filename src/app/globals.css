@@ -133,3 +133,15 @@
 .safe-pb {
   padding-bottom: env(safe-area-inset-bottom);
 }
+
+/* безопасная верхняя зона для iOS (чёлка) */
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* На iOS Safari backdrop-blur иногда «жрёт» FPS.
+   Если пользователь просит меньше motion — уменьшаем blur/transition. */
+@media (prefers-reduced-motion: reduce) {
+  .backdrop-blur-md { backdrop-filter: blur(0px); }
+  .transition-transform, .transition-opacity { transition: none !important; }
+}
