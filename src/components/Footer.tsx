@@ -1,31 +1,49 @@
-// app/components/Footer.tsx
+// components/Footer.tsx
 import Link from "next/link";
 
 export default function Footer() {
-  return (
-    <footer className="border-t border-base mt-16">
-      <div className="container py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted">
-        {/* Лого + копирайт */}
-        <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-center md:text-left">
-          <span className="font-semibold text-fgc">© {new Date().getFullYear()} Highway Films</span>
-          <span className="hidden md:inline-block">·</span>
-          <span>Москва · Санкт-Петербург</span>
-        </div>
+  const year = new Date().getFullYear();
 
-        {/* Навигация */}
-        <nav className="flex flex-wrap justify-center gap-3">
-          <Link href="/privacy" className="hover:underline">
-            Политика конфиденциальности
-          </Link>
-          <span className="text-muted">·</span>
-          <Link href="/contacts" className="hover:underline">
-            Контакты
-          </Link>
-          <span className="text-muted">·</span>
-          <Link href="/easter-egg" className="text-muted hover:underline">
-            Тех. заметки
-          </Link>
-        </nav>
+  return (
+    <footer className="mt-16 border-t border-base bg-black/10">
+      <div className="container py-8 md:py-10 safe-px">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          {/* Лево: копирайт */}
+          <div className="text-sm text-muted">
+            © {year} Highway Films
+          </div>
+
+          {/* Право: ссылки */}
+          <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+            <Link href="/privacy" className="hover:underline">
+              Политика конфиденциальности
+            </Link>
+
+            <span className="text-muted">·</span>
+
+            <Link href="/contacts" className="hover:underline">
+              Контакты
+            </Link>
+
+            <span className="text-muted">·</span>
+
+            {/* Пасхалки — без явного маркетинга */}
+            <Link href="/easter-egg" className="text-muted hover:underline" aria-label="Технические заметки / пасхалка">
+              Тех. заметки
+            </Link>
+
+            <span className="text-muted">·</span>
+
+            <Link
+              href="/easter-egg/runner-pro"
+              className="text-muted hover:underline"
+              aria-label="Мини-игра Runner Pro"
+              prefetch={false}
+            >
+              Мини-игра
+            </Link>
+          </nav>
+        </div>
       </div>
     </footer>
   );
