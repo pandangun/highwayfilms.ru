@@ -9,7 +9,8 @@ import { useEffect, useMemo, useState } from "react";
    ========================= */
 type Score = { img: number; time: number; money: number };
 type Choice = { id: string; title: string; desc: string; score: Score };
-type Stage = { key: "pre" | "shoot" | "post"; title: string; choices: Choice[] };
+type StageKey = "pre" | "shoot" | "post";
+type Stage = { key: StageKey; title: string; choices: Choice[] };
 type NicheKey = "food" | "beauty" | "gadgets";
 type Difficulty = "easy" | "normal" | "hard";
 
@@ -18,27 +19,27 @@ function cls(...a: (string | false | null | undefined)[]) {
 }
 const fmt = (n: number) => (n > 0 ? `+${n}` : `${n}`);
 
-const KEY = "hf_game_v2";
+const STORAGE_KEY = "hf_game_v2";
 
 /* =========================
    Параметры ниш / сложности
    ========================= */
 const NICHE_MOD: Record<NicheKey, Partial<Score>> = {
-  food: { img: +1, money: -1 },     // фуд любит свет/реквизит
-  beauty: { img: +1, time: -1 },    // бьюти дольше (свотчи/свет), картинка ↑
-  gadgets: { img: 0, time: 0, money: 0 }, // базовый
+  food: { img: +1, money: -1 },
+  beauty: { img: +1, time: -1 },
+  gadgets: {},
 };
 
 const DIFF_MOD: Record<Difficulty, Partial<Score>> = {
-  easy: { time: +1, money: +1 },    // легче уложиться
-  normal: { },
-  hard: { time: -1, money: -1 },    // жестче сроки/бюджет
+  easy: { time: +1, money: +1 },
+  normal: {},
+  hard: { time: -1, money: -1 },
 };
 
 /* =========================
    Стадии и выборы
    ========================= */
-const STAGES_BASE: Stage[] = [
+const STAGES: Stage[] = [
   {
     key: "pre",
     title: "Препрод",
@@ -71,13 +72,13 @@ const STAGES_BASE: Stage[] = [
 /* =========================
    Рандом-события
    ========================= */
-type EventCard = { id: string; when: Stage["key"]; text: string; impact: Score };
+type EventCard = { id: string; when: StageKey; text: string; impact: Score };
 
 const EVENTS: EventCard[] = [
   { id: "battery", when: "shoot", text: "Сел аккум у дрона — перестановка сетапа", impact: { img: 0, time: -1, money: -1 } },
   { id: "actor",   when: "shoot", text: "Актёр опоздал, но сыграл отлично",       impact: { img: +1, time: -1, money: 0 } },
   { id: "client",  when: "pre",   text: "Клиент прислал референсы вовремя",       impact: { img: +1, time: +1, money: 0 } },
-  { id: "render",  when: "post",  text: "Рендеры тяжелые — оптимизируем графику", impact: { img: 0, time: -1, money: +1 } },
+  { id: "render",  when: "post",  text: "Рендеры тяжёлые — оптимизируем графику", impact: { img: 0, time: -1, money: +1 } },
 ];
 
 /* =========================
@@ -87,39 +88,41 @@ export default function Game() {
   const [niche, setNiche] = useState<NicheKey>("gadgets");
   const [diff, setDiff] = useState<Difficulty>("normal");
   const [step, setStep] = useState(0);
-  const [picked, setPicked] = useState<Record<Stage["key"], string | null>>({ pre: null, shoot: null, post: null });
+  const [picked, setPicked] = useState<Record<StageKey, string | null>>({ pre: null, shoot: null, post: null });
   const [log, setLog] = useState<string[]>([]);
+  const [eventImpact, setEventImpact] = useState<Score>({ img: 0, time: 0, money: 0 });
 
-  // загрузка из localStorage (если есть)
+  // загрузка/сохранение состояния
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(KEY);
+      const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        const s = JSON.parse(raw);
+        const s = JSON.parse(raw) as {
+          niche: NicheKey; diff: Difficulty; step: number;
+          picked: Record<StageKey, string | null>; log: string[]; eventImpact: Score;
+        };
         setNiche(s.niche ?? "gadgets");
         setDiff(s.diff ?? "normal");
         setStep(s.step ?? 0);
         setPicked(s.picked ?? { pre: null, shoot: null, post: null });
         setLog(s.log ?? []);
+        setEventImpact(s.eventImpact ?? { img: 0, time: 0, money: 0 });
       }
     } catch {}
   }, []);
-
-  // сохранение
   useEffect(() => {
-    const state = { niche, diff, step, picked, log };
-    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
-  }, [niche, diff, step, picked, log]);
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ niche, diff, step, picked, log, eventImpact })
+      );
+    } catch {}
+  }, [niche, diff, step, picked, log, eventImpact]);
 
-  const stages = STAGES_BASE;
-
-  const totals = useMemo(() => {
+  // базовые очки (без событий)
+  const totals = useMemo<Score>(() => {
     const base: Score = { img: 0, time: 0, money: 0 };
-    // модификаторы ниши/сложности
-    const nm = NICHE_MOD[niche] || {};
-    const dm = DIFF_MOD[diff] || {};
-    // выборы
-    for (const s of stages) {
+    for (const s of STAGES) {
       const id = picked[s.key];
       const ch = s.choices.find(c => c.id === id);
       if (ch) {
@@ -128,30 +131,30 @@ export default function Game() {
         base.money += ch.score.money;
       }
     }
-    // суммируем модификаторы
-    base.img += (nm.img ?? 0) + (dm.img ?? 0);
-    base.time += (nm.time ?? 0) + (dm.time ?? 0);
-    base.money += (nm.money ?? 0) + (dm.money ?? 0);
+    const nm = NICHE_MOD[niche] ?? {};
+    const dm = DIFF_MOD[diff] ?? {};
+    base.img += nm.img ?? 0;   base.time += nm.time ?? 0;   base.money += nm.money ?? 0;
+    base.img += dm.img ?? 0;   base.time += dm.time ?? 0;   base.money += dm.money ?? 0;
     return base;
-  }, [picked, niche, diff, stages]);
+  }, [picked.pre, picked.shoot, picked.post, niche, diff]);
 
-  const current = stages[step];
-  const finished = step >= stages.length;
+  // итог с учётом событий
+  const grand = {
+    img: totals.img + eventImpact.img,
+    time: totals.time + eventImpact.time,
+    money: totals.money + eventImpact.money,
+  };
 
-  // триггерим случайное событие после выбора на каждом шаге (10–40% шанс)
-  function maybeEvent(stageKey: Stage["key"]) {
-    const roll = Math.random();
-    const need = roll < 0.25; // 25%
-    if (!need) return;
+  function choose(stageKey: StageKey, id: string) {
+    setPicked(prev => ({ ...prev, [stageKey]: prev[stageKey] === id ? null : id }));
+  }
+
+  function maybeEvent(stageKey: StageKey) {
+    if (Math.random() >= 0.25) return; // 25%
     const pool = EVENTS.filter(e => e.when === stageKey);
     if (!pool.length) return;
     const ev = pool[Math.floor(Math.random() * pool.length)];
-    // применяем эффект
-    setLog(prev => [...prev, `Событие: ${ev.text} ${impactStr(ev.impact)}`]);
-    // «влияем» на суммарные очки через «виртуальный» выбор — просто пишем в лог; подсчёт учтём отдельно
-    // быстрый способ: временно записать эффект в скрытое поле состояния
-    setPicked(p => ({ ...p, [`__${ev.id}` as any]: "1" } as any));
-    // но чтобы реально учесть очки, проще хранить отдельный накопитель
+    setLog(prev => [...prev, `Событие: ${ev.text} (${impactStr(ev.impact)})`]);
     setEventImpact(e => ({
       img: e.img + ev.impact.img,
       time: e.time + ev.impact.time,
@@ -159,20 +162,8 @@ export default function Game() {
     }));
   }
 
-  // накопитель эффектов событий
-  const [eventImpact, setEventImpact] = useState<Score>({ img: 0, time: 0, money: 0 });
-
-  const grand = {
-    img: totals.img + eventImpact.img,
-    time: totals.time + eventImpact.time,
-    money: totals.money + eventImpact.money,
-  };
-
-  function choose(stageKey: Stage["key"], id: string) {
-    setPicked(prev => ({ ...prev, [stageKey]: prev[stageKey] === id ? null : id }));
-  }
-
   function next() {
+    const current = STAGES[step];
     if (!current) return;
     if (!picked[current.key]) return;
     maybeEvent(current.key);
@@ -186,7 +177,7 @@ export default function Game() {
     setEventImpact({ img: 0, time: 0, money: 0 });
   }
 
-  /* ===== Вердикт ===== */
+  // вердикт — зависим от примитивов (без объекта grand в deps)
   const verdict = useMemo(() => {
     const { img, time, money } = grand;
     let title = "Норм — можно выкатывать";
@@ -203,33 +194,31 @@ export default function Game() {
       title = "Сроки горят";
       tip = "Режем сложные сцены, переносим часть motion в графику, добавим UGC-серии.";
     }
-    // нюанс для ниш
     const nicheNote: Record<NicheKey, string> = {
       food: "Для фуда — крупные планы, пар/соус, слоу-мо + чистая звуковая фактура.",
       beauty: "Для бьюти — ровная кожа, бликовая схема, свотчи/текстуры в макро.",
       gadgets: "Для гаджетов — разъёмы/фичи крупно, 3D-разрезы и понятный call-to-action.",
     };
     return { title, tip, note: nicheNote[niche] };
-  }, [grand, niche]);
+    // deps — только примитивы, чтобы не триггерить предупреждение «the 'grand' object ...»
+  }, [grand.img, grand.time, grand.money, niche]);
 
-  /* ===== Рендер ===== */
+  const currentStage = STAGES[step];
+  const finished = step >= STAGES.length;
+
   return (
     <div className="grid gap-8">
-      {/* Панель настроек */}
+      {/* Параметры */}
       <section className="card p-5 md:p-6">
         <h2 className="text-lg font-semibold">Параметры</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          {/* Ниша */}
           <div>
             <div className="text-sm text-muted">Ниша продукта</div>
             <div className="mt-2 flex flex-wrap gap-2">
               {(["food", "beauty", "gadgets"] as NicheKey[]).map(k => (
                 <button
                   key={k}
-                  className={cls(
-                    "btn h-10 rounded-xl",
-                    niche === k && "btn-primary"
-                  )}
+                  className={cls("btn h-10 rounded-xl", niche === k && "btn-primary")}
                   onClick={() => setNiche(k)}
                   type="button"
                 >
@@ -238,17 +227,13 @@ export default function Game() {
               ))}
             </div>
           </div>
-          {/* Сложность */}
           <div>
             <div className="text-sm text-muted">Сложность</div>
             <div className="mt-2 flex flex-wrap gap-2">
               {(["easy", "normal", "hard"] as Difficulty[]).map(d => (
                 <button
                   key={d}
-                  className={cls(
-                    "btn h-10 rounded-xl",
-                    diff === d && "btn-primary"
-                  )}
+                  className={cls("btn h-10 rounded-xl", diff === d && "btn-primary")}
                   onClick={() => setDiff(d)}
                   type="button"
                 >
@@ -259,28 +244,28 @@ export default function Game() {
           </div>
         </div>
         <p className="text-xs text-muted mt-3">
-          Ниша и сложность влияют на картинку/сроки/бюджет. Можно менять до старта (сбросит прогресс).
+          Ниша и сложность влияют на картинку/сроки/бюджет.
         </p>
       </section>
 
       {/* Прогресс */}
       <div className="grid grid-cols-3 gap-2 max-w-xl">
-        {STAGES_BASE.map((s, i) => (
+        {STAGES.map((s, i) => (
           <div key={s.key} className={cls("h-2 rounded bg-white/10", i < step && "bg-white/30")} />
         ))}
       </div>
 
       {!finished ? (
         <section>
-          <h2 className="text-2xl font-semibold">{current.title}</h2>
+          <h2 className="text-2xl font-semibold">{currentStage.title}</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
-            {current.choices.map(ch => {
-              const active = picked[current.key] === ch.id;
+            {currentStage.choices.map(ch => {
+              const active = picked[currentStage.key] === ch.id;
               return (
                 <button
                   key={ch.id}
                   type="button"
-                  onClick={() => choose(current.key, ch.id)}
+                  onClick={() => choose(currentStage.key, ch.id)}
                   className={cls(
                     "card p-5 text-left transition rounded-xl",
                     active ? "border-strong ring-1 ring-white/15" : "hover:border-strong"
@@ -298,7 +283,7 @@ export default function Game() {
 
           <div className="mt-6 flex flex-wrap gap-3">
             <button
-              disabled={!picked[current.key]}
+              disabled={!picked[currentStage.key]}
               onClick={next}
               className="btn btn-primary rounded-xl disabled:opacity-50"
               type="button"
@@ -315,14 +300,13 @@ export default function Game() {
             </button>
           </div>
 
-          {/* Текущие суммарные очки */}
+          {/* Очки и лог */}
           <section className="mt-8 grid grid-cols-3 gap-3 max-w-xl">
             <Stat label="Картинка" value={grand.img} />
             <Stat label="Сроки" value={grand.time} />
             <Stat label="Бюджет" value={grand.money} />
           </section>
 
-          {/* Лог событий */}
           {log.length > 0 && (
             <div className="card p-4 mt-6 text-sm">
               <div className="font-semibold">События</div>
@@ -356,12 +340,7 @@ export default function Game() {
 
 /* ===== Вспомогательные ===== */
 function impactStr(s: Score) {
-  const parts = [
-    `Картинка ${fmt(s.img)}`,
-    `Сроки ${fmt(s.time)}`,
-    `Бюджет ${fmt(s.money)}`
-  ];
-  return `(${parts.join(" · ")})`;
+  return `Картинка ${fmt(s.img)} · Сроки ${fmt(s.time)} · Бюджет ${fmt(s.money)}`;
 }
 
 function Stat({ label, value, big = false }: { label: string; value: number; big?: boolean }) {
