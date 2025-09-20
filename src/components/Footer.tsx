@@ -1,4 +1,4 @@
-// components/Footer.tsx
+// src/components/Footer.tsx
 import Link from "next/link";
 
 export default function Footer() {
@@ -6,15 +6,15 @@ export default function Footer() {
 
   return (
     <footer className="mt-16 border-t border-base bg-black/10">
-      <div className="container py-8 md:py-10 safe-px">
+      <div className="container safe-px py-8 md:py-10">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           {/* Лево: копирайт */}
           <div className="text-sm text-muted">
-            © {year} Highway Films
+            © {year} Highway Films · Москва / Санкт-Петербург
           </div>
 
           {/* Право: ссылки */}
-          <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+          <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm" aria-label="Footer">
             <Link href="/privacy" className="hover:underline">
               Политика конфиденциальности
             </Link>
@@ -27,21 +27,28 @@ export default function Footer() {
 
             <span className="text-muted">·</span>
 
-            {/* Пасхалки — без явного маркетинга */}
-            <Link href="/easter-egg" className="text-muted hover:underline" aria-label="Технические заметки / пасхалка">
-              Тех. заметки
+            {/* Ненавязчивая дверь в лабораторию (там спрятаны игры и викторина) */}
+            <Link
+              href="/easter-egg"
+              prefetch={false}
+              className="text-muted hover:underline"
+              aria-label="Технические заметки / лаборатория"
+              rel="nofollow"
+            >
+              Тех-блок
             </Link>
 
             <span className="text-muted">·</span>
 
-            <Link
-              href="/easter-egg/runner-pro"
-              className="text-muted hover:underline"
-              aria-label="Мини-игра Runner Pro"
-              prefetch={false}
+            <a
+              href="https://t.me/highwayfilms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+              aria-label="Написать в Telegram"
             >
-              Мини-игра
-            </Link>
+              Telegram
+            </a>
           </nav>
         </div>
       </div>
