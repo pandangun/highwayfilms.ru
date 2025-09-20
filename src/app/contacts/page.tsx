@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+/* === Иконки (минималист) === */
 function IconPhone() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden>
@@ -49,6 +50,7 @@ function IconTG() {
   );
 }
 
+/* === Карточка контакта с «светящимся» ховером === */
 function InfoCard({
   title,
   value,
@@ -62,7 +64,7 @@ function InfoCard({
   icon: React.ReactNode;
   ariaLabel?: string;
 }) {
-  const inner = (
+  const Inner = (
     <div className="flex items-start gap-3">
       <div className="mt-1 text-muted">{icon}</div>
       <div>
@@ -71,18 +73,19 @@ function InfoCard({
       </div>
     </div>
   );
+
   return (
-    <div className="card p-5 md:p-6">
+    <div className="card p-5 md:p-6 transition border-base hover:border-strong hover:shadow-[0_0_22px_rgba(124,58,237,0.25)] hover:translate-y-[-2px]">
       {href ? (
         <a
           href={href}
           aria-label={ariaLabel || value}
-          className="block transition hover:opacity-90"
+          className="block transition hover:opacity-95"
         >
-          {inner}
+          {Inner}
         </a>
       ) : (
-        inner
+        Inner
       )}
     </div>
   );
@@ -116,7 +119,7 @@ export default function Page() {
           value="info@highwayfilms.ru"
           href="mailto:info@highwayfilms.ru?subject=%5BЗаявка%5D%20Highway%20Films"
           icon={<IconMail />}
-          ariaLabel="Написать письмо на info@highwayfilms.ru"
+          ariaLabel="Написать на info@highwayfilms.ru"
         />
         <InfoCard
           title="Telegram"
@@ -127,71 +130,88 @@ export default function Page() {
         />
       </section>
 
-      {/* Разделитель */}
+      {/* Разделитель-акцент */}
       <div className="mt-10 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-      {/* Форма */}
+      {/* Двухколоночный блок: форма + адреса */}
       <section className="mt-10 grid gap-10 lg:grid-cols-2">
+        {/* Форма */}
         <div>
           <h2 className="text-2xl md:text-3xl font-semibold">Оставить заявку</h2>
+
           <form
             className="mt-6 grid gap-4 max-w-xl"
             method="POST"
-            action="https://formspree.io/f/your-id" // замени или обрабатывай на своей стороне
+            action="https://formspree.io/f/your-id" /* замени на свой endpoint */
           >
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="block text-sm text-muted">Ваше имя</label>
+                <label className="block text-sm text-muted" htmlFor="name">
+                  Ваше имя
+                </label>
                 <input
-                  type="text"
+                  id="name"
                   name="name"
+                  type="text"
                   required
                   placeholder="Как к вам обращаться"
-                  className="mt-2 w-full h-12 rounded-xl bg-white/5 border border-base px-4 outline-none focus:border-white/30 placeholder:text-neutral-500"
+                  className="mt-2 w-full h-12 rounded-xl bg-white/5 border border-base px-4 outline-none placeholder:text-neutral-500 transition focus:border-brand focus:ring-2 focus:ring-brand/40"
                 />
               </div>
               <div>
-                <label className="block text-sm text-muted">E-mail</label>
+                <label className="block text-sm text-muted" htmlFor="email">
+                  E-mail
+                </label>
                 <input
-                  type="email"
+                  id="email"
                   name="email"
+                  type="email"
                   required
                   placeholder="you@example.com"
-                  className="mt-2 w-full h-12 rounded-xl bg-white/5 border border-base px-4 outline-none focus:border-white/30 placeholder:text-neutral-500"
+                  className="mt-2 w-full h-12 rounded-xl bg-white/5 border border-base px-4 outline-none placeholder:text-neutral-500 transition focus:border-brand focus:ring-2 focus:ring-brand/40"
                 />
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="block text-sm text-muted">Телефон (необязательно)</label>
+                <label className="block text-sm text-muted" htmlFor="phone">
+                  Телефон (необязательно)
+                </label>
                 <input
-                  type="tel"
+                  id="phone"
                   name="phone"
+                  type="tel"
                   inputMode="tel"
                   placeholder="+7 999 123-45-67"
-                  className="mt-2 w-full h-12 rounded-xl bg-white/5 border border-base px-4 outline-none focus:border-white/30 placeholder:text-neutral-500"
+                  className="mt-2 w-full h-12 rounded-xl bg-white/5 border border-base px-4 outline-none placeholder:text-neutral-500 transition focus:border-brand focus:ring-2 focus:ring-brand/40"
                 />
               </div>
               <div>
-                <label className="block text-sm text-muted">Бюджет (ориентир)</label>
+                <label className="block text-sm text-muted" htmlFor="budget">
+                  Бюджет (ориентир)
+                </label>
                 <input
-                  type="text"
+                  id="budget"
                   name="budget"
+                  type="text"
                   placeholder="Напр.: 200–400 тыс ₽"
-                  className="mt-2 w-full h-12 rounded-xl bg-white/5 border border-base px-4 outline-none focus:border-white/30 placeholder:text-neutral-500"
+                  className="mt-2 w-full h-12 rounded-xl bg-white/5 border border-base px-4 outline-none placeholder:text-neutral-500 transition focus:border-brand focus:ring-2 focus:ring-brand/40"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm text-muted">Сообщение</label>
+              <label className="block text-sm text-muted" htmlFor="message">
+                Сообщение
+              </label>
               <textarea
+                id="message"
                 name="message"
                 required
                 rows={6}
                 placeholder="Коротко о задаче: формат, сроки, площадки, ориентир по бюджету."
-                className="mt-2 w-full rounded-xl bg-white/5 border border-base p-4 outline-none focus:border-white/30 placeholder:text-neutral-500 resize-y"
+                className="mt-2 w-full rounded-xl bg-white/5 border border-base p-4 outline-none placeholder:text-neutral-500 resize-y transition focus:border-brand focus:ring-2 focus:ring-brand/40"
               />
             </div>
 
@@ -211,11 +231,18 @@ export default function Page() {
               </span>
             </label>
 
+            {/* CTA одинаковой ширины на десктопе */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <button type="submit" className="btn-primary h-12 px-5 rounded-xl">
+              <button
+                type="submit"
+                className="btn-primary h-12 rounded-xl sm:flex-1 shadow-md transition hover:shadow-[0_0_20px_rgba(124,58,237,0.45)]"
+              >
                 Отправить заявку
               </button>
-              <a href="mailto:info@highwayfilms.ru" className="btn h-12 rounded-xl">
+              <a
+                href="mailto:info@highwayfilms.ru"
+                className="btn h-12 rounded-xl sm:flex-1"
+              >
                 Написать на e-mail
               </a>
             </div>
@@ -226,17 +253,13 @@ export default function Page() {
           </form>
         </div>
 
-        {/* Колонка справа: адреса + мини-карта */}
+        {/* Офисы + карта */}
         <div className="space-y-4">
           <div className="card p-5 md:p-6">
             <h3 className="text-lg font-semibold">Офисы</h3>
             <ul className="mt-3 space-y-2 text-muted">
-              <li>
-                Санкт-Петербург — наб. реки Фонтанки, 100
-              </li>
-              <li>
-                Москва — ул. Арбат, 50
-              </li>
+              <li>Санкт-Петербург — наб. реки Фонтанки, 100</li>
+              <li>Москва — ул. Арбат, 50</li>
             </ul>
             <div className="mt-4 flex flex-wrap gap-2">
               <a
@@ -258,15 +281,18 @@ export default function Page() {
             </div>
           </div>
 
-          {/* Мини-карта как превью (без скриптов) — поставь свой PNG/JPG в /public */}
-          <div className="card overflow-hidden">
+          {/* Статичная мини-карта (замени файл на свой) */}
+          <figure className="card overflow-hidden">
             <img
               src="/map-preview.jpg"
               alt="Карта расположения офисов Highway Films"
               className="w-full h-56 object-cover"
               loading="lazy"
             />
-          </div>
+            <figcaption className="px-5 py-3 text-sm text-muted">
+              Карта расположения офисов Highway Films
+            </figcaption>
+          </figure>
         </div>
       </section>
     </main>

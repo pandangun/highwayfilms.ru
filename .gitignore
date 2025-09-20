@@ -46,3 +46,6 @@ next-env.d.ts
 # если нужно оставить постер — разрешаем
 !/public/video/hero-poster.jpg
 
+# --- allow image frames & map preview in the repo ---
+!/public/images/frames/**
+!/public/map-preview.jpg
