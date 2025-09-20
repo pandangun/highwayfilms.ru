@@ -1,167 +1,259 @@
+// app/commercials/page.tsx
+import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
-/** Метаданные */
-export const metadata = {
-  title: "Рекламные ролики для бизнеса — Highway Films",
+export const metadata: Metadata = {
+  title: "Рекламные ролики и product-видео — Highway Films",
   description:
-    "Производим рекламные ролики под ключ: идея, тритмент, съёмка до 4K/10-bit, постпродакшн и мастер-версии под площадки. Визуал, который цепляет, и монтаж, который удерживает внимание.",
+    "Продающие видео для брендов и маркетплейсов: packshot, lifestyle, UGC, 3D/моушн. Фокус на конверсию и креатив, быстрые пакеты под задачу.",
+  alternates: { canonical: "https://highwayfilms.ru/commercials" },
+  openGraph: {
+    type: "website",
+    title: "Рекламные ролики — Highway Films",
+    description:
+      "Креатив → препрод → съёмка 4K/10-bit → постпрод (монтаж/цвет/VFX) → версии под площадки. Москва/СПб.",
+    url: "https://highwayfilms.ru/commercials",
+    siteName: "Highway Films",
+  },
+  robots: { index: true, follow: true },
 };
 
-/* ===== UI helpers ===== */
-
-function Pill({ children }: { children: React.ReactNode }) {
+/* ====== Мелкие кирпичики ====== */
+function Kpi({ value, label }: { value: string; label: string }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm text-neutral-300">
-      {children}
-    </span>
-  );
-}
-
-function FeatureCard({
-  title,
-  desc,
-  icon,
-}: {
-  title: string;
-  desc: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <div className="card h-full flex flex-col p-5 md:p-6 rounded-xl">
-      <div className="text-xl mb-2">{icon}</div>
-      <h3 className="text-base font-semibold">{title}</h3>
-      <p className="mt-2 text-sm text-neutral-400 leading-relaxed">{desc}</p>
+    <div className="card p-4 text-center">
+      <div className="stat-value">{value}</div>
+      <div className="stat-label">{label}</div>
     </div>
   );
 }
 
-function Step({
-  n,
+function Feature({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="card p-5 hover:translate-y-[-2px] transition">
+      <h3 className="text-lg font-medium">{title}</h3>
+      <p className="mt-2 text-muted">{text}</p>
+    </div>
+  );
+}
+
+function Step({ n, title, text }: { n: number; title: string; text: string }) {
+  return (
+    <li className="card p-5 flex gap-4">
+      <div className="shrink-0 w-10 h-10 rounded-full bg-white/5 grid place-items-center font-semibold">
+        {n}
+      </div>
+      <div>
+        <div className="font-medium">{title}</div>
+        <p className="mt-1 text-muted">{text}</p>
+      </div>
+    </li>
+  );
+}
+
+/* ====== Тайлы с фоном: полупрозр. фото + фильтр сверху ====== */
+function AdTile({
+  src,
+  tag,
   title,
-  text,
 }: {
-  n: number;
+  src: string;
+  tag: string;
   title: string;
-  text: string;
 }) {
   return (
-    <li className="rounded-xl border border-white/10 bg-white/5 p-4">
-      <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20">
-        <b>{n}</b>
+    <article className="group relative overflow-hidden rounded-xl border border-base h-48 md:h-56">
+      {/* фон как слой под оверлеем */}
+      <Image
+        src={src}
+        alt={title}
+        fill
+        className="object-cover opacity-60 group-hover:opacity-75 transition"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+        priority={false}
+      />
+      {/* фильтр/градиент сверху */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+      {/* контент поверх */}
+      <div className="absolute inset-0 p-4 flex flex-col justify-end">
+        <div className="flex items-center gap-2">
+          <span className="rounded-md bg-black/40 px-2 py-1 text-xs">{tag}</span>
+        </div>
+        <h3 className="mt-2 text-lg font-medium">{title}</h3>
       </div>
-      <div className="font-medium">{title}</div>
-      <p className="mt-1 text-neutral-300 text-sm">{text}</p>
-    </li>
+    </article>
   );
 }
 
-function CheckItem({ children }: { children: React.ReactNode }) {
-  return (
-    <li className="flex gap-3 items-start">
-      <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-400">
-        ✓
-      </span>
-      <span className="text-sm text-neutral-300 leading-relaxed">{children}</span>
-    </li>
-  );
-}
-
-/* ===== Page ===== */
+/* Заглушки для фоновых кадров — замени файлами в /public/images/ads/ */
+const tiles = [
+  { src: "/images/ads/a01.jpg", tag: "Packshot", title: "Стек и фактуры для e-com" },
+  { src: "/images/ads/a02.jpg", tag: "Lifestyle", title: "Продукт в реальном сценарии" },
+  { src: "/images/ads/a03.jpg", tag: "UGC", title: "Нативные ролики под перформанс" },
+  { src: "/images/ads/a04.jpg", tag: "3D/Motion", title: "Акценты, разрезы, анимация" },
+  { src: "/images/ads/a05.jpg", tag: "Food", title: "Фуд-порно: пар, соус, макро" },
+  { src: "/images/ads/a06.jpg", tag: "Beauty", title: "Текстуры, бликами — premium" },
+];
 
 export default function Page() {
   return (
-    <>
+    <main className="container py-12 md:py-16">
       {/* HERO */}
-      <section className="container py-12 md:py-16">
-        <div className="flex flex-wrap gap-2 mb-3">
-          <Pill>🎯 Под задачу бизнеса</Pill>
-          <Pill>⚙️ Полный цикл</Pill>
-          <Pill>📐 Варианты под площадки</Pill>
-        </div>
-
-        <div className="max-w-3xl">
-          <h1 className="h1 text-[clamp(32px,5vw,56px)] font-bold">
-            Рекламные ролики для бизнеса
-          </h1>
-          <p className="lead mt-4">
-            Делаем видео&nbsp;под ключ: от идеи и тритмента до финальной сдачи.
-            Упор на сильные визуальные образы, ясный месседж и монтаж, который
-            удерживает внимание. Доставляем мастер-версии под&nbsp;сайт, соцсети,
-            DOOH/Indoor.
-          </p>
-        </div>
-
-        {/* Форматы */}
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          <FeatureCard
-            icon={<span>📦</span>}
-            title="Product / Brand films"
-            desc="Короткие и средние форматы с акцентом на преимущества продукта и образ бренда."
-          />
-          <FeatureCard
-            icon={<span>🚀</span>}
-            title="Performance-ролики для соцсетей"
-            desc="Чёткий call-to-action, A/B-вариации, адаптация под вертикаль, быстрый запуск."
-          />
-          <FeatureCard
-            icon={<span>✨</span>}
-            title="Имиджевые кампании"
-            desc="Идея → тритмент → производство → пост. Стиль, нарратив, музыка и ритм."
-          />
-          <FeatureCard
-            icon={<span>🛍️</span>}
-            title="Retail / POS-видео"
-            desc="Короткие циклические ролики для экранов точек продаж и выставок."
-          />
+      <section className="max-w-3xl">
+        <h1 className="h1">Рекламные ролики и product-видео</h1>
+        <p className="lead measure mt-2">
+          Продающие видео для брендов и маркетплейсов: packshot, lifestyle, UGC и motion.
+          Выстраиваем драматургию «смысл → польза → действие», чтобы видео не просто смотрели, а
+          **покупали**.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/contacts" className="btn btn-primary">Получить КП</Link>
+          <a
+            href="https://t.me/highwayfilms"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn"
+          >
+            Обсудить в Telegram
+          </a>
         </div>
       </section>
 
-      {/* Что получите + Процесс */}
-      <section className="container py-8 md:py-10">
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="card p-6 rounded-xl">
-            <h3 className="text-lg font-semibold">Что получите за 2–4 недели</h3>
-            <ul className="mt-4 space-y-3">
-              <CheckItem>Тритмент и раскадровку под вашу задачу</CheckItem>
-              <CheckItem>Съёмку до 4K/10-bit; дроны/стедикам по запросу</CheckItem>
-              <CheckItem>Монтаж, цветокор, графику/титры и звук</CheckItem>
-              <CheckItem>Мастера под YouTube, VK, Rutube, DOOH/Indoor</CheckItem>
-              <CheckItem>Пакет ресайзов и обложек при необходимости</CheckItem>
+      {/* KPIs */}
+      <section className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <Kpi value="200+" label="product-роликов" />
+        <Kpi value="4K/10-bit" label="картинка и цвет" />
+        <Kpi value="≤ 7–10 дн." label="быстрые пакеты" />
+        <Kpi value="Маркетплейс" label="Ozon/WB/Я.Маркет" />
+      </section>
+
+      {/* Продуктовые офферы */}
+      <section className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <Feature
+          title="Packshot Pro"
+          text="Чистый фон, стек/повороты, макро-текстуры, аккуратный motion. Идеально для карточек товара."
+        />
+        <Feature
+          title="Lifestyle Story"
+          text="Сценарий в реальном контексте: польза → триггеры → призыв. Версии 6/15/30 cек."
+        />
+        <Feature
+          title="UGC Boost"
+          text="Нативные говорящие головы/хендхелд. Быстрые тесты гипотез для перформанса."
+        />
+      </section>
+
+      {/* Галерея с фоновыми кадрами и фильтром */}
+      <section className="mt-12">
+        <h2 className="text-2xl md:text-3xl font-semibold">Варианты подачи</h2>
+        <p className="text-muted mt-2 measure">
+          Меняем настроение кадра — от «стерильно-чистого» e-commerce до насыщенного lifestyle. Любой
+          тайлинг можно превратить в серию для ретаргета и A/B тестов.
+        </p>
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-3">
+          {tiles.map((t, i) => (
+            <AdTile key={i} src={t.src} tag={t.tag} title={t.title} />
+          ))}
+        </div>
+      </section>
+
+      {/* Что снимаем чаще всего */}
+      <section className="mt-12">
+        <h2 className="text-2xl md:text-3xl font-semibold">Что снимаем</h2>
+        <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <Feature title="Фуд / напитки" text="Слоу-мо, пар, капли, плавные пролёты. Аппетитные selling-points." />
+          <Feature title="Косметика / skincare" text="Текстуры, свотчи, стек и бликовая схема — high-end premium." />
+          <Feature title="Гаджеты / аксессуары" text="Анимация портов/фич, 3D-разрезы, motion-акценты." />
+          <Feature title="Одежда / ткани" text="Фактура, посадка, движение в кадре. Вертикальные нарезки." />
+          <Feature title="Дом / декор" text="Lifestyle-сцены: польза в быту, до/после, микросценарии." />
+          <Feature title="Маркетплейс-пакеты" text="Серии 6–15 сек под карточку товара и ретаргет." />
+        </div>
+      </section>
+
+      {/* Процесс под рекламу */}
+      <section className="mt-12">
+        <h2 className="text-2xl md:text-3xl font-semibold">Процесс</h2>
+        <ol className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <Step n={1} title="Бриф → инсайт" text="ЦА, оффер, возражения. Собираем продающий порядок фактов." />
+          <Step n={2} title="Препрод" text="Treatment, борда, сетап света, реквизит, тайминг, чек-лист selling-points." />
+          <Step n={3} title="Съёмка" text="Packshot-сцена + lifestyle/UGC. Работаем сериями для A/B." />
+          <Step n={4} title="Постпрод" text="Монтаж → цвет → motion → субтитры. Версии 6/15/30/60, вертикаль/горизонт." />
+        </ol>
+      </section>
+
+      {/* Пакеты под задачу */}
+      <section className="mt-12">
+        <h2 className="text-2xl md:text-3xl font-semibold">Готовые пакеты</h2>
+        <div className="mt-6 grid md:grid-cols-3 gap-3">
+          <div className="card p-6">
+            <h3 className="text-lg font-semibold">Starter</h3>
+            <p className="text-muted mt-1">Packshot + 2 короткие версии</p>
+            <ul className="mt-3 list-disc pl-5 text-muted space-y-1">
+              <li>Студийный сетап света</li>
+              <li>Версии 6/15 сек (вертикаль)</li>
+              <li>Субтитры, логотип, финальный тезис</li>
             </ul>
           </div>
+          <div className="card p-6">
+            <h3 className="text-lg font-semibold">Growth</h3>
+            <p className="text-muted mt-1">Packshot + Lifestyle/UGC</p>
+            <ul className="mt-3 list-disc pl-5 text-muted space-y-1">
+              <li>3–5 selling-points</li>
+              <li>Версии 6/15/30 сек (верт/горизонт)</li>
+              <li>Набор стоп-кадров для карточек</li>
+            </ul>
+          </div>
+          <div className="card p-6">
+            <h3 className="text-lg font-semibold">Brand+</h3>
+            <p className="text-muted mt-1">Сюжет + motion/3D</p>
+            <ul className="mt-3 list-disc pl-5 text-muted space-y-1">
+              <li>Сценарий и актёры</li>
+              <li>Motion-акценты/3D-разрезы</li>
+              <li>Пакет версий под площадки</li>
+            </ul>
+          </div>
+        </div>
+        <p className="text-muted mt-3 text-sm">
+          Финальная смета зависит от локаций, смен, реквизита и графики. Дадим 2–3 опции под ваш бюджет.
+        </p>
+      </section>
 
-          <div className="card p-6 rounded-xl">
-            <h3 className="text-lg font-semibold">Процесс</h3>
-            <ol className="mt-4 grid gap-3 text-sm">
-              <Step n={1} title="Бриф" text="Цель, аудитория, площадки, KPI." />
-              <Step n={2} title="Тритмент" text="Идея, референсы, структура, смета." />
-              <Step n={3} title="Продакшн" text="Подготовка, съёмка, запись звука." />
-              <Step n={4} title="Пост" text="Монтаж, цвет, графика, музыка." />
-              <Step n={5} title="Доставка" text="Мастера и ресайзы под площадки." />
-            </ol>
+      {/* FAQ коротко */}
+      <section className="mt-12">
+        <h2 className="text-2xl md:text-3xl font-semibold">FAQ</h2>
+        <div className="mt-6 grid md:grid-cols-2 gap-3">
+          <div className="card p-5">
+            <div className="font-medium">Как быстро?</div>
+            <p className="mt-1 text-muted">Starter — 5–7 дней, Growth — 7–10, Brand+ — от 2–3 недель.</p>
+          </div>
+          <div className="card p-5">
+            <div className="font-medium">Вертикаль/горизонт?</div>
+            <p className="mt-1 text-muted">Делаем оба. Сразу планируем кадрирование под Reels/Shorts/Stories.</p>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="container py-10">
-        <div className="rounded-2xl bg-gradient-to-r from-purple-600/20 to-cyan-500/20 px-6 py-7 ring-1 ring-white/10">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-            <div>
-              <h3 className="text-xl font-semibold">Нужен расчёт и тайминг?</h3>
-              <p className="text-neutral-300 mt-1">
-                Пришлите короткий бриф — вернём смету и сроки в течение рабочего дня.
-              </p>
-            </div>
-            <Link
-              href="/contacts"
-              className="btn-primary inline-flex items-center justify-center rounded-xl px-5 py-3 font-medium hover:opacity-95 transition"
+      {/* Сильный CTA */}
+      <section className="mt-12">
+        <div className="card p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <div className="text-2xl md:text-3xl font-semibold">Готовы ускорить продажи?</div>
+            <p className="text-muted mt-2">Пришлите тезисы и ссылки на карточку — соберём план и сроки сегодня.</p>
+          </div>
+          <div className="flex gap-3">
+            <Link href="/contacts" className="btn btn-primary">Запросить предложение</Link>
+            <a
+              href="https://t.me/highwayfilms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn"
             >
-              Получить предложение
-            </Link>
+              Чат в Telegram
+            </a>
           </div>
         </div>
       </section>
-    </>
+    </main>
   );
 }
