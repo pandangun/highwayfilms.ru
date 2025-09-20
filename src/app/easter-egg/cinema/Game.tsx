@@ -24,8 +24,7 @@ function useJoystick() {
     const el = baseRef.current;
     if (!el) return;
 
-    let ox = 0,
-      oy = 0;
+    let ox = 0, oy = 0;
     const R = 42;
 
     const rectPoint = (e: PointerEvent) => {
@@ -37,16 +36,14 @@ function useJoystick() {
       if (e.pointerType === "mouse" && e.button !== 0) return;
       el.setPointerCapture(e.pointerId);
       const p = rectPoint(e);
-      ox = p.x;
-      oy = p.y;
+      ox = p.x; oy = p.y;
       setStick({ dx: 0, dy: 0, active: true });
       e.preventDefault();
     };
     const move = (e: PointerEvent) => {
       if (!el.hasPointerCapture(e.pointerId)) return;
       const p = rectPoint(e);
-      const dx = p.x - ox,
-        dy = p.y - oy;
+      const dx = p.x - ox, dy = p.y - oy;
       const L = len(dx, dy) || 1;
       const m = Math.min(1, L / R);
       setStick({ dx: (dx / L) * m, dy: (dy / L) * m, active: true });
@@ -79,9 +76,7 @@ export default function Game() {
 
   // держим актуальные значения вне зависимостей эффектов
   const stickRef = useRef(stick);
-  useEffect(() => {
-    stickRef.current = stick;
-  }, [stick]);
+  useEffect(() => { stickRef.current = stick; }, [stick]);
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -109,8 +104,7 @@ export default function Game() {
     const keys = new Set<string>();
     const kd = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
-      if (["arrowup", "arrowdown", "arrowleft", "arrowright", " "].includes(e.key))
-        e.preventDefault();
+      if (["arrowup","arrowdown","arrowleft","arrowright"," "].includes(e.key)) e.preventDefault();
       keys.add(k);
     };
     const ku = (e: KeyboardEvent) => keys.delete(e.key.toLowerCase());
@@ -119,23 +113,14 @@ export default function Game() {
 
     /* ----- camera/zoom ----- */
     let zoom = 1;
-    canvas.addEventListener(
-      "wheel",
-      (e) => {
-        e.preventDefault();
-        zoom = clamp(zoom * (e.deltaY > 0 ? 1.1 : 0.9), 0.7, 2);
-      },
-      { passive: false }
-    );
+    canvas.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      zoom = clamp(zoom * (e.deltaY > 0 ? 1.1 : 0.9), 0.7, 2);
+    }, { passive: false });
 
     const cam = {
-      x: 0,
-      y: 0,
-      lerp: 0.12,
-      view: () => ({
-        w: canvas.width / DPR / zoom,
-        h: canvas.height / DPR / zoom,
-      }),
+      x: 0, y: 0, lerp: 0.12,
+      view: () => ({ w: canvas.width / DPR / zoom, h: canvas.height / DPR / zoom }),
     };
 
     /* ----- state ----- */
@@ -145,52 +130,44 @@ export default function Game() {
       sz: 42,
       speed: 1800,
       friction: 0.88,
-      stamina: 0, // перезарядка рывка
+      stamina: 0,            // перезарядка рывка
       facing: 1 as 1 | -1,
     };
 
     // метрики: батарея, шум, шоты
     let battery = 100;
     let noise = 0;
-    const shots = new Set(L.shots.map((s) => `${s.x},${s.y}`));
-    const batteries = new Set(L.batteries.map((b) => `${b.x},${b.y}`));
+    const shots = new Set(L.shots.map(s => `${s.x},${s.y}`));
+    const batteries = new Set(L.batteries.map(b => `${b.x},${b.y}`));
 
-    // патрули — работаем с копией, чтобы не мутировать level
-    const guards: (Guard & { t: number; target: number })[] = L.guards.map((g) => ({
-      ...g,
-      t: 0,
-      target: 1 % g.path.length,
-    }));
+    // патрули — копия
+    const guards: (Guard & { t: number; target: number })[] =
+      L.guards.map(g => ({ ...g, t: 0, target: 1 % g.path.length }));
 
     let finished = false;
 
     /* ----- particles ----- */
-    type Particle = { x: number; y: number; vx: number; vy: number; life: number; col: string };
+    type Particle = { x:number; y:number; vx:number; vy:number; life:number; col:string };
     const parts: Particle[] = [];
-    const spark = (x: number, y: number, col: string) => {
-      for (let i = 0; i < 12; i++)
-        parts.push({ x, y, vx: (Math.random() - 0.5) * 250, vy: (Math.random() - 0.5) * 250, life: 0.7, col });
+    const spark = (x:number, y:number, col:string) => {
+      for (let i = 0; i < 12; i++) parts.push({ x, y, vx: (Math.random()-0.5)*250, vy: (Math.random()-0.5)*250, life: .7, col });
     };
 
     /* ----- helpers ----- */
-    const solidAt = (px: number, py: number) => {
-      const cx = Math.floor(px / TILE),
-        cy = Math.floor(py / TILE);
+    const solidAt = (px:number, py:number) => {
+      const cx = Math.floor(px / TILE), cy = Math.floor(py / TILE);
       if (cx < 0 || cy < 0 || cx >= L.w || cy >= L.h) return true;
       return L.solids[cy * L.w + cx] === 1;
     };
-    const collide = (x: number, y: number, s: number) =>
-      solidAt(x, y) ||
-      solidAt(x + s - 1, y) ||
-      solidAt(x, y + s - 1) ||
-      solidAt(x + s - 1, y + s - 1);
+    const collide = (x:number, y:number, s:number) =>
+      solidAt(x, y) || solidAt(x + s - 1, y) || solidAt(x, y + s - 1) || solidAt(x + s - 1, y + s - 1);
 
     /* ----- logic ----- */
     function update(dt: number) {
       // input
       const right = keys.has("arrowright") || keys.has("d");
-      const left = keys.has("arrowleft") || keys.has("a");
-      const up = keys.has("arrowup") || keys.has("w");
+      const left  = keys.has("arrowleft")  || keys.has("a");
+      const up    = keys.has("arrowup")    || keys.has("w");
       const boost = keys.has(" "); // «дубль» — рывок тележки
 
       const s = stickRef.current;
@@ -211,13 +188,13 @@ export default function Game() {
         player.vel.x += (player.facing === 1 ? 1 : -1) * 900;
         player.stamina = 0.35;
         battery = Math.max(0, battery - 3);
-        spark(player.pos.x + player.sz / 2, player.pos.y + player.sz / 2, "#fff");
+        spark(player.pos.x + player.sz/2, player.pos.y + player.sz/2, "#fff");
       }
       if (player.stamina > 0) player.stamina -= dt;
 
       // перемещение + стенки
-      let nx = clamp(player.pos.x + player.vel.x * dt, 0, WORLD_W - player.sz);
-      let ny = clamp(player.pos.y + player.vel.y * dt, 0, WORLD_H - player.sz);
+      const nx = clamp(player.pos.x + player.vel.x * dt, 0, WORLD_W - player.sz);
+      const ny = clamp(player.pos.y + player.vel.y * dt, 0, WORLD_H - player.sz);
 
       if (!collide(nx, player.pos.y, player.sz)) player.pos.x = nx;
       if (!collide(player.pos.x, ny, player.sz)) player.pos.y = ny;
@@ -226,8 +203,7 @@ export default function Game() {
       battery = Math.max(0, battery - dt * 1.1);
 
       // статические шумные зоны
-      const px = player.pos.x + player.sz / 2,
-        py = player.pos.y + player.sz / 2;
+      const px = player.pos.x + player.sz / 2, py = player.pos.y + player.sz / 2;
       for (const z of L.noiseZones) {
         const inside = px > z.x && px < z.x + z.w && py > z.y && py < z.y + z.h;
         if (inside) noise = Math.min(100, noise + dt * 22);
@@ -235,7 +211,6 @@ export default function Game() {
 
       // патрули: движение по путям + конусы «шума»
       for (const g of guards) {
-        const cur = g.path[(g.target + g.path.length - 1) % g.path.length];
         const dst = g.path[g.target];
         const dx = dst.x - g.x;
         const dy = dst.y - g.y;
@@ -252,11 +227,10 @@ export default function Game() {
         const toP = { x: px - g.x, y: py - g.y };
         const dist = len(toP.x, toP.y);
         if (dist < g.fov) {
-          const forward = norm(dx || 1, dy || 0); // направление движения патруля
+          const forward = norm(dx || 1, dy || 0);
           const dir = norm(toP.x, toP.y);
           const cos = dot(forward.x, forward.y, dir.x, dir.y);
           if (cos > Math.cos(g.arc)) {
-            // игрок в конусе — растёт шум
             noise = Math.min(100, noise + dt * 35);
           }
         }
@@ -266,15 +240,8 @@ export default function Game() {
       const cx = Math.floor((player.pos.x + player.sz / 2) / TILE);
       const cy = Math.floor((player.pos.y + player.sz / 2) / TILE);
       const key = `${cx},${cy}`;
-      if (shots.has(key)) {
-        shots.delete(key);
-        spark(player.pos.x + 20, player.pos.y + 20, "#ffd24d");
-      }
-      if (batteries.has(key)) {
-        batteries.delete(key);
-        battery = Math.min(100, battery + 25);
-        spark(player.pos.x + 20, player.pos.y + 20, "#8fe388");
-      }
+      if (shots.has(key)) { shots.delete(key); spark(player.pos.x + 20, player.pos.y + 20, "#ffd24d"); }
+      if (batteries.has(key)) { batteries.delete(key); battery = Math.min(100, battery + 25); spark(player.pos.x + 20, player.pos.y + 20, "#8fe388"); }
 
       // конец
       const done = shots.size === 0;
@@ -284,8 +251,8 @@ export default function Game() {
 
       // камера → плавное слежение
       const v = cam.view();
-      const tx = player.pos.x + player.sz / 2 - v.w / 2;
-      const ty = player.pos.y + player.sz / 2 - v.h / 2;
+      const tx = player.pos.x + player.sz/2 - v.w/2;
+      const ty = player.pos.y + player.sz/2 - v.h/2;
       cam.x += (clamp(tx, 0, Math.max(0, WORLD_W - v.w)) - cam.x) * cam.lerp;
       cam.y += (clamp(ty, 0, Math.max(0, WORLD_H - v.h)) - cam.y) * cam.lerp;
     }
@@ -305,7 +272,7 @@ export default function Game() {
       ctx.save();
       ctx.translate(-cam.x * 0.25, -cam.y * 0.25);
       ctx.fillStyle = "rgba(255,255,255,0.25)";
-      for (let i = 0; i < 100; i++) ctx.fillRect((i * 173) % WORLD_W, (i * 97) % WORLD_H, 2, 2);
+      for (let i = 0; i < 100; i++) ctx.fillRect((i*173)%WORLD_W, (i*97)%WORLD_H, 2, 2);
       ctx.restore();
 
       // мир
@@ -337,7 +304,7 @@ export default function Game() {
       for (const s of shots) {
         const [x, y] = s.split(",").map(Number);
         ctx.beginPath();
-        ctx.arc(x * TILE + TILE / 2, y * TILE + TILE / 2, 9, 0, Math.PI * 2);
+        ctx.arc(x * TILE + TILE/2, y * TILE + TILE/2, 9, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -345,16 +312,14 @@ export default function Game() {
       ctx.fillStyle = "#8fe388";
       for (const b of batteries) {
         const [x, y] = b.split(",").map(Number);
-        ctx.fillRect(x * TILE + TILE / 2 - 8, y * TILE + TILE / 2 - 5, 16, 10);
+        ctx.fillRect(x * TILE + TILE/2 - 8, y * TILE + TILE/2 - 5, 16, 10);
       }
 
       // патрули + конусы
       for (const g of guards) {
-        // сам патруль
         ctx.fillStyle = "#f55";
         ctx.fillRect(g.x - 10, g.y - 10, 20, 20);
 
-        // конус: рисуем к целевой точке
         const next = g.path[g.target];
         const dir = norm((next.x || 1) - g.x, (next.y || 0) - g.y);
         const ang = Math.atan2(dir.y, dir.x);
@@ -375,8 +340,7 @@ export default function Game() {
       // игрок
       ctx.fillStyle = "#f3f3f2";
       ctx.fillRect(player.pos.x, player.pos.y, player.sz, player.sz);
-      // «трубка микрофона»
-      ctx.fillStyle = "rgba(255,255,255,0.5)";
+      ctx.fillStyle = "rgba(255,255,255,0.5)"; // «трубка микрофона»
       ctx.fillRect(player.pos.x + (player.facing === 1 ? 10 : player.sz - 32), player.pos.y - 8, 22, 6);
       ctx.strokeStyle = "rgba(0,0,0,0.45)";
       ctx.strokeRect(player.pos.x + 1, player.pos.y + 1, player.sz - 2, player.sz - 2);
@@ -384,18 +348,12 @@ export default function Game() {
       // частицы
       for (let i = parts.length - 1; i >= 0; i--) {
         const p = parts[i];
-        p.life -= 1 / 60;
-        if (p.life <= 0) {
-          parts.splice(i, 1);
-          continue;
-        }
-        p.x += p.vx / 60;
-        p.y += p.vy / 60;
-        p.vx *= 0.96;
-        p.vy *= 0.96;
+        p.life -= 1/60;
+        if (p.life <= 0) { parts.splice(i,1); continue; }
+        p.x += p.vx / 60; p.y += p.vy / 60;
+        p.vx *= 0.96; p.vy *= 0.96;
         ctx.globalAlpha = Math.max(0, p.life);
-        ctx.fillStyle = p.col;
-        ctx.fillRect(p.x, p.y, 3, 3);
+        ctx.fillStyle = p.col; ctx.fillRect(p.x, p.y, 3, 3);
         ctx.globalAlpha = 1;
       }
 
@@ -422,23 +380,18 @@ export default function Game() {
     }
 
     function banner(txt: string) {
-      const w = canvas.width / DPR,
-        h = canvas.height / DPR;
+      const w = canvas.width / DPR, h = canvas.height / DPR;
       ctx.fillStyle = "rgba(0,0,0,0.35)";
-      ctx.fillRect(0, h / 2 - 30, w, 60);
+      ctx.fillRect(0, h/2 - 30, w, 60);
       ctx.fillStyle = "#fff";
       ctx.font = "bold 20px ui-sans-serif, system-ui";
-      ctx.textAlign = "center";
-      ctx.fillText(txt, w / 2, h / 2 + 7);
-      ctx.textAlign = "left";
+      ctx.textAlign = "center"; ctx.fillText(txt, w/2, h/2 + 7); ctx.textAlign = "left";
     }
 
     /* ----- loop ----- */
-    let raf = 0;
-    let last = performance.now();
+    let raf = 0, last = performance.now();
     const step = (now: number) => {
-      const dt = Math.min(0.033, (now - last) / 1000);
-      last = now;
+      const dt = Math.min(0.033, (now - last) / 1000); last = now;
       if (!finished) update(dt);
       render();
       raf = requestAnimationFrame(step);
@@ -463,8 +416,7 @@ export default function Game() {
         style={{ touchAction: "none", opacity: 0, transition: "opacity .2s" }}
       />
       <div className="mt-3 text-sm text-muted">
-        Стрелки/WASD — движение, Space — «дубль» (рывок), колесо — zoom. Избегайте красных
-        зон и конусов патрулей.
+        Стрелки/WASD — движение, Space — «дубль» (рывок), колесо — zoom. Избегайте красных зон и конусов патрулей.
       </div>
     </div>
   );

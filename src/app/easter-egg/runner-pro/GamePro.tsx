@@ -287,7 +287,7 @@ export default function GamePro() {
 
       // прыжок
       if ((up || sy < -0.6) && player.onGround) {
-        player.vel.y = -player.jump;
+        player.vel.y = 2 * (-player.jump);
         player.onGround = false;
       }
 
