@@ -89,7 +89,7 @@ export default function Page() {
       <section className="max-w-3xl">
         <h1 className="h1">Рекламные ролики и product-видео</h1>
         <p className="lead measure mt-2">
-          Продающие видео для брендов и маркетплейсов: packshot, lifestyle, UGC и motion.
+          Продающие видео для брендов: packshot, lifestyle, UGC и motion.
           Выстраиваем драматургию «смысл → польза → действие», чтобы видео не просто смотрели, а{" "}
           <strong>покупали</strong>.
         </p>
@@ -106,7 +106,6 @@ export default function Page() {
         <Kpi value="200+" label="product-роликов" />
         <Kpi value="4K / 10-bit" label="картинка и цвет" />
         <Kpi value="7–10 дней" label="быстрые пакеты" />
-        <Kpi value="Ozon · WB · Я.Маркет" label="Маркетплейс" />
       </section>
 
       {/* Продуктовые офферы */}
