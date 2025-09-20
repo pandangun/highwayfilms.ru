@@ -4,84 +4,71 @@
 import { useEffect, useRef, useState } from "react";
 import { TILE, level1, type Level } from "./map";
 
+/* =========================
+   ВСПОМОГАТЕЛЬНЫЕ ТИПЫ/УТИЛЫ
+   ========================= */
 type Vec = { x: number; y: number };
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 
 /* =========================
-   Mobile joystick (typed)
+   ДЖОЙСТИК (Pointer Events)
    ========================= */
+type StickState = { dx: number; dy: number; active: boolean };
+
 function useJoystick() {
-  const [stick, setStick] = useState<{ dx: number; dy: number; active: boolean }>({
-    dx: 0,
-    dy: 0,
-    active: false,
-  });
+  const [stick, setStick] = useState<StickState>({ dx: 0, dy: 0, active: false });
   const baseRef = useRef<HTMLDivElement | null>(null);
-
-  // type guards для Pointer
-  type PtrEvt = MouseEvent | TouchEvent;
-  const isTouch = (e: PtrEvt): e is TouchEvent => "touches" in e || "changedTouches" in e;
-
-  function getPoint(e: PtrEvt, el: HTMLElement) {
-    const rect = el.getBoundingClientRect();
-    if (isTouch(e)) {
-      const t = e.touches[0] ?? e.changedTouches?.[0];
-      const cx = t?.clientX ?? 0;
-      const cy = t?.clientY ?? 0;
-      return { x: cx - rect.left, y: cy - rect.top };
-    }
-    const m = e as MouseEvent;
-    return { x: m.clientX - rect.left, y: m.clientY - rect.top };
-  }
 
   useEffect(() => {
     const el = baseRef.current;
     if (!el) return;
 
-    let active = false;
-    let cx = 0,
-      cy = 0;
+    let originX = 0;
+    let originY = 0;
     const radius = 40;
 
-    const start = (e: PtrEvt) => {
-      active = true;
-      const p = getPoint(e, el);
-      cx = p.x;
-      cy = p.y;
+    const getPoint = (e: PointerEvent) => {
+      const rect = el.getBoundingClientRect();
+      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    };
+
+    const onDown = (e: PointerEvent) => {
+      // только ЛКМ для мыши
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      el.setPointerCapture(e.pointerId);
+      const p = getPoint(e);
+      originX = p.x;
+      originY = p.y;
       setStick({ dx: 0, dy: 0, active: true });
-      (e as any).preventDefault?.();
+      e.preventDefault();
     };
 
-    const move = (e: PtrEvt) => {
-      if (!active) return;
-      const p = getPoint(e, el);
-      let dx = p.x - cx,
-        dy = p.y - cy;
+    const onMove = (e: PointerEvent) => {
+      if (!el.hasPointerCapture(e.pointerId)) return;
+      const p = getPoint(e);
+      const dx = p.x - originX;
+      const dy = p.y - originY;
       const len = Math.hypot(dx, dy) || 1;
-      const mag = Math.min(1, len / radius);
-      setStick({ dx: (dx / len) * mag, dy: (dy / len) * mag, active: true });
-      (e as any).preventDefault?.();
+      const m = Math.min(1, len / radius);
+      setStick({ dx: (dx / len) * m, dy: (dy / len) * m, active: true });
+      e.preventDefault();
     };
 
-    const end = () => {
-      active = false;
+    const onUp = (e: PointerEvent) => {
+      if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
       setStick({ dx: 0, dy: 0, active: false });
     };
 
-    el.addEventListener("touchstart", start as any, { passive: false });
-    el.addEventListener("touchmove", move as any, { passive: false });
-    el.addEventListener("touchend", end as any);
-    el.addEventListener("mousedown", start as any);
-    window.addEventListener("mousemove", move as any);
-    window.addEventListener("mouseup", end as any);
+    el.addEventListener("pointerdown", onDown);
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerup", onUp);
+    el.addEventListener("pointercancel", onUp);
 
     return () => {
-      el.removeEventListener("touchstart", start as any);
-      el.removeEventListener("touchmove", move as any);
-      el.removeEventListener("touchend", end as any);
-      el.removeEventListener("mousedown", start as any);
-      window.removeEventListener("mousemove", move as any);
-      window.removeEventListener("mouseup", end as any);
+      el.removeEventListener("pointerdown", onDown);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerup", onUp);
+      el.removeEventListener("pointercancel", onUp);
     };
   }, []);
 
@@ -89,25 +76,28 @@ function useJoystick() {
 }
 
 /* =========================
-   Main Game
+   ОСНОВНАЯ ИГРА
    ========================= */
 export default function GamePro() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { stick, baseRef } = useJoystick();
 
-  // чтобы эффект с циклом НЕ перезапускался от stick, кладём его в ref
-  const stickRef = useRef(stick);
+  // чтобы не тащить stick в зависимости эффекта — читаем его через ref
+  const stickRef = useRef<StickState>(stick);
   useEffect(() => {
     stickRef.current = stick;
   }, [stick]);
 
   useEffect(() => {
-    const canvas = canvasRef.current!;
-    const ctx = canvas.getContext("2d")!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
     const DPR = Math.min(2, window.devicePixelRatio || 1);
 
     /* ---- resize ---- */
-    function resize() {
+    const resize = () => {
       const maxW = Math.min(1200, window.innerWidth - 32);
       const h = Math.round((maxW * 9) / 16);
       canvas.style.width = `${maxW}px`;
@@ -115,16 +105,16 @@ export default function GamePro() {
       canvas.width = Math.round(maxW * DPR);
       canvas.height = Math.round(h * DPR);
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    }
+    };
     resize();
     window.addEventListener("resize", resize);
 
     /* ---- level ---- */
     const L: Level = level1;
-    const W = L.w * TILE,
-      H = L.h * TILE;
+    const WORLD_W = L.w * TILE;
+    const WORLD_H = L.h * TILE;
 
-    /* ---- state ---- */
+    /* ---- input ---- */
     const keys = new Set<string>();
     const onKeyDown = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
@@ -132,17 +122,22 @@ export default function GamePro() {
       if (k === "p") paused = !paused;
       keys.add(k);
     };
-    const onKeyUp = (e: KeyboardEvent) => keys.delete(e.key.toLowerCase());
+    const onKeyUp = (e: KeyboardEvent) => {
+      keys.delete(e.key.toLowerCase());
+    };
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
 
-    let zoom = 1; // camera zoom
+    /* ---- zoom ---- */
+    let zoom = 1;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      zoom = clamp(zoom * (e.deltaY > 0 ? 1.1 : 0.9), 0.6, 2);
+      const next = clamp(zoom * (e.deltaY > 0 ? 1.1 : 0.9), 0.6, 2);
+      zoom = next;
     };
     canvas.addEventListener("wheel", onWheel, { passive: false });
 
+    /* ---- state ---- */
     const player = {
       pos: { x: L.spawn.x * TILE, y: L.spawn.y * TILE } as Vec,
       vel: { x: 0, y: 0 } as Vec,
@@ -160,18 +155,12 @@ export default function GamePro() {
       x: 0,
       y: 0,
       lerp: 0.12,
-      view: () => ({ w: canvas.width / DPR / zoom, h: canvas.height / DPR / zoom }),
+      view(): { w: number; h: number } {
+        return { w: canvas.width / DPR / zoom, h: canvas.height / DPR / zoom };
+      },
     };
 
-    type Enemy = {
-      x: number;
-      y: number;
-      dir: 1 | -1;
-      left: number;
-      right: number;
-      speed: number;
-      alive: boolean;
-    };
+    type Enemy = { x: number; y: number; dir: 1 | -1; left: number; right: number; speed: number; alive: boolean };
     const enemies: Enemy[] = L.enemies.map((e) => ({
       x: e.x * TILE,
       y: e.y * TILE,
@@ -186,38 +175,25 @@ export default function GamePro() {
     let checkpoint = { x: L.spawn.x * TILE, y: L.spawn.y * TILE };
     let finished = false;
     let paused = false;
-    let t = performance.now();
+    let invulnSince = performance.now();
 
     /* ---- helpers ---- */
-    function solidAt(px: number, py: number) {
-      const cx = Math.floor(px / TILE),
-        cy = Math.floor(py / TILE);
+    const solidAt = (px: number, py: number) => {
+      const cx = Math.floor(px / TILE);
+      const cy = Math.floor(py / TILE);
       if (cx < 0 || cy < 0 || cx >= L.w || cy >= L.h) return true;
       return L.solids[cy * L.w + cx] === 1;
-    }
-
-    function aabb(x: number, y: number, w: number, h: number, x2: number, y2: number, w2: number, h2: number) {
-      return x < x2 + w2 && x + w > x2 && y < y2 + h2 && y + h > y2;
-    }
-
-    /* ---- loop ---- */
-    let raf = 0;
-    let last = performance.now();
-
-    const step = (now: number) => {
-      const dt = Math.min(0.033, (now - last) / 1000);
-      last = now;
-      if (!paused && !finished) update(dt);
-      render();
-      raf = requestAnimationFrame(step);
     };
-    raf = requestAnimationFrame(step);
 
-    function moveAndCollide(dt: number) {
-      // X
+    const aabb = (x: number, y: number, w: number, h: number, x2: number, y2: number, w2: number, h2: number) =>
+      x < x2 + w2 && x + w > x2 && y < y2 + h2 && y + h > y2;
+
+    /* ---- physics ---- */
+    const moveAndCollide = (dt: number) => {
+      // по X
       let nx = player.pos.x + player.vel.x * dt;
-      const yTop = player.pos.y,
-        yBottom = player.pos.y + player.sz - 1;
+      const yTop = player.pos.y;
+      const yBottom = player.pos.y + player.sz - 1;
 
       if (player.vel.x > 0) {
         if (solidAt(nx + player.sz, yTop) || solidAt(nx + player.sz, yBottom)) {
@@ -230,39 +206,77 @@ export default function GamePro() {
           player.vel.x = 0;
         }
       }
-      player.pos.x = clamp(nx, 0, W - player.sz);
+      player.pos.x = clamp(nx, 0, WORLD_W - player.sz);
 
-      // Y
+      // по Y
       let ny = player.pos.y + player.vel.y * dt;
-      const xLeft = player.pos.x,
-        xRight = player.pos.x + player.sz - 1;
+      const xLeft = player.pos.x;
+      const xRight = player.pos.x + player.sz - 1;
 
       if (player.vel.y > 0) {
         if (solidAt(xLeft, ny + player.sz) || solidAt(xRight, ny + player.sz)) {
           ny = Math.floor((ny + player.sz) / TILE) * TILE - player.sz - 0.01;
           player.vel.y = 0;
           player.onGround = true;
-        } else player.onGround = false;
+        } else {
+          player.onGround = false;
+        }
       } else if (player.vel.y < 0) {
         if (solidAt(xLeft, ny) || solidAt(xRight, ny)) {
           ny = Math.floor(ny / TILE + 1) * TILE + 0.01;
           player.vel.y = 0;
         }
       }
-      player.pos.y = clamp(ny, 0, H - player.sz);
-    }
+      player.pos.y = clamp(ny, 0, WORLD_H - player.sz);
+    };
 
-    function update(dt: number) {
-      // клавиши
+    const damage = () => {
+      if (performance.now() - invulnSince < 600) return; // i-frames
+      invulnSince = performance.now();
+      player.hp -= 1;
+      spark(player.pos.x + 20, player.pos.y + 20, "#ff7f7f");
+      if (player.hp <= 0) {
+        // respawn
+        player.pos.x = checkpoint.x;
+        player.pos.y = checkpoint.y;
+        player.vel.x = 0;
+        player.vel.y = 0;
+        player.hp = 3;
+      }
+    };
+
+    /* ---- particles ---- */
+    type Particle = { x: number; y: number; vx: number; vy: number; life: number; col: string };
+    const parts: Particle[] = [];
+    const spark = (x: number, y: number, col: string) => {
+      for (let i = 0; i < 16; i++) {
+        parts.push({
+          x,
+          y,
+          vx: (Math.random() - 0.5) * 300,
+          vy: (Math.random() - 0.5) * 300,
+          life: 0.8,
+          col,
+        });
+      }
+    };
+
+    /* ---- game loop ---- */
+    let raf = 0;
+    let last = performance.now();
+
+    const update = (dt: number) => {
+      // клавиатура
       const right = keys.has("arrowright") || keys.has("d");
       const left = keys.has("arrowleft") || keys.has("a");
       const up = keys.has("arrowup") || keys.has("w");
-      const dashKey = keys.has("x");
+      const dash = keys.has("x");
       const hit = keys.has("z");
 
       // джойстик
-      const sx = stickRef.current.active ? stickRef.current.dx : 0;
-      const sy = stickRef.current.active ? stickRef.current.dy : 0;
+      const s = stickRef.current;
+      const sx = s.active ? s.dx : 0;
+      const sy = s.active ? s.dy : 0;
 
       const ax = (right ? 1 : 0) - (left ? 1 : 0) + sx;
       player.vel.x += ax * player.speed * dt;
@@ -278,7 +292,7 @@ export default function GamePro() {
       }
 
       // dash
-      if (dashKey && player.dash <= 0) {
+      if (dash && player.dash <= 0) {
         player.vel.x += (ax >= 0 ? 1 : -1) * 800;
         player.dash = 0.35;
       }
@@ -286,7 +300,7 @@ export default function GamePro() {
 
       moveAndCollide(dt);
 
-      // монеты
+      // монеты/чекпоинт/финиш
       const cx = Math.floor((player.pos.x + player.sz / 2) / TILE);
       const cy = Math.floor((player.pos.y + player.sz / 2) / TILE);
       const key = `${cx},${cy}`;
@@ -296,12 +310,10 @@ export default function GamePro() {
         spark(player.pos.x + 20, player.pos.y + 20, "#ffd24d");
       }
 
-      // чекпоинт
       for (const cp of L.checkpoints) {
         if (cx === cp.x && cy === cp.y) checkpoint = { x: cp.x * TILE, y: cp.y * TILE };
       }
 
-      // финиш
       if (cx === L.finish.x && cy === L.finish.y && coins.size === 0) finished = true;
 
       // враги
@@ -320,7 +332,9 @@ export default function GamePro() {
           if (hit) {
             e.alive = false;
             spark(e.x + 22, e.y + 22, "#f55");
-          } else damage();
+          } else {
+            damage();
+          }
         }
       }
 
@@ -328,71 +342,53 @@ export default function GamePro() {
       const view = camera.view();
       const tx = player.pos.x + player.sz / 2 - view.w / 2;
       const ty = player.pos.y + player.sz / 2 - view.h / 2;
-      const maxX = W - view.w,
-        maxY = H - view.h;
+      const maxX = WORLD_W - view.w;
+      const maxY = WORLD_H - view.h;
       const targetX = clamp(tx, 0, Math.max(0, maxX));
       const targetY = clamp(ty, 0, Math.max(0, maxY));
       camera.x += (targetX - camera.x) * camera.lerp;
       camera.y += (targetY - camera.y) * camera.lerp;
-    }
+    };
 
-    /* ---- damage/respawn ---- */
-    function damage() {
-      if (performance.now() - t < 600) return; // i-frames
-      t = performance.now();
-      player.hp -= 1;
-      spark(player.pos.x + 20, player.pos.y + 20, "#ff7f7f");
-      if (player.hp <= 0) {
-        player.pos.x = checkpoint.x;
-        player.pos.y = checkpoint.y;
-        player.vel.x = 0;
-        player.vel.y = 0;
-        player.hp = 3;
-      }
-    }
+    const drawBanner = (text: string) => {
+      const w = canvas.width / DPR;
+      const h = canvas.height / DPR;
+      ctx.fillStyle = "rgba(0,0,0,0.35)";
+      ctx.fillRect(0, h / 2 - 30, w, 60);
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 20px ui-sans-serif, system-ui";
+      ctx.textAlign = "center";
+      ctx.fillText(text, w / 2, h / 2 + 7);
+      ctx.textAlign = "left";
+    };
 
-    /* ---- particles ---- */
-    type P = { x: number; y: number; vx: number; vy: number; life: number; col: string };
-    const parts: P[] = [];
-    function spark(x: number, y: number, col: string) {
-      for (let i = 0; i < 16; i++) {
-        parts.push({
-          x,
-          y,
-          vx: (Math.random() - 0.5) * 300,
-          vy: (Math.random() - 0.5) * 300,
-          life: 0.8,
-          col,
-        });
-      }
-    }
-
-    /* ---- render ---- */
-    function render() {
-      const vw = camera.view().w,
-        vh = camera.view().h;
+    const render = () => {
+      const vw = camera.view().w;
+      const vh = camera.view().h;
       ctx.setTransform(zoom * DPR, 0, 0, zoom * DPR, 0, 0);
       ctx.clearRect(0, 0, vw, vh);
 
-      // bg gradient
+      // фоновый градиент
       const g = ctx.createLinearGradient(0, 0, 0, vh);
       g.addColorStop(0, "rgba(255,255,255,0.05)");
-      g.addColorStop(1, "rgba(255,255,255,0.00)");
+      g.addColorStop(1, "rgba(255,255,255,0)");
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, vw, vh);
 
-      // parallax stars
+      // параллакс "звёзды"
       ctx.save();
       ctx.translate(-camera.x * 0.3, -camera.y * 0.3);
       ctx.fillStyle = "rgba(255,255,255,0.25)";
-      for (let i = 0; i < 120; i++) ctx.fillRect((i * 173) % W, (i * 97) % H, 2, 2);
+      for (let i = 0; i < 120; i++) {
+        ctx.fillRect((i * 173) % WORLD_W, (i * 97) % WORLD_H, 2, 2);
+      }
       ctx.restore();
 
-      // world
+      // мир
       ctx.save();
       ctx.translate(-camera.x, -camera.y);
 
-      // tiles
+      // тайлы
       for (let y = 0; y < L.h; y++) {
         for (let x = 0; x < L.w; x++) {
           if (L.solids[y * L.w + x] === 1) {
@@ -404,7 +400,7 @@ export default function GamePro() {
         }
       }
 
-      // coins
+      // монеты
       ctx.fillStyle = "#ffd24d";
       for (const k of coins) {
         const [x, y] = k.split(",").map(Number);
@@ -413,32 +409,32 @@ export default function GamePro() {
         ctx.fill();
       }
 
-      // enemies
+      // враги
       for (const e of enemies) {
         if (!e.alive) continue;
         ctx.fillStyle = "#f55";
         ctx.fillRect(e.x, e.y, 44, 44);
       }
 
-      // checkpoints
+      // чекпоинты
       ctx.strokeStyle = "rgba(100,200,255,0.7)";
       for (const cp of L.checkpoints) {
         ctx.strokeRect(cp.x * TILE + 16, cp.y * TILE + 16, TILE - 32, TILE - 32);
       }
 
-      // finish
+      // финиш
       ctx.strokeStyle = "rgba(140,255,140,0.9)";
       ctx.lineWidth = 3;
       ctx.strokeRect(L.finish.x * TILE + 8, L.finish.y * TILE + 8, TILE - 16, TILE - 16);
       ctx.lineWidth = 1;
 
-      // player
+      // игрок
       ctx.fillStyle = "#f3f3f2";
       ctx.fillRect(player.pos.x, player.pos.y, player.sz, player.sz);
       ctx.strokeStyle = "rgba(0,0,0,0.45)";
       ctx.strokeRect(player.pos.x + 1, player.pos.y + 1, player.sz - 2, player.sz - 2);
 
-      // particles
+      // частицы
       for (let i = parts.length - 1; i >= 0; i--) {
         const p = parts[i];
         p.life -= 1 / 60;
@@ -468,44 +464,41 @@ export default function GamePro() {
       if (paused) drawBanner("PAUSED");
       if (finished) drawBanner("FINISH! 🎉");
 
-      // показать базу джойстика на мобилке
-      const el = baseRef.current;
-      if (el) el.style.opacity = "1";
-    }
+      // показать джойстик на мобиле
+      if (baseRef.current) baseRef.current.style.opacity = "1";
+    };
 
-    function drawBanner(text: string) {
-      const w = canvas.width / DPR,
-        h = canvas.height / DPR;
-      const pad = 30;
-      ctx.fillStyle = "rgba(0,0,0,0.35)";
-      ctx.fillRect(0, h / 2 - pad, w, pad * 2);
-      ctx.fillStyle = "#fff";
-      ctx.font = "bold 20px ui-sans-serif, system-ui";
-      ctx.textAlign = "center";
-      ctx.fillText(text, w / 2, h / 2 + 7);
-      ctx.textAlign = "left";
-    }
+    const step = (now: number) => {
+      const dt = Math.min(0.033, (now - last) / 1000);
+      last = now;
+      if (!paused && !finished) update(dt);
+      render();
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
 
+    /* ---- cleanup ---- */
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
-      canvas.removeEventListener("wheel", onWheel as any);
+      canvas.removeEventListener("wheel", onWheel);
     };
-  }, []); // ВАЖНО: пустой массив — цикл не пересоздаётся
+  }, [baseRef]); // baseRef стабильный, stick читаем через stickRef
 
   return (
     <div className="card p-3 relative">
       <canvas ref={canvasRef} className="w-full rounded-xl border border-base bg-black/20" />
-      {/* виртуальный джойстик — полупрозрачное кольцо */}
+      {/* виртуальный джойстик — полупрозрачное кольцо слева снизу */}
       <div
         ref={baseRef}
         className="absolute bottom-4 left-4 w-28 h-28 rounded-full border border-base bg-white/5"
         style={{ touchAction: "none", opacity: 0, transition: "opacity .2s" }}
+        aria-hidden
       />
       <div className="mt-3 text-sm text-muted">
-        WASD/стрелки, Z — удар, X — рывок, колесо — zoom, P — пауза.
+        WASD/стрелки — ходьба, Z — удар, X — рывок, колесо — zoom, P — пауза.
       </div>
     </div>
   );
