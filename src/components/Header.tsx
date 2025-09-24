@@ -9,10 +9,8 @@ export default function Header() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Автозакрытие бургер-меню при навигации
   useEffect(() => setIsOpen(false), [pathname]);
 
-  // Лочим скролл под шторкой (iOS-friendly)
   useEffect(() => {
     if (!isOpen) return;
     const root = document.documentElement;
@@ -53,20 +51,13 @@ export default function Header() {
           ? pathname === "/"
           : pathname.startsWith(item.href);
 
-        // Универсальный класс ссылки
-        const base = vertical
-          ? "nav-pill block text-base"
-          : "nav-pill text-sm";
+        const base = vertical ? "nav-link nav-link--vertical" : "nav-link text-sm";
 
         return (
           <Link
             key={item.href}
             href={item.href}
-            className={clsx(
-              base,
-              active ? "nav-active" : "nav-idle",
-              vertical && "w-full"
-            )}
+            className={clsx(base, active && "is-active")}
           >
             <span className="relative z-10">{item.label}</span>
           </Link>
@@ -77,7 +68,6 @@ export default function Header() {
 
   return (
     <>
-      {/* Fixed header */}
       <header
         className={clsx(
           "fixed inset-x-0 top-0 z-[60]",
@@ -88,8 +78,7 @@ export default function Header() {
         )}
         role="banner"
       >
-        <div className="container flex h-full items-center justify-between gap-3">
-          {/* Логотип */}
+        <div className="container flex h-full items-center justify-between gap-4">
           <Link
             href="/"
             className="rounded-lg px-1.5 py-1 text-base font-semibold tracking-wide text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
@@ -99,16 +88,23 @@ export default function Header() {
           </Link>
 
           {/* Десктоп-меню */}
-          <nav className="relative hidden items-center gap-1.5 md:flex" aria-label="Главное меню">
+          <nav className="relative hidden items-center gap-5 md:flex" aria-label="Главное меню">
             <NavLinks />
           </nav>
 
           {/* Правый блок: язык + CTA */}
-          <div className="hidden items-center gap-2 md:flex">
-            <div className="overflow-hidden rounded-xl border border-white/10 text-[12px]">
-              <Link href="/weddings" className="px-3 py-1 bg-white/10 hover:bg-white/15">RU</Link>
-              <Link href="/en/weddings" className="px-3 py-1 hover:bg-white/10">EN</Link>
+          <div className="hidden items-center gap-4 md:flex">
+            {/* языковой переключатель без рамок */}
+            <div className="flex items-center gap-3 text-[12px]">
+              <Link href="/weddings" className={clsx("nav-link", !pathname.startsWith("/en") && "is-active")}>
+                RU
+              </Link>
+              <span aria-hidden="true" className="text-white/25">/</span>
+              <Link href="/en/weddings" className={clsx("nav-link", pathname.startsWith("/en") && "is-active")}>
+                EN
+              </Link>
             </div>
+
             <Link
               href="/contacts"
               className="btn-primary hidden md:inline-flex rounded-xl px-3.5 py-2 text-sm font-medium"
@@ -161,9 +157,9 @@ export default function Header() {
       >
         <nav className="flex flex-col gap-1 p-4" aria-label="Мобильное меню">
           <NavLinks vertical />
-          <div className="mt-3 flex gap-2">
-            <Link href="/weddings" className="nav-pill nav-idle">RU</Link>
-            <Link href="/en/weddings" className="nav-pill nav-idle">EN</Link>
+          <div className="mt-3 flex items-center gap-3">
+            <Link href="/weddings" className={clsx("nav-link nav-link--vertical", !pathname.startsWith("/en") && "is-active")}>RU</Link>
+            <Link href="/en/weddings" className={clsx("nav-link nav-link--vertical", pathname.startsWith("/en") && "is-active")}>EN</Link>
           </div>
           <Link href="/contacts" className="btn-primary mt-3 inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium">
             Связаться
