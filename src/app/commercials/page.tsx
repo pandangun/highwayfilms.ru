@@ -1,4 +1,5 @@
 // app/commercials/page.tsx
+import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,7 +7,7 @@ import Image from "next/image";
 export const metadata: Metadata = {
   title: "Рекламные ролики и product-видео — Highway Films",
   description:
-    "Продающие видео для брендов и маркетплейсов: packshot, lifestyle, UGC, 3D/моушн. Фокус на конверсию и креатив, быстрые пакеты под задачу.",
+    "Продающие видео для брендов и маркетплейсов: packshot, lifestyle, UGC и motion. Фокус на конверсию и креатив, быстрые пакеты под задачу.",
   alternates: { canonical: "https://highwayfilms.ru/commercials" },
   openGraph: {
     type: "website",
@@ -19,10 +20,45 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-/* === small UI pieces === */
+/* ---------- small UI ---------- */
+
+function SectionHeader({
+  kicker,
+  title,
+  lead,
+}: {
+  kicker?: string;
+  title: string;
+  lead?: string;
+}) {
+  return (
+    <header>
+      {kicker && <div className="eyebrow">{kicker}</div>}
+      <h2 className="mt-1 font-semibold tracking-tight text-[clamp(1.75rem,1.2rem+2vw,2.5rem)] leading-[1.15]">
+        {title}
+      </h2>
+      {lead && (
+        <p className="mt-2 text-muted text-[clamp(1.125rem,1rem+.6vw,1.35rem)] leading-[1.65] measure">
+          {lead}
+        </p>
+      )}
+    </header>
+  );
+}
+
+function Statement({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="rounded-2xl p-6 md:p-8 border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,.35)] bg-[radial-gradient(1200px_280px_at_0%_0%,rgba(124,58,237,.08),transparent_60%),radial-gradient(900px_220px_at_100%_100%,rgba(34,197,94,.08),transparent_60%),rgba(255,255,255,.03)]">
+      <p className="font-semibold tracking-tight text-[clamp(2rem,1.2rem+3vw,3rem)] leading-[1.1]">
+        {children}
+      </p>
+    </div>
+  );
+}
+
 function Kpi({ value, label }: { value: string; label: string }) {
   return (
-    <div className="card p-5 text-center h-full">
+    <div className="card p-6 text-center h-full">
       <div className="stat-value leading-tight">{value}</div>
       <div className="stat-label mt-1">{label}</div>
     </div>
@@ -31,7 +67,7 @@ function Kpi({ value, label }: { value: string; label: string }) {
 
 function Feature({ title, text }: { title: string; text: string }) {
   return (
-    <div className="card p-6 h-full">
+    <div className="card p-7 h-full">
       <h3 className="text-base font-semibold">{title}</h3>
       <p className="mt-2 text-muted">{text}</p>
     </div>
@@ -40,8 +76,10 @@ function Feature({ title, text }: { title: string; text: string }) {
 
 function Step({ n, title, text }: { n: number; title: string; text: string }) {
   return (
-    <li className="relative card p-5 flex gap-4">
-      <div className="shrink-0 w-10 h-10 rounded-full bg-white/5 grid place-items-center font-semibold">{n}</div>
+    <li className="card p-6 relative flex gap-4">
+      <div className="shrink-0 w-10 h-10 rounded-full bg-white/10 ring-1 ring-white/20 grid place-items-center font-semibold">
+        {n}
+      </div>
       <div>
         <div className="font-medium">{title}</div>
         <p className="mt-1 text-muted">{text}</p>
@@ -69,6 +107,7 @@ function AdTile({ src, tag, title }: { src: string; tag: string; title: string }
   );
 }
 
+/* ---------- gallery tiles data ---------- */
 const tiles = [
   { src: "/images/ads/a01.jpg", tag: "Packshot",  title: "Стек и фактуры для e-com" },
   { src: "/images/ads/a02.jpg", tag: "Lifestyle", title: "Продукт в реальном сценарии" },
@@ -80,26 +119,26 @@ const tiles = [
 
 export default function Page() {
   return (
-    <main className="container section-top md:pt-20 pb-16">
-      {/* === HERO: двухколоночный, справа компактный CTA === */}
-      <section className="grid md:grid-cols-[minmax(0,1fr)_420px] gap-8 items-start">
+    <main className="container pt-header-safe pb-20">
+      {/* HERO */}
+      <section className="grid gap-10 md:grid-cols-[minmax(0,1fr)_420px] items-start">
         <div>
           <div className="eyebrow">Commercials</div>
           <h1 className="h1 mt-2">Рекламные ролики и product-видео</h1>
           <p className="lead measure mt-3">
-            Продающие видео для брендов: packshot, lifestyle, UGC и motion. Мы выстраиваем драматургию
-            «смысл → польза → действие», чтобы видео не просто смотрели, а <strong>покупали</strong>.
+            Продающие видео для брендов: packshot, lifestyle, UGC и motion.
+            Мы выстраиваем драматургию «смысл → польза → действие», чтобы видео не просто смотрели, а{" "}
+            <strong>покупали</strong>.
           </p>
 
-          {/* KPI прямо под текстом — на одной линии на десктопе */}
-          <div className="mt-7 grid grid-cols-2 md:grid-cols-3 gap-3">
+        {/* KPI — отдельным блоком, с большим зазором */}
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
             <Kpi value="200+" label="product-роликов" />
             <Kpi value="4K / 10-bit" label="картинка и цвет" />
             <Kpi value="7–10 дней" label="быстрые пакеты" />
           </div>
         </div>
 
-        {/* правая колонка — фиксированный CTA-блок */}
         <aside className="card p-6 md:sticky md:top-[calc(var(--header-h)+16px)]">
           <div className="text-xl font-semibold">Обсудим задачу?</div>
           <p className="text-muted mt-2">
@@ -114,11 +153,21 @@ export default function Page() {
         </aside>
       </section>
 
-      <div className="divider my-10" />
+      {/* Интерлюдия — воздух и смысл */}
+      <section className="mt-12">
+        <Statement>
+          Не «просто красивое видео», а инструмент маркетинга: понимание → доверие → действие.
+        </Statement>
+      </section>
 
-      {/* === Офферы/подходы === */}
-      <section className="section-tight">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Офферы — реже сетка, больше паддингов */}
+      <section className="mt-14">
+        <SectionHeader
+          kicker="Форматы под задачу"
+          title="Три быстрых оффера"
+          lead="Минимально достаточный продакшн, чтобы двигать метрики без лишних циклов."
+        />
+        <div className="mt-6 grid gap-5 lg:grid-cols-2">
           <Feature
             title="Packshot Pro"
             text="Чистый фон, стек/повороты, макро-текстуры, аккуратный motion. Идеально для карточек товара."
@@ -134,23 +183,28 @@ export default function Page() {
         </div>
       </section>
 
-      {/* === Галерея примеров === */}
-      <section className="section-tight">
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-2xl md:text-3xl font-semibold">Варианты подачи</h2>
-          <span className="text-muted text-sm">Любой тайл можно разложить на A/B-серию</span>
-        </div>
-        <div className="mt-5 grid grid-cols-2 md:grid-cols-3 gap-4">
+      {/* Галерея — ровная сетка, большой gap */}
+      <section className="mt-16">
+        <SectionHeader
+          kicker="Подача"
+          title="Как может выглядеть ваш ролик"
+          lead="От стерильного e-com до насыщенного lifestyle. Любой сценарий раскладываем на A/B-версии."
+        />
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-5">
           {tiles.map((t, i) => (
             <AdTile key={i} src={t.src} tag={t.tag} title={t.title} />
           ))}
         </div>
       </section>
 
-      {/* === Что снимаем === */}
-      <section className="section-tight">
-        <h2 className="text-2xl md:text-3xl font-semibold">Что снимаем</h2>
-        <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Что снимаем — реже и легче */}
+      <section className="mt-16">
+        <SectionHeader
+          kicker="Экспертиза"
+          title="Что именно снимаем"
+          lead="Под каждую нишу — своя схема света, фактуры и акценты выгод."
+        />
+        <div className="mt-6 grid gap-5 lg:grid-cols-2">
           <Feature title="Фуд / напитки" text="Слоу-мо, пар, капли, пролёты. Аппетитные selling-points." />
           <Feature title="Косметика / skincare" text="Текстуры, свотчи, стек и бликовая схема — high-end premium." />
           <Feature title="Гаджеты / аксессуары" text="Анимация портов/фич, 3D-разрезы, motion-акценты." />
@@ -160,10 +214,13 @@ export default function Page() {
         </div>
       </section>
 
-      {/* === Процесс === */}
-      <section className="section-tight">
-        <h2 className="text-2xl md:text-3xl font-semibold">Процесс</h2>
-        <ol className="mt-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Процесс — с интерлюдией */}
+      <section className="mt-16">
+        <Statement>Прозрачный процесс и предсказуемые сроки на каждом этапе.</Statement>
+        <div className="mt-6">
+          <SectionHeader title="Процесс" />
+        </div>
+        <ol className="mt-6 grid gap-5 lg:grid-cols-2">
           <Step n={1} title="Бриф → инсайт" text="ЦА, оффер, возражения. Складываем продающий порядок фактов." />
           <Step n={2} title="Препрод" text="Treatment, борда, свет, реквизит, тайминг, чек-лист selling-points." />
           <Step n={3} title="Съёмка" text="Packshot + lifestyle/UGC. Снимаем сериями для A/B." />
@@ -171,11 +228,15 @@ export default function Page() {
         </ol>
       </section>
 
-      {/* === Пакеты === */}
-      <section className="section-tight">
-        <h2 className="text-2xl md:text-3xl font-semibold">Готовые пакеты</h2>
-        <div className="mt-5 grid md:grid-cols-3 gap-4">
-          <div className="card p-6">
+      {/* Пакеты — с воздухом и финальным пояснением */}
+      <section className="mt-16">
+        <SectionHeader
+          kicker="Прайс-подход"
+          title="Готовые пакеты"
+          lead="Пакуем под вашу цель; даём 2–3 опции по бюджету и срокам."
+        />
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
+          <div className="card p-7">
             <h3 className="text-lg font-semibold">Starter</h3>
             <p className="text-muted mt-1">Packshot + 2 короткие версии</p>
             <ul className="mt-3 list-disc pl-5 text-muted space-y-1">
@@ -184,7 +245,7 @@ export default function Page() {
               <li>Субтитры, лого, финальный тезис</li>
             </ul>
           </div>
-          <div className="card p-6 ring-1 ring-white/10">
+          <div className="card p-7 ring-1 ring-white/10">
             <h3 className="text-lg font-semibold">Growth</h3>
             <p className="text-muted mt-1">Packshot + Lifestyle/UGC</p>
             <ul className="mt-3 list-disc pl-5 text-muted space-y-1">
@@ -193,7 +254,7 @@ export default function Page() {
               <li>Набор стоп-кадров для карточек</li>
             </ul>
           </div>
-          <div className="card p-6">
+          <div className="card p-7">
             <h3 className="text-lg font-semibold">Brand+</h3>
             <p className="text-muted mt-1">Сюжет + motion/3D</p>
             <ul className="mt-3 list-disc pl-5 text-muted space-y-1">
@@ -208,8 +269,8 @@ export default function Page() {
         </p>
       </section>
 
-      {/* === Финальный CTA === */}
-      <section className="section">
+      {/* Финальный CTA */}
+      <section className="mt-16">
         <div className="card p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="text-2xl md:text-3xl font-semibold">Готовы ускорить продажи?</div>
