@@ -14,8 +14,8 @@
   --border: rgba(255,255,255,.12);
   --border-strong: rgba(255,255,255,.24);
   --overlay: rgba(0,0,0,.70);
-  --accent: #f2f2f2;        /* «акцент-белый» */
-  --brand: #7C3AED;         /* фиолетовый кнопок/линков */
+  --accent: #f2f2f2;      /* «акцент-белый» */
+  --brand: #7C3AED;       /* фирменный фиолетовый */
 
   /* radii & shadows */
   --r: 12px;
@@ -23,7 +23,7 @@
 
   /* layout */
   --container: 1200px;
-  --header-h: 56px;         /* высота фикс-хедера */
+  --header-h: 56px;       /* высота fixed-хедера */
 }
 
 /* map tokens → утилиты */
@@ -164,6 +164,59 @@ img, video { display: block; max-width: 100%; height: auto; }
 .stat-value { font-size: clamp(2rem, 1.2rem + 2vw, 3rem); font-weight: 600; }
 .stat-label { color: var(--muted); }
 
+/* Секционные заголовки и лиды (воздух) */
+.section-title {
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+.section-lead {
+  font-size: clamp(1.125rem, 1rem + .6vw, 1.35rem);
+  line-height: 1.65;
+  color: var(--muted);
+}
+.eyebrow {
+  font-size: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Крупные смысловые «паузы» */
+.statement {
+  font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+.band {
+  position: relative;
+  border-radius: 18px;
+  padding: 28px 24px;
+  background:
+    radial-gradient(1200px 280px at 0% 0%, rgba(124,58,237,.08), transparent 60%),
+    radial-gradient(900px 220px at 100% 100%, rgba(34,197,94,.08), transparent 60%),
+    rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.band--tight { padding: 20px 18px; }
+
+/* Разделитель секций */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+}
+
+/* Ритм секций */
+.section        { padding-block: 56px; }
+.section-tight  { padding-block: 32px; }
+.section-top    { padding-top: 56px; }
+.section-bottom { padding-bottom: 56px; }
+
 /* =========================
    CARDS
    ========================= */
@@ -197,11 +250,46 @@ img, video { display: block; max-width: 100%; height: auto; }
   background: var(--brand); color: #fff; border-color: transparent;
 }
 .btn-primary:hover { filter: brightness(1.05); }
+.btn-primary:focus-visible { box-shadow: 0 0 0 4px rgba(124,58,237,.35); }
 
 .btn-accent {
   background: var(--accent); color: #111; border-color: transparent;
 }
 .btn-accent:hover { background: #fff; }
+
+/* =========================
+   NAV (минималистичное подчёркивание)
+   ========================= */
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: .25rem 0;
+  margin-inline: .5rem;
+  color: var(--muted);
+  transition: color .2s ease;
+}
+.nav-link:hover { color: #fff; }
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 0%;
+  background: var(--brand);
+  border-radius: 2px;
+  opacity: .9;
+  transition: width .22s ease;
+}
+.nav-link:hover::after { width: 100%; }
+.nav-link.is-active { color: #fff; }
+.nav-link.is-active::after { width: 100%; }
+.nav-link--vertical {
+  width: 100%;
+  padding: .625rem 0;
+  font-size: 1rem;
+}
 
 /* =========================
    OVERLAYS
@@ -231,84 +319,16 @@ img, video { display: block; max-width: 100%; height: auto; }
   .backdrop-blur-md { backdrop-filter: blur(0px); }
   .transition-transform, .transition-opacity { transition: none !important; }
 }
-/* Жёстко задаём поведение видео в hero (фикс для iOS Safari) */
+
+/* =========================
+   VIDEO FIX (iOS Safari)
+   ========================= */
 .hero-video {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;   /* мобилка: заполняем, можно обрезать */
-  transform: none;                /* не перетираем другие transform-утилиты */
+  object-fit: cover !important; /* мобилка: заполняем, можно обрезать */
+  transform: none;
 }
 @media (min-width: 768px) {
-  .hero-video {
-    object-fit: contain !important; /* десктоп: «тютелька в тютельку» */
-  }
-}
-\\.btn-primary:focus-visible { box-shadow: 0 0 0 4px rgba(124,58,237,.35); }
-/* ===== NAV STYLES (no pills, no borders) ===== */
-
-.nav-link {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  padding: .25rem 0;
-  margin-inline: 0.5rem;  /* <-- добавили горизонтальный отступ */
-  color: var(--muted);
-  transition: color .2s ease;
-}
-
-/* тонкая «киношная» подсветка при ховере */
-.nav-link:hover { color: #fff; }
-
-/* underline-индикатор */
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;                   /* чуть ниже базовой линии */
-  height: 2px;
-  width: 0%;
-  background: var(--brand);       /* фирменный фиолетовый */
-  border-radius: 2px;
-  opacity: .9;
-  transition: width .22s ease;
-}
-
-/* hover раскрывает подчёркивание слева направо */
-.nav-link:hover::after { width: 100%; }
-
-/* активная страница — постоянное подчёркивание + белый текст */
-.nav-link.is-active {
-  color: #fff;
-}
-.nav-link.is-active::after {
-  width: 100%;
-}
-
-/* вертикальный список в мобильной шторке — увеличиваем зону тапа */
-.nav-link--vertical {
-  width: 100%;
-  padding: .625rem 0;
-  font-size: 1rem;
-}
-
-
-/* Маленькая кнопка в правом углу (CTA уже есть в Tailwind как .btn-primary) */
-
-
-/* ===== Page rhythm helpers ===== */
-.section        { padding-block: 56px; }
-.section-tight  { padding-block: 32px; }
-.section-top    { padding-top: 56px; }
-.section-bottom { padding-bottom: 56px; }
-
-.eyebrow {
-  font-size: .8rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+  .hero-video { object-fit: contain !important; } /* десктоп: «тютелька в тютельку» */
 }
