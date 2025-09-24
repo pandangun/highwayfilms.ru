@@ -1,23 +1,35 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Корпоративное и презентационное видео — Highway Films",
   description:
     "Фильмы о компании, презентации для инвесторов и выставок, onboarding и внутренние коммуникации. Полный цикл: идея → препродакшн → съёмка → постпродакшн.",
+  alternates: {
+    canonical: "https://highwayfilms.ru/corporate",
+    languages: {
+      ru: "/corporate",
+      en: "/en/corporate",
+      "x-default": "/corporate",
+    },
+  },
+  openGraph: {
+    type: "website",
+    url: "https://highwayfilms.ru/corporate",
+    title: "Корпоративное видео — Highway Films",
+    description:
+      "Компания/производство, стенды и презентации, HR и внутренние коммуникации. Полный цикл: идея → съёмка → пост.",
+    siteName: "Highway Films",
+  },
+  robots: { index: true, follow: true },
 };
 
 /* Базовая карточка */
-function Card({
-  title,
-  desc,
-}: {
-  title: string;
-  desc: string;
-}) {
+function Card({ title, desc }: { title: string; desc: string }) {
   return (
-    <div className="card rounded-xl p-5 md:p-6 hover:translate-y-[-2px] transition">
+    <div className="card p-5 md:p-6 transition hover:-translate-y-0.5">
       <h3 className="text-base font-semibold">{title}</h3>
-      <p className="mt-2 text-sm text-neutral-400 leading-relaxed">{desc}</p>
+      <p className="mt-2 text-muted leading-relaxed">{desc}</p>
     </div>
   );
 }
@@ -29,7 +41,7 @@ function Check({ children }: { children: React.ReactNode }) {
       <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-400">
         ✓
       </span>
-      <span className="text-sm text-neutral-300 leading-relaxed">{children}</span>
+      <span className="text-sm text-muted leading-relaxed">{children}</span>
     </li>
   );
 }
@@ -37,7 +49,7 @@ function Check({ children }: { children: React.ReactNode }) {
 /* Статистика */
 function Stat({ value, label }: { value: string; label: string }) {
   return (
-    <div className="card rounded-xl p-5">
+    <div className="card p-5 text-center">
       <div className="stat-value">{value}</div>
       <div className="stat-label mt-1">{label}</div>
     </div>
@@ -48,12 +60,11 @@ export default function CorporatePage() {
   return (
     <>
       {/* HERO */}
-      <section className="container pt-12 md:pt-16">
+      <section className="container pt-header-safe section-top">
         <div className="max-w-3xl">
-          <h1 className="h1 text-[clamp(32px,5vw,56px)] font-bold">
-            Корпоративное и презентационное видео
-          </h1>
-          <p className="lead mt-4">
+          <div className="eyebrow">Corporate</div>
+          <h1 className="h1 mt-2">Корпоративное и презентационное видео</h1>
+          <p className="lead mt-3">
             Помогаем презентовывать продукты и процессы: фильмы о компании и
             производстве, видео для стендов и инвесторов, onboarding-ролики,
             отчётное видео и внутренние коммуникации. Чистый визуал, структура и
@@ -61,8 +72,15 @@ export default function CorporatePage() {
           </p>
         </div>
 
+        {/* Стейтмент — воздух */}
+        <div className="band mt-8">
+          <p className="statement">
+            Видеопрезентация, которая объясняет ценность и снимает вопросы до встречи.
+          </p>
+        </div>
+
         {/* Форматы */}
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2">
           <Card
             title="Фильмы о компании / производстве"
             desc="Бренд-стори, экскурсии по производству, демонстрация компетенций и инфраструктуры."
@@ -77,15 +95,15 @@ export default function CorporatePage() {
           />
           <Card
             title="Интервью и кейс-истории"
-            desc="Съёмка руководителей и экспертов, клиентские кейсы, sucess-stories."
+            desc="Съёмка руководителей и экспертов, клиентские кейсы, success-stories."
           />
         </div>
       </section>
 
       {/* Результат + процесс */}
-      <section className="container py-10 md:py-12">
+      <section className="container py-12">
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="card rounded-xl p-6">
+          <div className="card p-6">
             <h3 className="text-lg font-semibold">Что получает компания</h3>
             <ul className="mt-4 space-y-3">
               <Check>Тритмент и раскадровка под конкретную аудиторию</Check>
@@ -96,30 +114,30 @@ export default function CorporatePage() {
             </ul>
           </div>
 
-          <div className="card rounded-xl p-6">
+          <div className="card p-6">
             <h3 className="text-lg font-semibold">Процесс (прозрачно)</h3>
-            <ol className="mt-4 grid gap-3 text-sm text-neutral-300">
-              <li className="border-l border-neutral-800 pl-4">
+            <ol className="mt-4 grid gap-3 text-sm text-muted">
+              <li className="border-l border-white/10 pl-4">
                 <b>1. Бриф</b> — цель, площадки, ключевые сообщения.
               </li>
-              <li className="border-l border-neutral-800 pl-4">
+              <li className="border-l border-white/10 pl-4">
                 <b>2. Тритмент</b> — идея, структура, референсы, смета и тайминг.
               </li>
-              <li className="border-l border-neutral-800 pl-4">
+              <li className="border-l border-white/10 pl-4">
                 <b>3. Продакшн</b> — препрод, съёмка, бэкап материалов.
               </li>
-              <li className="border-l border-neutral-800 pl-4">
+              <li className="border-l border-white/10 pl-4">
                 <b>4. Пост</b> — монтаж, графика/субтитры, цвет, звук.
               </li>
-              <li className="border-l border-neutral-800 pl-4">
+              <li className="border-l border-white/10 pl-4">
                 <b>5. Доставка</b> — мастер-версии и ресайзы, передача исходников.
               </li>
             </ol>
           </div>
         </div>
 
-        {/* Немного доверия */}
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        {/* Доверие */}
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
           <Stat value="10+" label="лет опыта в продакшне" />
           <Stat value="50+" label="выпущенных проектов" />
           <Stat value="2" label="города работы (СПб / Москва)" />
@@ -127,18 +145,18 @@ export default function CorporatePage() {
       </section>
 
       {/* CTA */}
-      <section className="container pb-14">
+      <section className="container pb-16">
         <div className="rounded-2xl bg-gradient-to-r from-sky-500/20 to-violet-600/20 px-6 py-7 ring-1 ring-white/10">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
             <div>
               <h3 className="text-xl font-semibold">Нужен ролик к выставке или презентации?</h3>
-              <p className="text-neutral-300 mt-1">
+              <p className="text-muted mt-1">
                 Пришлите бриф — предоставим смету и сроки в течение рабочего дня.
               </p>
             </div>
             <Link
               href="/contacts"
-              className="btn-primary inline-flex items-center justify-center rounded-xl px-5 py-3 font-medium hover:opacity-95 transition"
+              className="btn btn-primary rounded-xl px-5 py-3 font-medium hover:opacity-95 transition"
             >
               Получить КП для компании
             </Link>
