@@ -293,3 +293,22 @@ img, video { display: block; max-width: 100%; height: auto; }
 
 
 /* Маленькая кнопка в правом углу (CTA уже есть в Tailwind как .btn-primary) */
+
+
+/* ===== Page rhythm helpers ===== */
+.section        { padding-block: 56px; }
+.section-tight  { padding-block: 32px; }
+.section-top    { padding-top: 56px; }
+.section-bottom { padding-bottom: 56px; }
+
+.eyebrow {
+  font-size: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+}

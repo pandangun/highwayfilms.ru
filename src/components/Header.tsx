@@ -104,13 +104,6 @@ export default function Header() {
                 EN
               </Link>
             </div>
-
-            <Link
-              href="/contacts"
-              className="btn-primary hidden md:inline-flex rounded-xl px-3.5 py-2 text-sm font-medium"
-            >
-              Связаться
-            </Link>
           </div>
 
           {/* Бургер */}
