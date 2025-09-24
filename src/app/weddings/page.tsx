@@ -1,16 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-/**
- * Highway Films — Weddings Page (RU)
- * Финальная версия (киновайб + нестандартный лэйаут)
- * — Без сторонних иконок, только Tailwind + CSS-токены (globals.css)
- * — Ассиметричная сетка, цветные рамки, «чипы» с ценами
- * — Форматы: Эпизод / Фильм / Сага (без слова «пакеты»)
- * — Доп. варианты: Мобильная съёмка, Монтаж в день свадьбы (как опция)
- * — Кейсы-лента, FAQ 2-колоночный на десктопе, RU/EN-переключатель
- */
-
 export const metadata = {
   title: "Свадебная видеосъёмка — Highway Films",
   description:
@@ -86,17 +76,7 @@ function QA({ q, a }: { q: string; a: ReactNode }) {
 export default function WeddingsPage() {
   return (
     <>
-      {/* Topbar: язык + мини-CTA */}
-      <div className="container flex items-center justify-between gap-3 py-3 text-xs">
-        <div className="text-white/60">Highway Films</div>
-        <div className="flex items-center gap-3">
-          <div className="overflow-hidden rounded-xl border border-white/10">
-            <Link href="/weddings" className="px-3 py-1 bg-white/10 hover:bg-white/20">RU</Link>
-            <Link href="/en/weddings" className="px-3 py-1 hover:bg-white/10">EN</Link>
-          </div>
-          <CTAButton href="/contacts">Связаться</CTAButton>
-        </div>
-      </div>
+      
 
       {/* HERO: сплит + акцентная карточка справа */}
       <section className="container relative grid items-start gap-8 pt-6 md:grid-cols-[1.2fr_0.8fr] md:pt-10">
@@ -295,6 +275,17 @@ export default function WeddingsPage() {
           </p>
         </div>
       </section>
+      {/* Topbar: язык + мини-CTA */}
+      <div className="container flex items-center justify-between gap-3 py-3 text-xs">
+        <div className="text-white/60">Highway Films</div>
+        <div className="flex items-center gap-3">
+          <div className="overflow-hidden rounded-xl border border-white/10">
+            <Link href="/weddings" className="px-3 py-1 bg-white/10 hover:bg-white/20">RU</Link>
+            <Link href="/en/weddings" className="px-3 py-1 hover:bg-white/10">EN</Link>
+          </div>
+          <CTAButton href="/contacts">Связаться</CTAButton>
+        </div>
+      </div>
     </>
   );
 }
