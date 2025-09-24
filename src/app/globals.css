@@ -244,45 +244,52 @@ img, video { display: block; max-width: 100%; height: auto; }
   }
 }
 \\.btn-primary:focus-visible { box-shadow: 0 0 0 4px rgba(124,58,237,.35); }
+/* ===== NAV STYLES (no pills, no borders) ===== */
 
-/* ===== NAV STYLES ===== */
-
-/* Пилюля ссылки */
-.nav-pill {
+.nav-link {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  padding: .5rem .75rem;
-  border-radius: 999px;
-  border: 1px solid var(--border);
+  padding: .25rem 0;              /* только вертикальный ритм, без боковых паддингов */
   color: var(--muted);
-  transition: background .2s ease, border-color .2s ease, color .2s ease;
+  transition: color .2s ease;
 }
 
-/* Фон/индикатор (через псевдо-градиент) */
-.nav-pill::before {
+/* тонкая «киношная» подсветка при ховере */
+.nav-link:hover { color: #fff; }
+
+/* underline-индикатор */
+.nav-link::after {
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(120deg, rgba(124,58,237,.20), rgba(255,255,255,.06));
-  opacity: 0;
-  transition: opacity .2s ease;
-  z-index: 0;
+  left: 0;
+  bottom: -6px;                   /* чуть ниже базовой линии */
+  height: 2px;
+  width: 0%;
+  background: var(--brand);       /* фирменный фиолетовый */
+  border-radius: 2px;
+  opacity: .9;
+  transition: width .22s ease;
 }
 
-/* Состояния */
-.nav-idle:hover { color: #fff; border-color: var(--border-strong); }
-.nav-idle:hover::before { opacity: .6; }
+/* hover раскрывает подчёркивание слева направо */
+.nav-link:hover::after { width: 100%; }
 
-.nav-active {
+/* активная страница — постоянное подчёркивание + белый текст */
+.nav-link.is-active {
   color: #fff;
-  border-color: rgba(124,58,237,.45);
 }
-.nav-active::before {
-  opacity: 1;
+.nav-link.is-active::after {
+  width: 100%;
 }
+
+/* вертикальный список в мобильной шторке — увеличиваем зону тапа */
+.nav-link--vertical {
+  width: 100%;
+  padding: .625rem 0;
+  font-size: 1rem;
+}
+
 
 /* Маленькая кнопка в правом углу (CTA уже есть в Tailwind как .btn-primary) */
-/* Ничего не добавляем — используем твой токен var(--brand) */
