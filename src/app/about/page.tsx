@@ -26,13 +26,39 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-/* ========= UI pieces ========= */
+/* ========= UI Pieces ========= */
 
-function Stat({ value, label }: { value: string; label: string }) {
+/** KPI с мягким «киноградиентом» и контрастным числом */
+function StatGlow({ value, label }: { value: string; label: string }) {
   return (
-    <div className="card p-5 text-center h-full">
-      <div className="stat-value leading-tight">{value}</div>
-      <div className="stat-label mt-1">{label}</div>
+    <div
+      className={[
+        "relative overflow-hidden rounded-2xl p-5 md:p-6",
+        "ring-1 ring-white/10 shadow-soft",
+        // два встречных радиальных ореола + тонкая подложка
+        "bg-[radial-gradient(140%_120%_at_0%_0%,rgba(124,58,237,.25),transparent_60%),",
+        "radial-gradient(140%_120%_at_100%_100%,rgba(59,130,246,.16),transparent_60%),",
+        "rgba(255,255,255,.03)]",
+      ].join("")}
+    >
+      <div className="leading-none">
+        <span
+          className={[
+            "block",
+            "text-transparent bg-clip-text",
+            "bg-gradient-to-br from-white via-white/90 to-violet-200/85",
+            // размер цифры — крупнее обычной stat-value, мягкое кернингование
+            "font-extrabold tracking-tight",
+            "text-[clamp(2.2rem,1.2rem+2.8vw,3.25rem)]",
+          ].join(" ")}
+        >
+          {value}
+        </span>
+      </div>
+      <div className="mt-1 text-sm md:text-base text-muted">{label}</div>
+
+      {/* едва заметная «линза» для глубины */}
+      <span className="pointer-events-none absolute -inset-px rounded-2xl shadow-[inset_0_1px_0_rgba(255,255,255,.06)]" />
     </div>
   );
 }
@@ -156,7 +182,7 @@ export default function AboutPage() {
 
   return (
     <main className="container pt-header-safe pb-16">
-      {/* 1) HERO — только текст, узкий кламп, больше воздуха */}
+      {/* 1) HERO — вертикальный поток (справа позже можно добавить фото/видео) */}
       <section className="section">
         <div className="eyebrow">About</div>
         <h1 className="h1 mt-2 max-w-[22ch]">
@@ -167,11 +193,11 @@ export default function AboutPage() {
           визуал, ясное повествование и измеримый результат: узнаваемость, конверсии, доверие к продукту.
         </p>
 
-        {/* KPI — сразу после вводного текста */}
+        {/* KPI — мягкие градиенты и сильные цифры */}
         <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl">
-          <Stat value="10+ лет" label="в продакшне" />
-          <Stat value="50+" label="выпущенных проектов" />
-          <Stat value="4K / 10-bit" label="картинка и цвет" />
+          <StatGlow value="10+ лет" label="в продакшне" />
+          <StatGlow value="50+" label="выпущенных проектов" />
+          <StatGlow value="4K / 10-bit" label="картинка и цвет" />
         </div>
       </section>
 
@@ -182,7 +208,7 @@ export default function AboutPage() {
         </Statement>
       </section>
 
-      {/* 3) Почему мы — три карточки преимуществ */}
+      {/* 3) Почему мы */}
       <section className="section">
         <SectionHeader
           kicker="Подход"
@@ -205,7 +231,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 4) Ещё пауза */}
+      {/* 4) Пауза */}
       <section className="section-tight">
         <Statement>
           Минимально достаточная продакшн-схема под задачу. Скорость без компромиссов по качеству.
@@ -286,7 +312,7 @@ export default function AboutPage() {
         </ol>
       </section>
 
-      {/* 8) SEO-текст + FAQ (узкий кламп) */}
+      {/* 8) SEO + FAQ */}
       <section className="section">
         <SectionHeader
           kicker="Подход"
@@ -323,7 +349,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 9) Финальный CTA (узкий, без «прилипаний») */}
+      {/* 9) Финальный CTA */}
       <section className="section-bottom">
         <div className="card p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="mx-auto md:mx-0">
@@ -342,18 +368,9 @@ export default function AboutPage() {
       </section>
 
       {/* JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
     </main>
   );
 }

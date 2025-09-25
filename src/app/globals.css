@@ -332,3 +332,76 @@ img, video { display: block; max-width: 100%; height: auto; }
 @media (min-width: 768px) {
   .hero-video { object-fit: contain !important; } /* десктоп: «тютелька в тютельку» */
 }
+
+
+/* ===== Доп. утилиты для макета и типографики ===== */
+
+/* Чуть шире кламп для длинных лидов/SEO-блоков */
+.measure-wide { max-width: 75ch; }
+
+/* Центрирование одиночных блоков (карточка/CTA/стейтмент) */
+.center { margin-left: auto; margin-right: auto; }
+
+/* Полосы с большим дыханием для героев/финальных CTA */
+.section-xl { padding-block: 88px; }
+
+/* Full-bleed фон внутри .container: тянем фон на край экрана */
+.bleed {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+}
+
+/* Автосетка «плиток» с min шириной — идеально для карточек */
+.grid-autofit-260 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* Псевдо-ссылка-кнопка (для вторичных действий) */
+.btn-link {
+  display: inline-flex; align-items: center; gap: .5rem;
+  height: 44px; padding: 0 .25rem; border: 0;
+  color: var(--fgc); background: transparent;
+}
+.btn-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Ненавязчивая ссылка */
+.muted-link { color: var(--muted); }
+.muted-link:hover { color: var(--fgc); }
+
+/* Детали/FAQ: убираем маркер и наводим порядок с фокусом */
+details > summary {
+  list-style: none; cursor: pointer; outline: none;
+}
+details > summary::-webkit-details-marker { display: none; }
+details[open] > summary { color: var(--fgc); }
+details > summary:focus-visible {
+  outline: 2px solid rgba(255,255,255,.5);
+  outline-offset: 4px; border-radius: 6px;
+}
+
+/* Таблицы по умолчанию — аккуратная сетка */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .95rem;
+}
+.table th, .table td {
+  padding: .6rem .75rem;
+  border-bottom: 1px solid var(--border);
+}
+.table th { text-align: left; color: var(--fgc); font-weight: 600; }
+.table td { color: var(--muted); }
+
+/* Тонкая тень для «приподнятых» блоков, если понадобится */
+.shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,.28); }
+
+/* Контейнер пошире для страниц-портфолио/галерей */
+@media (min-width: 1280px) {
+  .container-wide { max-width: min(100%, 1400px); }
+}
