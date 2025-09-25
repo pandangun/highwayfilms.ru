@@ -8,7 +8,13 @@ export const metadata: Metadata = {
     "О компании — Highway Films: видеопродакшн полного цикла в Москве и Санкт-Петербурге",
   description:
     "Highway Films — продакшн рекламы, product-видео, корпоративных фильмов и клипов. Полный цикл: креатив, препрод, съёмка 4K/10-bit, постпрод и версии под площадки.",
-  alternates: { canonical: "https://highwayfilms.ru/about" },
+  alternates: {
+    canonical: "https://highwayfilms.ru/about",
+    languages: {
+      ru: "https://highwayfilms.ru/about",
+      en: "https://highwayfilms.ru/en/about",
+    },
+  },
   openGraph: {
     type: "website",
     url: "https://highwayfilms.ru/about",
@@ -20,9 +26,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-/* =========================
-   Small UI pieces
-   ========================= */
+/* ========= UI pieces ========= */
 
 function Stat({ value, label }: { value: string; label: string }) {
   return (
@@ -64,18 +68,16 @@ function ListItem({
   );
 }
 
-/** Большая «полоска»-утверждение между блоками */
+/** Крупная «полоска»-утверждение */
 function Statement({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl p-6 md:p-8 border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,.35)] bg-[radial-gradient(1200px_280px_at_0%_0%,rgba(124,58,237,.08),transparent_60%),radial-gradient(900px_220px_at_100%_100%,rgba(34,197,94,.08),transparent_60%),rgba(255,255,255,.03)]">
-      <p className="font-semibold tracking-tight text-[clamp(2rem,1.2rem+3vw,3rem)] leading-[1.1]">
-        {children}
-      </p>
+    <div className="band">
+      <p className="statement">{children}</p>
     </div>
   );
 }
 
-/** Заголовок секции + лид */
+/** Заголовок секции + лид (узкий кламп по центру) */
 function SectionHeader({
   kicker,
   title,
@@ -86,19 +88,15 @@ function SectionHeader({
   lead?: string;
 }) {
   return (
-    <header>
+    <header className="mx-auto max-w-3xl">
       {kicker && <div className="eyebrow">{kicker}</div>}
-      <h2 className="mt-1 font-semibold tracking-tight text-[clamp(1.75rem,1.2rem+2vw,2.5rem)] leading-[1.15]">
-        {title}
-      </h2>
-      {lead && <p className="mt-2 text-muted text-[clamp(1.125rem,1rem+.6vw,1.35rem)] leading-[1.65] measure">{lead}</p>}
+      <h2 className="section-title mt-1">{title}</h2>
+      {lead && <p className="section-lead mt-2 measure">{lead}</p>}
     </header>
   );
 }
 
-/* =========================
-   Page
-   ========================= */
+/* ========= Page ========= */
 
 export default function AboutPage() {
   const orgJsonLd = {
@@ -158,52 +156,40 @@ export default function AboutPage() {
 
   return (
     <main className="container pt-header-safe pb-16">
-      {/* HERO: двухколоночный, справа sticky CTA */}
-      <section className="grid md:grid-cols-[minmax(0,1fr)_420px] gap-8 items-start md:pt-12">
-        <div>
-          <div className="eyebrow">About</div>
-          <h1 className="h1 mt-2">Highway Films — видеопродакшн полного цикла</h1>
-          <p className="lead measure mt-3">
-            Делаем рекламные и корпоративные ролики, бренд-фильмы и клипы. Наш подход — сильный визуал,
-            ясное повествование и измеримый результат: узнаваемость, конверсии, доверие к продукту.
-          </p>
+      {/* 1) HERO — только текст, узкий кламп, больше воздуха */}
+      <section className="section">
+        <div className="eyebrow">About</div>
+        <h1 className="h1 mt-2 max-w-[22ch]">
+          Highway Films — видеопродакшн полного цикла
+        </h1>
+        <p className="lead measure mt-3">
+          Делаем рекламные и корпоративные ролики, бренд-фильмы и клипы. Наш подход — сильный
+          визуал, ясное повествование и измеримый результат: узнаваемость, конверсии, доверие к продукту.
+        </p>
 
-          {/* KPI */}
-          <div className="mt-7 grid grid-cols-2 md:grid-cols-3 gap-3">
-            <Stat value="10+ лет" label="в продакшне" />
-            <Stat value="50+" label="выпущенных проектов" />
-            <Stat value="4K / 10-bit" label="картинка и цвет" />
-          </div>
+        {/* KPI — сразу после вводного текста */}
+        <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl">
+          <Stat value="10+ лет" label="в продакшне" />
+          <Stat value="50+" label="выпущенных проектов" />
+          <Stat value="4K / 10-bit" label="картинка и цвет" />
         </div>
-
-        <aside className="card p-6 md:sticky md:top-[calc(var(--header-h)+16px)]">
-          <div className="text-xl font-semibold">Нужен продакшн под задачу?</div>
-          <p className="text-muted mt-2">
-            Пришлите тезисы и ссылку на продукт — подготовим 2–3 формата с бюджетами и сроками.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/contacts" className="btn btn-primary">Получить КП</Link>
-            <a href="https://t.me/highwayfilms" target="_blank" rel="noopener noreferrer" className="btn">Telegram</a>
-          </div>
-          <p className="text-muted mt-3 text-sm">Москва/СПб, выезды по РФ/СНГ.</p>
-        </aside>
       </section>
 
-      {/* Интерлюдия 1 */}
-      <section className="mt-8">
+      {/* 2) Стейтмент-пауза */}
+      <section className="section-tight">
         <Statement>
           Мы снимаем видео не «ради красоты», а ради <em>результата</em>: понимание → доверие → действие.
         </Statement>
       </section>
 
-      {/* Почему мы */}
-      <section className="mt-10">
+      {/* 3) Почему мы — три карточки преимуществ */}
+      <section className="section">
         <SectionHeader
           kicker="Подход"
           title="Почему бренды выбирают нас"
           lead="Полный цикл, технологичный пайплайн и фокус на бизнес-результат — не просто красивое видео, а инструмент."
         />
-        <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Feature
             title="Полный цикл"
             text="Идея → treatment → препрод → съёмка → пост. Прозрачные сметы и сроки, личная ответственность продюсера."
@@ -219,21 +205,21 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Интерлюдия 2 */}
-      <section className="mt-10">
+      {/* 4) Ещё пауза */}
+      <section className="section-tight">
         <Statement>
           Минимально достаточная продакшн-схема под задачу. Скорость без компромиссов по качеству.
         </Statement>
       </section>
 
-      {/* Что делаем + перелинковка */}
-      <section className="mt-10">
+      {/* 5) Что производим + перелинковка */}
+      <section className="section">
         <SectionHeader
           kicker="Форматы"
           title="Что мы производим"
-          lead="От чистого packshot до насыщенного lifestyle и UGC. Под конкретную цель собираем правильный набор сцен."
+          lead="От стерильного packshot до насыщенного lifestyle и UGC. Под цель собираем правильный набор сцен."
         />
-        <div className="mt-5 grid md:grid-cols-4 gap-4">
+        <div className="mt-6 grid md:grid-cols-4 gap-4">
           <Feature
             title="Реклама / product-видео"
             text="Packshot, lifestyle, UGC, motion. Серии под карточку товара и перформанс."
@@ -251,7 +237,7 @@ export default function AboutPage() {
             text="Монтаж, цвет, VFX, звук, сабы. Master-версии под каналы."
           />
         </div>
-        <div className="mt-4 flex flex-wrap gap-3">
+        <div className="mt-5 flex flex-wrap gap-3">
           <Link href="/commercials" className="btn">Реклама</Link>
           <Link href="/corporate" className="btn">Корпоративное</Link>
           <Link href="/music-videos" className="btn">Клипы</Link>
@@ -259,19 +245,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Интерлюдия 3 */}
-      <section className="mt-10">
-        <Statement>Доверие строится деталями: свет, фактура, цвет — и чёткая драматургия кадра.</Statement>
-      </section>
-
-      {/* Технологии/оборудование */}
-      <section className="mt-10">
+      {/* 6) Технологический стек */}
+      <section className="section">
         <SectionHeader
           kicker="Стек"
           title="Технологии и оборудование"
-          lead="Контролируемые световые схемы, лог-профили, колор-менеджмент и стабильные мастер-версии под все каналы."
+          lead="Контролируемые световые схемы, лог-профили, колор-менеджмент и стабильные master-версии под все каналы."
         />
-        <div className="mt-5 grid md:grid-cols-2 gap-4">
+        <div className="mt-6 grid md:grid-cols-2 gap-4">
           <div className="card p-6">
             <h3 className="font-semibold">Съёмка</h3>
             <p className="text-muted mt-2">
@@ -283,45 +264,44 @@ export default function AboutPage() {
             <h3 className="font-semibold">Пост-прод</h3>
             <p className="text-muted mt-2">
               Цвет в ACES, управляемые LUT, трекинг/beauty/VFX, титры/сабы, рендер под площадки
-              (вертикаль/горизонталь) и loudness-нормы. Подготовка мастер-версий.
+              (вертикаль/горизонталь) и loudness-нормы. Подготовка master-версий.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Процесс */}
-      <section className="mt-10">
-        <Statement>Прозрачный процесс и предсказуемые сроки: вы понимаете, что происходит на каждом этапе.</Statement>
+      {/* 7) Процесс */}
+      <section className="section">
+        <Statement>
+          Прозрачный процесс и предсказуемые сроки: вы понимаете, что происходит на каждом этапе.
+        </Statement>
         <div className="mt-6">
           <SectionHeader title="Как мы работаем" />
         </div>
-        <ol className="mt-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <ol className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <ListItem n={1} title="Бриф → инсайт" text="ЦА, оффер, барьеры, KPI. Фиксируем продающий порядок фактов." />
           <ListItem n={2} title="Препрод" text="Treatment, борда, свет, реквизит, тайминг. Чек-лист selling-points." />
           <ListItem n={3} title="Съёмка" text="Packshot + lifestyle/UGC. Снимаем сериями — база для A/B-тестов." />
           <ListItem n={4} title="Пост" text="Монтаж → цвет → motion/3D → сабы. Версии 6/15/30/60, верт/гор." />
         </ol>
-        <div className="mt-6">
-          <Link href="/contacts" className="btn btn-primary">Получить коммерческое предложение</Link>
-        </div>
       </section>
 
-      {/* SEO-текст + FAQ */}
-      <section className="mt-12">
+      {/* 8) SEO-текст + FAQ (узкий кламп) */}
+      <section className="section">
         <SectionHeader
           kicker="Подход"
           title="Highway Films: что мы решаем"
           lead="Видео должно объяснять продукт, снимать возражения и вести к действию. Мы проектируем структуру так, чтобы каждый кадр работал на цель."
         />
-        <div className="mt-4 grid md:grid-cols-2 gap-6">
+        <div className="mt-6 grid md:grid-cols-2 gap-6">
           <article className="card p-6">
             <h3 className="font-semibold">Зачем брендам наши ролики</h3>
             <p className="text-muted mt-2">
               Для e-commerce — серии под карточку товара и ретаргет; для брендов — узнаваемость и образ.
               На старте фиксируем KPI и ключевые selling-points, собираем treatment с драматургией
-              «смысл → польза → действие». Цикл производства прозрачный: утверждаем тайминг и смету,
+              «смысл → польза → действие». Производство прозрачно: утверждаем тайминг и смету,
               снимаем сериями (packshot + lifestyle/UGC), на посте ведём цвет по референсам и готовим
-              мастер-версии под площадки.
+              master-версии под площадки.
             </p>
           </article>
 
@@ -343,24 +323,37 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Финальный CTA */}
-      <section className="mt-12">
+      {/* 9) Финальный CTA (узкий, без «прилипаний») */}
+      <section className="section-bottom">
         <div className="card p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div>
+          <div className="mx-auto md:mx-0">
             <div className="text-2xl md:text-3xl font-semibold">Обсудим ваш проект?</div>
-            <p className="text-muted mt-2">Пришлите ссылку на продукт — соберём план и смету сегодня.</p>
+            <p className="text-muted mt-2 measure">
+              Пришлите ссылку на продукт — соберём план и смету сегодня.
+            </p>
           </div>
           <div className="flex gap-3">
             <Link href="/contacts" className="btn btn-primary">Запросить предложение</Link>
-            <a href="https://t.me/highwayfilms" target="_blank" rel="noopener noreferrer" className="btn">Telegram</a>
+            <a href="https://t.me/highwayfilms" target="_blank" rel="noopener noreferrer" className="btn">
+              Telegram
+            </a>
           </div>
         </div>
       </section>
 
       {/* JSON-LD */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
     </main>
   );
 }
