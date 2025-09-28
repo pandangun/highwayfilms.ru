@@ -151,13 +151,6 @@ export default function Header() {
                 EN
               </button>
             </div>
-
-            <Link
-              href={withLocale("/contacts")}
-              className="btn btn-primary hidden md:inline-flex rounded-xl px-3.5 py-2 text-sm font-medium"
-            >
-              {isEN ? "Contact" : "Связаться"}
-            </Link>
           </div>
 
           {/* Бургер */}
