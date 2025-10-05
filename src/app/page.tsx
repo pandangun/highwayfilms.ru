@@ -49,6 +49,7 @@ export default function HomePage() {
 
       {/* 4) Призыв к действию */}
       <CTA />
+
     </>
   );
 }

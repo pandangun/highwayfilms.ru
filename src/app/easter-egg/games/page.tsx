@@ -1,49 +1,51 @@
-﻿import type { Metadata } from "next";
+// app/easter-egg/games/page.tsx
+import type { Metadata } from "next";
 import GamesCarousel from "@/components/GamesCarousel";
 
 export const metadata: Metadata = {
   title: "Мини-игры — Highway Films",
   description:
-    "Runner Pro, КиноСет и киновикторина — пасхалки Highway Films. Листайте 3D-карусель и запускайте игру прямо на сайте.",
+    "Runner Pro, КиноСет и Викторина — пасхалки Highway Films. Листай карусель и выбирай.",
   robots: { index: false, follow: true },
 };
 
-const GAMES = [
-  {
-    title: "Runner Pro",
-    desc: "Бесконечный раннер с плавной камерой, зумом, чекпоинтами и мобильным джойстиком.",
-    href: "/easter-egg/runner-pro",
-    badge: "Action",
-  },
-  {
-    title: "КиноСет",
-    desc: "Стелс-аркада про площадку: собирайте шоты, следите за батареей и избегайте шумных зон.",
-    href: "/easter-egg/cinema",
-    badge: "New",
-  },
-  {
-    title: "Киновикторина",
-    desc: "10 вопросов о кино — от классики до продакшен-нюансов. Проверка знаний за пару минут.",
-    href: "/easter-egg/quiz",
-    badge: "Quiz",
-  },
-];
-
-export default function GamesPage() {
+export default function Page() {
   return (
-    <main className="container py-12 md:py-16 space-y-8">
-      <header className="space-y-3">
-        <h1 className="h1">Мини-игры Highway Films</h1>
-        <p className="lead measure">
-          Три пасхалки — раннер, аркада и викторина. Листайте карусель, выбирайте игру и запускайте прямо в браузере.
-        </p>
-      </header>
-
-      <GamesCarousel items={GAMES} title="Пасхальные игры" />
-
-      <p className="text-sm text-muted">
-        Все мини-игры работают на Canvas с адаптивным управлением для клавиатуры, геймпада и сенсорных экранов.
+    <main className="container py-12 md:py-16">
+      <h1 className="h1">Мини-игры</h1>
+      <p className="lead measure mt-2">
+        Листай 3D-карусель: карточки вращаются по кругу. Кликни, чтобы перейти в игру.
       </p>
+
+      <div className="mt-8">
+        <GamesCarousel
+          items={[
+            {
+              title: "Runner Pro",
+              desc:
+                "Платформер с плавной камерой: монеты, враги, чекпоинты, zoom и мобильный джойстик.",
+              href: "/easter-egg/runner-pro",
+              badge: "Action",
+            },
+            {
+              title: "КиноСет",
+              desc:
+                "2D-аркада про площадку: собирай шоты, следи за батареей и избегай шумных зон.",
+              href: "/easter-egg/cinema",
+              badge: "New",
+            },
+            {
+              title: "Викторина",
+              desc:
+                "10 вопросов по видеопродакшну: свет, звук, препрод и сет-термины.",
+              href: "/easter-egg/quiz",
+              badge: "Quiz",
+            },
+          ]}
+          autoPlay
+          interval={4500}
+        />
+      </div>
     </main>
   );
 }

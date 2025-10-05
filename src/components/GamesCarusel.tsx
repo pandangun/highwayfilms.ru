@@ -1,4 +1,4 @@
-﻿// src/components/site/GamesCarousel.tsx
+// src/components/site/GamesCarousel.tsx
 "use client";
 
 import Link from "next/link";
@@ -6,37 +6,22 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
 
 type Item = { title: string; desc: string; href: string; badge?: string };
+type Props = { items: Item[] };
 
-type Props = {
-  items: Item[];
-  /** автопрокрутка по кругу */
-  autoPlay?: boolean;
-  /** интервал автопрокрутки (мс) */
-  interval?: number;
-  /** радиус «кольца» (px) */
-  radius?: number;
-  /** перспектива сцены (px) */
-  perspective?: number;
-};
-
-export default function GamesCarousel({
-  items,
-  autoPlay = false,
-  interval = 5000,
-  radius = 480,
-  perspective = 1400,
-}: Props) {
+export default function GamesCarousel({ items }: Props) {
   const N = items.length;
   const step = 360 / N;
   const [idx, setIdx] = useState(0);
-  const [hover, setHover] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
+
+  // глубина сцены — можно подстроить под вкус
+  const radius = 420;
 
   const go = (next: number) => setIdx((i) => (next + N) % N);
   const prev = () => go(idx - 1);
   const next = () => go(idx + 1);
 
-  // клавиатура
+  // стрелки на клавиатуре
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") next();
@@ -61,7 +46,7 @@ export default function GamesCarousel({
     const move = (e: PointerEvent) => {
       if (!dragging) return;
       const dx = e.clientX - x0;
-      el.style.setProperty("--drag-deg", String(dx / 8)); // лёгкая жизнь во время драга
+      el.style.setProperty("--drag-deg", String(dx / 8));
     };
     const up = (e: PointerEvent) => {
       if (!dragging) return;
@@ -84,32 +69,21 @@ export default function GamesCarousel({
     };
   }, [idx]);
 
-  // автопрокрутка (пауза при hover/drag)
-  useEffect(() => {
-    if (!autoPlay) return;
-    const id = setInterval(() => {
-      if (!hover) next();
-    }, Math.max(1500, interval));
-    return () => clearInterval(id);
-  }, [hover, idx, interval, autoPlay]);
-
   const cards = useMemo(
     () =>
       items.map((it, i) => {
-        const rel = i - idx; // относительное положение
-        const baseRot = rel * step;
-        const dist = Math.abs(((rel % N) + N) % N);
-        const zIndex = i === idx ? 50 : 40 - dist;
-        const opacity = i === idx ? 1 : 0.45 + 0.35 * Math.cos((Math.PI * Math.abs(baseRot)) / 180);
+        const baseRot = (i - idx) * step;
+        const zIndex = i === idx ? 40 : 30 - Math.abs(((i - idx + N) % N) - N / 2);
+        const opacity =
+          i === idx ? 1 : Math.max(0.35, 1 - Math.min(1, Math.abs(baseRot) / 120));
         const scale = i === idx ? 1 : 0.92;
 
         const style: React.CSSProperties = {
           transform: `rotateY(${baseRot}deg) translateZ(${radius}px) scale(${scale})`,
           zIndex,
           opacity,
-          filter: i === idx ? "none" : "blur(0.4px)",
           transition:
-            "transform .7s cubic-bezier(.2,.9,.22,1), opacity .35s ease, filter .35s ease",
+            "transform .6s cubic-bezier(.22,.9,.22,1), opacity .4s ease",
         };
 
         return { it, i, style };
@@ -119,14 +93,14 @@ export default function GamesCarousel({
 
   return (
     <div className="relative">
-      {/* controls */}
+      {/* управление */}
       <div className="flex items-center justify-center gap-3 mb-3">
-        <button className="btn" onClick={prev} aria-label="Назад">←</button>
+        <button className="btn" onClick={prev} aria-label="Предыдущая игра">←</button>
         <div className="text-sm text-muted">{idx + 1} / {N}</div>
-        <button className="btn" onClick={next} aria-label="Вперёд">→</button>
+        <button className="btn" onClick={next} aria-label="Следующая игра">→</button>
       </div>
 
-      {/* 3D scene */}
+      {/* сцена */}
       <div
         ref={wrapRef}
         className={clsx(
@@ -137,22 +111,20 @@ export default function GamesCarousel({
         )}
         style={
           {
-            perspective: `${perspective}px`,
+            perspective: "1200px",
             transformStyle: "preserve-3d",
             rotate: "y calc(var(--drag-deg, 0) * 1deg)",
             overflow: "hidden",
           } as React.CSSProperties
         }
         aria-roledescription="3D карусель игр"
-        onPointerEnter={() => setHover(true)}
-        onPointerLeave={() => setHover(false)}
       >
         <div
           className="absolute inset-0"
           style={{
             transformStyle: "preserve-3d",
+            transition: "transform .6s cubic-bezier(.22,.9,.22,1)",
             transform: `translateZ(-${radius}px) rotateY(${-idx * step}deg)`,
-            transition: "transform .7s cubic-bezier(.2,.9,.22,1)",
           }}
         >
           {cards.map(({ it, i, style }) => (
@@ -176,7 +148,7 @@ export default function GamesCarousel({
                 )}
               </div>
 
-              <p className="mt-3 text-muted line-clamp-3">{it.desc}</p>
+              <p className="mt-3 text-muted">{it.desc}</p>
 
               <div className="mt-auto flex items-center gap-3">
                 <Link href={it.href} className="btn btn-primary">
@@ -186,7 +158,7 @@ export default function GamesCarousel({
                   type="button"
                   className="btn"
                   onClick={(e) => { e.stopPropagation(); next(); }}
-                  aria-label="Следующая карточка"
+                  aria-label="Вперёд"
                 >
                   Дальше →
                 </button>
@@ -195,16 +167,15 @@ export default function GamesCarousel({
           ))}
         </div>
 
-        {/* «пол» для глубины */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
       </div>
 
-      {/* dots */}
+      {/* индикаторы */}
       <div className="mt-4 flex items-center justify-center gap-2">
         {items.map((_, i) => (
           <button
             key={i}
-            aria-label={`Показать ${i + 1}-ю карточку`}
+            aria-label={`Показать карточку ${i + 1}`}
             className={clsx(
               "h-2.5 w-2.5 rounded-full border border-base",
               i === idx ? "bg-white/70" : "bg-white/10 hover:bg-white/20"
