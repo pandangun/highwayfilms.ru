@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Wedding videography — Highway Films",
+  title: "Wedding videography - Highway Films",
   description:
     "Wedding films in Moscow and Saint Petersburg: teaser, feature film, full ceremony archives. Episode, Film, Saga packages. Mobile capture and same-day edits.",
 };
@@ -22,12 +22,12 @@ const storyFormats = [
     id: "episode",
     label: "Short and vibrant",
     title: "Episode",
-    price: "60 000 ₽",
-    description: "6 hours, 1 cinematographer. Teaser 30–45 sec + film 4–6 min.",
+    price: "60 000 RUB",
+    description: "6 hours, 1 cinematographer. Teaser 30-45 sec + film 4-6 min.",
     bullets: [
-      "— Essential edit, colour, and sound",
-      "— Perfect for intimate ceremonies",
-      "— Vertical & horizontal exports",
+      "- Essential edit, colour, and sound",
+      "- Perfect for intimate ceremonies",
+      "- Vertical & horizontal exports",
     ],
     href: "/en/contacts?plan=episode",
     wrapperClassName: "md:translate-y-1",
@@ -36,12 +36,12 @@ const storyFormats = [
     id: "film",
     label: "Complete narrative",
     title: "Film",
-    price: "95 000 ₽",
-    description: "10 hours, 1–2 cinematographers. Teaser 45–60 sec + film 7–12 min.",
+    price: "95 000 RUB",
+    description: "10 hours, 1-2 cinematographers. Teaser 45-60 sec + film 7-12 min.",
     bullets: [
-      "— Full-length key moments",
-      "— Separate capture of vows and speeches",
-      "— Vertical cuts for social media",
+      "- Full-length key moments",
+      "- Separate capture of vows and speeches",
+      "- Vertical cuts for social media",
     ],
     href: "/en/contacts?plan=film",
     wrapperClassName: "md:translate-y-[-4px]",
@@ -51,12 +51,12 @@ const storyFormats = [
     id: "saga",
     label: "Grand story in detail",
     title: "Saga",
-    price: "140 000 ₽",
-    description: "Full day coverage, 2 cinematographers + drone (weather permitting). Teaser + film 10–15 min.",
+    price: "140 000 RUB",
+    description: "Full day coverage, 2 cinematographers + drone (weather permitting). Teaser + film 10-15 min.",
     bullets: [
-      "— All long-form versions and cover frames",
-      "— Social-first vertical cuts",
-      "— Express teaser by the next morning",
+      "- All long-form versions and cover frames",
+      "- Social-first vertical cuts",
+      "- Express teaser by the next morning",
     ],
     href: "/en/contacts?plan=saga",
     wrapperClassName: "md:translate-y-2",
@@ -67,8 +67,8 @@ const extras = [
   {
     title: "Mobile capture",
     description:
-      "Shot on iPhone 16–17 by a 1–2 person crew. Minimal gear, authentic vibe. Fast, budget-friendly, built for socials.",
-    price: "40 000 ₽",
+      "Shot on iPhone 16-17 by a 1-2 person crew. Minimal gear, authentic vibe. Fast, budget-friendly, built for socials.",
+    price: "40 000 RUB",
     href: "/en/contacts?extra=mobile",
   },
   {
@@ -83,11 +83,11 @@ const extras = [
 const faqItems: Array<{ q: string; a: ReactNode }> = [
   {
     q: "When will the video be ready?",
-    a: <>Teaser in 3–5 days, feature film in 3–4 weeks. Same-day edit is available as an add-on.</>,
+    a: <>Teaser in 3-5 days, feature film in 3-4 weeks. Same-day edit is available as an add-on.</>,
   },
   {
     q: "What do we receive?",
-    a: <>Baseline — teaser plus feature film. “Film” and “Saga” include full-length key moments and social media versions.</>,
+    a: <>Baseline - teaser plus feature film. “Film” and “Saga” include full-length key moments and social media versions.</>,
   },
   {
     q: "Do you only work in Moscow and Saint Petersburg?",
@@ -168,8 +168,8 @@ export default function WeddingsEnPage() {
             We capture weddings like cinema: true emotions, flattering light, rhythmical storytelling. Every project includes a teaser, a feature film, and versions tailored for platforms. Saint Petersburg, Moscow, and destination shoots across Russia.
           </p>
           <div className="mt-6 flex flex-wrap gap-2">
-            <Chip>30–60 sec teaser</Chip>
-            <Chip>5–15 min film</Chip>
+            <Chip>30-60 sec teaser</Chip>
+            <Chip>5-15 min film</Chip>
             <Chip>Full ceremony archives</Chip>
             <Chip>Vertical & horizontal</Chip>
           </div>
@@ -182,11 +182,11 @@ export default function WeddingsEnPage() {
         <GlowCard className="md:translate-y-2">
           <div className="grid gap-4">
             <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
-              <div className="stat-value">3–5 days</div>
+              <div className="stat-value">3-5 days</div>
               <div className="stat-label">teaser delivery</div>
             </div>
             <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
-              <div className="stat-value">3–4 weeks</div>
+              <div className="stat-value">3-4 weeks</div>
               <div className="stat-label">feature film delivery</div>
             </div>
           </div>
@@ -196,19 +196,19 @@ export default function WeddingsEnPage() {
 
       <section className="container grid gap-6 py-10 md:grid-cols-3">
         <GlowCard className="md:col-span-2">
-          <h3 className="text-base font-semibold">Feature film (5–15 minutes)</h3>
+          <h3 className="text-base font-semibold">Feature film (5-15 minutes)</h3>
           <p className="mt-2 text-sm text-neutral-200">
             A cohesive story of the day: morning, ceremony, reception, and evening. Natural speeches, candid in-between moments, edit and sound design that bring you back.
           </p>
           <Thumbs start={2} count={6} />
         </GlowCard>
         <GlowCard>
-          <h3 className="text-base font-semibold">Teaser (30–60 seconds)</h3>
+          <h3 className="text-base font-semibold">Teaser (30-60 seconds)</h3>
           <p className="mt-2 text-sm text-neutral-300">A social-first highlight you can share just a few days after the wedding.</p>
         </GlowCard>
         <GlowCard>
           <h3 className="text-base font-semibold">Full-length moments</h3>
-          <p className="mt-2 text-sm text-neutral-300">Ceremony, vows, first dance, speeches — documented separately in full.</p>
+          <p className="mt-2 text-sm text-neutral-300">Ceremony, vows, first dance, speeches - documented separately in full.</p>
         </GlowCard>
         <GlowCard className="md:col-span-2">
           <h3 className="text-base font-semibold">Versions for every platform</h3>
@@ -263,7 +263,7 @@ export default function WeddingsEnPage() {
 
         <div className="mt-8 rounded-2xl border border-white/10 bg-gradient-to-r from-white/10 to-transparent px-6 py-7">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <p className="text-neutral-100">Tell us about your venue and timeline — we will build a precise schedule and estimate.</p>
+            <p className="text-neutral-100">Tell us about your venue and timeline - we will build a precise schedule and estimate.</p>
             <CTAButton href="/en/contacts">Check availability</CTAButton>
           </div>
         </div>
@@ -316,7 +316,7 @@ export default function WeddingsEnPage() {
             A wedding film keeps the day alive far beyond memories. We craft teasers, feature edits, and full-length archives so you can revisit the key moments for years. Our couples value honest emotions, stylish edits, and modern storytelling.
           </p>
           <p>
-            Choose Episode, Film, or Saga — we will tailor timing and coverage to your venue and schedule. We travel across Russia, offer mobile capture, and can deliver a teaser by the next morning.
+            Choose Episode, Film, or Saga - we will tailor timing and coverage to your venue and schedule. We travel across Russia, offer mobile capture, and can deliver a teaser by the next morning.
           </p>
         </div>
       </section>
@@ -334,3 +334,4 @@ export default function WeddingsEnPage() {
     </>
   );
 }
+

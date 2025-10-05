@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Contacts — Highway Films",
+  title: "Contacts - Highway Films",
   description:
     "Get in touch with Highway Films: phone, email, Telegram. Submit a brief for full-cycle production support.",
   alternates: { canonical: "https://highwayfilms.ru/en/contacts" },
@@ -83,10 +83,10 @@ export default function ContactsEnPage() {
       <header className="max-w-3xl">
         <h1 className="h1">Contacts</h1>
         <p className="lead measure mt-2">
-          Share a short brief — we will respond within one business day with timing and next steps.
+          Share a short brief - we will respond within one business day with timing and next steps.
         </p>
         <p className="mt-3 text-sm text-muted">
-          Office hours: Mon–Fri 10:00–19:00 (MSK). Outside these hours we may reply, but it is not guaranteed.
+          Office hours: Mon-Fri 10:00-19:00 (MSK). Outside these hours we may reply, but it is not guaranteed.
         </p>
       </header>
 
@@ -118,7 +118,7 @@ export default function ContactsEnPage() {
         <div>
           <h2 className="text-xl font-semibold">Project request</h2>
           <p className="mt-2 text-sm text-muted">
-            Provide a few bullet points — format, deadlines, reference links. We will prepare a detailed response with options.
+            Provide a few bullet points - format, deadlines, reference links. We will prepare a detailed response with options.
           </p>
           <form className="mt-6 space-y-5" action="https://formspree.io/f/mayzjlvy" method="POST">
             <div className="grid gap-4 sm:grid-cols-2">
@@ -185,7 +185,7 @@ export default function ContactsEnPage() {
                   id="budget"
                   name="budget"
                   type="text"
-                  placeholder="e.g. 200–400K ₽"
+                  placeholder="e.g. 200-400K RUB"
                   className="mt-2 w-full h-12 rounded-xl bg-white/5 border border-base px-4 outline-none placeholder:text-neutral-500 transition focus:border-brand focus:ring-2 focus:ring-brand/40"
                 />
               </div>
@@ -245,7 +245,7 @@ export default function ContactsEnPage() {
               </a>
             </div>
 
-            <p className="mt-3 text-xs text-muted">We usually reply within 2–4 hours on business days.</p>
+            <p className="mt-3 text-xs text-muted">We usually reply within 2-4 hours on business days.</p>
           </form>
         </div>
 
@@ -253,8 +253,8 @@ export default function ContactsEnPage() {
           <div className="card p-5 md:p-6">
             <h3 className="text-lg font-semibold">Studios</h3>
             <ul className="mt-3 space-y-2 text-muted">
-              <li>Saint Petersburg — Fontanka River Emb., 100</li>
-              <li>Moscow — Arbat St., 50</li>
+              <li>Saint Petersburg - Fontanka River Emb., 100</li>
+              <li>Moscow - Arbat St., 50</li>
             </ul>
             <div className="mt-4 flex flex-wrap gap-2">
               <a
@@ -263,7 +263,7 @@ export default function ContactsEnPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Map — Saint Petersburg
+                Map - Saint Petersburg
               </a>
               <a
                 className="btn h-10 rounded-xl"
@@ -271,7 +271,7 @@ export default function ContactsEnPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Map — Moscow
+                Map - Moscow
               </a>
             </div>
           </div>
@@ -290,3 +290,4 @@ export default function ContactsEnPage() {
     </main>
   );
 }
+

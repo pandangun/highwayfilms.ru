@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+ï»¿import type { Metadata } from "next";
 import Link from "next/link";
 import VideoHero from "@/components/VideoHero";
 import CTA from "@/components/CTA";
@@ -40,7 +40,7 @@ function ServiceGrid() {
 }
 
 export const metadata: Metadata = {
-  title: "Highway Films — full-cycle video production",
+  title: "Highway Films - full-cycle video production",
   description:
     "Commercials, corporate films, and music videos crafted end-to-end: concept, shoot, edit. Bold visuals with clear storytelling.",
 };
@@ -62,7 +62,7 @@ export default function HomePageEn() {
 
       <section className="container pb-12 md:pb-16">
         <div className="card p-6 md:p-8">
-          <h3 className="text-2xl md:text-3xl font-semibold">Highway Films — full-service production studio</h3>
+          <h3 className="text-2xl md:text-3xl font-semibold">Highway Films - full-service production studio</h3>
           <p className="mt-3 text-muted measure">
             We blend creativity with production discipline: 4K/10-bit capture, colour grading, VFX, and precise deliveries for any platform.
           </p>
@@ -77,10 +77,11 @@ export default function HomePageEn() {
 
       <CTA
         title="Ready to talk about your project?"
-        description="Drop us a brief — we will prepare a proposal with timing and budget ranges."
+        description="Drop us a brief - we will prepare a proposal with timing and budget ranges."
         ctaLabel="Contact us"
         href="/en/contacts"
       />
     </>
   );
 }
+

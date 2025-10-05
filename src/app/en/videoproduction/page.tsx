@@ -28,13 +28,13 @@ const benefits = [
   },
   {
     title: "Budgets by objective",
-    text: "Crew, gear and locations are tailored to KPI and budget. We offer 2–3 complexity options.",
+    text: "Crew, gear and locations are tailored to KPI and budget. We offer 2-3 complexity options.",
   },
 ];
 
 const processSteps = [
   {
-    title: "Brief → hypothesis",
+    title: "Brief -> hypothesis",
     text: "Audience, narrative, success metrics. We suggest the best format and storyline.",
   },
   {
@@ -47,7 +47,7 @@ const processSteps = [
   },
   {
     title: "Post-production",
-    text: "Edit → grade → mix → graphics. Master versions and adaptations for every platform.",
+    text: "Edit -> grade -> mix -> graphics. Master versions and adaptations for every platform.",
   },
 ];
 
@@ -88,11 +88,11 @@ const formatHighlights = [
 const faqItems = [
   {
     question: "Timelines?",
-    answer: "Agile formats ship in 7–14 days. Full productions take 3–6 weeks. We confirm the grid after briefing.",
+    answer: "Agile formats ship in 7-14 days. Full productions take 3-6 weeks. We confirm the grid after briefing.",
   },
   {
     question: "Budget?",
-    answer: "Depends on crew size, shooting days, lighting, locations and post scope. Expect 2–3 budget options.",
+    answer: "Depends on crew size, shooting days, lighting, locations and post scope. Expect 2-3 budget options.",
   },
   {
     question: "Masters & rights?",
@@ -105,9 +105,9 @@ const faqItems = [
 ];
 
 export const metadata: Metadata = {
-  title: "Video production in Moscow & Saint Petersburg — Highway Films",
+  title: "Video production in Moscow & Saint Petersburg - Highway Films",
   description:
-    "We craft video that moves metrics: from brand films to vertical performance assets. Concept → shoot → post → mastered deliveries.",
+    "We craft video that moves metrics: from brand films to vertical performance assets. Concept -> shoot -> post -> mastered deliveries.",
   alternates: { canonical: "https://highwayfilms.ru/en/videoproduction" },
 };
 
@@ -117,7 +117,7 @@ export default function VideoproductionEnPage() {
       <section className="max-w-3xl">
         <h1 className="h1">Video production in Moscow & Saint Petersburg</h1>
         <p className="lead measure mt-2">
-          We create films that drive both brand perception and sales — from image pieces to vertical performance edits. Full cycle, in-house.
+          We create films that drive both brand perception and sales - from image pieces to vertical performance edits. Full cycle, in-house.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link href="/en/contacts" className="btn btn-primary">Discuss the project</Link>
@@ -226,7 +226,7 @@ export default function VideoproductionEnPage() {
         <div className="card p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="text-2xl md:text-3xl font-semibold">Need a film that hits KPIs?</div>
-            <p className="text-muted mt-2">Share a short brief — we will respond with timing, team and cost ranges today.</p>
+            <p className="text-muted mt-2">Share a short brief - we will respond with timing, team and cost ranges today.</p>
           </div>
           <div className="flex gap-3">
             <Link href="/en/contacts" className="btn btn-primary">Request a proposal</Link>
@@ -239,3 +239,4 @@ export default function VideoproductionEnPage() {
     </main>
   );
 }
+

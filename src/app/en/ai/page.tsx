@@ -1,7 +1,7 @@
 ﻿import Link from "next/link";
 
 export const metadata = {
-  title: "AI-generated video & avatars — Highway Films",
+  title: "AI-generated video & avatars - Highway Films",
   description:
     "We build AI-driven video experiences: virtual hosts, deepfake greetings, ad creatives and social avatars. Fast production with clear ethics.",
 };
@@ -25,7 +25,7 @@ export default function AiEnPage() {
           </span>
           <h1 className="h1 font-bold mt-4">AI-generated video and content</h1>
           <p className="lead mt-4 text-neutral-200">
-            We harness state-of-the-art models to create videos that used to demand large crews. Virtual hosts, deepfake greetings, personalised messages and rapid ad creatives — built around your brief.
+            We harness state-of-the-art models to create videos that used to demand large crews. Virtual hosts, deepfake greetings, personalised messages and rapid ad creatives - built around your brief.
           </p>
           <div className="mt-6">
             <Link
@@ -92,7 +92,7 @@ export default function AiEnPage() {
           <details className="group p-5">
             <summary className="cursor-pointer list-none text-base font-medium">How much does an AI video cost?</summary>
             <div className="mt-2 text-sm leading-relaxed text-neutral-300">
-              Pricing depends on length, complexity and tools involved. Entry-level projects start around ₽20–30K.
+              Pricing depends on length, complexity and tools involved. Entry-level projects start around RUB20-30K.
             </div>
           </details>
         </div>
@@ -100,3 +100,4 @@ export default function AiEnPage() {
     </>
   );
 }
+

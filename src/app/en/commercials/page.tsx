@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Commercial videos & product films — Highway Films",
+  title: "Commercial videos & product films - Highway Films",
   description:
     "High-converting videos for brands and marketplaces: packshot, lifestyle, UGC, and motion design. Creative combined with performance-focused storytelling.",
   alternates: { canonical: "https://highwayfilms.ru/en/commercials" },
@@ -103,7 +103,7 @@ export default function CommercialsEnPage() {
           <div className="eyebrow">Commercials</div>
           <h1 className="h1 mt-2">Commercial videos & product films</h1>
           <p className="lead measure mt-3">
-            We combine creative storytelling with performance metrics. Packshot, lifestyle, UGC, motion design — all tailored for marketplaces and paid media.
+            We combine creative storytelling with performance metrics. Packshot, lifestyle, UGC, motion design - all tailored for marketplaces and paid media.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/en/contacts" className="btn btn-primary">Request a proposal</Link>
@@ -114,7 +114,7 @@ export default function CommercialsEnPage() {
         </div>
         <div className="grid gap-4">
           <Kpi value="300+" label="ad creatives produced" />
-          <Kpi value="7–21 days" label="average turnaround" />
+          <Kpi value="7-21 days" label="average turnaround" />
           <Kpi value="6 / 15 / 30" label="ready-to-run versions" />
         </div>
       </section>
@@ -131,7 +131,7 @@ export default function CommercialsEnPage() {
           <Feature title="Gadgets & accessories" text="Animated callouts, 3D breakdowns and motion-driven feature highlights." />
           <Feature title="Apparel" text="Fabric texture, fit, movement. Vertical edits for social." />
           <Feature title="Home & decor" text="Lifestyle scenes: everyday utility, before / after, micro-scenarios." />
-          <Feature title="Marketplace bundles" text="Series of 6–15 sec assets for product pages and retargeting." />
+          <Feature title="Marketplace bundles" text="Series of 6-15 sec assets for product pages and retargeting." />
         </div>
       </section>
 
@@ -154,10 +154,10 @@ export default function CommercialsEnPage() {
           <SectionHeader title="Workflow" />
         </div>
         <ol className="mt-6 grid gap-5 lg:grid-cols-2">
-          <Step n={1} title="Brief → insight" text="Audience, offer, objections. We build a narrative order that sells." />
+          <Step n={1} title="Brief -> insight" text="Audience, offer, objections. We build a narrative order that sells." />
           <Step n={2} title="Pre-production" text="Treatment, mood boards, lighting, props, schedule, selling-point checklist." />
           <Step n={3} title="Production" text="Packshot plus lifestyle/UGC. Shooting in batches for A/B testing." />
-          <Step n={4} title="Post" text="Edit → colour → motion → subtitles. Versions 6/15/30/60 in vertical & horizontal." />
+          <Step n={4} title="Post" text="Edit -> colour -> motion -> subtitles. Versions 6/15/30/60 in vertical & horizontal." />
         </ol>
       </section>
 
@@ -165,7 +165,7 @@ export default function CommercialsEnPage() {
         <SectionHeader
           kicker="Pricing approach"
           title="Packages"
-          lead="We adapt to your goal and suggest 2–3 options across budget and timing."
+          lead="We adapt to your goal and suggest 2-3 options across budget and timing."
         />
         <div className="mt-6 grid gap-5 md:grid-cols-3">
           <div className="card p-7">
@@ -181,7 +181,7 @@ export default function CommercialsEnPage() {
             <h3 className="text-lg font-semibold">Growth</h3>
             <p className="text-muted mt-1">Packshot + lifestyle / UGC</p>
             <ul className="mt-3 list-disc pl-5 text-muted space-y-1">
-              <li>3–5 selling points</li>
+              <li>3-5 selling points</li>
               <li>6 / 15 / 30 sec (vertical & horizontal)</li>
               <li>Still frames for product cards</li>
             </ul>
@@ -218,3 +218,4 @@ export default function CommercialsEnPage() {
     </main>
   );
 }
+
