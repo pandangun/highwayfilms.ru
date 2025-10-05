@@ -76,14 +76,15 @@ const INITIAL_ANSWERS = Array(QUESTIONS.length).fill(null) as Array<number | nul
 
 export default function QuizPage() {
   const [current, setCurrent] = useState(0);
-  const [answers, setAnswers] = useState(INITIAL_ANSWERS);
+  const [answers, setAnswers] = useState<Array<number | null>>(INITIAL_ANSWERS);
   const [showResults, setShowResults] = useState(false);
 
-  const score = useMemo(
-    () => answers.reduce((acc, answer, index) => (answer === QUESTIONS[index].correct ? acc + 1 : acc), 0),
-    [answers]
-  );
-
+  const score = useMemo(() => {
+    return answers.reduce<number>((acc, answer, index) => {
+      const normalized = answer ?? undefined;
+      return acc + (normalized === QUESTIONS[index]?.correct ? 1 : 0);
+    }, 0);
+  }, [answers]);
   const currentQuestion = QUESTIONS[current];
   const selected = answers[current];
   const isAnswered = selected !== null;

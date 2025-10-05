@@ -1,5 +1,6 @@
-// app/en/music-videos/page.tsx
+﻿// app/en/music-videos/page.tsx
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata = {
   title: "Music Videos — Highway Films",
@@ -23,16 +24,17 @@ function ThumbStrip({ start = 0 }: { start?: number }) {
   const picks = [0, 1, 2].map((i) => frames[(start + i) % frames.length]);
   return (
     <div className="mt-4 grid grid-cols-3 gap-2">
-      {picks.map((src) => (
+      {picks.map((src, idx) => (
         <div
-          key={src}
-          className="relative aspect-[4/3] overflow-hidden rounded-lg ring-1 ring-white/10"
+          key={`${start}-${idx}-${src}`}
+          className="group relative aspect-[4/3] overflow-hidden rounded-lg ring-1 ring-white/10"
         >
-          <img
+          <Image
             src={src}
-            alt=""
-            className="h-full w-full object-cover transition duration-300 hover:scale-[1.03]"
-            loading="lazy"
+            alt={`Music video frame ${(start + idx) % frames.length + 1}`}
+            fill
+            className="object-cover transition duration-300 group-hover:scale-[1.03]"
+            sizes="(max-width: 768px) 30vw, (max-width: 1024px) 20vw, 160px"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         </div>
@@ -40,6 +42,7 @@ function ThumbStrip({ start = 0 }: { start?: number }) {
     </div>
   );
 }
+
 
 function Card({
   title,
@@ -230,3 +233,5 @@ export default function MusicVideosPageEN() {
     </>
   );
 }
+
+

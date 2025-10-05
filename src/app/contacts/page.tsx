@@ -1,6 +1,7 @@
-// app/contacts/page.tsx
+﻿// app/contacts/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Контакты — Highway Films",
@@ -283,11 +284,14 @@ export default function Page() {
 
           {/* Статичная мини-карта (замени файл на свой) */}
           <figure className="card overflow-hidden">
-            <img
+            <Image
               src="/map-preview.jpg"
               alt="Карта расположения офисов Highway Films"
+              width={960}
+              height={320}
               className="w-full h-56 object-cover"
-              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 480px"
+              priority={false}
             />
             <figcaption className="px-5 py-3 text-sm text-muted">
               Карта расположения офисов Highway Films
@@ -298,3 +302,4 @@ export default function Page() {
     </main>
   );
 }
+

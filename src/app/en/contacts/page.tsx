@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Contacts - Highway Films",
@@ -277,11 +278,13 @@ export default function ContactsEnPage() {
           </div>
 
           <figure className="card overflow-hidden">
-            <img
+            <Image
               src="/map-preview.jpg"
               alt="Map with Highway Films offices"
+              width={960}
+              height={320}
               className="w-full h-56 object-cover"
-              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 480px"
             />
             <figcaption className="px-5 py-3 text-sm text-muted">Highway Films office locations</figcaption>
           </figure>
@@ -290,4 +293,5 @@ export default function ContactsEnPage() {
     </main>
   );
 }
+
 
