@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -58,6 +58,19 @@ function Step({ n, title, text }: { n: number; title: string; text: string }) {
   );
 }
 
+function ChecklistCard({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className="card p-5">
+      <div className="font-medium">{title}</div>
+      <ul className="mt-2 list-disc pl-5 space-y-1 text-muted">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 const frames = [
   { src: "/images/frames/f001.jpg", alt: "Референс: бренд-фильм, крупный план", tag: "Brand" },
   { src: "/images/frames/f002.jpg", alt: "Референс: предметная съёмка, мягкий свет", tag: "Product" },
@@ -65,6 +78,99 @@ const frames = [
   { src: "/images/frames/f004.jpg", alt: "Референс: архитектура, атмосфера", tag: "Corporate" },
   { src: "/images/frames/f005.jpg", alt: "Референс: портрет, контровой свет", tag: "Portrait" },
   { src: "/images/frames/f006.jpg", alt: "Референс: индустриальная съёмка", tag: "Industrial" },
+];
+
+const kpis = [
+  { value: "10+ лет", label: "на продакшне" },
+  { value: "250+", label: "выпущенных роликов" },
+  { value: "4K / 10-bit", label: "качество съёмки" },
+];
+
+const benefits = [
+  {
+    title: "Картинка уровня бренда",
+    text: "Стабилизация, дроны, макро, таймлапсы. Контроль качества на сет-мониторе.",
+  },
+  {
+    title: "Постпрод без хаоса",
+    text: "Монтаж со смысловой логикой, саунд-дизайн, цветокор, VFX/графика, субтитры.",
+  },
+  {
+    title: "Смета под задачу",
+    text: "Команда, техника и локации — под KPI и бюджет. 2–3 опции по насыщенности.",
+  },
+];
+
+const processSteps = [
+  {
+    title: "Бриф → гипотеза",
+    text: "Цели, аудитория, ключевые сообщения, KPI. Предлагаем формат и драматургию.",
+  },
+  {
+    title: "Препрод",
+    text: "Treatment, раскадровка, кастинг, локации, тайминг, техника, логистика.",
+  },
+  {
+    title: "Съёмка",
+    text: "Команда по ролям, свет и звук, страховочные планы. Контроль качества на площадке.",
+  },
+  {
+    title: "Постпрод",
+    text: "Монтаж → цвет → звук → графика. Финальные master-версии и адаптации под площадки.",
+  },
+];
+
+const deliverables: Array<{ title: string; items: string[] }> = [
+  {
+    title: "Контент и версии",
+    items: [
+      "Готовый ролик в нужных длительностях (YouTube, VK, TG, DOOH).",
+      "Вертикальные и короткие версии под перформанс.",
+      "Open files по запросу: исходники, проект, LUT/пресеты.",
+    ],
+  },
+  {
+    title: "Документы и материалы",
+    items: [
+      "Правовая часть: договор, права на использование, смета и календарь.",
+      "Пакет превью/стилл-кадров для анонсов и обложек.",
+      "Гайд по публикации: форматы, битрейты, таймкоды.",
+    ],
+  },
+];
+
+const formatHighlights = [
+  {
+    title: "Brand / Product film",
+    text: "Имидж и продукт: от 20-сек тизеров до мини-фильмов с нарративом.",
+  },
+  {
+    title: "Корпоративные видео",
+    text: "О компании и процессах, HR-видео, производственные кейсы, презентации.",
+  },
+  {
+    title: "Performance-контент",
+    text: "Вертикаль, нарезки, UGC-миксы и сериальные подборки под прогрев/ретаргет.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "Сроки?",
+    answer: "Быстрые форматы — 7–14 дней. Фильмы с препродом — 3–6 недель. Точную сетку закрепляем после брифа.",
+  },
+  {
+    question: "Бюджет?",
+    answer: "Зависит от команды, смен, света, локаций и постпрода. Обычно даём 2–3 сметы с разной насыщенностью.",
+  },
+  {
+    question: "Исходники / права?",
+    answer: "Передаем master-версии и исходники по запросу. Права и сроки использования — в договоре.",
+  },
+  {
+    question: "Где снимаем?",
+    answer: "Москва и Санкт-Петербург, выезды по РФ и СНГ. Подбираем команду под площадку и задачу.",
+  },
 ];
 
 export default function Page() {
@@ -86,27 +192,17 @@ export default function Page() {
       </section>
 
       {/* KPIs */}
-      <section className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Kpi value="8+ лет" label="на продакшне" />
-        <Kpi value="250+" label="выпущенных роликов" />
-        <Kpi value="4K / 10-bit" label="качество съемки" />
-        <Kpi value="7–14 дн." label="быстрые форматы" />
+      <section className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {kpis.map((kpi) => (
+          <Kpi key={kpi.value} value={kpi.value} label={kpi.label} />
+        ))}
       </section>
 
       {/* Плюсы */}
       <section className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <Feature
-          title="Картинка уровня бренда"
-          text="Стабилизация, дроны, макро, таймлапсы. Контроль качества на сет-мониторе."
-        />
-        <Feature
-          title="Постпрод без хаоса"
-          text="Монтаж со смысловой логикой, саунд-дизайн, цветокор, VFX/графика, субтитры."
-        />
-        <Feature
-          title="Смета под задачу"
-          text="Команда, техника и локации — под KPI и бюджет. 2–3 опции по насыщенности."
-        />
+        {benefits.map((benefit) => (
+          <Feature key={benefit.title} title={benefit.title} text={benefit.text} />
+        ))}
       </section>
 
       {/* Галерея референсов */}
@@ -117,21 +213,21 @@ export default function Page() {
         </p>
 
         <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-3">
-          {frames.map((f, i) => (
+          {frames.map((frame, index) => (
             <figure
-              key={i}
+              key={frame.src}
               className="group relative w-full aspect-video overflow-hidden rounded-xl border border-base"
             >
               <Image
-                src={f.src /* или f001 и т.д. при стат.импортах */}
-                alt={f.alt}
+                src={frame.src /* или f001 и т.д. при стат.импортах */}
+                alt={frame.alt}
                 fill
                 className="object-cover transition duration-300 group-hover:scale-[1.02]"
                 sizes="(max-width:768px) 50vw, (max-width:1024px) 33vw, 33vw"
-                priority={i < 2}
+                priority={index < 2}
               />
               <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 p-3 text-sm">
-                <span className="rounded-md bg-black/40 px-2 py-1">{f.tag}</span>
+                <span className="rounded-md bg-black/40 px-2 py-1">{frame.tag}</span>
               </figcaption>
               <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 group-hover:opacity-100 transition" />
             </figure>
@@ -143,26 +239,9 @@ export default function Page() {
       <section className="mt-12">
         <h2 className="text-2xl md:text-3xl font-semibold">Как мы работаем</h2>
         <ol className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <Step
-            n={1}
-            title="Бриф → гипотеза"
-            text="Цели, аудитория, ключевые сообщения, KPI. Предлагаем формат и драматургию."
-          />
-          <Step
-            n={2}
-            title="Препрод"
-            text="Treatment, раскадровка, кастинг, локации, тайминг, техника, логистика."
-          />
-          <Step
-            n={3}
-            title="Съёмка"
-            text="Команда по ролям, свет и звук, страховочные планы. Контроль качества на площадке."
-          />
-          <Step
-            n={4}
-            title="Постпрод"
-            text="Монтаж → цвет → звук → графика. Финальные master-версии и адаптации под площадки."
-          />
+          {processSteps.map((step, idx) => (
+            <Step key={step.title} n={idx + 1} title={step.title} text={step.text} />
+          ))}
         </ol>
       </section>
 
@@ -170,67 +249,29 @@ export default function Page() {
       <section className="mt-12">
         <h2 className="text-2xl md:text-3xl font-semibold">Что получите на выходе</h2>
         <div className="mt-6 grid md:grid-cols-2 gap-3">
-          <div className="card p-5">
-            <ul className="list-disc pl-5 space-y-1 text-muted">
-              <li>Готовый ролик в нужных длительностях (YouTube, VK, TG, DOOH).</li>
-              <li>Вертикальные и короткие версии под перформанс.</li>
-              <li>Open files по запросу: исходники, проект, LUT/пресеты.</li>
-            </ul>
-          </div>
-          <div className="card p-5">
-            <ul className="list-disc pl-5 space-y-1 text-muted">
-              <li>Правовая часть: договор, права на использование, смета и календарь.</li>
-              <li>Пакет превью/стилл-кадров для анонсов и обложек.</li>
-              <li>Гайд по публикации: форматы, битрейты, таймкоды.</li>
-            </ul>
-          </div>
+          {deliverables.map((group) => (
+            <ChecklistCard key={group.title} title={group.title} items={group.items} />
+          ))}
         </div>
       </section>
 
       {/* Форматы работ */}
       <section className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <Feature
-          title="Brand / Product film"
-          text="Имидж и продукт: от 20-сек тизеров до мини-фильмов с нарративом."
-        />
-        <Feature
-          title="Корпоративные видео"
-          text="О компании и процессах, HR-видео, производственные кейсы, презентации."
-        />
-        <Feature
-          title="Performance-контент"
-          text="Вертикаль, нарезки, UGC-миксы и сериальные подборки под прогрев/ретаргет."
-        />
+        {formatHighlights.map((format) => (
+          <Feature key={format.title} title={format.title} text={format.text} />
+        ))}
       </section>
 
       {/* FAQ */}
       <section className="mt-12">
         <h2 className="text-2xl md:text-3xl font-semibold">FAQ</h2>
         <div className="mt-6 grid md:grid-cols-2 gap-3">
-          <div className="card p-5">
-            <div className="font-medium">Сроки?</div>
-            <p className="mt-1 text-muted">
-              Быстрые форматы — 7–14 дней. Фильмы с препродом — 3–6 недель. Точную сетку закрепляем после брифа.
-            </p>
-          </div>
-          <div className="card p-5">
-            <div className="font-medium">Бюджет?</div>
-            <p className="mt-1 text-muted">
-              Зависит от команды, смен, света, локаций и постпрода. Обычно даём 2–3 сметы с разной насыщенностью.
-            </p>
-          </div>
-          <div className="card p-5">
-            <div className="font-medium">Исходники / права?</div>
-            <p className="mt-1 text-muted">
-              Передаем master-версии и исходники по запросу. Права и сроки использования — в договоре.
-            </p>
-          </div>
-          <div className="card p-5">
-            <div className="font-medium">Где снимаем?</div>
-            <p className="mt-1 text-muted">
-              Москва и Санкт-Петербург, выезды по РФ и СНГ. Подбираем команду под площадку и задачу.
-            </p>
-          </div>
+          {faqItems.map((item) => (
+            <div key={item.question} className="card p-5">
+              <div className="font-medium">{item.question}</div>
+              <p className="mt-1 text-muted">{item.answer}</p>
+            </div>
+          ))}
         </div>
       </section>
 
