@@ -1,76 +1,84 @@
-// app/easter-egg/page.tsx
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Тех-блок — мини-игры и викторина | Highway Films",
+  title: "Пасхалки и мини-игры Highway Films",
   description:
-    "Пасхалки Highway Films: Runner Pro, КиноСет и Викторина про видеопродакшн.",
+    "Runner Pro, КиноСет и киновикторина — пасхалки команды Highway Films. Одностраничные игры на Canvas, адаптированные под клавиатуру и тач.",
   robots: { index: false, follow: true },
 };
 
-function Tile({
-  title,
-  desc,
-  href,
-  badge,
-}: {
+type TileProps = {
   title: string;
   desc: string;
   href: string;
   badge?: string;
-}) {
+};
+
+function Tile({ title, desc, href, badge }: TileProps) {
   return (
     <Link
       href={href}
-      className="card p-5 md:p-6 hover:border-strong transition block"
+      className="card block rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-white/25 hover:bg-white/8"
       prefetch={false}
     >
-      <div className="flex items-center gap-2">
-        <h3 className="text-lg font-semibold">{title}</h3>
+      <header className="flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-white">{title}</h3>
         {badge && (
-          <span className="rounded-md px-2 py-0.5 text-xs bg-white/10 border border-base">
+          <span className="rounded-md border border-white/15 bg-white/10 px-2 py-0.5 text-xs uppercase tracking-wide text-white/70">
             {badge}
           </span>
         )}
-      </div>
-      <p className="mt-2 text-muted">{desc}</p>
+      </header>
+      <p className="mt-2 text-sm leading-relaxed text-muted">{desc}</p>
     </Link>
   );
 }
 
-export default function Page() {
-  return (
-    <main className="container py-12 md:py-16">
-      <h1 className="h1">Тех-блок · Мини-игры</h1>
-      <p className="lead measure mt-2">
-        Наши маленькие развлечения и пасхалки. Заходи, тестируй физику, делись
-        скринами и идеями — будем расширять.
-      </p>
+const TILES: TileProps[] = [
+  {
+    title: "Каталог игр",
+    desc: "Все пасхалки в одном месте — 3D-карусель с Runner Pro, КиноСетом и викториной.",
+    href: "/easter-egg/games",
+    badge: "New",
+  },
+  {
+    title: "Runner Pro",
+    desc: "Бесконечный раннер с плавной камерой, zoom-эффектом, чекпоинтами и мобильным управлением.",
+    href: "/easter-egg/runner-pro",
+    badge: "Action",
+  },
+  {
+    title: "КиноСет",
+    desc: "Стелсовая аркада про съёмочную площадку: собирайте шоты, экономьте батарею и избегайте шумовых ловушек.",
+    href: "/easter-egg/cinema",
+  },
+  {
+    title: "Киновикторина",
+    desc: "10 вопросов о кино и продакшене: классика, режиссёры, техника и backstage. Пройдите за пару минут.",
+    href: "/easter-egg/quiz",
+    badge: "Quiz",
+  },
+];
 
-      <section className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <Tile
-          title="Runner Pro"
-          desc="Платформер с плавной камерой: монеты, враги, чекпоинты, zoom и мобильный джойстик."
-          href="/easter-egg/runner-pro"
-          badge="Action"
-        />
-        <Tile
-          title="КиноСет"
-          desc="2D-аркада про площадку: собирай шоты, следи за батареей и избегай шумных зон."
-          href="/easter-egg/cinema"
-          badge="New"
-        />
-        <Tile
-          title="Викторина по продакшну"
-          desc="Лёгкий квиз: свет, звук, препрод, сет-термины. Проверим, кто тут «грип», а кто продюсер."
-          href="/easter-egg/quiz"
-          badge="Soon"
-        />
+export default function EasterEggIndexPage() {
+  return (
+    <main className="container py-12 md:py-16 space-y-8">
+      <header className="space-y-3">
+        <h1 className="h1">Пасхалки Highway Films</h1>
+        <p className="lead measure">
+          Мы любим экспериментировать с Canvas и WebGL. Здесь собраны мини-игры и интерактивы, которые команда делает в свободное время.
+        </p>
+      </header>
+
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {TILES.map((tile) => (
+          <Tile key={tile.href} {...tile} />
+        ))}
       </section>
 
-      <p className="mt-6 text-sm text-muted">
-        P.S. Все проекты работают локально в Canvas, без внешних зависимостей.
+      <p className="text-sm text-muted">
+        P.S. Все проекты работают прямо в браузере, адаптированы под клавиатуру, геймпад и сенсорные экраны.
       </p>
     </main>
   );
