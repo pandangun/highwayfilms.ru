@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^1.2.0",
     "clsx": "^2.1.1",
     "clx": "^1.0.0",
     "lucide-react": "^0.544.0",

@@ -4,6 +4,7 @@ import VideoHero from "@/components/VideoHero";
 import ServiceCards from "@/components/ServiceCards";
 import CTA from "@/components/CTA";
 
+
 export const metadata: Metadata = {
   title: "Highway Films — видеопродакшн полного цикла",
   description:

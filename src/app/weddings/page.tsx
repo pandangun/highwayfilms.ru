@@ -1,13 +1,13 @@
-import Link from "next/link";
+﻿import Link from "next/link";
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Свадебная видеосъёмка — Highway Films",
   description:
     "Свадебные фильмы в Москве и Санкт-Петербурге: тизер для соцсетей, полноценный фильм и архив моментов. Эпизод, Фильм, Сага. Мобильная съёмка и опция монтажа в день свадьбы.",
 };
 
-// Мини-галерея — подставь кадры в /public/images/frames
 const frames = [
   "/images/frames/f001.jpg",
   "/images/frames/f002.jpg",
@@ -15,6 +15,98 @@ const frames = [
   "/images/frames/f004.jpg",
   "/images/frames/f005.jpg",
   "/images/frames/f006.jpg",
+];
+
+const storyFormats: Array<{
+  id: string;
+  label: string;
+  title: string;
+  price: string;
+  description: string;
+  bullets: string[];
+  href: string;
+  wrapperClassName?: string;
+  accent?: boolean;
+}> = [
+  {
+    id: "episode",
+    label: "Короткая, но яркая история",
+    title: "Эпизод",
+    price: "60 000 ₽",
+    description: "6 часов съёмки, 1 оператор. Тизер 30–45 сек + фильм 4–6 мин.",
+    bullets: [
+      "— Базовый монтаж, цвет и звук",
+      "— Для камерных росписей",
+      "— Вертикали/горизонтали под площадки",
+    ],
+    href: "/contacts?plan=episode",
+    wrapperClassName: "md:translate-y-1",
+  },
+  {
+    id: "film",
+    label: "Полноценный рассказ о дне",
+    title: "Фильм",
+    price: "95 000 ₽",
+    description: "10 часов съёмки, 1–2 оператора. Тизер 45–60 сек + фильм 7–12 мин.",
+    bullets: [
+      "— Полные версии ключевых моментов",
+      "— Отдельная запись клятв и речей",
+      "— Вертикальные версии для соцсетей",
+    ],
+    href: "/contacts?plan=film",
+    wrapperClassName: "md:translate-y-[-4px]",
+    accent: true,
+  },
+  {
+    id: "saga",
+    label: "Большая история в деталях",
+    title: "Сага",
+    price: "140 000 ₽",
+    description: "Целый день, 2 оператора + дрон (по погоде). Тизер + фильм 10–15 мин.",
+    bullets: [
+      "— Все полные версии и обложки",
+      "— Вертикали для соцсетей",
+      "— Экспресс-тизер к утру следующего дня",
+    ],
+    href: "/contacts?plan=saga",
+    wrapperClassName: "md:translate-y-2",
+  },
+];
+
+const extras: Array<{ title: string; description: string; price: string; href: string }> = [
+  {
+    title: "Мобильная съёмка",
+    description:
+      "Снимаем на iPhone 16–17: 1–2 человека, минимум техники, естественная атмосфера. Быстро, бюджетно, сразу для соцсетей.",
+    price: "40 000 ₽",
+    href: "/contacts?extra=mobile",
+  },
+  {
+    title: "Монтаж в день свадьбы",
+    description:
+      "Соберём короткий ролик в тот же день — показать на банкете или выложить вечером. Доступно для мобильной и классической съёмки.",
+    price: "по запросу",
+    href: "/contacts?extra=same-day",
+  },
+];
+
+const faqItems: Array<{ q: string; a: ReactNode }> = [
+  {
+    q: "Когда будет готово видео?",
+    a: <>Тизер — 3–5 дней, фильм — 3–4 недели. Опция: монтаж в день свадьбы.</>,
+  },
+  {
+    q: "Что мы получим в итоге?",
+    a: <>Минимум — тизер и фильм. В «Фильме» и «Саге» — ключевые эпизоды целиком и версии под соцсети.</>,
+  },
+  {
+    q: "Работаете только в Москве и СПб?",
+    a: <>Базируемся здесь, но выезжаем по всей России.</>,
+  },
+  {
+    q: "Снимаете постановочно?",
+    a: <>Главный акцент — живые эмоции и атмосфера. Постановку добавляем только если это нужно вам.</>,
+  },
 ];
 
 function Thumbs({ start = 0, count = 6 }: { start?: number; count?: number }) {
@@ -76,11 +168,8 @@ function QA({ q, a }: { q: string; a: ReactNode }) {
 export default function WeddingsPage() {
   return (
     <>
-      
-
-      {/* HERO: сплит + акцентная карточка справа */}
+      {/* HERO */}
       <section className="container relative grid items-start gap-8 pt-6 md:grid-cols-[1.2fr_0.8fr] md:pt-10">
-        {/* Левый столбец */}
         <div className="measure">
           <span className="inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[12px] uppercase tracking-wider text-white/80">
             Свадебные фильмы студии
@@ -102,7 +191,6 @@ export default function WeddingsPage() {
           </div>
         </div>
 
-        {/* Правый столбец (акцент) */}
         <GlowCard className="md:translate-y-2">
           <div className="grid gap-4">
             <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
@@ -118,11 +206,13 @@ export default function WeddingsPage() {
         </GlowCard>
       </section>
 
-      {/* Что снимаем — ломаная сетка */}
+      {/* Что снимаем */}
       <section className="container grid gap-6 py-10 md:grid-cols-3">
         <GlowCard className="md:col-span-2">
           <h3 className="text-base font-semibold">Основной фильм (5–15 минут)</h3>
-          <p className="mt-2 text-sm text-neutral-200">Цельная история дня: утро, церемония, банкет и вечер. Живые речи, естественные моменты и монтаж, который возвращает в атмосферу.</p>
+          <p className="mt-2 text-sm text-neutral-200">
+            Цельная история дня: утро, церемония, банкет и вечер. Живые речи, естественные моменты и монтаж, который возвращает в атмосферу.
+          </p>
           <Thumbs start={2} count={6} />
         </GlowCard>
         <GlowCard>
@@ -139,68 +229,52 @@ export default function WeddingsPage() {
         </GlowCard>
       </section>
 
-      {/* Выберите формат истории (вместо «Пакеты») — разноуровневые карточки */}
+      {/* Форматы */}
       <section className="container py-10">
         <h2 className="text-xl font-semibold">Выберите формат истории</h2>
         <div className="mt-6 grid gap-6 md:[grid-template-columns:1.05fr_1.2fr_1.05fr]">
-          {/* Эпизод */}
-          <div className="grid content-start gap-2 md:translate-y-1">
-            <div className="text-sm text-white/75">Короткая, но яркая история</div>
-            <GlowCard>
-              <div className="flex items-start justify-between gap-3">
-                <h3 className="text-lg font-semibold">Эпизод</h3>
-                <Price value="60 000 ₽" />
-              </div>
-              <p className="mt-2 text-sm text-neutral-300">6 часов съёмки, 1 оператор. Тизер 30–45 сек + фильм 4–6 мин.</p>
-              <ul className="mt-3 space-y-1 text-sm text-neutral-300">
-                <li>— Базовый монтаж, цвет и звук</li>
-                <li>— Для камерных росписей</li>
-                <li>— Вертикали/горизонтали под площадки</li>
-              </ul>
-              <div className="mt-5"><CTAButton href="/contacts?plan=episode">Стоимость</CTAButton></div>
-            </GlowCard>
-          </div>
-
-          {/* Фильм (акцентный) */}
-          <div className="grid content-start gap-2 md:translate-y-[-4px]">
-            <div className="text-sm text-white/90">Полноценный рассказ о дне</div>
-            <div className="rounded-2xl p-[1px] [background:linear-gradient(140deg,rgba(168,85,247,.7),rgba(255,255,255,.18))]">
-              <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6">
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-lg font-semibold">Фильм</h3>
-                  <Price value="95 000 ₽" />
+          {storyFormats.map((format) => (
+            <div key={format.id} className={`grid content-start gap-2 ${format.wrapperClassName ?? ""}`}>
+              <div className={format.accent ? "text-sm text-white/90" : "text-sm text-white/75"}>{format.label}</div>
+              {format.accent ? (
+                <div className="rounded-2xl p-[1px] [background:linear-gradient(140deg,rgba(168,85,247,.7),rgba(255,255,255,.18))]">
+                  <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6">
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="text-lg font-semibold">{format.title}</h3>
+                      <Price value={format.price} />
+                    </div>
+                    <p className="mt-2 text-sm text-neutral-200">{format.description}</p>
+                    <ul className="mt-3 space-y-1 text-sm text-neutral-200">
+                      {format.bullets.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                    <div className="mt-5">
+                      <CTAButton href={format.href}>Стоимость</CTAButton>
+                    </div>
+                  </div>
                 </div>
-                <p className="mt-2 text-sm text-neutral-200">10 часов съёмки, 1–2 оператора. Тизер 45–60 сек + фильм 7–12 мин.</p>
-                <ul className="mt-3 space-y-1 text-sm text-neutral-200">
-                  <li>— Полные версии ключевых моментов</li>
-                  <li>— Отдельная запись клятв и речей</li>
-                  <li>— Вертикальные версии для соцсетей</li>
-                </ul>
-                <div className="mt-5"><CTAButton href="/contacts?plan=film">Стоимость</CTAButton></div>
-              </div>
+              ) : (
+                <GlowCard>
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="text-lg font-semibold">{format.title}</h3>
+                    <Price value={format.price} />
+                  </div>
+                  <p className="mt-2 text-sm text-neutral-300">{format.description}</p>
+                  <ul className="mt-3 space-y-1 text-sm text-neutral-300">
+                    {format.bullets.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <div className="mt-5">
+                    <CTAButton href={format.href}>Стоимость</CTAButton>
+                  </div>
+                </GlowCard>
+              )}
             </div>
-          </div>
-
-          {/* Сага */}
-          <div className="grid content-start gap-2 md:translate-y-2">
-            <div className="text-sm text-white/75">Большая история в деталях</div>
-            <GlowCard>
-              <div className="flex items-start justify-between gap-3">
-                <h3 className="text-lg font-semibold">Сага</h3>
-                <Price value="140 000 ₽" />
-              </div>
-              <p className="mt-2 text-sm text-neutral-300">Целый день, 2 оператора + дрон (по погоде). Тизер + фильм 10–15 мин.</p>
-              <ul className="mt-3 space-y-1 text-sm text-neutral-300">
-                <li>— Все полные версии и обложки</li>
-                <li>— Вертикали для соцсетей</li>
-                <li>— Экспресс-тизер к утру следующего дня</li>
-              </ul>
-              <div className="mt-5"><CTAButton href="/contacts?plan=saga">Стоимость</CTAButton></div>
-            </GlowCard>
-          </div>
+          ))}
         </div>
 
-        {/* CTA */}
         <div className="mt-8 rounded-2xl border border-white/10 bg-gradient-to-r from-white/10 to-transparent px-6 py-7">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <p className="text-neutral-100">Расскажите про площадку и формат — соберём точную смету и тайминг.</p>
@@ -209,7 +283,7 @@ export default function WeddingsPage() {
         </div>
       </section>
 
-      {/* Кейсы — горизонтальная лента */}
+      {/* Кейсы */}
       <section className="container py-10">
         <h2 className="text-xl font-semibold">Кейсы</h2>
         <div className="no-scrollbar -mx-4 mt-4 overflow-x-auto px-4">
@@ -217,7 +291,7 @@ export default function WeddingsPage() {
             {Array.from({ length: 10 }).map((_, i) => (
               <div key={i} className="relative h-44 w-[240px] shrink-0 overflow-hidden rounded-xl border border-white/10">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/images/frames/f00${(i % 6) + 1}.jpg`} alt="case" className="h-full w-full object-cover" />
+                <img src={`/images/frames/f00${(i % frames.length) + 1}.jpg`} alt="case" className="h-full w-full object-cover" />
               </div>
             ))}
           </div>
@@ -226,41 +300,33 @@ export default function WeddingsPage() {
 
       {/* Дополнительные варианты */}
       <section className="container grid gap-6 py-10 md:grid-cols-2">
-        <GlowCard>
-          <div className="flex items-start justify-between">
-            <div>
-              <h3 className="text-lg font-semibold">Мобильная съёмка</h3>
-              <p className="mt-2 text-sm text-neutral-300">Снимаем на iPhone 16–17: 1–2 человека, минимум техники, естественная атмосфера. Быстро, бюджетно, сразу для соцсетей.</p>
+        {extras.map((extra) => (
+          <GlowCard key={extra.title}>
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="text-lg font-semibold">{extra.title}</h3>
+                <p className="mt-2 text-sm text-neutral-300">{extra.description}</p>
+              </div>
+              <Price value={extra.price} />
             </div>
-            <Price value="40 000 ₽" />
-          </div>
-          <div className="mt-4"><CTAButton href="/contacts?extra=mobile">Уточнить</CTAButton></div>
-        </GlowCard>
-
-        <GlowCard>
-          <div className="flex items-start justify-between">
-            <div>
-              <h3 className="text-lg font-semibold">Монтаж в день свадьбы</h3>
-              <p className="mt-2 text-sm text-neutral-300">Соберём короткий ролик в тот же день — показать на банкете или выложить вечером. Доступно для мобильной и классической съёмки.</p>
+            <div className="mt-4">
+              <CTAButton href={extra.href}>Уточнить</CTAButton>
             </div>
-            <Price value="по запросу" />
-          </div>
-          <div className="mt-4"><CTAButton href="/contacts?extra=same-day">Обсудить</CTAButton></div>
-        </GlowCard>
+          </GlowCard>
+        ))}
       </section>
 
-      {/* FAQ — 2 колонки на десктопе */}
+      {/* FAQ */}
       <section className="container py-12">
         <h2 className="mb-4 text-xl font-semibold">FAQ</h2>
         <div className="grid gap-4 md:grid-cols-2">
-          <QA q="Когда будет готово видео?" a={<>Тизер — 3–5 дней, фильм — 3–4 недели. Опция: монтаж в день свадьбы.</>} />
-          <QA q="Что мы получим в итоге?" a={<>Минимум — тизер и фильм. В «Фильме» и «Саге» — ключевые эпизоды целиком и версии под соцсети.</>} />
-          <QA q="Работаете только в Москве и СПб?" a={<>Базируемся здесь, но выезжаем по всей России.</>} />
-          <QA q="Снимаете постановочно?" a={<>Главный акцент — живые эмоции и атмосфера. Постановку добавляем только если это нужно вам.</>} />
+          {faqItems.map((item) => (
+            <QA key={item.q} q={item.q} a={item.a} />
+          ))}
         </div>
       </section>
 
-      {/* SEO-блок (низ) */}
+      {/* SEO-блок */}
       <section className="container pb-20">
         <div className="prose prose-invert max-w-none text-sm text-neutral-300">
           <h2>Свадебная видеосъёмка в Москве и Санкт-Петербурге</h2>
@@ -275,13 +341,17 @@ export default function WeddingsPage() {
           </p>
         </div>
       </section>
-      {/* Topbar: язык + мини-CTA */}
+
       <div className="container flex items-center justify-between gap-3 py-3 text-xs">
         <div className="text-white/60">Highway Films</div>
         <div className="flex items-center gap-3">
           <div className="overflow-hidden rounded-xl border border-white/10">
-            <Link href="/weddings" className="px-3 py-1 bg-white/10 hover:bg-white/20">RU</Link>
-            <Link href="/en/weddings" className="px-3 py-1 hover:bg-white/10">EN</Link>
+            <Link href="/weddings" className="px-3 py-1 bg-white/10 hover:bg-white/20">
+              RU
+            </Link>
+            <Link href="/en/weddings" className="px-3 py-1 hover:bg-white/10">
+              EN
+            </Link>
           </div>
           <CTAButton href="/contacts">Связаться</CTAButton>
         </div>
@@ -289,3 +359,4 @@ export default function WeddingsPage() {
     </>
   );
 }
+
