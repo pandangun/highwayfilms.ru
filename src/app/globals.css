@@ -1,4 +1,4 @@
-/* Tailwind v4 */
+﻿/* Tailwind v4 */
 @import "tailwindcss";
 
 /* =========================
@@ -7,26 +7,24 @@
 :root {
   color-scheme: dark;
 
-  /* colors */
+  /* palette */
   --bgc: #0b0b0c;
   --fgc: #f3f3f2;
   --muted: #b0b0b0;
   --border: rgba(255,255,255,.12);
   --border-strong: rgba(255,255,255,.24);
-  --overlay: rgba(0,0,0,.70);
-  --accent: #f2f2f2;      /* «акцент-белый» */
-  --brand: #7C3AED;       /* фирменный фиолетовый */
+  --brand: #7C3AED;
 
-  /* radii & shadows */
+  /* depth & radius */
   --r: 12px;
   --shadow: 0 10px 30px rgba(0,0,0,.35);
 
   /* layout */
   --container: 1200px;
-  --header-h: 56px;       /* высота fixed-хедера */
+  --header-h: 56px;
 }
 
-/* map tokens → утилиты */
+/* map tokens → utility hooks */
 .bg-bgc        { background: var(--bgc); }
 .text-fgc      { color: var(--fgc); }
 .text-muted    { color: var(--muted); }
@@ -40,7 +38,8 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html, body { height: 100%; }
+html,
+body { height: 100%; }
 
 html {
   -webkit-text-size-adjust: 100%;
@@ -54,20 +53,27 @@ body {
   color: var(--fgc);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overscroll-behavior-y: none; /* избегаем «рывков» на iOS при скролле до края */
+  overscroll-behavior-y: none;
 }
 
-/* iOS tap highlight */
-a, button, [role="button"] { -webkit-tap-highlight-color: transparent; }
+a,
+button,
+[role="button"] { -webkit-tap-highlight-color: transparent; }
 
-/* selection */
-::selection { background: rgba(255,255,255,.16); color: var(--fgc); }
+::selection {
+  background: rgba(255,255,255,.16);
+  color: var(--fgc);
+}
 
-/* медиа по умолчанию */
-img, video { display: block; max-width: 100%; height: auto; }
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
 
 /* =========================
-   CONTAINER
+   LAYOUT HELPERS
    ========================= */
 .container {
   max-width: min(100%, var(--container));
@@ -75,27 +81,20 @@ img, video { display: block; max-width: 100%; height: auto; }
   padding-inline: 24px;
 }
 
-/* узкий кламп для текста */
 .measure { max-width: 65ch; }
 
-/* =========================
-   SAFE AREAS (iPhone)
-   ========================= */
 .safe-px { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
-.pt-safe { padding-top:  env(safe-area-inset-top); }
-.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+.pt-safe { padding-top: env(safe-area-inset-top); }
 
-/* отступ для контента ниже фикс-хедера */
-.pt-header-safe { padding-top: calc(var(--header-h) + env(safe-area-inset-top)); }
+.pt-header-safe {
+  padding-top: calc(var(--header-h) + env(safe-area-inset-top));
+}
 
-/* =========================
-   RELIABLE VIEWPORT HEIGHT
-   ========================= */
+/* reliable viewport height (iOS safe) */
 .h-ios-vh { height: 100vh; min-height: 100vh; }
 @supports (height: 100svh) { .h-ios-vh { height: 100svh; min-height: 100svh; } }
 @supports (height: 100dvh) { .h-ios-vh { height: 100dvh; min-height: 100dvh; } }
 
-/* Hero: высота = экран − (хедер + челка iOS) */
 .hero-fill {
   height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
   min-height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
@@ -123,11 +122,16 @@ img, video { display: block; max-width: 100%; height: auto; }
 }
 :focus:not(:focus-visible) { outline: none; }
 
-/* визуально скрыть, но оставить для скринридеров */
 .visually-hidden {
   position: absolute !important;
-  width: 1px; height: 1px; margin: -1px; padding: 0;
-  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* =========================
@@ -137,11 +141,9 @@ img, video { display: block; max-width: 100%; height: auto; }
 *::-webkit-scrollbar { width: 8px; height: 8px; }
 *::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 8px; }
 
-/* скрыть скроллбары при необходимости */
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
-/* комфортные тапы для иконок */
 .tap-target { min-width: 44px; min-height: 44px; }
 
 /* =========================
@@ -154,17 +156,19 @@ img, video { display: block; max-width: 100%; height: auto; }
   font-weight: 600;
   text-wrap: balance;
 }
+
 .lead {
   font-size: 1.125rem;
   line-height: 1.7;
   color: var(--muted);
 }
-@media (min-width: 768px) { .lead { font-size: 1.25rem; } }
+@media (min-width: 768px) {
+  .lead { font-size: 1.25rem; }
+}
 
 .stat-value { font-size: clamp(2rem, 1.2rem + 2vw, 3rem); font-weight: 600; }
 .stat-label { color: var(--muted); }
 
-/* Секционные заголовки и лиды (воздух) */
 .section-title {
   font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
   line-height: 1.15;
@@ -172,11 +176,13 @@ img, video { display: block; max-width: 100%; height: auto; }
   font-weight: 600;
   text-wrap: balance;
 }
+
 .section-lead {
   font-size: clamp(1.125rem, 1rem + .6vw, 1.35rem);
   line-height: 1.65;
   color: var(--muted);
 }
+
 .eyebrow {
   font-size: .8rem;
   letter-spacing: .12em;
@@ -184,7 +190,6 @@ img, video { display: block; max-width: 100%; height: auto; }
   color: var(--muted);
 }
 
-/* Крупные смысловые «паузы» */
 .statement {
   font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
   line-height: 1.1;
@@ -192,6 +197,7 @@ img, video { display: block; max-width: 100%; height: auto; }
   font-weight: 700;
   text-wrap: balance;
 }
+
 .band {
   position: relative;
   border-radius: 18px;
@@ -203,22 +209,14 @@ img, video { display: block; max-width: 100%; height: auto; }
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
-.band--tight { padding: 20px 18px; }
 
-/* Разделитель секций */
-.divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
-}
-
-/* Ритм секций */
 .section        { padding-block: 56px; }
 .section-tight  { padding-block: 32px; }
 .section-top    { padding-top: 56px; }
 .section-bottom { padding-bottom: 56px; }
 
 /* =========================
-   CARDS
+   COMPONENT STYLES
    ========================= */
 .card {
   border: 1px solid var(--border);
@@ -227,39 +225,41 @@ img, video { display: block; max-width: 100%; height: auto; }
   box-shadow: var(--shadow);
   transition: border-color .2s ease, transform .2s ease, background .2s ease;
 }
+
 .card h3 { font-size: 1.0625rem; font-weight: 600; }
 .card p  { line-height: 1.6; }
+
 @media (hover: hover) and (pointer: fine) {
   .card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
 }
 
-/* =========================
-   BUTTONS
-   ========================= */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  gap: 10px; height: 44px; padding: 0 18px;
-  border-radius: 10px; border: 1px solid var(--border);
-  background: transparent; color: var(--fgc);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fgc);
   transition: border-color .2s ease, background .2s ease, transform .1s ease;
 }
-.btn:hover   { border-color: var(--border-strong); background: rgba(255,255,255,.06); }
-.btn:active  { transform: translateY(1px); }
+
+.btn:hover { border-color: var(--border-strong); background: rgba(255,255,255,.06); }
+.btn:active { transform: translateY(1px); }
 
 .btn-primary {
-  background: var(--brand); color: #fff; border-color: transparent;
+  background: var(--brand);
+  color: #fff;
+  border-color: transparent;
 }
+
 .btn-primary:hover { filter: brightness(1.05); }
+
 .btn-primary:focus-visible { box-shadow: 0 0 0 4px rgba(124,58,237,.35); }
 
-.btn-accent {
-  background: var(--accent); color: #111; border-color: transparent;
-}
-.btn-accent:hover { background: #fff; }
-
-/* =========================
-   NAV (минималистичное подчёркивание)
-   ========================= */
 .nav-link {
   position: relative;
   display: inline-flex;
@@ -269,7 +269,9 @@ img, video { display: block; max-width: 100%; height: auto; }
   color: var(--muted);
   transition: color .2s ease;
 }
+
 .nav-link:hover { color: #fff; }
+
 .nav-link::after {
   content: "";
   position: absolute;
@@ -282,9 +284,12 @@ img, video { display: block; max-width: 100%; height: auto; }
   opacity: .9;
   transition: width .22s ease;
 }
-.nav-link:hover::after { width: 100%; }
-.nav-link.is-active { color: #fff; }
+
+.nav-link:hover::after,
 .nav-link.is-active::after { width: 100%; }
+
+.nav-link.is-active { color: #fff; }
+
 .nav-link--vertical {
   width: 100%;
   padding: .625rem 0;
@@ -292,21 +297,7 @@ img, video { display: block; max-width: 100%; height: auto; }
 }
 
 /* =========================
-   OVERLAYS
-   ========================= */
-.overlay { background: var(--overlay); }
-
-/* =========================
-   ANIMATIONS
-   ========================= */
-.fade-in { animation: fade .6s ease both; }
-@keyframes fade {
-  from { opacity:.001; transform: translateY(6px); }
-  to   { opacity:1;    transform: translateY(0); }
-}
-
-/* =========================
-   REDUCED MOTION
+   MOTION & MEDIA
    ========================= */
 @media (prefers-reduced-motion: reduce) {
   html:focus-within { scroll-behavior: auto; }
@@ -317,91 +308,23 @@ img, video { display: block; max-width: 100%; height: auto; }
     scroll-behavior: auto !important;
   }
   .backdrop-blur-md { backdrop-filter: blur(0px); }
-  .transition-transform, .transition-opacity { transition: none !important; }
+  .transition-transform,
+  .transition-opacity { transition: none !important; }
 }
 
-/* =========================
-   VIDEO FIX (iOS Safari)
-   ========================= */
 .hero-video {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important; /* мобилка: заполняем, можно обрезать */
+  object-fit: cover !important;
   transform: none;
 }
+
 @media (min-width: 768px) {
-  .hero-video { object-fit: contain !important; } /* десктоп: «тютелька в тютельку» */
+  .hero-video { object-fit: contain !important; }
 }
 
-
-/* ===== Доп. утилиты для макета и типографики ===== */
-
-/* Чуть шире кламп для длинных лидов/SEO-блоков */
-.measure-wide { max-width: 75ch; }
-
-/* Центрирование одиночных блоков (карточка/CTA/стейтмент) */
-.center { margin-left: auto; margin-right: auto; }
-
-/* Полосы с большим дыханием для героев/финальных CTA */
-.section-xl { padding-block: 88px; }
-
-/* Full-bleed фон внутри .container: тянем фон на край экрана */
-.bleed {
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  width: 100vw;
-}
-
-/* Автосетка «плиток» с min шириной — идеально для карточек */
-.grid-autofit-260 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-}
-
-/* Псевдо-ссылка-кнопка (для вторичных действий) */
-.btn-link {
-  display: inline-flex; align-items: center; gap: .5rem;
-  height: 44px; padding: 0 .25rem; border: 0;
-  color: var(--fgc); background: transparent;
-}
-.btn-link:hover { text-decoration: underline; text-underline-offset: 3px; }
-
-/* Ненавязчивая ссылка */
-.muted-link { color: var(--muted); }
-.muted-link:hover { color: var(--fgc); }
-
-/* Детали/FAQ: убираем маркер и наводим порядок с фокусом */
-details > summary {
-  list-style: none; cursor: pointer; outline: none;
-}
-details > summary::-webkit-details-marker { display: none; }
-details[open] > summary { color: var(--fgc); }
-details > summary:focus-visible {
-  outline: 2px solid rgba(255,255,255,.5);
-  outline-offset: 4px; border-radius: 6px;
-}
-
-/* Таблицы по умолчанию — аккуратная сетка */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: .95rem;
-}
-.table th, .table td {
-  padding: .6rem .75rem;
-  border-bottom: 1px solid var(--border);
-}
-.table th { text-align: left; color: var(--fgc); font-weight: 600; }
-.table td { color: var(--muted); }
-
-/* Тонкая тень для «приподнятых» блоков, если понадобится */
+/* =========================
+   MISC UTILITIES
+   ========================= */
 .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,.28); }
 
-/* Контейнер пошире для страниц-портфолио/галерей */
-@media (min-width: 1280px) {
-  .container-wide { max-width: min(100%, 1400px); }
-}
