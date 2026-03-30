@@ -12,50 +12,69 @@ interface VideoHeroProps {
   unmuteLabel?: string;
 }
 
+const HERO_VIDEO_VERSION = "20260330";
+const HERO_VIDEO_READY_STATE = 2;
+const HERO_VIDEO_ASSETS = {
+  poster: `/video/derived/hero-poster.jpg?v=${HERO_VIDEO_VERSION}`,
+  desktop: `/video/derived/hero-desktop.mp4?v=${HERO_VIDEO_VERSION}`,
+  mobile: `/video/derived/hero-mobile.mp4?v=${HERO_VIDEO_VERSION}`,
+} as const;
+
 export default function VideoHero({
   title = "Highway Films",
   subtitle = "Реклама, бренд-фильмы, корпоративные истории и клипы.",
   muteLabel = "Включить звук",
   unmuteLabel = "Выключить звук",
 }: VideoHeroProps) {
-  const [muted, setMuted] = useState(true);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const raf = window.requestAnimationFrame(() => setShouldLoadVideo(true));
-    return () => window.cancelAnimationFrame(raf);
+    const video = videoRef.current;
+    if (!video) return;
+
+    const markVideoReady = () => {
+      setIsVideoReady(true);
+    };
+
+    if (video.readyState >= HERO_VIDEO_READY_STATE) {
+      markVideoReady();
+    } else {
+      video.addEventListener("loadeddata", markVideoReady, { once: true });
+    }
+
+    void video.play().catch(() => {
+      /* muted autoplay can still be rejected silently */
+    });
+
+    return () => {
+      video.removeEventListener("loadeddata", markVideoReady);
+    };
   }, []);
 
-  useEffect(() => {
-    if (!shouldLoadVideo) return;
-
+  const handleToggleMute = () => {
     const video = videoRef.current;
+    const nextMuted = !isMuted;
+
+    setIsMuted(nextMuted);
+
     if (!video) return;
 
-    video.muted = true;
-    void video.play().catch(() => {
-      /* autoplay can be rejected silently */
-    });
-  }, [shouldLoadVideo]);
+    video.muted = nextMuted;
 
-  const handleVideoReady = () => {
-    setIsVideoReady(true);
-
-    const video = videoRef.current;
-    if (!video) return;
-
-    void video.play().catch(() => {
-      /* ignore */
-    });
+    if (video.paused) {
+      void video.play().catch(() => {
+        /* ignore */
+      });
+    }
   };
 
   return (
     <section className="relative w-full hero-fill overflow-hidden bg-black">
       <div className="absolute inset-0">
         <Image
-          src="/video/derived/hero-poster.jpg"
+          src={HERO_VIDEO_ASSETS.poster}
           alt={title}
           fill
           priority
@@ -66,31 +85,27 @@ export default function VideoHero({
           )}
         />
 
-        {shouldLoadVideo ? (
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted={muted}
-            playsInline
-            preload="none"
-            poster="/video/derived/hero-poster.jpg"
-            onLoadedData={handleVideoReady}
-            onCanPlay={handleVideoReady}
-            className={clsx(
-              "hero-video absolute inset-0 h-full w-full transition-opacity duration-300",
-              isVideoReady ? "opacity-100" : "opacity-0"
-            )}
-          >
-            <source
-              src="/video/derived/hero-desktop.mp4"
-              type="video/mp4"
-              media="(min-width: 960px)"
-            />
-            <source src="/video/derived/hero-mobile.mp4" type="video/mp4" />
-            Ваш браузер не поддерживает воспроизведение видео.
-          </video>
-        ) : null}
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted={isMuted}
+          playsInline
+          preload="metadata"
+          poster={HERO_VIDEO_ASSETS.poster}
+          className={clsx(
+            "hero-video absolute inset-0 h-full w-full transition-opacity duration-300",
+            isVideoReady ? "opacity-100" : "opacity-0"
+          )}
+        >
+          <source
+            src={HERO_VIDEO_ASSETS.desktop}
+            type="video/mp4"
+            media="(min-width: 960px)"
+          />
+          <source src={HERO_VIDEO_ASSETS.mobile} type="video/mp4" />
+          Ваш браузер не поддерживает воспроизведение видео.
+        </video>
       </div>
 
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/22 to-black/14" />
@@ -108,25 +123,12 @@ export default function VideoHero({
 
       <button
         type="button"
-        onClick={() => {
-          const video = videoRef.current;
-          if (!video) return;
-
-          const nextMuted = !muted;
-          setMuted(nextMuted);
-          video.muted = nextMuted;
-
-          if (!nextMuted) {
-            void video.play().catch(() => {
-              /* ignore */
-            });
-          }
-        }}
+        onClick={handleToggleMute}
         className="absolute bottom-4 right-4 z-30 rounded-full border border-white/20 bg-black/55 p-3 text-white transition hover:bg-black/70"
-        aria-label={muted ? muteLabel : unmuteLabel}
-        aria-pressed={!muted}
+        aria-label={isMuted ? muteLabel : unmuteLabel}
+        aria-pressed={!isMuted}
       >
-        {muted ? <VolumeX className="h-[18px] w-[18px]" aria-hidden /> : <Volume2 className="h-[18px] w-[18px]" aria-hidden />}
+        {isMuted ? <VolumeX className="h-[18px] w-[18px]" aria-hidden /> : <Volume2 className="h-[18px] w-[18px]" aria-hidden />}
       </button>
     </section>
   );
