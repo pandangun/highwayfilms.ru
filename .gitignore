@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -43,8 +44,10 @@ next-env.d.ts
 /public/video/*
 /public/images/frames/*
 
-# если нужно оставить постер — разрешаем
-!/public/video/hero-poster.jpg
+# Keep video sources out of git, but allow the tracked poster for the homepage hero.
+!/public/video/derived/
+/public/video/derived/*
+!/public/video/derived/hero-poster.jpg
 
 # --- allow image frames & map preview in the repo ---
 !/public/images/frames/**

@@ -12,13 +12,34 @@ interface VideoHeroProps {
   unmuteLabel?: string;
 }
 
-const HERO_VIDEO_VERSION = "20260330";
+const HERO_VIDEO_VERSION = process.env.NEXT_PUBLIC_HERO_VIDEO_VERSION ?? "20260330";
 const HERO_VIDEO_READY_STATE = 2;
-const HERO_VIDEO_ASSETS = {
-  poster: `/video/derived/hero-poster.jpg?v=${HERO_VIDEO_VERSION}`,
-  desktop: `/video/derived/hero-desktop.mp4?v=${HERO_VIDEO_VERSION}`,
-  mobile: `/video/derived/hero-mobile.mp4?v=${HERO_VIDEO_VERSION}`,
+const HERO_VIDEO_POSTER_SRC = withVersion("/video/derived/hero-poster.jpg", HERO_VIDEO_VERSION);
+const HERO_VIDEO_REMOTE_SOURCES = {
+  desktop: process.env.NEXT_PUBLIC_HERO_VIDEO_DESKTOP_URL,
+  mobile: process.env.NEXT_PUBLIC_HERO_VIDEO_MOBILE_URL,
 } as const;
+const HERO_VIDEO_LOCAL_SOURCES = {
+  desktop: withVersion("/video/derived/hero-desktop.mp4", HERO_VIDEO_VERSION),
+  mobile: withVersion("/video/derived/hero-mobile.mp4", HERO_VIDEO_VERSION),
+} as const;
+const HAS_REMOTE_HERO_VIDEO = Boolean(
+  HERO_VIDEO_REMOTE_SOURCES.desktop && HERO_VIDEO_REMOTE_SOURCES.mobile
+);
+const SHOULD_RENDER_HERO_VIDEO =
+  HAS_REMOTE_HERO_VIDEO || process.env.NODE_ENV !== "production";
+const HERO_VIDEO_SOURCES = HAS_REMOTE_HERO_VIDEO
+  ? {
+      desktop: withVersion(HERO_VIDEO_REMOTE_SOURCES.desktop, HERO_VIDEO_VERSION),
+      mobile: withVersion(HERO_VIDEO_REMOTE_SOURCES.mobile, HERO_VIDEO_VERSION),
+    }
+  : HERO_VIDEO_LOCAL_SOURCES;
+
+function withVersion(url: string | undefined, version: string) {
+  if (!url) return "";
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}v=${version}`;
+}
 
 export default function VideoHero({
   title = "Highway Films",
@@ -31,6 +52,8 @@ export default function VideoHero({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    if (!SHOULD_RENDER_HERO_VIDEO) return;
+
     const video = videoRef.current;
     if (!video) return;
 
@@ -74,7 +97,7 @@ export default function VideoHero({
     <section className="relative w-full hero-fill overflow-hidden bg-black">
       <div className="absolute inset-0">
         <Image
-          src={HERO_VIDEO_ASSETS.poster}
+          src={HERO_VIDEO_POSTER_SRC}
           alt={title}
           fill
           priority
@@ -85,27 +108,29 @@ export default function VideoHero({
           )}
         />
 
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          preload="metadata"
-          poster={HERO_VIDEO_ASSETS.poster}
-          className={clsx(
-            "hero-video absolute inset-0 h-full w-full transition-opacity duration-300",
-            isVideoReady ? "opacity-100" : "opacity-0"
-          )}
-        >
-          <source
-            src={HERO_VIDEO_ASSETS.desktop}
-            type="video/mp4"
-            media="(min-width: 960px)"
-          />
-          <source src={HERO_VIDEO_ASSETS.mobile} type="video/mp4" />
-          Ваш браузер не поддерживает воспроизведение видео.
-        </video>
+        {SHOULD_RENDER_HERO_VIDEO ? (
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            preload="metadata"
+            poster={HERO_VIDEO_POSTER_SRC}
+            className={clsx(
+              "hero-video absolute inset-0 h-full w-full transition-opacity duration-300",
+              isVideoReady ? "opacity-100" : "opacity-0"
+            )}
+          >
+            <source
+              src={HERO_VIDEO_SOURCES.desktop}
+              type="video/mp4"
+              media="(min-width: 960px)"
+            />
+            <source src={HERO_VIDEO_SOURCES.mobile} type="video/mp4" />
+            Ваш браузер не поддерживает воспроизведение видео.
+          </video>
+        ) : null}
       </div>
 
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/22 to-black/14" />
@@ -121,15 +146,17 @@ export default function VideoHero({
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={handleToggleMute}
-        className="absolute bottom-4 right-4 z-30 rounded-full border border-white/20 bg-black/55 p-3 text-white transition hover:bg-black/70"
-        aria-label={isMuted ? muteLabel : unmuteLabel}
-        aria-pressed={!isMuted}
-      >
-        {isMuted ? <VolumeX className="h-[18px] w-[18px]" aria-hidden /> : <Volume2 className="h-[18px] w-[18px]" aria-hidden />}
-      </button>
+      {SHOULD_RENDER_HERO_VIDEO ? (
+        <button
+          type="button"
+          onClick={handleToggleMute}
+          className="absolute bottom-4 right-4 z-30 rounded-full border border-white/20 bg-black/55 p-3 text-white transition hover:bg-black/70"
+          aria-label={isMuted ? muteLabel : unmuteLabel}
+          aria-pressed={!isMuted}
+        >
+          {isMuted ? <VolumeX className="h-[18px] w-[18px]" aria-hidden /> : <Volume2 className="h-[18px] w-[18px]" aria-hidden />}
+        </button>
+      ) : null}
     </section>
   );
 }
