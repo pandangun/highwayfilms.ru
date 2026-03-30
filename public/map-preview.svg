@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Highway Films map placeholder</title>
+  <desc id="desc">Dark placeholder graphic for office map preview.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#141417" />
+      <stop offset="55%" stop-color="#101014" />
+      <stop offset="100%" stop-color="#1d1630" />
+    </linearGradient>
+    <linearGradient id="line" x1="0%" x2="100%" y1="0%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".05" />
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity=".3" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="18" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)" />
+
+  <g opacity=".55">
+    <path d="M90 200H1510" stroke="url(#line)" stroke-width="2" />
+    <path d="M140 320H1460" stroke="url(#line)" stroke-width="2" />
+    <path d="M110 470H1490" stroke="url(#line)" stroke-width="2" />
+    <path d="M150 650H1450" stroke="url(#line)" stroke-width="2" />
+    <path d="M260 110V790" stroke="url(#line)" stroke-width="2" />
+    <path d="M520 80V820" stroke="url(#line)" stroke-width="2" />
+    <path d="M820 70V830" stroke="url(#line)" stroke-width="2" />
+    <path d="M1120 90V810" stroke="url(#line)" stroke-width="2" />
+    <path d="M1360 120V780" stroke="url(#line)" stroke-width="2" />
+  </g>
+
+  <g filter="url(#glow)">
+    <circle cx="520" cy="320" r="16" fill="#ffffff" fill-opacity=".9" />
+    <circle cx="1120" cy="520" r="16" fill="#7c3aed" fill-opacity=".9" />
+  </g>
+
+  <g fill="none" stroke="#ffffff" stroke-opacity=".16" stroke-width="2">
+    <path d="M520 320C660 350 760 380 1120 520" stroke-dasharray="10 14" />
+  </g>
+
+  <g fill="#ffffff">
+    <text x="560" y="300" font-size="34" font-family="Arial, sans-serif" opacity=".92">Saint Petersburg</text>
+    <text x="1160" y="500" font-size="34" font-family="Arial, sans-serif" opacity=".92">Moscow</text>
+  </g>
+
+  <g fill="#ffffff" opacity=".58" font-family="Arial, sans-serif">
+    <text x="90" y="820" font-size="22" letter-spacing="6">HIGHWAY FILMS / MAP PREVIEW</text>
+  </g>
+</svg>

@@ -1,136 +1,126 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import StudioServicePage from "@/components/StudioServicePage";
+import { buildPageMetadata } from "@/lib/metadata";
 
-/**
- * Highway Films — AI Page
- * Услуги генерации: дипфейк, виртуальные ведущие, поздравления, рекламные ролики
- * Стиль — такой же, как WeddingsPage (hero + блоки + CTA + FAQ)
- */
-
-export const metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "AI-видео и генерация — Highway Films",
   description:
-    "Генерация видео с помощью AI: виртуальные ведущие, дипфейк-поздравления, рекламные ролики и аватары для соцсетей. Современный подход к креативу.",
-};
-
-function Card({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent p-6">
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="mt-2 text-sm text-neutral-300 leading-relaxed">{children}</p>
-    </div>
-  );
-}
+    "AI-видео, виртуальные ведущие, deepfake-поздравления и генеративные ролики для брендов. Быстрый запуск с этичным подходом.",
+  path: "/ai",
+  locale: "ru",
+  imagePath: "/images/ads/a06.jpg",
+});
 
 export default function AiPage() {
   return (
-    <>
-      {/* HERO */}
-      <section className="container relative pt-12 md:pt-16">
-        <div className="max-w-3xl">
-          <span className="inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[12px] uppercase tracking-wider text-white/80">
-            AI-фильмы и ролики
-          </span>
-          <h1 className="h1 font-bold mt-4">
-            Генерация видео и контента с помощью AI
-          </h1>
-          <p className="lead mt-4 text-neutral-200">
-            Мы используем современные модели для создания видео, которые раньше
-            требовали больших бюджетов. Виртуальные ведущие, дипфейк-эффекты,
-            персонализированные поздравления и быстрые рекламные ролики —
-            всё под ваши задачи.
-          </p>
-          <div className="mt-6">
-            <Link
-              href="/contacts"
-              className="btn-primary inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 font-medium hover:opacity-95 transition"
-            >
-              Обсудить задачу
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Что делаем */}
-      <section className="container py-12 grid gap-6 md:grid-cols-2">
-        <Card title="Виртуальные ведущие и аватары">
-          Создаём цифровых персонажей, которые могут вести трансляции,
-          презентовать продукты или читать поздравления от имени компании.
-        </Card>
-        <Card title="AI-поздравления">
-          Персонализированные ролики для сотрудников, партнёров и клиентов.
-          Эффект «вау» при минимальных затратах времени.
-        </Card>
-        <Card title="Рекламные ролики">
-          Сценарии, озвучка и визуал — генерируем и собираем под ваш бренд.
-          Идеально для соцсетей и быстрого запуска кампаний.
-        </Card>
-        <Card title="Этические дипфейк-решения">
-          Используем технологии ответственно: создаём эффектные ролики без
-          нарушения авторских и личных прав.
-        </Card>
-      </section>
-
-      {/* Кейсы / галерея */}
-      <section className="container py-12">
-        <h2 className="mb-4 text-xl font-semibold">Примеры</h2>
-        <div className="no-scrollbar -mx-4 overflow-x-auto px-4">
-          <div className="flex gap-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="relative h-44 w-[260px] shrink-0 overflow-hidden rounded-xl border border-white/10"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`/images/ai-samples/sample${i + 1}.jpg`}
-                  alt="ai case"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="container py-12">
-        <h2 className="text-xl font-semibold mb-4">FAQ</h2>
-        <div className="divide-y divide-white/10 rounded-2xl border border-white/10">
-          <details className="group p-5">
-            <summary className="cursor-pointer list-none text-base font-medium">
-              Можно ли использовать такие ролики в рекламе?
-            </summary>
-            <div className="mt-2 text-sm leading-relaxed text-neutral-300">
-              Да, мы адаптируем видео под требования площадок (Meta*, VK,
-              TikTok, YouTube и др.). (*Запрещена в РФ)
-            </div>
-          </details>
-          <details className="group p-5">
-            <summary className="cursor-pointer list-none text-base font-medium">
-              Насколько это легально?
-            </summary>
-            <div className="mt-2 text-sm leading-relaxed text-neutral-300">
-              Мы работаем только с этичными сценариями и не используем чужие
-              изображения без разрешения.
-            </div>
-          </details>
-          <details className="group p-5">
-            <summary className="cursor-pointer list-none text-base font-medium">
-              Сколько стоит AI-ролик?
-            </summary>
-            <div className="mt-2 text-sm leading-relaxed text-neutral-300">
-              Стоимость зависит от длительности, сценария и используемых
-              технологий. Минимальные проекты начинаются от 20–30 тыс ₽.
-            </div>
-          </details>
-        </div>
-      </section>
-    </>
+    <StudioServicePage
+      hero={{
+        eyebrow: "AI / CGI",
+        title: "AI-видео и генерация контента",
+        lead:
+          "Используем современные модели как производственный инструмент: для быстрых рекламных роликов, виртуальных ведущих, стилизованного визуала, персонализированных видео и генеративных вставок в реальные проекты.",
+        primaryHref: "/contacts",
+        primaryLabel: "Обсудить AI-задачу",
+        secondaryHref: "https://t.me/highwayfilms",
+        secondaryLabel: "Telegram",
+        chips: ["Виртуальные ведущие", "AI-реклама", "Deepfake-поздравления", "Генеративный визуал"],
+        metrics: [
+          { value: "20-30k ₽", label: "низкий порог для стартовых задач" },
+          { value: "1-5 дн.", label: "быстрые прототипы и тесты" },
+          { value: "Этично", label: "работаем в этичных сценариях" },
+        ],
+        panelEyebrow: "Скорость + эксперимент",
+        panelTitle: "Генерация как часть продакшна, а не фокус ради фокуса.",
+        panelCopy:
+          "Используем AI там, где он реально сокращает путь к результату: ускоряет препрод, удешевляет тесты и открывает новые визуальные возможности.",
+        imageSrc: "/images/ads/a06.jpg",
+        imageAlt: "AI-визуал Highway Films",
+      }}
+      statement="AI сам по себе не делает проект сильным. Сильным его делает то, как генерация встроена в задачу, визуальную логику и реальный сценарий использования."
+      offerings={{
+        eyebrow: "Форматы",
+        title: "Что можно сделать",
+        lead: "От быстрых рекламных тестов до персонажей и стилизованного визуала, который сложно или дорого снять классическим способом.",
+        items: [
+          {
+            title: "Виртуальные ведущие и аватары",
+            text: "Цифровые персонажи для презентаций, обучающих материалов, объясняющих роликов и бренд-коммуникации.",
+          },
+          {
+            title: "AI-рекламные ролики",
+            text: "Генеративные сцены, продукты, среда и монтажные концепты для быстрого запуска гипотез и social-first кампаний.",
+          },
+          {
+            title: "Персонализированные поздравления",
+            text: "Короткие вау-ролики для сотрудников, партнёров и клиентов, когда нужен эффект без тяжёлого продакшна.",
+          },
+          {
+            title: "Генеративные вставки и гибридные проекты",
+            text: "Интегрируем AI в обычный съёмочный процесс: фоновые пластины, стилизованные вставки, превиз и визуальные переходы.",
+          },
+        ],
+      }}
+      gallery={{
+        eyebrow: "Примеры",
+        title: "Визуальная зона эксперимента",
+        lead: "Используем готовые ассеты и генеративный слой как часть целостной подачи.",
+        items: [
+          { src: "/images/ads/a01.jpg", tag: "Реклама", title: "Быстрые рекламные прототипы и концепции для соцсетей" },
+          { src: "/images/ads/a05.jpg", tag: "Стилизация", title: "Атмосфера и необычная фактура без сложной съёмки" },
+          { src: "/images/ads/a06.jpg", tag: "Аватар", title: "AI-подача, которая не скатывается в дешевую генерацию" },
+        ],
+      }}
+      workflow={{
+        eyebrow: "Процесс",
+        title: "Как подходим к AI-проекту",
+        lead: "Не кидаем промпты наугад. Сначала собираем роль AI внутри общей задачи.",
+        items: [
+          {
+            title: "Сценарий использования и рамка",
+            text: "Определяем, зачем тут AI: скорость, персонализация, удешевление продакшна, нестандартная стилистика или всё сразу.",
+          },
+          {
+            title: "Концепция и безопасность",
+            text: "Фиксируем визуальную логику, референсы, тон коммуникации и этические ограничения ещё до генерации.",
+          },
+          {
+            title: "Генерация и сборка",
+            text: "Создаём сцены, голоса, персонажей или вставки, а затем собираем материал в монтажную форму, которая реально работает.",
+          },
+          {
+            title: "Пост и финальные форматы",
+            text: "Доводим монтаж, звук, титры, цвет и финальные форматы до уровня, который не выдаёт сырой генеративный пайплайн.",
+          },
+        ],
+      }}
+      faq={{
+        title: "Часто спрашивают",
+        items: [
+          {
+            question: "Это легально?",
+            answer: "Работаем только в этичных сценариях и не используем чужие лица, голоса или материалы без необходимых прав и согласований.",
+          },
+          {
+            question: "Подходит ли AI только для маленьких бюджетов?",
+            answer: "Нет. AI полезен и для быстрых тестов, и как часть более крупных гибридных проектов, где нужен нестандартный визуал.",
+          },
+          {
+            question: "Можно ли совместить генерацию и реальную съёмку?",
+            answer: "Да. Это один из самых интересных сценариев: реальные кадры + AI-вставки, которые усиливают мир проекта.",
+          },
+          {
+            question: "Насколько быстро можно получить первый результат?",
+            answer: "Прототипы и тесты обычно собираем за 1-5 дней. Финальный срок зависит от сложности сцены, персонажей и количества версий.",
+          },
+        ],
+      }}
+      closing={{
+        title: "Нужно быстро проверить идею или собрать необычный AI-визуал под бренд?",
+        description: "Опишите сценарий и желаемый эффект. Скажем, где AI реально помогает, а где лучше идти обычным продакшном.",
+        ctaLabel: "Запустить AI-бриф",
+        href: "/contacts",
+        note: "Подходит для тестов, презентаций, поздравлений и гибридных рекламных проектов",
+      }}
+    />
   );
 }

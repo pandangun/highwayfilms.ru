@@ -1,80 +1,132 @@
-﻿"use client";
+"use client";
+
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { Volume2, VolumeX } from "lucide-react";
+import clsx from "clsx";
 
 interface VideoHeroProps {
+  title?: string;
+  subtitle?: string;
   muteLabel?: string;
   unmuteLabel?: string;
 }
 
 export default function VideoHero({
+  title = "Highway Films",
+  subtitle = "Реклама, бренд-фильмы, корпоративные истории и клипы.",
   muteLabel = "Включить звук",
   unmuteLabel = "Выключить звук",
 }: VideoHeroProps) {
   const [muted, setMuted] = useState(true);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = true;
-    const tryPlay = async () => {
-      try {
-        await v.play();
-      } catch {
-        /* ignore autoplay rejection */
-      }
-    };
-    const onCanPlay = () => tryPlay();
-    v.addEventListener("canplay", onCanPlay);
-    if (v.readyState >= 2) tryPlay();
-    return () => v.removeEventListener("canplay", onCanPlay);
+    const raf = window.requestAnimationFrame(() => setShouldLoadVideo(true));
+    return () => window.cancelAnimationFrame(raf);
   }, []);
 
+  useEffect(() => {
+    if (!shouldLoadVideo) return;
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    void video.play().catch(() => {
+      /* autoplay can be rejected silently */
+    });
+  }, [shouldLoadVideo]);
+
+  const handleVideoReady = () => {
+    setIsVideoReady(true);
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    void video.play().catch(() => {
+      /* ignore */
+    });
+  };
+
   return (
-    <section className="relative w-full hero-fill overflow-hidden">
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted={muted}
-        playsInline
-        preload="auto"
-        poster="/video/derived/hero-poster.jpg"
-        className="
-          hero-video
-          absolute inset-0 w-full h-full
-          object-cover md:object-contain
-          scale-[1.2] md:scale-100
-          transform-gpu
-        "
-      >
-        <source src="/video/derived/fallback-720.mp4" type="video/mp4" />
-        <source src="/video/derived/fallback-1080.mp4" type="video/mp4" />
-        Ваш браузер не поддерживает воспроизведение видео.
-      </video>
+    <section className="relative w-full hero-fill overflow-hidden bg-black">
+      <div className="absolute inset-0">
+        <Image
+          src="/video/derived/hero-poster.jpg"
+          alt={title}
+          fill
+          priority
+          sizes="100vw"
+          className={clsx(
+            "object-cover md:object-contain transition-opacity duration-200",
+            isVideoReady ? "opacity-0" : "opacity-100"
+          )}
+        />
 
-      <div className="absolute inset-0 bg-black/30 pointer-events-none z-10" />
+        {shouldLoadVideo ? (
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted={muted}
+            playsInline
+            preload="none"
+            poster="/video/derived/hero-poster.jpg"
+            onLoadedData={handleVideoReady}
+            onCanPlay={handleVideoReady}
+            className={clsx(
+              "hero-video absolute inset-0 h-full w-full transition-opacity duration-300",
+              isVideoReady ? "opacity-100" : "opacity-0"
+            )}
+          >
+            <source
+              src="/video/derived/hero-desktop.mp4"
+              type="video/mp4"
+              media="(min-width: 960px)"
+            />
+            <source src="/video/derived/hero-mobile.mp4" type="video/mp4" />
+            Ваш браузер не поддерживает воспроизведение видео.
+          </video>
+        ) : null}
+      </div>
 
-      <div className="absolute inset-0 flex items-end p-6 md:p-12 z-20">
-        <div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">Highway Films</h1>
-          <p className="mt-3 text-neutral-200 max-w-xl text-lg">Bold visuals. Clear storytelling. Results on screen.</p>
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/22 to-black/14" />
+
+      <div className="absolute inset-x-0 bottom-0 z-20 p-6 md:p-12">
+        <div className="container px-0">
+          <div className="max-w-3xl">
+            <h1 className="font-display text-[clamp(2.8rem,6vw,5.4rem)] leading-[0.95] tracking-[-0.04em] text-white">
+              {title}
+            </h1>
+            <p className="mt-3 max-w-2xl text-base leading-7 text-white/74 md:text-lg">{subtitle}</p>
+          </div>
         </div>
       </div>
 
       <button
+        type="button"
         onClick={() => {
-          const v = videoRef.current;
-          if (!v) return;
-          const next = !muted;
-          setMuted(next);
-          v.muted = next;
-          if (!next) v.play().catch(() => {});
+          const video = videoRef.current;
+          if (!video) return;
+
+          const nextMuted = !muted;
+          setMuted(nextMuted);
+          video.muted = nextMuted;
+
+          if (!nextMuted) {
+            void video.play().catch(() => {
+              /* ignore */
+            });
+          }
         }}
-        className="absolute bottom-4 right-4 p-3 rounded-full bg-black/50 border border-white/30 text-white hover:bg-black/70 transition z-30"
+        className="absolute bottom-4 right-4 z-30 rounded-full border border-white/20 bg-black/55 p-3 text-white transition hover:bg-black/70"
         aria-label={muted ? muteLabel : unmuteLabel}
+        aria-pressed={!muted}
       >
-        {muted ? "🔇" : "🔊"}
+        {muted ? <VolumeX className="h-[18px] w-[18px]" aria-hidden /> : <Volume2 className="h-[18px] w-[18px]" aria-hidden />}
       </button>
     </section>
   );

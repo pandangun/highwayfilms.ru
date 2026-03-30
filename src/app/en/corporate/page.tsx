@@ -1,164 +1,147 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import StudioServicePage from "@/components/StudioServicePage";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Corporate & Presentation Video — Highway Films",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Corporate and presentation video - Highway Films",
   description:
-    "Company films, trade-show & investor presentations, onboarding and internal comms. Full cycle: idea → pre-production → shoot → post.",
-  alternates: {
-    canonical: "https://highwayfilms.ru/en/corporate",
-    languages: {
-      ru: "/corporate",
-      en: "/en/corporate",
-      "x-default": "/en/corporate",
-    },
-  },
-  openGraph: {
-    type: "website",
-    url: "https://highwayfilms.ru/en/corporate",
-    title: "Corporate Video — Highway Films",
-    description:
-      "Company/manufacturing films, booth loops, HR & internal comms. Full cycle: concept → shoot → post.",
-    siteName: "Highway Films",
-  },
-  robots: { index: true, follow: true },
-};
+    "Company, manufacturing, HR, and presentation films. Corporate video that explains business value without looking bureaucratic.",
+  path: "/en/corporate",
+  locale: "en",
+  imagePath: "/images/frames/f004.jpg",
+});
 
-function Card({ title, desc }: { title: string; desc: string }) {
+export default function CorporateEnPage() {
   return (
-    <div className="card p-5 md:p-6 transition hover:-translate-y-0.5">
-      <h3 className="text-base font-semibold">{title}</h3>
-      <p className="mt-2 text-muted leading-relaxed">{desc}</p>
-    </div>
-  );
-}
-
-function Check({ children }: { children: React.ReactNode }) {
-  return (
-    <li className="flex gap-3 items-start">
-      <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-400">
-        ✓
-      </span>
-      <span className="text-sm text-muted leading-relaxed">{children}</span>
-    </li>
-  );
-}
-
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="card p-5 text-center">
-      <div className="stat-value">{value}</div>
-      <div className="stat-label mt-1">{label}</div>
-    </div>
-  );
-}
-
-export default function CorporatePageEN() {
-  return (
-    <>
-      {/* HERO */}
-      <section className="container pt-header-safe section-top">
-        <div className="max-w-3xl">
-          <div className="eyebrow">Corporate</div>
-          <h1 className="h1 mt-2">Corporate & Presentation Video</h1>
-          <p className="lead mt-3">
-            We help present products and processes: company and manufacturing films, trade-show and
-            investor videos, onboarding, reports and internal communications. Clean visuals, clear
-            structure and predictable timelines.
-          </p>
-        </div>
-
-        {/* Statement */}
-        <div className="band mt-8">
-          <p className="statement">
-            A presentation video that explains value and answers questions before the meeting.
-          </p>
-        </div>
-
-        {/* Formats */}
-        <div className="mt-10 grid gap-5 sm:grid-cols-2">
-          <Card
-            title="Company / Manufacturing films"
-            desc="Brand story, factory tours, demonstrating expertise and infrastructure."
-          />
-          <Card
-            title="Booth & presentation videos"
-            desc="Looped silent videos for trade shows, concise cuts for talks."
-          />
-          <Card
-            title="HR & internal communications"
-            desc="Onboarding and welcome videos, reports, corporate events, EVP comms."
-          />
-          <Card
-            title="Interviews & case stories"
-            desc="Executives and experts on camera, client cases, success stories."
-          />
-        </div>
-      </section>
-
-      {/* Outcomes + Process */}
-      <section className="container py-12">
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="card p-6">
-            <h3 className="text-lg font-semibold">What you get</h3>
-            <ul className="mt-4 space-y-3">
-              <Check>Treatment and storyboard tailored to your audience</Check>
-              <Check>Up to 4K/10-bit capture, drones/gimbals as needed</Check>
-              <Check>Edit, color, graphics (subtitles/lower thirds), sound</Check>
-              <Check>Versions for web, social and trade-show screens</Check>
-              <Check>Usage guidelines and a thumbnail pack if needed</Check>
-            </ul>
-          </div>
-
-          <div className="card p-6">
-            <h3 className="text-lg font-semibold">Process (transparent)</h3>
-            <ol className="mt-4 grid gap-3 text-sm text-muted">
-              <li className="border-l border-white/10 pl-4">
-                <b>1. Brief</b> — goal, channels, key messages.
-              </li>
-              <li className="border-l border-white/10 pl-4">
-                <b>2. Treatment</b> — concept, structure, references, budget & schedule.
-              </li>
-              <li className="border-l border-white/10 pl-4">
-                <b>3. Production</b> — pre-prod, shoot, backups.
-              </li>
-              <li className="border-l border-white/10 pl-4">
-                <b>4. Post</b> — edit, graphics/subtitles, color, sound.
-              </li>
-              <li className="border-l border-white/10 pl-4">
-                <b>5. Delivery</b> — master files & resizes, hand-off of originals.
-              </li>
-            </ol>
-          </div>
-        </div>
-
-        {/* Trust */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <Stat value="10+" label="years in production" />
-          <Stat value="50+" label="projects delivered" />
-          <Stat value="2" label="cities we work in (SPB / Moscow)" />
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="container pb-16">
-        <div className="rounded-2xl bg-gradient-to-r from-sky-500/20 to-violet-600/20 px-6 py-7 ring-1 ring-white/10">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-            <div>
-              <h3 className="text-xl font-semibold">Need a video for a trade show or pitch?</h3>
-              <p className="text-muted mt-1">
-                Send a brief — we’ll return budget and timeline within one business day.
-              </p>
-            </div>
-            <Link
-              href="/en/contacts"
-              className="btn btn-primary rounded-xl px-5 py-3 font-medium hover:opacity-95 transition"
-            >
-              Get a quote
-            </Link>
-          </div>
-        </div>
-      </section>
-    </>
+    <StudioServicePage
+      hero={{
+        eyebrow: "Corporate",
+        title: "Corporate and presentation video",
+        lead:
+          "We create films for companies that need to explain product, process, expertise, or brand position clearly. Not bureaucratic, not stale, but structured and visually controlled.",
+        primaryHref: "/en/contacts",
+        primaryLabel: "Request a quote",
+        secondaryHref: "https://t.me/highwayfilms",
+        secondaryLabel: "Telegram",
+        chips: ["Company film", "Investor deck", "HR / EVP", "Presentation loops"],
+        metrics: [
+          { value: "10+ years", label: "in production-led business content" },
+          { value: "50+", label: "corporate projects delivered" },
+          { value: "2", label: "base cities" },
+        ],
+        panelEyebrow: "Structure + clarity",
+        panelTitle: "Video that answers questions before the meeting starts.",
+        panelCopy:
+          "For presentations, investors, HR, and internal communication. Built to explain, persuade, and strengthen trust.",
+        imageSrc: "/images/frames/f004.jpg",
+        imageAlt: "Highway Films corporate still",
+      }}
+      statement="Corporate video does not have to feel dry. It should be visually clean, structurally clear, and strong enough to hold attention."
+      offerings={{
+        eyebrow: "Formats",
+        title: "Where this works",
+        lead: "We design the film around the real use case, not around a vague request for something ‘about the company’.",
+        items: [
+          {
+            title: "Company and manufacturing films",
+            text: "We show infrastructure, people, process, and expertise in a way that makes scale and competence immediately legible.",
+          },
+          {
+            title: "Trade-show and presentation video",
+            text: "Looping films for booths, screen content for talks, and concise visual assets that read clearly even in noisy environments.",
+          },
+          {
+            title: "HR and internal communications",
+            text: "Welcome videos, onboarding, EVP messaging, report films, and internal stories for teams and leadership.",
+          },
+          {
+            title: "Interviews and case stories",
+            text: "Executives, experts, clients, and partners on camera when the goal is trust, proof, and lived experience.",
+          },
+        ],
+      }}
+      gallery={{
+        eyebrow: "Visual tone",
+        title: "Presentation without office fatigue",
+        lead: "Architecture, processes, portraits, and detail work inside one clean language.",
+        items: [
+          { src: "/images/frames/f004.jpg", tag: "Space", title: "Spaces and processes read immediately" },
+          { src: "/images/frames/f011.jpg", tag: "Portrait", title: "People look composed instead of stiff" },
+          { src: "/images/frames/f018.jpg", tag: "Details", title: "Product and infrastructure details build trust" },
+        ],
+      }}
+      workflow={{
+        eyebrow: "Workflow",
+        title: "How we build a corporate project",
+        lead: "Messages, narrative order, and approval points get defined before production begins.",
+        items: [
+          {
+            title: "Brief and message",
+            text: "We define who the film speaks to and what it needs to clarify: client, partner, employee, investor, or event audience.",
+          },
+          {
+            title: "Structure and prep",
+            text: "We build the narrative spine, talking points, cast list, locations, process coverage, and key inserts.",
+          },
+          {
+            title: "Production",
+            text: "Interviews, b-roll, spaces, and process footage are captured with enough flexibility to make editorial decisions later.",
+          },
+          {
+            title: "Edit and delivery",
+            text: "We assemble the hero version, short adaptations, silent-friendly cuts, subtitles, and graphics when needed.",
+          },
+        ],
+      }}
+      deliverables={{
+        title: "What the company gets",
+        groups: [
+          {
+            title: "Video package",
+            items: [
+              "Main version tailored to the primary use case",
+              "Adaptations for web, social, presentations, or screen playback",
+              "Subtitles, lower-thirds, and preview frames when needed",
+            ],
+          },
+          {
+            title: "Project clarity",
+            items: [
+              "Clear budget and production phases",
+              "A sane approval path instead of revision chaos",
+              "Shared understanding of what is being filmed and why",
+            ],
+          },
+        ],
+      }}
+      faq={{
+        title: "FAQ",
+        items: [
+          {
+            question: "Can one production cycle cover interviews and process footage?",
+            answer: "Yes. That is usually the most efficient model: one production closes several communication scenarios at once.",
+          },
+          {
+            question: "Can this work for trade shows and silent screen environments?",
+            answer: "Yes. We build silent-friendly versions with visual structure and graphics so the film does not rely only on voiceover.",
+          },
+          {
+            question: "Do employees need coaching before filming?",
+            answer: "Yes, but not in an overly formal way. We give a clear frame in advance and help people feel natural on camera.",
+          },
+          {
+            question: "Can one film be adapted for both HR and external communication?",
+            answer: "Yes. If planned early, one project can generate several working versions with different emphasis.",
+          },
+        ],
+      }}
+      closing={{
+        title: "Need a film that explains the business without feeling like corporate wallpaper?",
+        description: "Send the task, platform, and audience. We will build the film structure, timing, and estimate.",
+        ctaLabel: "Discuss a corporate project",
+        href: "/en/contacts",
+        note: "Useful for HR, trade shows, investor decks, and internal communication",
+      }}
+    />
   );
 }

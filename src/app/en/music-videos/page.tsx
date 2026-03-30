@@ -1,237 +1,126 @@
-﻿// app/en/music-videos/page.tsx
-import Link from "next/link";
-import Image from "next/image";
+import type { Metadata } from "next";
+import StudioServicePage from "@/components/StudioServicePage";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata = {
-  title: "Music Videos — Highway Films",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Music videos — Highway Films",
   description:
-    "Idea → treatment → shoot → post. We combine lighting, locations and color grading to create a cinematic vibe for your track.",
-};
+    "Music videos with treatment, direction, filming, grade, and post. We build atmosphere, rhythm, and a visual world around the artist.",
+  path: "/en/music-videos",
+  locale: "en",
+  imagePath: "/images/frames/f022.jpg",
+});
 
-/**
- * Replace with actual frame names from /public/images/frames/
- */
-const frames = [
-  "/images/frames/f001.jpg",
-  "/images/frames/f002.jpg",
-  "/images/frames/f003.jpg",
-  "/images/frames/f004.jpg",
-  "/images/frames/f005.jpg",
-  "/images/frames/f006.jpg",
-];
-
-function ThumbStrip({ start = 0 }: { start?: number }) {
-  const picks = [0, 1, 2].map((i) => frames[(start + i) % frames.length]);
+export default function MusicVideosEnPage() {
   return (
-    <div className="mt-4 grid grid-cols-3 gap-2">
-      {picks.map((src, idx) => (
-        <div
-          key={`${start}-${idx}-${src}`}
-          className="group relative aspect-[4/3] overflow-hidden rounded-lg ring-1 ring-white/10"
-        >
-          <Image
-            src={src}
-            alt={`Music video frame ${(start + idx) % frames.length + 1}`}
-            fill
-            className="object-cover transition duration-300 group-hover:scale-[1.03]"
-            sizes="(max-width: 768px) 30vw, (max-width: 1024px) 20vw, 160px"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-        </div>
-      ))}
-    </div>
+    <StudioServicePage
+      hero={{
+        eyebrow: "Music videos",
+        title: "Music videos",
+        lead:
+          "We create videos where concept, light, edit rhythm, and colour build one coherent world around the artist. We can join from treatment and visual concept through final master and release-ready versions.",
+        primaryHref: "/en/contacts",
+        primaryLabel: "Discuss a video",
+        secondaryHref: "https://t.me/highwayfilms",
+        secondaryLabel: "Telegram",
+        chips: ["Treatment", "Direction", "Filming", "Post / VFX"],
+        metrics: [
+          { value: "2-4 weeks", label: "typical production cycle" },
+          { value: "4K / 10-bit", label: "capture and grade" },
+          { value: "Shorts / Reels", label: "release adaptations" },
+        ],
+        panelEyebrow: "Image + rhythm",
+        panelTitle: "A video as a visual world, not just a cover performance.",
+        panelCopy:
+          "We build around the energy of the track and the artist’s image, not around random effects or disconnected pretty shots.",
+        imageSrc: "/images/frames/f022.jpg",
+        imageAlt: "Highway Films music video still",
+      }}
+      statement="A strong music video does more than cut nicely to the beat. It gives the artist a visual language you can read before the first chorus lands."
+      offerings={{
+        eyebrow: "Formats",
+        title: "What we can build",
+        lead: "From intimate performance pieces to staged concepts with VFX and stronger visual worldbuilding.",
+        items: [
+          {
+            title: "Treatment and visual concept",
+            text: "Moodboards, references, narrative logic, frame rhythm, and a map of visual anchors for the track.",
+          },
+          {
+            title: "Staged production",
+            text: "Locations, lighting, camera, movement, art direction, and scenography tuned to the right emotion and scale.",
+          },
+          {
+            title: "Performance and portrait-led formats",
+            text: "When presence matters more than plot: artist energy, movement, frame plasticity, and image-forward staging.",
+          },
+          {
+            title: "Edit, grade, and VFX",
+            text: "Rhythmic editing, transitions, colour worlds, graphic or VFX inserts, titles, and release-ready versions.",
+          },
+        ],
+      }}
+      gallery={{
+        eyebrow: "Moodboard",
+        title: "Tone and atmosphere",
+        lead: "Close portraits, backlight, fashion language, and cinematic space.",
+        items: [
+          { src: "/images/frames/f001.jpg", tag: "Portrait", title: "Face and emotion as the magnetic centre" },
+          { src: "/images/frames/f022.jpg", tag: "Performance", title: "Movement and style inside one rhythm" },
+          { src: "/images/frames/f028.jpg", tag: "Atmosphere", title: "Light and environment as part of the music image" },
+        ],
+      }}
+      workflow={{
+        eyebrow: "Workflow",
+        title: "How we move from track to video",
+        lead: "We read the energy and the image first, then build the production logic.",
+        items: [
+          {
+            title: "Track and brief",
+            text: "We map tempo, mood, meaning, references, and the public image of the artist.",
+          },
+          {
+            title: "Treatment and prep",
+            text: "Concept, locations, styling, props, shoot structure, and budget frame are locked before production.",
+          },
+          {
+            title: "Production",
+            text: "We capture performance, narrative blocks, and enough coverage for edit rhythm, verticals, and release cutdowns.",
+          },
+          {
+            title: "Post and release package",
+            text: "Edit, grade, sound, graphics, previews, covers, and adaptations for YouTube, VK, Shorts, Reels, and TikTok.",
+          },
+        ],
+      }}
+      faq={{
+        title: "FAQ",
+        items: [
+          {
+            question: "Can this work on a smaller budget?",
+            answer: "Yes. The key is deciding where to hold the focus: performance, lighting, edit rhythm, or one strong visual device.",
+          },
+          {
+            question: "Do you only do staged concepts?",
+            answer: "No. We can build around raw artist energy as well as more narrative-driven structures.",
+          },
+          {
+            question: "Can vertical versions be planned from the start?",
+            answer: "Yes. We plan the shoot so the release can live in YouTube and in short social formats at the same time.",
+          },
+          {
+            question: "How long does a project take?",
+            answer: "Usually 2-4 weeks. Faster is possible when the concept is compact and does not need heavy prep or VFX.",
+          },
+        ],
+      }}
+      closing={{
+        title: "Have the track and want to build an actual visual world around it?",
+        description: "Send the demo, references, or even just the mood. We will come back with treatment direction and a production frame.",
+        ctaLabel: "Start the video discussion",
+        href: "/en/contacts",
+        note: "You can come with a track, a moodboard, or just a feeling of how it should land visually",
+      }}
+    />
   );
 }
-
-
-function Card({
-  title,
-  desc,
-  startThumb = 0,
-}: {
-  title: string;
-  desc: string;
-  startThumb?: number;
-}) {
-  return (
-    <div className="card rounded-xl p-5 md:p-6 hover:-translate-y-0.5 transition">
-      <h3 className="text-base font-semibold">{title}</h3>
-      <p className="mt-2 text-sm text-muted leading-relaxed">{desc}</p>
-      <ThumbStrip start={startThumb} />
-    </div>
-  );
-}
-
-function Bullet({ children }: { children: React.ReactNode }) {
-  return (
-    <li className="flex gap-3 items-start">
-      <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-violet-500/15 text-violet-400">
-        ●
-      </span>
-      <span className="text-sm text-muted leading-relaxed">{children}</span>
-    </li>
-  );
-}
-
-export default function MusicVideosPageEN() {
-  return (
-    <>
-      {/* HERO */}
-      <section className="container pt-12 md:pt-16">
-        <div className="max-w-3xl">
-          <h1 className="h1 text-[clamp(32px,5vw,56px)] font-bold">
-            Music Videos
-          </h1>
-          <p className="lead mt-4">
-            We create music videos where idea, color and rhythm work for the
-            artist. Locations, lighting and post-production come together to
-            build a cinematic look and atmospheric vibe for the track.
-          </p>
-        </div>
-
-        {/* Formats */}
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          <Card
-            title="Creative / Treatment"
-            desc="Concept and visual idea, moodboards, references, storyboard — all tailored to the track and artist’s image."
-            startThumb={0}
-          />
-          <Card
-            title="Shooting & Direction"
-            desc="Lighting setups, staging, camera movement; steadicam/drone/track. Scenes crafted for key moments in the track."
-            startThumb={1}
-          />
-          <Card
-            title="Editing & Color"
-            desc="Rhythmic editing in tempo, clip-style transitions and accents, cinematic color grading (up to 4K/10-bit)."
-            startThumb={2}
-          />
-          <Card
-            title="VFX / Titles"
-            desc="Tracking, compositing, graphic inserts, neon/glow, end titles and covers for platforms."
-            startThumb={3}
-          />
-        </div>
-      </section>
-
-      {/* Process & Inclusions */}
-      <section className="container py-10 md:py-12">
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="card rounded-xl p-6">
-            <h3 className="text-lg font-semibold">Process</h3>
-            <ul className="mt-4 space-y-3">
-              <Bullet>
-                <b>Brief + track.</b> We dive into meaning, tempo, references and
-                artist’s image.
-              </Bullet>
-              <Bullet>
-                <b>Treatment.</b> Visual storyline, moodboards, props/costumes,
-                budget and timing.
-              </Bullet>
-              <Bullet>
-                <b>Shoot.</b> Lighting/camera/staging; dedicated setups for
-                hooks and chorus.
-              </Bullet>
-              <Bullet>
-                <b>Post.</b> Editing in rhythm, clip transitions, grading, VFX,
-                titles.
-              </Bullet>
-              <Bullet>
-                <b>Delivery.</b> Master and resizes for YouTube, VK, Shorts,
-                Reels, TikTok.
-              </Bullet>
-            </ul>
-          </div>
-
-          <div className="card rounded-xl p-6">
-            <h3 className="text-lg font-semibold">What’s included</h3>
-            <ul className="mt-4 grid gap-3 text-sm text-muted">
-              <li className="border-l border-white/10 pl-4">
-                Location & art scouting; lighting plan and shotlist
-              </li>
-              <li className="border-l border-white/10 pl-4">
-                Capture up to 4K/10-bit, drone/steadicam as needed
-              </li>
-              <li className="border-l border-white/10 pl-4">
-                Editing, graphics, color, sound; covers and posters
-              </li>
-              <li className="border-l border-white/10 pl-4">
-                Versions for YouTube, VK, Shorts/Reels/TikTok
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="container pb-10">
-        <div className="rounded-2xl bg-gradient-to-r from-fuchsia-500/20 to-violet-600/20 px-6 py-7 ring-1 ring-white/10">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-            <div>
-              <h3 className="text-xl font-semibold">Ready to discuss a video?</h3>
-              <p className="text-muted mt-1">
-                Send us your track and a couple of references — we’ll prepare a
-                treatment and budget.
-              </p>
-            </div>
-            <Link
-              href="/en/contacts"
-              className="btn btn-primary rounded-xl px-5 py-3 font-medium hover:opacity-95 transition"
-            >
-              Discuss a Music Video
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="container pb-16">
-        <h2 className="text-xl font-semibold">FAQ</h2>
-        <div className="mt-4 divide-y divide-white/10 rounded-xl border border-white/10">
-          <details className="group p-5">
-            <summary className="cursor-pointer list-none text-base font-medium">
-              How much does a video cost and what affects the budget?
-            </summary>
-            <div className="mt-2 text-sm text-muted leading-relaxed">
-              The budget depends on concept, number of locations, staging, crew
-              size and equipment (lighting, moving camera, drone), plus the
-              scope of post (VFX/graphics). After the brief and track, we send a
-              treatment with budget range and timeline.
-            </div>
-          </details>
-          <details className="group p-5">
-            <summary className="cursor-pointer list-none text-base font-medium">
-              What are the production timelines?
-            </summary>
-            <div className="mt-2 text-sm text-muted leading-relaxed">
-              Typically 2–4 weeks: treatment and pre-production 5–7 days, shoot
-              1–2 days, post 7–14 days. Express production is possible with a
-              simplified concept.
-            </div>
-          </details>
-          <details className="group p-5">
-            <summary className="cursor-pointer list-none text-base font-medium">
-              Can we get vertical versions?
-            </summary>
-            <div className="mt-2 text-sm text-muted leading-relaxed">
-              Yes. We plan the shoot for both horizontal and vertical (Shorts,
-              Reels, TikTok) and deliver separate crops with shortened runtime.
-            </div>
-          </details>
-          <details className="group p-5">
-            <summary className="cursor-pointer list-none text-base font-medium">
-              Music rights and release?
-            </summary>
-            <div className="mt-2 text-sm text-muted leading-relaxed">
-              Music rights remain with the rights holder. We deliver the master
-              and, if requested, raw materials, plus help with covers/titles and
-              preparing release assets.
-            </div>
-          </details>
-        </div>
-      </section>
-    </>
-  );
-}
-
-

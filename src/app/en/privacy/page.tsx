@@ -38,7 +38,9 @@ const SECTIONS = [
 
 export default function PrivacyPageEN() {
   return (
-    <main className="container py-12 md:py-16">
+    <main className="page-shell">
+      <div className="page-ambient" />
+      <div className="container page-content pt-header-safe pb-12 md:pb-16">
       {/* JSON-LD */}
       <Script id="ld-webpage" type="application/ld+json">
         {JSON.stringify({
@@ -71,9 +73,6 @@ export default function PrivacyPageEN() {
         <h1 className="h1">Privacy Policy</h1>
         <p className="mt-2 text-sm text-muted">
           Last updated: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>
-          <a href="/privacy.pdf" className="underline hover:no-underline ml-2">
-            Download PDF
-          </a>
         </p>
         <p className="lead measure mt-4">
           This policy explains what data we collect on the website, how we use it, and what rights
@@ -82,7 +81,7 @@ export default function PrivacyPageEN() {
       </header>
 
       {/* Layout: sticky ToC + content */}
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-[240px_1fr] gap-8">
+      <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-[240px_1fr]">
         {/* ToC */}
         <aside className="md:sticky md:top-24 h-max">
           <nav aria-label="Contents" className="text-sm">
@@ -260,6 +259,7 @@ export default function PrivacyPageEN() {
             </a>
           </p>
         </article>
+      </div>
       </div>
     </main>
   );

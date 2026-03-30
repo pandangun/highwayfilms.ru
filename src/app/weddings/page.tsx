@@ -1,12 +1,17 @@
-﻿import Link from "next/link";
+﻿import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Свадебная видеосъёмка — Highway Films",
   description:
     "Свадебные фильмы в Москве и Санкт-Петербурге: тизер для соцсетей, полноценный фильм и архив моментов. Эпизод, Фильм, Сага. Мобильная съёмка и опция монтажа в день свадьбы.",
-};
+  path: "/weddings",
+  locale: "ru",
+  imagePath: "/images/frames/f001.jpg",
+});
 
 const frames = [
   "/images/frames/f001.jpg",
@@ -115,8 +120,13 @@ function Thumbs({ start = 0, count = 6 }: { start?: number; count?: number }) {
     <div className="mt-5 grid grid-cols-3 gap-2 md:grid-cols-6">
       {pics.map((src) => (
         <div key={src} className="relative aspect-[3/2] overflow-hidden rounded-xl border border-white/10">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt="wedding frame" className="h-full w-full object-cover" loading="lazy" />
+          <Image
+            src={src}
+            alt="Wedding frame"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 33vw, 16vw"
+          />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
         </div>
       ))}
@@ -158,16 +168,26 @@ function CTAButton({ href, children }: { href: string; children: ReactNode }) {
 
 function QA({ q, a }: { q: string; a: ReactNode }) {
   return (
-    <details className="group rounded-xl border border-white/10 bg-white/5 p-5">
-      <summary className="cursor-pointer list-none text-base font-medium">{q}</summary>
-      <div className="mt-2 text-sm leading-relaxed text-neutral-300">{a}</div>
+    <details className="group py-8 first:pt-0 last:pb-0">
+      <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-left">
+        <span className="font-display text-[clamp(1.5rem,1.1rem+1.2vw,2.25rem)] leading-[1.02] tracking-[-0.03em] text-white">
+          {q}
+        </span>
+        <span className="relative mt-2 flex h-5 w-5 shrink-0 items-center justify-center text-white/72">
+          <span className="absolute h-px w-5 bg-gradient-to-r from-white/70 to-white/20" />
+          <span className="absolute h-5 w-px bg-white/50 transition duration-200 group-open:scale-y-0" />
+        </span>
+      </summary>
+      <div className="max-w-2xl pt-5 text-[1.02rem] leading-8 text-white/58 md:text-[1.08rem]">{a}</div>
     </details>
   );
 }
 
 export default function WeddingsPage() {
   return (
-    <>
+    <main className="page-shell">
+      <div className="page-ambient" />
+      <div className="page-content">
       {/* HERO */}
       <section className="container relative grid items-start gap-8 pt-6 md:grid-cols-[1.2fr_0.8fr] md:pt-10">
         <div className="measure">
@@ -209,29 +229,29 @@ export default function WeddingsPage() {
       {/* Что снимаем */}
       <section className="container grid gap-6 py-10 md:grid-cols-3">
         <GlowCard className="md:col-span-2">
-          <h3 className="text-base font-semibold">Основной фильм (5–15 минут)</h3>
+          <h3 className="font-display text-base text-white">Основной фильм (5–15 минут)</h3>
           <p className="mt-2 text-sm text-neutral-200">
             Цельная история дня: утро, церемония, банкет и вечер. Живые речи, естественные моменты и монтаж, который возвращает в атмосферу.
           </p>
           <Thumbs start={2} count={6} />
         </GlowCard>
         <GlowCard>
-          <h3 className="text-base font-semibold">Тизер (30–60 секунд)</h3>
+          <h3 className="font-display text-base text-white">Тизер (30–60 секунд)</h3>
           <p className="mt-2 text-sm text-neutral-300">Клип для VK/Instagram/TikTok — чтобы поделиться эмоциями уже через несколько дней.</p>
         </GlowCard>
         <GlowCard>
-          <h3 className="text-base font-semibold">Полные версии моментов</h3>
+          <h3 className="font-display text-base text-white">Полные версии моментов</h3>
           <p className="mt-2 text-sm text-neutral-300">Церемония, клятвы, первый танец, тосты — сохраняем целиком отдельными файлами.</p>
         </GlowCard>
         <GlowCard className="md:col-span-2">
-          <h3 className="text-base font-semibold">Форматы под площадки</h3>
+          <h3 className="font-display text-base text-white">Форматы под площадки</h3>
           <p className="mt-2 text-sm text-neutral-300">Готовим версии под YouTube/VK (горизонталь) и Reels/Shorts/TikTok (вертикаль), чтобы делиться было удобно.</p>
         </GlowCard>
       </section>
 
       {/* Форматы */}
       <section className="container py-10">
-        <h2 className="text-xl font-semibold">Выберите формат истории</h2>
+        <h2 className="font-display text-2xl text-white">Выберите формат истории</h2>
         <div className="mt-6 grid gap-6 md:[grid-template-columns:1.05fr_1.2fr_1.05fr]">
           {storyFormats.map((format) => (
             <div key={format.id} className={`grid content-start gap-2 ${format.wrapperClassName ?? ""}`}>
@@ -240,7 +260,7 @@ export default function WeddingsPage() {
                 <div className="rounded-2xl p-[1px] [background:linear-gradient(140deg,rgba(168,85,247,.7),rgba(255,255,255,.18))]">
                   <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6">
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-lg font-semibold">{format.title}</h3>
+                      <h3 className="font-display text-xl text-white">{format.title}</h3>
                       <Price value={format.price} />
                     </div>
                     <p className="mt-2 text-sm text-neutral-200">{format.description}</p>
@@ -257,7 +277,7 @@ export default function WeddingsPage() {
               ) : (
                 <GlowCard>
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-lg font-semibold">{format.title}</h3>
+                    <h3 className="font-display text-xl text-white">{format.title}</h3>
                     <Price value={format.price} />
                   </div>
                   <p className="mt-2 text-sm text-neutral-300">{format.description}</p>
@@ -285,13 +305,18 @@ export default function WeddingsPage() {
 
       {/* Кейсы */}
       <section className="container py-10">
-        <h2 className="text-xl font-semibold">Кейсы</h2>
+        <h2 className="font-display text-2xl text-white">Кейсы</h2>
         <div className="no-scrollbar -mx-4 mt-4 overflow-x-auto px-4">
           <div className="flex gap-3">
             {Array.from({ length: 10 }).map((_, i) => (
               <div key={i} className="relative h-44 w-[240px] shrink-0 overflow-hidden rounded-xl border border-white/10">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/images/frames/f00${(i % frames.length) + 1}.jpg`} alt="case" className="h-full w-full object-cover" />
+                <Image
+                  src={frames[i % frames.length]}
+                  alt={`Wedding case ${i + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="240px"
+                />
               </div>
             ))}
           </div>
@@ -304,7 +329,7 @@ export default function WeddingsPage() {
           <GlowCard key={extra.title}>
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-lg font-semibold">{extra.title}</h3>
+                <h3 className="font-display text-xl text-white">{extra.title}</h3>
                 <p className="mt-2 text-sm text-neutral-300">{extra.description}</p>
               </div>
               <Price value={extra.price} />
@@ -318,24 +343,33 @@ export default function WeddingsPage() {
 
       {/* FAQ */}
       <section className="container py-12">
-        <h2 className="mb-4 text-xl font-semibold">FAQ</h2>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="max-w-5xl">
+          <p className="eyebrow">Часто спрашивают</p>
+          <h2 className="font-display mt-3 text-[clamp(2.25rem,1.6rem+2vw,3.8rem)] leading-[0.96] tracking-[-0.04em] text-white">
+            Важные детали до съёмки
+          </h2>
+        </div>
+        <div className="mt-8 max-w-5xl">
+          <div className="h-px bg-gradient-to-r from-white/40 via-white/12 to-transparent" />
           {faqItems.map((item) => (
             <QA key={item.q} q={item.q} a={item.a} />
           ))}
+          <div className="h-px bg-gradient-to-r from-white/20 via-white/10 to-transparent" />
         </div>
       </section>
 
       {/* SEO-блок */}
       <section className="container pb-20">
-        <div className="prose prose-invert max-w-none text-sm text-neutral-300">
-          <h2>Свадебная видеосъёмка в Москве и Санкт-Петербурге</h2>
+        <div className="max-w-4xl border-t border-white/8 pt-10 text-sm leading-7 text-white/38 md:text-[0.95rem]">
+          <h2 className="font-display text-xl tracking-[-0.02em] text-white/58">
+            Свадебная видеосъёмка в Москве и Санкт-Петербурге
+          </h2>
           <p>
             Свадебный фильм — это способ сохранить день не только в памяти, но и на экране. Наша студия делает тизеры, фильмы и архивные
             версии моментов, чтобы вы могли вернуться к важным эпизодам через годы. Мы работаем для пар, которые ценят естественные эмоции,
             стильный монтаж и современную подачу.
           </p>
-          <p>
+          <p className="mt-4">
             Если вам нужна свадебная видеосъёмка в Москве или Санкт-Петербурге, выберите формат «Эпизод», «Фильм» или «Сага» — и мы
             подберём точный тайминг под площадку и программу дня. Возможны выезды по России, мобильная съёмка и опция показа ролика в день свадьбы.
           </p>
@@ -356,7 +390,8 @@ export default function WeddingsPage() {
           <CTAButton href="/contacts">Связаться</CTAButton>
         </div>
       </div>
-    </>
+      </div>
+    </main>
   );
 }
 
