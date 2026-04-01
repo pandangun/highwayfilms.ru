@@ -3,7 +3,7 @@
 import Image from "next/image";
 import type { ElementType } from "react";
 import { useEffect, useRef, useState } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Expand, Volume2, VolumeX } from "lucide-react";
 import clsx from "clsx";
 
 interface VideoHeroProps {
@@ -11,8 +11,17 @@ interface VideoHeroProps {
   subtitle?: string;
   muteLabel?: string;
   unmuteLabel?: string;
+  fullscreenLabel?: string;
   headingAs?: ElementType;
 }
+
+type FullscreenCapableElement = HTMLElement & {
+  webkitRequestFullscreen?: () => Promise<void> | void;
+};
+
+type FullscreenCapableVideoElement = HTMLVideoElement & {
+  webkitEnterFullscreen?: () => void;
+};
 
 const HERO_VIDEO_VERSION = process.env.NEXT_PUBLIC_HERO_VIDEO_VERSION ?? "20260330";
 const HERO_VIDEO_READY_STATE = 2;
@@ -55,11 +64,13 @@ export default function VideoHero({
   subtitle = "Реклама, бренд-фильмы, корпоративные истории и клипы.",
   muteLabel = "Включить звук",
   unmuteLabel = "Выключить звук",
+  fullscreenLabel = "Открыть видео на весь экран",
   headingAs: HeadingTag = "h1",
 }: VideoHeroProps) {
   const [isMuted, setIsMuted] = useState(true);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [isOverlayVisible, setIsOverlayVisible] = useState(true);
+  const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -67,6 +78,7 @@ export default function VideoHero({
 
     const video = videoRef.current;
     if (!video) return;
+
     let hideOverlayTimeout: ReturnType<typeof setTimeout> | null = null;
 
     const markVideoReady = () => {
@@ -125,8 +137,46 @@ export default function VideoHero({
     }
   };
 
+  const handleOpenFullscreen = async () => {
+    const video = videoRef.current as FullscreenCapableVideoElement | null;
+    const hero = heroRef.current as FullscreenCapableElement | null;
+
+    if (!video) return;
+
+    if (video.paused) {
+      try {
+        await video.play();
+      } catch {
+        /* ignore */
+      }
+    }
+
+    try {
+      if (typeof video.requestFullscreen === "function") {
+        await video.requestFullscreen();
+        return;
+      }
+
+      if (typeof hero?.requestFullscreen === "function") {
+        await hero.requestFullscreen();
+        return;
+      }
+
+      if (typeof hero?.webkitRequestFullscreen === "function") {
+        await hero.webkitRequestFullscreen();
+        return;
+      }
+
+      if (typeof video.webkitEnterFullscreen === "function") {
+        video.webkitEnterFullscreen();
+      }
+    } catch {
+      /* fullscreen requests can be rejected by the browser */
+    }
+  };
+
   return (
-    <section className="relative w-full hero-fill overflow-hidden bg-black">
+    <section ref={heroRef} className="relative w-full hero-fill overflow-hidden bg-black">
       <div className="absolute inset-0">
         <Image
           src={HERO_VIDEO_POSTER_SRC}
@@ -184,15 +234,26 @@ export default function VideoHero({
       </div>
 
       {SHOULD_RENDER_HERO_VIDEO ? (
-        <button
-          type="button"
-          onClick={handleToggleMute}
-          className="hero-video-sound absolute bottom-4 right-4 z-30 rounded-full border border-white/20 bg-black/55 p-3 text-white transition hover:bg-black/70"
-          aria-label={isMuted ? muteLabel : unmuteLabel}
-          aria-pressed={!isMuted}
-        >
-          {isMuted ? <VolumeX className="h-[18px] w-[18px]" aria-hidden /> : <Volume2 className="h-[18px] w-[18px]" aria-hidden />}
-        </button>
+        <>
+          <button
+            type="button"
+            onClick={handleOpenFullscreen}
+            className="hero-video-fullscreen absolute bottom-4 left-4 z-30 rounded-full border border-white/20 bg-black/55 p-3 text-white transition hover:bg-black/70 md:hidden"
+            aria-label={fullscreenLabel}
+          >
+            <Expand className="h-[18px] w-[18px]" aria-hidden />
+          </button>
+
+          <button
+            type="button"
+            onClick={handleToggleMute}
+            className="hero-video-sound absolute bottom-4 right-4 z-30 rounded-full border border-white/20 bg-black/55 p-3 text-white transition hover:bg-black/70"
+            aria-label={isMuted ? muteLabel : unmuteLabel}
+            aria-pressed={!isMuted}
+          >
+            {isMuted ? <VolumeX className="h-[18px] w-[18px]" aria-hidden /> : <Volume2 className="h-[18px] w-[18px]" aria-hidden />}
+          </button>
+        </>
       ) : null}
     </section>
   );

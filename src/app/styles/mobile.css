@@ -145,6 +145,11 @@
     bottom: 0.9rem;
   }
 
+  .hero-video-fullscreen {
+    left: 0.9rem;
+    bottom: 0.9rem;
+  }
+
   .home-intro-panel > .mt-12 {
     margin-top: 2rem !important;
     padding-top: 1.5rem !important;

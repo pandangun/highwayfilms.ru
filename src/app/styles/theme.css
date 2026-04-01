@@ -166,6 +166,7 @@ html[data-theme="light"] .footer-theme-switch,
 html[data-theme="light"] .drawer-mobile-controls,
 html[data-theme="light"] .hero-video-overlay,
 html[data-theme="light"] .hero-video-caption,
+html[data-theme="light"] .hero-video-fullscreen,
 html[data-theme="light"] .hero-video-sound,
 html[data-theme="light"] .studio-gallery-overlay,
 html[data-theme="light"] .studio-gallery-glow,
@@ -198,6 +199,7 @@ html[data-theme="light"] .footer-theme-button.is-active {
     radial-gradient(140% 140% at 0% 0%, rgba(124,58,237,.32), transparent 60%);
 }
 
+html[data-theme="light"] .hero-video-fullscreen,
 html[data-theme="light"] .hero-video-sound,
 html[data-theme="light"] .footer-theme-switch,
 html[data-theme="light"] .drawer-mobile-controls {
