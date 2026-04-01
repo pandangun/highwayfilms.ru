@@ -1,0 +1,248 @@
+/* =========================
+   MOBILE OVERRIDES
+   ========================= */
+@media (max-width: 767px) {
+  :root {
+    --header-h: 68px;
+    --page-gutter: 16px;
+    --page-gutter-tight: 12px;
+    --mobile-radius: 22px;
+  }
+
+  .container {
+    padding-inline: var(--page-gutter);
+  }
+
+  .section-divider::before {
+    left: var(--page-gutter);
+    right: var(--page-gutter);
+  }
+
+  .header-shell .container {
+    padding-inline: var(--page-gutter-tight);
+  }
+
+  .header-rail {
+    gap: 0.5rem;
+    border-radius: 22px;
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow:
+      0 14px 32px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .header-rail::after,
+  .drawer-nav::before,
+  .drawer-mobile-controls {
+    display: none !important;
+  }
+
+  .brand-mark__text {
+    font-size: 0.76rem;
+    letter-spacing: 0.15em;
+  }
+
+  .drawer-panel {
+    left: 0;
+    width: 100vw;
+    max-width: none;
+    border-left: 0;
+    box-shadow: -18px 0 42px rgba(0, 0, 0, 0.26);
+  }
+
+  .drawer-nav {
+    padding: 1rem var(--page-gutter) calc(1.5rem + env(safe-area-inset-bottom));
+  }
+
+  .drawer-top {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .drawer-links {
+    gap: 0.8rem;
+  }
+
+  .nav-link--vertical {
+    font-size: clamp(1.4rem, 7vw, 1.8rem);
+    line-height: 1;
+    padding-bottom: 0.8rem;
+  }
+
+  .drawer-cta {
+    min-height: 48px;
+    margin-top: 1.25rem;
+  }
+
+  .surface-panel,
+  .surface-quiet,
+  .surface-tint,
+  .project-room,
+  .editorial-card,
+  .contact-form-panel,
+  .contact-form-shell,
+  .home-intro-panel,
+  .card-cinematic,
+  .metric-card,
+  .service-card,
+  .contact-node,
+  .editorial-cover {
+    border-radius: var(--mobile-radius);
+  }
+
+  .surface-panel,
+  .project-room,
+  .editorial-card,
+  .contact-form-panel,
+  .contact-form-shell,
+  .home-intro-panel,
+  .card-cinematic,
+  .metric-card,
+  .service-card {
+    border-color: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+  }
+
+  .surface-quiet,
+  .surface-tint,
+  .contact-node {
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
+  }
+
+  .home-intro-panel {
+    padding: 1.15rem !important;
+  }
+
+  .home-intro-panel > .mt-12 {
+    margin-top: 2rem !important;
+    padding-top: 1.5rem !important;
+  }
+
+  .home-display-xl {
+    font-size: clamp(2.85rem, 16vw, 4.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+  }
+
+  .home-lead,
+  .home-card-copy,
+  .home-faq-answer {
+    font-size: 1rem;
+    line-height: 1.72;
+  }
+
+  .home-card-title {
+    font-size: clamp(1.7rem, 9vw, 2.35rem);
+  }
+
+  .home-feature-card,
+  .home-service-card,
+  .home-process-card {
+    min-height: 0;
+    padding: 1.15rem !important;
+  }
+
+  .home-cta-row {
+    gap: 12px;
+  }
+
+  .home-primary-button,
+  .home-secondary-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .home-secondary-link {
+    min-height: 44px;
+  }
+
+  .service-card::after {
+    inset-inline: 16px;
+    bottom: 12px;
+  }
+
+  .editorial-card {
+    padding: 0.75rem !important;
+  }
+
+  .editorial-cover {
+    min-height: 18rem;
+  }
+
+  .editorial-cover > .relative {
+    padding: 1rem !important;
+  }
+
+  .project-room {
+    padding: 1rem !important;
+  }
+
+  .contact-page-map {
+    top: calc(var(--header-h) + 2.75rem);
+    width: 78vw;
+    height: 48vw;
+    opacity: 0.08;
+  }
+
+  .contact-primary-link {
+    font-size: clamp(1.7rem, 8vw, 2.35rem);
+  }
+
+  .contact-form-shell {
+    padding: 1rem;
+  }
+
+  .brief-page-frame {
+    padding-inline: var(--page-gutter) !important;
+  }
+
+  .brief-page-frame::before {
+    inset-inline: var(--page-gutter);
+    border-radius: 26px;
+  }
+
+  .brief-page-frame > .relative {
+    padding-inline: 0 !important;
+  }
+
+  .footer-shell {
+    margin-top: 3.5rem;
+  }
+
+  .footer-shell .container {
+    padding-inline: var(--page-gutter);
+    padding-top: 2rem;
+    padding-bottom: calc(1.75rem + env(safe-area-inset-bottom));
+  }
+
+  .footer-panel {
+    padding: 1.15rem !important;
+  }
+
+  .footer-meta {
+    gap: 0.9rem;
+  }
+
+  .footer-meta-links,
+  .footer-controls {
+    width: 100%;
+  }
+
+  .footer-meta-links {
+    gap: 0.9rem;
+  }
+
+  .footer-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.35rem;
+  }
+
+  .footer-link {
+    width: fit-content;
+  }
+}

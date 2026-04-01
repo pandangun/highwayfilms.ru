@@ -101,7 +101,7 @@ export default function Footer() {
   return (
     <footer className="footer-shell mt-16 border-t border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.025),rgba(255,255,255,0.01))]">
       <div className="container safe-px py-10 md:py-12">
-        <div className="surface-panel px-6 py-8 md:px-8 md:py-9">
+        <div className="footer-panel surface-panel px-6 py-8 md:px-8 md:py-9">
           <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr_0.9fr_1fr]">
             <div className="max-w-sm">
               <p className="font-display text-2xl text-white">Highway Films</p>
@@ -164,9 +164,9 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 text-xs text-white/42 md:flex-row md:items-center md:justify-between">
+          <div className="footer-meta mt-8 flex flex-col gap-3 border-t border-white/10 pt-5 text-xs text-white/42 md:flex-row md:items-center md:justify-between">
             <p>© {year} Highway Films. {isEN ? "All rights reserved." : "Все права защищены."}</p>
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="footer-meta-links flex flex-wrap items-center gap-4">
               <Link href={withLocale("/privacy")} className="footer-link">
                 {isEN ? "Privacy policy" : "Политика конфиденциальности"}
               </Link>
@@ -174,7 +174,7 @@ export default function Footer() {
                 {isEN ? "Contact" : "Связаться"}
               </Link>
             </div>
-            <div className="footer-controls hidden items-center gap-4 md:flex">
+            <div className="footer-controls flex items-center gap-4">
               <div className="footer-lang flex items-center gap-2">
                 <Link href={ruHref} className={clsx("footer-lang-link", !isEN && "is-active")}>
                   RU
