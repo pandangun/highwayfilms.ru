@@ -15,7 +15,7 @@ export function ArticleCard({ article, locale, featured = false }: ArticleCardPr
   const href = getArticleHref(article.slug, locale);
 
   return (
-    <article className="editorial-card p-3">
+    <article className="article-card-shell editorial-card p-3">
       <div className={featured ? "grid gap-5 lg:grid-cols-[1.05fr_0.95fr]" : "flex h-full flex-col gap-5"}>
         <ArticleCover
           eyebrow={article.content.coverEyebrow}
@@ -23,7 +23,7 @@ export function ArticleCard({ article, locale, featured = false }: ArticleCardPr
           tone={article.coverTone}
           compact={!featured}
         />
-        <div className="flex flex-1 flex-col justify-between gap-5 px-2 pb-2">
+        <div className="article-card-body flex flex-1 flex-col justify-between gap-5 px-2 pb-2">
           <div>
             <ArticleMeta
               category={article.content.category}
@@ -35,7 +35,7 @@ export function ArticleCard({ article, locale, featured = false }: ArticleCardPr
             </h3>
             <p className="mt-4 text-[1rem] leading-8 text-white/62">{article.content.excerpt}</p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="article-card-actions flex flex-wrap items-center gap-3">
             <Link href={href} className="btn inline-flex rounded-full px-5 text-sm">
               {locale === "en" ? "Read article" : "Читать"}
               <ArrowRight className="h-4 w-4" />

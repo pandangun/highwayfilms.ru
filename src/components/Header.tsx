@@ -3,7 +3,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import clsx from "clsx";
 
 const items = [
@@ -15,47 +15,6 @@ const items = [
   { href: "/weddings", ru: "Свадьбы", en: "Weddings" },
   { href: "/contacts", ru: "Контакты", en: "Contacts" },
 ];
-
-function ThemeToggle({
-  theme,
-  onChange,
-  compact = false,
-  isEN,
-}: {
-  theme: "dark" | "light";
-  onChange: (nextTheme: "dark" | "light") => void;
-  compact?: boolean;
-  isEN: boolean;
-}) {
-  return (
-    <div
-      className={clsx("header-theme-switch", compact && "is-compact")}
-      role="tablist"
-      aria-label={isEN ? "Theme" : "Тема"}
-    >
-      <button
-        type="button"
-        onClick={() => onChange("dark")}
-        className={clsx("header-theme-button", theme === "dark" && "is-active")}
-        aria-label={isEN ? "Dark theme" : "Тёмная тема"}
-        aria-pressed={theme === "dark"}
-      >
-        <Moon className="h-4 w-4" />
-        {compact ? null : <span>{isEN ? "Dark" : "Тёмная"}</span>}
-      </button>
-      <button
-        type="button"
-        onClick={() => onChange("light")}
-        className={clsx("header-theme-button", theme === "light" && "is-active")}
-        aria-label={isEN ? "Light theme" : "Светлая тема"}
-        aria-pressed={theme === "light"}
-      >
-        <Sun className="h-4 w-4" />
-        {compact ? null : <span>{isEN ? "Light" : "Светлая"}</span>}
-      </button>
-    </div>
-  );
-}
 
 function NavLinks({
   isEN,
@@ -94,50 +53,18 @@ function NavLinks({
 export default function Header() {
   const pathname = usePathname() || "/";
   const [isOpen, setIsOpen] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   const isEN = pathname.startsWith("/en");
   const normalizedPath = isEN ? pathname.replace(/^\/en(?!\w)/, "") || "/" : pathname;
   const withLocale = (href: string) => (isEN ? (href === "/" ? "/en" : `/en${href}`) : href);
-  const ruHref = isEN ? normalizedPath : pathname;
-  const enHref = isEN ? pathname : pathname === "/" ? "/en" : `/en${pathname}`;
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
+
     return () => {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    const syncTheme = () => setTheme(root.dataset.theme === "light" ? "light" : "dark");
-    const handleThemeChange = (event: Event) => {
-      const nextTheme = (event as CustomEvent<"dark" | "light">).detail;
-      setTheme(nextTheme === "light" ? "light" : "dark");
-    };
-
-    syncTheme();
-
-    const observer = new MutationObserver(syncTheme);
-    observer.observe(root, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-
-    window.addEventListener("site-theme-change", handleThemeChange as EventListener);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("site-theme-change", handleThemeChange as EventListener);
-    };
-  }, []);
-
-  const applyTheme = (nextTheme: "dark" | "light") => {
-    setTheme(nextTheme);
-    document.documentElement.dataset.theme = nextTheme;
-    window.dispatchEvent(new CustomEvent("site-theme-change", { detail: nextTheme }));
-  };
 
   return (
     <>
@@ -259,32 +186,6 @@ export default function Header() {
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </nav>
-
-        <div className={clsx("drawer-mobile-controls", isOpen && "is-open")}>
-          <div className="drawer-locale">
-            <p className="text-[10px] uppercase tracking-[0.24em] text-white/30">
-              {isEN ? "Language" : "Язык"}
-            </p>
-            <div className="nav-locale-row mt-3">
-              <Link
-                href={ruHref}
-                onClick={() => setIsOpen(false)}
-                className={clsx("nav-locale-link", !isEN && "is-active")}
-              >
-                RU
-              </Link>
-              <Link
-                href={enHref}
-                onClick={() => setIsOpen(false)}
-                className={clsx("nav-locale-link", isEN && "is-active")}
-              >
-                EN
-              </Link>
-            </div>
-          </div>
-
-          <ThemeToggle theme={theme} onChange={applyTheme} compact isEN={isEN} />
-        </div>
       </aside>
     </>
   );

@@ -44,17 +44,17 @@ export function ArticlesHubPage({ locale }: ArticlesHubPageProps) {
     <main className="page-shell">
       <div className="page-ambient" />
       <div className="page-content">
-        <section className="pt-header-safe relative overflow-hidden pb-12 pt-6 md:pb-16 md:pt-10">
+        <section className="articles-hub-hero pt-header-safe relative overflow-hidden pb-12 pt-6 md:pb-16 md:pt-10">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(64rem_34rem_at_10%_0%,rgba(124,58,237,.18),transparent_56%),radial-gradient(42rem_22rem_at_100%_0%,rgba(214,183,138,.12),transparent_50%)]" />
           <div className="container relative">
             <span className="inline-flex rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-white/66">
               {t.eyebrow}
             </span>
-            <h1 className="font-display heading-balance mt-5 max-w-5xl text-[clamp(2.8rem,5vw,5.4rem)] leading-[0.94] tracking-[-0.055em] text-white">
+            <h1 className="articles-hub-title font-display heading-balance mt-5 max-w-5xl text-[clamp(2.8rem,5vw,5.4rem)] leading-[0.94] tracking-[-0.055em] text-white">
               {t.title}
             </h1>
-            <p className="mt-5 max-w-3xl text-[1.03rem] leading-8 text-white/64 md:text-[1.12rem]">{t.lead}</p>
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-white/46">{t.note}</p>
+            <p className="articles-hub-lead mt-5 max-w-3xl text-[1.03rem] leading-8 text-white/64 md:text-[1.12rem]">{t.lead}</p>
+            <p className="articles-hub-note mt-5 max-w-2xl text-sm leading-7 text-white/46">{t.note}</p>
           </div>
         </section>
 
@@ -86,7 +86,7 @@ export function ArticlesHubPage({ locale }: ArticlesHubPageProps) {
         </section>
 
         <section className="container pb-16 md:pb-20">
-          <div className="surface-panel px-6 py-8 md:px-8 md:py-9">
+          <div className="articles-hub-cta surface-panel px-6 py-8 md:px-8 md:py-9">
             <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr] xl:items-end">
               <div className="max-w-3xl">
                 <p className="eyebrow text-white/46">Highway Films</p>

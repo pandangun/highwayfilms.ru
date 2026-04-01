@@ -75,7 +75,7 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-[30px] border border-white/10 bg-black/20 px-6 py-6 shadow-[0_18px_40px_rgba(0,0,0,0.14)] md:px-7 md:py-7">
+    <div className="brief-field rounded-[30px] border border-white/10 bg-black/20 px-6 py-6 shadow-[0_18px_40px_rgba(0,0,0,0.14)] md:px-7 md:py-7">
       <div className="flex items-center justify-between gap-3">
         <label htmlFor={htmlFor} className="text-[1.08rem] font-medium text-white/88">
           {label}
@@ -101,7 +101,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={`brief-${step}`} className="relative rounded-[34px] border border-white/12 bg-white/[0.04] p-6 md:p-8">
+    <section id={`brief-${step}`} className="brief-section-panel relative rounded-[34px] border border-white/12 bg-white/[0.04] p-6 md:p-8">
       <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
       <div className="flex items-start justify-between gap-4">
         <div className="max-w-3xl">
@@ -193,16 +193,16 @@ export function BriefStudioPage({
               <Sparkles className="h-4 w-4 text-brand" />
               {t("Бриф", "Brief")}
             </p>
-            <h1 className="font-display heading-balance mt-4 max-w-5xl text-[clamp(2.65rem,5.3vw,5rem)] leading-[0.96] tracking-[-0.05em] text-white">
+            <h1 className="brief-title font-display heading-balance mt-4 max-w-5xl text-[clamp(2.65rem,5.3vw,5rem)] leading-[0.96] tracking-[-0.05em] text-white">
               {t("Бриф на создание видеоролика", "Video production brief")}
             </h1>
-            <p className="mt-6 max-w-4xl text-lg leading-8 text-white/68 md:text-[1.18rem]">
+            <p className="brief-lead mt-6 max-w-4xl text-lg leading-8 text-white/68 md:text-[1.18rem]">
               {t(
                 "Сократили форму: сначала задача и продакшн-рамка, а контакты уже в финале.",
                 "The form is shorter now: task and production frame first, contact details last.",
               )}
             </p>
-            <p className="mt-5 max-w-3xl rounded-[22px] border border-white/10 bg-white/[0.03] px-4 py-4 text-sm leading-6 text-white/64">
+            <p className="brief-top-note mt-5 max-w-3xl rounded-[22px] border border-white/10 bg-white/[0.03] px-4 py-4 text-sm leading-6 text-white/64">
               {t(
                 "Заполняйте только то, что уже известно. Пустые поля не мешают отправке.",
                 "Fill only what is already known. Empty fields will not block the submission.",
@@ -214,12 +214,12 @@ export function BriefStudioPage({
           </div>
 
           <div className="mt-10 border-t border-white/10 pt-8">
-            <div className="grid gap-2.5 md:grid-cols-3 xl:grid-cols-5">
+            <div className="brief-steps-grid grid gap-2.5 md:grid-cols-3 xl:grid-cols-5">
               {steps.map((step, index) => (
                 <a
                   key={step.key}
                   href={`#brief-${step.key}`}
-                  className="rounded-[20px] border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left transition hover:border-white/14 hover:bg-white/[0.03]"
+                  className="brief-step-link rounded-[20px] border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left transition hover:border-white/14 hover:bg-white/[0.03]"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <span className="text-[0.68rem] uppercase tracking-[0.2em] text-white/30">{index + 1}/5</span>
@@ -230,7 +230,7 @@ export function BriefStudioPage({
               ))}
             </div>
 
-            <form id="contact-form" action="/api/contact" method="POST" className="mx-auto mt-8 w-full max-w-[980px] space-y-10">
+            <form id="contact-form" action="/api/contact" method="POST" className="brief-form mx-auto mt-8 w-full max-w-[980px] space-y-10">
               <input type="hidden" name="locale" value={locale} />
               <div className="visually-hidden" aria-hidden="true">
                 <label htmlFor="website">Website</label>

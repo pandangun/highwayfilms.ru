@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
+import clsx from "clsx";
 
 type StudioMastheadProps = {
   eyebrow: string;
@@ -42,27 +43,28 @@ export default function StudioMasthead({
 }: StudioMastheadProps) {
   return (
     <section
-      className={`relative overflow-hidden ${
+      className={clsx(
+        "service-masthead relative overflow-hidden",
         compactTop ? "pt-12 md:pt-16" : "pt-header-safe pb-14"
-      }`}
+      )}
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(72rem_38rem_at_8%_0%,rgba(124,58,237,.22),transparent_58%),radial-gradient(52rem_28rem_at_100%_0%,rgba(214,183,138,.14),transparent_50%),linear-gradient(180deg,rgba(255,255,255,.02),transparent_42%)]" />
-      <div className="container relative overflow-hidden pb-12">
+      <div className="service-masthead-frame container relative overflow-hidden pb-12">
         <div className="grid gap-10 xl:grid-cols-[1.02fr_0.98fr] xl:items-end">
-          <div className="relative">
+          <div className="service-masthead-copy relative">
             <p className="eyebrow flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-brand" />
               {eyebrow}
             </p>
-            <h1 className="font-display mt-4 max-w-4xl text-[clamp(3rem,7vw,5.75rem)] leading-[0.94] tracking-[-0.045em] text-white">
+            <h1 className="service-masthead-title font-display mt-4 max-w-4xl text-[clamp(3rem,7vw,5.75rem)] leading-[0.94] tracking-[-0.045em] text-white">
               {title}
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/68 md:text-[1.28rem]">
+            <p className="service-masthead-lead mt-6 max-w-2xl text-lg leading-8 text-white/68 md:text-[1.28rem]">
               {lead}
             </p>
 
             {chips.length > 0 ? (
-              <div className="mt-7 flex flex-wrap gap-3">
+              <div className="service-masthead-chips mt-7 flex flex-wrap gap-3">
                 {chips.map((chip) => (
                   <span
                     key={chip}
@@ -74,7 +76,7 @@ export default function StudioMasthead({
               </div>
             ) : null}
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="service-masthead-actions mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href={primaryHref} className="btn-primary h-12 rounded-full px-6">
                 {primaryLabel}
                 <ArrowRight className="h-4 w-4" />
@@ -92,8 +94,8 @@ export default function StudioMasthead({
             {spotlight ? <div className="mt-7">{spotlight}</div> : null}
           </div>
 
-          <div className="relative">
-            <div className="surface-panel overflow-hidden p-3">
+          <div className="service-masthead-side relative">
+            <div className="service-masthead-media surface-panel overflow-hidden p-3">
               <div className="relative min-h-[24rem] overflow-hidden rounded-[26px]">
                 <Image
                   src={imageSrc}
@@ -112,7 +114,7 @@ export default function StudioMasthead({
                   <h2 className="font-display mt-2 max-w-sm text-2xl leading-tight text-white">
                     {panelTitle}
                   </h2>
-                  <p className="mt-3 max-w-sm text-sm leading-6 text-white/68">
+                  <p className="service-masthead-panel-copy mt-3 max-w-sm text-sm leading-6 text-white/68">
                     {panelCopy}
                   </p>
                 </div>
@@ -120,7 +122,7 @@ export default function StudioMasthead({
             </div>
 
             {metrics.length > 0 ? (
-              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className="service-masthead-metrics mt-4 grid gap-3 sm:grid-cols-3">
                 {metrics.map((metric, index) => (
                   <div
                     key={metric.label}

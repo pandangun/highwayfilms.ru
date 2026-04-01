@@ -40,7 +40,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
     <main className="page-shell">
       <div className="page-ambient" />
       <div className="page-content">
-        <section className="pt-header-safe relative overflow-hidden pb-10 pt-6 md:pb-14 md:pt-10">
+        <section className="article-detail-hero pt-header-safe relative overflow-hidden pb-10 pt-6 md:pb-14 md:pt-10">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(64rem_34rem_at_10%_0%,rgba(124,58,237,.16),transparent_56%),radial-gradient(38rem_20rem_at_100%_0%,rgba(214,183,138,.1),transparent_52%)]" />
           <div className="container relative">
             <Link href={locale === "en" ? "/en/articles" : "/articles"} className="inline-flex items-center gap-2 text-sm text-white/56 transition hover:text-white/82">
@@ -53,10 +53,10 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
                 date={formatArticleDate(article.publishedAt, locale)}
                 readingTime={article.content.readingTime}
               />
-              <h1 className="font-display heading-balance mt-5 text-[clamp(2.8rem,5vw,5rem)] leading-[0.95] tracking-[-0.055em] text-white">
+              <h1 className="article-detail-title font-display heading-balance mt-5 text-[clamp(2.8rem,5vw,5rem)] leading-[0.95] tracking-[-0.055em] text-white">
                 {article.content.title}
               </h1>
-              <p className="mt-5 text-[1.05rem] leading-8 text-white/66 md:text-[1.14rem]">{article.content.excerpt}</p>
+              <p className="article-detail-lead mt-5 text-[1.05rem] leading-8 text-white/66 md:text-[1.14rem]">{article.content.excerpt}</p>
             </div>
           </div>
         </section>
@@ -71,7 +71,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
 
         <section className="container pb-10 md:pb-14">
           <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_20rem]">
-            <article className="surface-panel px-6 py-7 md:px-8 md:py-9">
+            <article className="article-detail-body surface-panel px-6 py-7 md:px-8 md:py-9">
               <p className="max-w-3xl text-[1.05rem] leading-8 text-white/70 md:text-[1.12rem]">{article.content.intro}</p>
               <div className="mt-8 space-y-8">
                 {article.content.sections.map((section) => (
@@ -142,7 +142,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
         ) : null}
 
         <section className="container pb-16 md:pb-20">
-          <div className="surface-panel px-6 py-8 md:px-8 md:py-9">
+          <div className="article-detail-cta surface-panel px-6 py-8 md:px-8 md:py-9">
             <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr] xl:items-end">
               <div className="max-w-3xl">
                 <p className="eyebrow text-white/46">Highway Films</p>

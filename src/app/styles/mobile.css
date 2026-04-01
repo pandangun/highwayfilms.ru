@@ -114,6 +114,37 @@
     padding: 1.15rem !important;
   }
 
+  .hero-fill {
+    height: clamp(29rem, calc(74svh - var(--header-h) - env(safe-area-inset-top)), 38rem);
+    min-height: clamp(29rem, calc(74svh - var(--header-h) - env(safe-area-inset-top)), 38rem);
+  }
+
+  @supports (height: 100dvh) {
+    .hero-fill {
+      height: clamp(29rem, calc(74dvh - var(--header-h) - env(safe-area-inset-top)), 38rem);
+      min-height: clamp(29rem, calc(74dvh - var(--header-h) - env(safe-area-inset-top)), 38rem);
+    }
+  }
+
+  .hero-video-caption {
+    padding: 1rem 0 1.15rem !important;
+  }
+
+  .hero-video-caption .container {
+    padding-inline: var(--page-gutter);
+  }
+
+  .hero-video-caption p {
+    max-width: 18rem;
+    font-size: 0.95rem;
+    line-height: 1.58;
+  }
+
+  .hero-video-sound {
+    right: 0.9rem;
+    bottom: 0.9rem;
+  }
+
   .home-intro-panel > .mt-12 {
     margin-top: 2rem !important;
     padding-top: 1.5rem !important;
@@ -162,16 +193,163 @@
     bottom: 12px;
   }
 
+  .service-masthead {
+    padding-bottom: 1.75rem !important;
+  }
+
+  .service-masthead-frame {
+    padding-bottom: 1rem !important;
+  }
+
+  .service-masthead-title {
+    font-size: clamp(2.45rem, 12vw, 4rem) !important;
+    line-height: 0.95 !important;
+    letter-spacing: -0.045em;
+  }
+
+  .service-masthead-lead,
+  .service-masthead-panel-copy {
+    font-size: 0.98rem !important;
+    line-height: 1.72 !important;
+  }
+
+  .service-masthead-chips {
+    gap: 0.55rem !important;
+  }
+
+  .service-masthead-chips > span {
+    padding: 0.55rem 0.8rem;
+    font-size: 0.82rem;
+  }
+
+  .service-masthead-actions {
+    margin-top: 1.25rem !important;
+  }
+
+  .service-masthead-actions > a,
+  .service-masthead-actions > .btn,
+  .service-masthead-actions > .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .service-masthead-media {
+    padding: 0.55rem !important;
+  }
+
+  .service-masthead-media > div {
+    min-height: 18.5rem !important;
+    border-radius: 18px !important;
+  }
+
+  .service-masthead-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .service-masthead-metrics > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
   .editorial-card {
-    padding: 0.75rem !important;
+    padding: 0.65rem !important;
   }
 
   .editorial-cover {
-    min-height: 18rem;
+    min-height: 16rem;
   }
 
   .editorial-cover > .relative {
     padding: 1rem !important;
+  }
+
+  .article-card-body {
+    gap: 0.9rem !important;
+    padding-inline: 0.35rem !important;
+    padding-bottom: 0.2rem !important;
+  }
+
+  .article-card-body h3 {
+    margin-top: 0.9rem !important;
+    font-size: clamp(1.55rem, 8vw, 2.1rem) !important;
+  }
+
+  .article-card-body p {
+    margin-top: 0.75rem !important;
+    font-size: 0.95rem !important;
+    line-height: 1.66 !important;
+  }
+
+  .article-card-actions {
+    gap: 0.75rem !important;
+  }
+
+  .article-card-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .article-card-actions > a:last-child {
+    width: 100%;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .articles-hub-hero {
+    padding-top: 1.2rem !important;
+    padding-bottom: 1.6rem !important;
+  }
+
+  .articles-hub-title,
+  .article-detail-title {
+    font-size: clamp(2.35rem, 10.5vw, 3.4rem) !important;
+    line-height: 0.96 !important;
+  }
+
+  .articles-hub-lead,
+  .article-detail-lead {
+    font-size: 0.98rem !important;
+    line-height: 1.72 !important;
+  }
+
+  .articles-hub-note {
+    margin-top: 0.9rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .articles-hub-cta .surface-quiet,
+  .article-detail-cta .surface-quiet {
+    padding: 1rem !important;
+  }
+
+  .articles-hub-cta .surface-quiet > div,
+  .article-detail-cta .surface-quiet > div {
+    gap: 0.75rem;
+  }
+
+  .articles-hub-cta .btn,
+  .articles-hub-cta .btn-primary,
+  .article-detail-cta .btn,
+  .article-detail-cta .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .article-detail-body {
+    padding: 1rem !important;
+  }
+
+  .article-detail-body section {
+    padding-top: 1.25rem !important;
+  }
+
+  .article-detail-body h2 {
+    font-size: clamp(1.55rem, 7.4vw, 2rem) !important;
+  }
+
+  .article-detail-body p,
+  .article-detail-body li {
+    font-size: 0.97rem !important;
+    line-height: 1.7 !important;
   }
 
   .project-room {
@@ -204,6 +382,106 @@
 
   .brief-page-frame > .relative {
     padding-inline: 0 !important;
+  }
+
+  .brief-title {
+    font-size: clamp(2.2rem, 10vw, 3.35rem) !important;
+    line-height: 0.98 !important;
+  }
+
+  .brief-lead {
+    font-size: 0.98rem !important;
+    line-height: 1.72 !important;
+    margin-top: 1rem !important;
+  }
+
+  .brief-top-note {
+    margin-top: 0.9rem !important;
+    padding: 0.85rem 1rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .brief-steps-grid {
+    gap: 0.6rem !important;
+  }
+
+  .brief-step-link {
+    padding: 0.85rem 0.95rem !important;
+    border-radius: 16px !important;
+  }
+
+  .brief-step-link p {
+    margin-top: 0.55rem !important;
+    font-size: 0.88rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .brief-form {
+    margin-top: 1.5rem !important;
+    gap: 1.5rem !important;
+  }
+
+  .brief-section-panel {
+    padding: 1rem !important;
+    border-radius: 24px !important;
+  }
+
+  .brief-section-panel > div:first-of-type {
+    gap: 0.9rem !important;
+  }
+
+  .brief-section-panel > div:first-of-type > span:last-child {
+    display: none;
+  }
+
+  .brief-section-panel > div:last-child {
+    margin-top: 1.1rem !important;
+    gap: 0.9rem !important;
+  }
+
+  .brief-field {
+    padding: 1rem !important;
+    border-radius: 22px !important;
+  }
+
+  .brief-field > div:first-child {
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+  }
+
+  .brief-field > div:first-child > span {
+    font-size: 0.58rem !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  .brief-field > div:last-child {
+    margin-top: 0.85rem !important;
+  }
+
+  .brief-field label {
+    font-size: 1rem !important;
+  }
+
+  .brief-field input,
+  .brief-field select {
+    height: 3.55rem !important;
+    border-radius: 20px !important;
+    padding-inline: 1rem !important;
+    font-size: 0.98rem !important;
+  }
+
+  .brief-field textarea {
+    min-height: 9.5rem !important;
+    border-radius: 22px !important;
+    padding: 0.95rem 1rem !important;
+    font-size: 0.98rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .brief-section-panel label.rounded-\[24px\] {
+    border-radius: 18px !important;
+    padding: 0.95rem 1rem !important;
+    font-size: 0.95rem !important;
   }
 
   .footer-shell {
