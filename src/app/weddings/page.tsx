@@ -375,15 +375,15 @@ export default function WeddingsPage() {
                   <article
                     className={
                       format.accent
-                        ? "rounded-[30px] p-[1px] [background:linear-gradient(145deg,rgba(168,85,247,.75),rgba(255,255,255,.18))]"
-                        : "surface-panel p-3"
+                        ? "h-full rounded-[30px] p-[1px] shadow-[0_24px_80px_rgba(88,28,135,.2)] [background:linear-gradient(145deg,rgba(168,85,247,.75),rgba(255,255,255,.18))]"
+                        : "surface-panel h-full p-3"
                     }
                   >
                     <div
                       className={
                         format.accent
-                          ? "rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),radial-gradient(140%_100%_at_50%_0%,rgba(124,58,237,.18),transparent_56%),rgba(9,9,11,.84)] p-7 md:p-8"
-                          : "rounded-[26px] border border-transparent bg-transparent p-4 md:p-5"
+                          ? "flex h-full flex-col rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),radial-gradient(140%_100%_at_50%_0%,rgba(124,58,237,.18),transparent_56%),rgba(9,9,11,.84)] p-7 md:p-8"
+                          : "flex h-full flex-col rounded-[26px] border border-transparent bg-transparent p-4 md:p-5"
                       }
                     >
                       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -394,17 +394,17 @@ export default function WeddingsPage() {
                           </span>
                         ) : null}
                       </div>
-                      <div className="mt-5 flex items-start justify-between gap-4">
-                        <div>
-                          <h3 className="font-display text-[clamp(1.9rem,1.5rem+1vw,2.6rem)] leading-[0.95] tracking-[-0.03em] text-white">
-                            {format.title}
-                          </h3>
-                          <p className="mt-3 text-sm leading-7 text-white/62">{format.fit}</p>
-                        </div>
-                        <PriceBadge value={format.price} mode={format.priceMode} />
+                      <div className="mt-5">
+                        <h3 className="font-display text-[clamp(1.9rem,1.5rem+1vw,2.6rem)] leading-[0.95] tracking-[-0.03em] text-white">
+                          {format.title}
+                        </h3>
+                        <p className="mt-3 max-w-xl text-sm leading-7 text-white/62">{format.fit}</p>
                       </div>
-                      <p className="mt-5 text-base leading-8 text-white/72">{format.description}</p>
-                      <ul className="mt-6 space-y-3 text-sm leading-7 text-white/68">
+                      <div className="mt-5 rounded-[22px] border border-white/10 bg-black/20 px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,.04)]">
+                        <div className="text-[11px] uppercase tracking-[0.18em] text-white/42">Что входит в пакет</div>
+                        <p className="mt-2 text-[0.98rem] leading-7 text-white/76">{format.description}</p>
+                      </div>
+                      <ul className="mt-6 flex-1 space-y-3 text-sm leading-7 text-white/68">
                         {format.bullets.map((item) => (
                           <li key={item} className="flex gap-3">
                             <span className="mt-[0.7rem] h-1.5 w-1.5 rounded-full bg-white/40" />
@@ -412,11 +412,37 @@ export default function WeddingsPage() {
                           </li>
                         ))}
                       </ul>
-                      <div className="mt-7 flex flex-wrap gap-3">
-                        <CTAButton href={format.href}>{format.cta}</CTAButton>
-                        <CTAButton href="/contacts?topic=weddings" variant="ghost">
-                          Обсудить дату
-                        </CTAButton>
+                      <div className="mt-8 border-t border-white/10 pt-5">
+                        <div
+                          className={
+                            format.accent
+                              ? "rounded-[24px] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03))] p-5 shadow-[0_18px_48px_rgba(0,0,0,.22)]"
+                              : "rounded-[24px] border border-white/10 bg-white/[0.035] p-5"
+                          }
+                        >
+                          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                            <div>
+                              <div className="text-[11px] uppercase tracking-[0.18em] text-white/42">Стоимость пакета</div>
+                              <div className="mt-2 flex flex-wrap items-end gap-2">
+                                {format.priceMode === "from" ? (
+                                  <span className="mb-1 text-[11px] uppercase tracking-[0.18em] text-white/54">от</span>
+                                ) : null}
+                                <span className="font-display text-[clamp(2.15rem,1.9rem+.9vw,3.15rem)] leading-none tracking-[-0.05em] text-white">
+                                  {format.price}
+                                </span>
+                              </div>
+                            </div>
+                            <p className="max-w-[13rem] text-sm leading-6 text-white/46 sm:text-right">
+                              Точный расчёт зависит от города, тайминга дня и состава команды.
+                            </p>
+                          </div>
+                          <div className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
+                            <CTAButton href={format.href}>{format.cta}</CTAButton>
+                            <CTAButton href="/contacts?topic=weddings" variant="ghost">
+                              Обсудить дату
+                            </CTAButton>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </article>

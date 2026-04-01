@@ -18,7 +18,7 @@ export default function PriceBadge({
   return (
     <span
       className={clsx(
-        "rounded-full bg-[linear-gradient(90deg,rgba(124,58,237,.25),rgba(255,255,255,.12))] px-2.5 py-1 text-[12px] font-medium text-white/90 ring-1 ring-white/15",
+        "inline-flex shrink-0 items-center whitespace-nowrap rounded-full bg-[linear-gradient(90deg,rgba(124,58,237,.25),rgba(255,255,255,.12))] px-2.5 py-1 text-[12px] font-medium text-white/90 ring-1 ring-white/15",
         className
       )}
     >

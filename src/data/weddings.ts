@@ -198,7 +198,7 @@ export const weddingStoryFormats: WeddingFormat[] = [
       "Вертикальные и горизонтальные версии под площадки",
     ],
     href: "/contacts?plan=episode",
-    cta: "Выбрать формат",
+    cta: "Запросить расчёт",
   },
   {
     id: "film",
@@ -216,7 +216,7 @@ export const weddingStoryFormats: WeddingFormat[] = [
     tag: "Чаще всего выбирают",
     accent: true,
     href: "/contacts?plan=film",
-    cta: "Узнать стоимость",
+    cta: "Запросить расчёт",
   },
   {
     id: "saga",
@@ -232,7 +232,7 @@ export const weddingStoryFormats: WeddingFormat[] = [
       "Экспресс-тизер к следующему дню",
     ],
     href: "/contacts?plan=saga",
-    cta: "Получить смету",
+    cta: "Запросить расчёт",
   },
 ] as const;
 
