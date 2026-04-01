@@ -135,26 +135,25 @@ export default function StudioServicePage({
               {gallery.items.map((item) => (
                 <article
                   key={`${item.src}-${item.title}`}
-                  className="group surface-panel relative overflow-hidden p-3"
+                  className="group surface-panel relative min-h-[20rem] overflow-hidden"
                 >
-                  <div className="relative min-h-[18rem] overflow-hidden rounded-[22px]">
-                    <Image
-                      src={item.src}
-                      alt={item.title}
-                      fill
-                      className="object-cover transition duration-300 group-hover:scale-[1.02]"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                    <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                    <div className="absolute inset-0 flex flex-col justify-between p-5">
-                      <span className="w-fit rounded-full border border-white/15 bg-black/20 px-3 py-1 text-xs uppercase tracking-[0.18em] text-white/72">
-                        {item.tag}
-                      </span>
-                      <h3 className="font-display max-w-xs text-xl leading-tight text-white">
-                        {item.title}
-                      </h3>
-                    </div>
+                  <Image
+                    src={item.src}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition duration-500 ease-out group-hover:scale-[1.03]"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  />
+                  <div className="studio-gallery-overlay absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,9,.08),rgba(7,7,9,.18)_32%,rgba(7,7,9,.82)_100%)]" />
+                  <div className="studio-gallery-glow absolute inset-0 bg-[radial-gradient(90%_70%_at_0%_0%,rgba(124,58,237,.16),transparent_58%)] opacity-90" />
+                  <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/28 to-transparent" />
+                  <div className="absolute inset-0 flex flex-col justify-between p-6">
+                    <span className="w-fit rounded-full border border-white/14 bg-black/16 px-3 py-1 text-xs uppercase tracking-[0.18em] text-white/76 backdrop-blur-sm">
+                      {item.tag}
+                    </span>
+                    <h3 className="font-display max-w-[16rem] text-[1.9rem] leading-[0.96] tracking-[-0.03em] text-white">
+                      {item.title}
+                    </h3>
                   </div>
                 </article>
               ))}

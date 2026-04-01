@@ -12,6 +12,7 @@ type BuildPageMetadataOptions = {
 };
 
 const SITE_NAME = "Highway Films";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://highwayfilms.ru";
 
 function normalizePath(path: string) {
   if (!path || path === "") return "/";
@@ -55,6 +56,7 @@ export function buildPageMetadata({
       languages: {
         ru: ruPath,
         en: enPath,
+        "x-default": ruPath,
       },
     },
     openGraph: {

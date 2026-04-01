@@ -1,25 +1,26 @@
 // app/en/privacy/page.tsx
 import type { Metadata } from "next";
 import Script from "next/script";
+import { SITE_URL } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — Highway Films",
   description:
     "How we process personal data and cookies on Highway Films’ website in accordance with local regulations.",
-  alternates: { canonical: "https://highwayfilms.ru/en/privacy" },
+  alternates: { canonical: `${SITE_URL}/en/privacy` },
   openGraph: {
     type: "article",
     title: "Privacy Policy — Highway Films",
     description:
       "What data we collect, why we use it, and your rights. Compliance with applicable data protection laws.",
-    url: "https://highwayfilms.ru/en/privacy",
+    url: `${SITE_URL}/en/privacy`,
     siteName: "Highway Films",
   },
   robots: { index: true, follow: true },
 };
 
 // Injected at build (e.g., from CI). Fallback — today’s date.
-const UPDATED_AT = process.env.NEXT_PUBLIC_BUILD_DATE || "2025-09-18";
+const UPDATED_AT = process.env.NEXT_PUBLIC_BUILD_DATE ?? new Date().toISOString().slice(0, 10);
 
 const SECTIONS = [
   { id: "operator", title: "1. Terms and Data Controller" },
@@ -47,7 +48,7 @@ export default function PrivacyPageEN() {
           "@context": "https://schema.org",
           "@type": "WebPage",
           name: "Privacy Policy — Highway Films",
-          url: "https://highwayfilms.ru/en/privacy",
+          url: `${SITE_URL}/en/privacy`,
           dateModified: UPDATED_AT,
           inLanguage: "en-US",
         })}
@@ -57,8 +58,8 @@ export default function PrivacyPageEN() {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://highwayfilms.ru/en" },
-            { "@type": "ListItem", position: 2, name: "Privacy Policy", item: "https://highwayfilms.ru/en/privacy" },
+            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/en` },
+            { "@type": "ListItem", position: 2, name: "Privacy Policy", item: `${SITE_URL}/en/privacy` },
           ],
         })}
       </Script>

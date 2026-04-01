@@ -9,9 +9,10 @@ export const metadata: Metadata = buildPageMetadata({
   path: "/en/brief",
   locale: "en",
   imagePath: "/video/derived/hero-poster.jpg",
+  noIndex: true,
 });
 
-type BriefSearchParams = Promise<{ status?: string }>;
+type BriefSearchParams = Promise<{ status?: string; reason?: string }>;
 
 export default async function BriefEnPage({
   searchParams,
@@ -20,5 +21,11 @@ export default async function BriefEnPage({
 }) {
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
 
-  return <BriefStudioPage locale="en" status={resolvedSearchParams?.status} />;
+  return (
+    <BriefStudioPage
+      locale="en"
+      status={resolvedSearchParams?.status}
+      reason={resolvedSearchParams?.reason}
+    />
+  );
 }

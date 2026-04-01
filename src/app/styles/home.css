@@ -1,0 +1,267 @@
+﻿/* =========================
+   HOME PAGE
+   ========================= */
+/* generic cards and buttons used by home sections */
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+  box-shadow: var(--shadow);
+  transition: border-color .2s ease, transform .2s ease, background .2s ease;
+}
+
+.card h3 { font-size: 1.0625rem; font-weight: 600; }
+.card p  { line-height: 1.6; }
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  color: var(--fgc);
+  transition: border-color .18s ease, background .18s ease, transform .12s ease;
+}
+
+.btn:hover {
+  border-color: var(--border-strong);
+  background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--brand), color-mix(in srgb, var(--brand) 60%, white));
+  color: #fff;
+  border-color: transparent;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.06);
+}
+
+.btn-primary:focus-visible { box-shadow: 0 0 0 4px rgba(124,58,237,.35); }
+
+/* intro */
+.home-intro-panel {
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 34px;
+  background:
+    radial-gradient(140% 130% at 50% 0%, rgba(124,58,237,.12), transparent 56%),
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
+    rgba(10,10,11,.76);
+  box-shadow: 0 24px 56px rgba(0,0,0,.24);
+}
+
+.home-center-copy {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.home-display-xl {
+  font-family: var(--font-display), serif;
+  font-size: clamp(3.4rem, 7vw, 6.9rem);
+  line-height: .9;
+  letter-spacing: -0.065em;
+  text-wrap: balance;
+}
+
+.home-lead {
+  margin-inline: auto;
+  font-size: clamp(1.08rem, 1rem + .5vw, 1.34rem);
+  line-height: 1.85;
+  color: rgba(255,255,255,.7);
+}
+
+.home-section-title {
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.35rem, 1.8rem + 2vw, 4rem);
+  line-height: .98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.home-card-title {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.8rem, 1.5rem + .55vw, 2.25rem);
+  line-height: 1.03;
+  letter-spacing: -0.034em;
+  text-wrap: balance;
+  min-height: 2.15em;
+}
+
+.home-card-copy {
+  font-size: .98rem;
+  line-height: 1.9;
+}
+
+.home-feature-card,
+.home-service-card,
+.home-process-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-feature-card {
+  min-height: 18rem;
+}
+
+.home-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px 24px;
+}
+
+.home-primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.08);
+  background:
+    linear-gradient(135deg, rgba(125,80,233,.98), rgba(170,130,244,.96)),
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.14),
+    0 16px 34px rgba(74,42,146,.28);
+  color: #fff;
+  font-size: .98rem;
+  letter-spacing: .01em;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+
+.home-primary-button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 18px 38px rgba(74,42,146,.34);
+}
+
+.home-primary-button:focus-visible {
+  box-shadow:
+    0 0 0 4px rgba(124,58,237,.26),
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 18px 38px rgba(74,42,146,.34);
+}
+
+.home-secondary-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  font-size: .98rem;
+  color: rgba(255,255,255,.74);
+  transition: color .18s ease, transform .18s ease;
+}
+
+.home-secondary-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,.52), rgba(214,183,138,.24), transparent);
+  transform: scaleX(.58);
+  transform-origin: left center;
+  transition: transform .18s ease, opacity .18s ease;
+  opacity: .82;
+}
+
+.home-secondary-link:hover {
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.home-secondary-link:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* service grid */
+.home-service-card {
+  min-height: 19rem;
+  text-align: center;
+  align-items: center;
+}
+
+.home-service-card .home-card-copy {
+  max-width: 25ch;
+  margin-inline: auto;
+}
+
+/* process */
+.home-process-card {
+  position: relative;
+  min-height: 16.5rem;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+
+.home-process-card .home-card-title {
+  min-height: 0;
+}
+
+.home-process-arrow {
+  position: absolute;
+  top: 3rem;
+  right: -2.75rem;
+  width: 4.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,.18), rgba(255,255,255,.05));
+  color: rgba(255,255,255,.44);
+  transition: transform .2s ease, color .2s ease;
+  z-index: 2;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.home-process-arrow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(214,183,138,.14), transparent 75%);
+  opacity: .6;
+}
+
+.home-process-arrow svg {
+  position: relative;
+  top: 0;
+  right: -2px;
+  background: #0b0b0c;
+}
+
+/* faq */
+.home-faq-wrap {
+  margin-inline: auto;
+}
+
+.home-faq-item {
+  padding-inline: 8px;
+}
+
+.home-faq-question {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.65rem, 1.3rem + 1vw, 2.35rem);
+  line-height: .99;
+  letter-spacing: -0.038em;
+  text-wrap: balance;
+}
+
+.home-faq-answer {
+  font-size: 1.02rem;
+  line-height: 1.85;
+}
+
+

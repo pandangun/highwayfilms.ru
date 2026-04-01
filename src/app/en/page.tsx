@@ -44,13 +44,14 @@ export default function HomePageEn() {
         subtitle="Commercials, brand films, corporate stories, and music videos."
         muteLabel="Unmute showreel"
         unmuteLabel="Mute showreel"
+        headingAs="div"
       />
 
       <section className="container pb-10 pt-12 md:pb-14 md:pt-16">
         <div className="grid gap-10 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
             <p className="eyebrow">Studio manifesto</p>
-            <h1 className="font-display mt-4 max-w-4xl text-[clamp(2.8rem,6vw,5.6rem)] leading-[0.95] tracking-[-0.045em] text-white">
+            <h1 className="font-display heading-balance mt-4 max-w-4xl text-[clamp(2.55rem,5.7vw,5.1rem)] leading-[0.98] tracking-[-0.045em] text-white">
               We build films that feel like considered studio work, not another content treadmill.
             </h1>
           </div>
@@ -87,7 +88,7 @@ export default function HomePageEn() {
         <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow">Capabilities</p>
-            <h2 className="font-display mt-3 text-3xl tracking-[-0.03em] text-white md:text-4xl">
+            <h2 className="font-display heading-balance mt-3 text-3xl tracking-[-0.03em] text-white md:text-4xl">
               Service lines that read like a production system, not a menu.
             </h2>
           </div>
@@ -112,7 +113,7 @@ export default function HomePageEn() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <p className="eyebrow text-white/55">Approach</p>
-                <h3 className="font-display mt-2 text-3xl tracking-[-0.03em] text-white">
+                <h3 className="font-display heading-balance mt-2 text-3xl tracking-[-0.03em] text-white">
                   Strong visuals start long before the camera gets switched on.
                 </h3>
               </div>

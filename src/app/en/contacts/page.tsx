@@ -5,12 +5,26 @@ import { buildPageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = buildPageMetadata({
   title: "Contacts — Highway Films",
   description:
-    "Highway Films contact page with fast ways to reach the team, production geography, and a dedicated route to the working brief.",
+    "Highway Films contact page with direct phone, email, Telegram, WhatsApp, production geography, and a dedicated route to the working brief.",
   path: "/en/contacts",
   locale: "en",
   imagePath: "/video/derived/hero-poster.jpg",
 });
 
-export default function ContactsEnPage() {
-  return <ContactStudioPage locale="en" />;
+type ContactsSearchParams = Promise<{ status?: string; reason?: string }>;
+
+export default async function ContactsEnPage({
+  searchParams,
+}: {
+  searchParams?: ContactsSearchParams;
+}) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+
+  return (
+    <ContactStudioPage
+      locale="en"
+      status={resolvedSearchParams?.status}
+      reason={resolvedSearchParams?.reason}
+    />
+  );
 }

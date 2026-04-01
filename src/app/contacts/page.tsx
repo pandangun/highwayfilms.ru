@@ -3,14 +3,28 @@ import { ContactStudioPage } from "@/components/ContactStudioPage";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Контакты — Highway Films",
+  title: "Контакты Highway Films — Санкт-Петербург",
   description:
-    "Контактная страница Highway Films: быстрые способы связи, география работы и переход к рабочему брифу для запуска проекта.",
+    "Контакты Highway Films: Санкт-Петербург, выездные съёмки по России, телефон, e-mail, Telegram, WhatsApp и короткая заявка на съёмку.",
   path: "/contacts",
   locale: "ru",
   imagePath: "/video/derived/hero-poster.jpg",
 });
 
-export default function ContactsPage() {
-  return <ContactStudioPage locale="ru" />;
+type ContactsSearchParams = Promise<{ status?: string; reason?: string }>;
+
+export default async function ContactsPage({
+  searchParams,
+}: {
+  searchParams?: ContactsSearchParams;
+}) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+
+  return (
+    <ContactStudioPage
+      locale="ru"
+      status={resolvedSearchParams?.status}
+      reason={resolvedSearchParams?.reason}
+    />
+  );
 }

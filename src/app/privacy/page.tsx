@@ -1,25 +1,26 @@
 // app/privacy/page.tsx
 import type { Metadata } from "next";
 import Script from "next/script";
+import { SITE_URL } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   title: "Политика конфиденциальности — Highway Films",
   description:
     "Политика обработки персональных данных и cookies на сайте Highway Films в соответствии с 152-ФЗ.",
-  alternates: { canonical: "https://highwayfilms.ru/privacy" },
+  alternates: { canonical: `${SITE_URL}/privacy` },
   openGraph: {
     type: "article",
     title: "Политика конфиденциальности — Highway Films",
     description:
       "Как и зачем мы обрабатываем ваши персональные данные. Соответствие 152-ФЗ.",
-    url: "https://highwayfilms.ru/privacy",
+    url: `${SITE_URL}/privacy`,
     siteName: "Highway Films",
   },
   robots: { index: true, follow: true },
 };
 
 // Подставляется на билде (например, из CI). Фолбэк — сегодняшняя дата.
-const UPDATED_AT = process.env.NEXT_PUBLIC_BUILD_DATE || "2025-09-18";
+const UPDATED_AT = process.env.NEXT_PUBLIC_BUILD_DATE ?? new Date().toISOString().slice(0, 10);
 
 const SECTIONS = [
   { id: "operator", title: "1. Термины и оператор" },
@@ -47,7 +48,7 @@ export default function PrivacyPage() {
           "@context": "https://schema.org",
           "@type": "WebPage",
           name: "Политика конфиденциальности — Highway Films",
-          url: "https://highwayfilms.ru/privacy",
+          url: `${SITE_URL}/privacy`,
           dateModified: UPDATED_AT,
           inLanguage: "ru-RU",
         })}
@@ -57,8 +58,8 @@ export default function PrivacyPage() {
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Главная", item: "https://highwayfilms.ru" },
-            { "@type": "ListItem", position: 2, name: "Политика конфиденциальности", item: "https://highwayfilms.ru/privacy" },
+            { "@type": "ListItem", position: 1, name: "Главная", item: SITE_URL },
+            { "@type": "ListItem", position: 2, name: "Политика конфиденциальности", item: `${SITE_URL}/privacy` },
           ],
         })}
       </Script>

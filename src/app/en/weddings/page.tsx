@@ -2,6 +2,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import PriceBadge from "@/components/PriceBadge";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -132,14 +133,6 @@ function Chip({ children }: { children: ReactNode }) {
   );
 }
 
-function Price({ value }: { value: string }) {
-  return (
-    <span className="rounded-full bg-[linear-gradient(90deg,rgba(124,58,237,.25),rgba(255,255,255,.12))] px-2.5 py-1 text-[12px] font-medium text-white/90 ring-1 ring-white/15">
-      from {value}
-    </span>
-  );
-}
-
 function GlowCard({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <div className={`rounded-2xl p-[1px] [background:linear-gradient(120deg,rgba(124,58,237,.6),rgba(255,255,255,.16))] ${className}`}>
@@ -247,7 +240,7 @@ export default function WeddingsEnPage() {
                   <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6">
                     <div className="flex items-start justify-between gap-3">
                       <h3 className="font-display text-xl text-white">{format.title}</h3>
-                      <Price value={format.price} />
+                      <PriceBadge value={format.price} fromLabel="from" />
                     </div>
                     <p className="mt-2 text-sm text-neutral-200">{format.description}</p>
                     <ul className="mt-3 space-y-1 text-sm text-neutral-200">
@@ -264,7 +257,7 @@ export default function WeddingsEnPage() {
                 <GlowCard>
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-display text-xl text-white">{format.title}</h3>
-                    <Price value={format.price} />
+                    <PriceBadge value={format.price} fromLabel="from" />
                   </div>
                   <p className="mt-2 text-sm text-neutral-300">{format.description}</p>
                   <ul className="mt-3 space-y-1 text-sm text-neutral-300">
@@ -316,7 +309,7 @@ export default function WeddingsEnPage() {
                 <h3 className="font-display text-xl text-white">{extra.title}</h3>
                 <p className="mt-2 text-sm text-neutral-300">{extra.description}</p>
               </div>
-              <Price value={extra.price} />
+              <PriceBadge value={extra.price} mode={extra.price === "on request" ? "plain" : "from"} fromLabel="from" />
             </div>
             <div className="mt-4">
               <CTAButton href={extra.href}>Ask for details</CTAButton>

@@ -1,0 +1,101 @@
+﻿.footer-link {
+  position: relative;
+  width: fit-content;
+  transition: color .18s ease;
+}
+
+.footer-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,.72), rgba(214,183,138,.32), transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .2s ease;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.footer-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* locale */
+.footer-lang {
+  color: rgba(255,255,255,.28);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.footer-lang-sep {
+  color: rgba(255,255,255,.18);
+}
+
+.footer-lang-link {
+  color: rgba(255,255,255,.34);
+  transition: color .18s ease;
+}
+
+.footer-lang-link:hover,
+.footer-lang-link.is-active {
+  color: rgba(255,255,255,.62);
+}
+
+/* controls */
+.footer-controls {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+}
+
+.footer-theme-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: 3px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.022)),
+    radial-gradient(120% 120% at 0% 0%, rgba(124,58,237,.18), transparent 60%),
+    rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 10px 22px rgba(0,0,0,.12);
+}
+
+.footer-theme-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255,255,255,.78);
+  transition: color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+.footer-theme-button:hover {
+  color: #fff;
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.04);
+}
+
+.footer-theme-button.is-active {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04)),
+    radial-gradient(140% 140% at 0% 0%, rgba(124,58,237,.28), transparent 60%);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.1),
+    0 10px 20px rgba(0,0,0,.16);
+}
+

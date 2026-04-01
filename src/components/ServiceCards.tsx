@@ -84,8 +84,8 @@ export default function ServiceCards({ locale = "ru" }: { locale?: "ru" | "en" }
               className="object-cover transition duration-300 ease-out group-hover:scale-[1.02]"
               sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.1),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(214,183,138,0.1),transparent_42%)] opacity-75 transition duration-300 group-hover:opacity-100" />
+            <div className="service-card-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+            <div className="service-card-glow absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.1),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(214,183,138,0.1),transparent_42%)] opacity-75 transition duration-300 group-hover:opacity-100" />
             <div className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-between p-5">
               <span className="w-fit rounded-full border border-white/15 bg-black/20 px-3 py-1 text-xs uppercase tracking-[0.18em] text-white/72 transition group-hover:border-white/25 group-hover:bg-black/30 group-hover:text-white/88">
