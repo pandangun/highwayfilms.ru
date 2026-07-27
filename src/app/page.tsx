@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buildPageMetadata, SITE_URL } from "@/lib/metadata";
 import VideoHero from "@/components/VideoHero";
+import "./styles/home.css";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Highway Films — видеостудия в Санкт-Петербурге",
@@ -131,7 +132,11 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
           <span className="absolute h-5 w-px bg-white/50 transition duration-200 group-open:scale-y-0" />
         </span>
       </summary>
-      <div className="home-faq-answer max-w-3xl pt-5 text-white/60">{answer}</div>
+      <div className="home-faq-panel">
+        <div className="home-faq-panel__inner">
+          <p className="home-faq-answer max-w-3xl text-white/60">{answer}</p>
+        </div>
+      </div>
     </details>
   );
 }

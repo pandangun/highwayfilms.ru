@@ -1,5 +1,7 @@
+import "../styles/corporate.css";
 import type { Metadata } from "next";
-import StudioServicePage from "@/components/StudioServicePage";
+import Image from "next/image";
+import Link from "next/link";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -8,140 +10,206 @@ export const metadata: Metadata = buildPageMetadata({
     "Фильмы о компании, производстве, HR и презентациях. Корпоративное видео, которое объясняет ценность бизнеса без визуальной бюрократии.",
   path: "/corporate",
   locale: "ru",
-  imagePath: "/images/frames/f004.jpg",
+  imagePath: "/images/corporate/office%20(3)_main_1.png",
 });
+
+const corporateImages = {
+  hero: "/images/corporate/office%20(3)_main_1.png",
+  heroMobile: "/images/corporate/office%20(3)_main_end.png",
+  caseProduction: "/images/corporate/office%20(1).png",
+  caseInvest: "/images/corporate/office%20(2).png",
+  caseHr: "/images/corporate/office%20(4).png",
+  caseExplainer: "/images/corporate/office%20(3)_main_end.png",
+} as const;
+
+const heroLabels = [
+  "Фильм о компании",
+  "Инвест-презентации",
+  "HR видео",
+  "Product explainers",
+  "Видео для выставок",
+  "Фильм о компании",
+  "Инвест-презентации",
+  "HR видео",
+  "Product explainers",
+  "Видео для выставок",
+];
+
+const cases = [
+  {
+    title: "Фильм о производстве",
+    description: "Промышленная площадка, процессы и люди в одном выверенном повествовании.",
+    image: corporateImages.caseProduction,
+  },
+  {
+    title: "Инвестиционная презентация",
+    description: "Чёткая структура, сильные ключевые кадры и никаких лишних слов.",
+    image: corporateImages.caseInvest,
+  },
+  {
+    title: "HR-бренд компании",
+    description: "Видео, которое объясняет культуру и помогает рекрутменту.",
+    image: corporateImages.caseHr,
+  },
+  {
+    title: "Продуктовое объяснение",
+    description: "Смысл, польза и отличия продукта — ясно и визуально.",
+    image: corporateImages.caseExplainer,
+  },
+] as const;
+
+const steps = [
+  {
+    index: "01",
+    title: "Разбираем бизнес и задачу",
+    text: "Фиксируем, что именно нужно объяснить и кому: клиенту, партнёру, команде или инвестору.",
+  },
+  {
+    index: "02",
+    title: "Формируем структуру видео",
+    text: "Собираем сценарный каркас и визуальную логику, чтобы ролик работал как аргумент, а не как набор красивых кадров.",
+  },
+  {
+    index: "03",
+    title: "Снимаем ключевые сцены",
+    text: "Интервью, процессы, детали и пространство — в стиле, который усиливает доверие и читает масштаб бизнеса.",
+  },
+  {
+    index: "04",
+    title: "Монтируем и упаковываем материал",
+    text: "Готовим главную версию и адаптации под площадки, презентации, выставки и экраны.",
+  },
+] as const;
 
 export default function CorporatePage() {
   return (
-    <StudioServicePage
-      hero={{
-        eyebrow: "Корпоративное",
-        title: "Корпоративное и презентационное видео",
-        lead:
-          "Снимаем видео для компаний, которым нужно ясно объяснить продукт, процесс, экспертизу или позицию бренда. Без канцелярского тона, но с продуманной структурой и чистой подачей.",
-        primaryHref: "/contacts",
-        primaryLabel: "Запросить КП",
-        secondaryHref: "https://t.me/highwayfilms",
-        secondaryLabel: "Telegram",
-        chips: ["Фильм о компании", "Инвест-презентация", "HR / EVP", "Презентационные циклы"],
-        metrics: [
-          { value: "10+ лет", label: "в производственном контенте" },
-          { value: "50+", label: "корпоративных проектов" },
-          { value: "2", label: "города базирования" },
-        ],
-        panelEyebrow: "Структура + ясность",
-        panelTitle: "Видео, которое снимает вопросы до встречи.",
-        panelCopy:
-          "Для презентаций, инвесторов, HR и внутренних коммуникаций. Собираем материал так, чтобы он помогал объяснять, убеждать и усиливать доверие.",
-        imageSrc: "/images/frames/f004.jpg",
-        imageAlt: "Корпоративный кадр Highway Films",
-      }}
-      statement="Корпоративное видео не обязано выглядеть сухо. Оно должно быть визуально чистым, структурным и достаточно сильным, чтобы удерживать внимание."
-      offerings={{
-        eyebrow: "Форматы",
-        title: "Где это работает",
-        lead: "Собираем видео под реальный сценарий использования, а не под абстрактное «нужно что-то о компании».",
-        items: [
-          {
-            title: "Фильмы о компании и производстве",
-            text: "Показываем инфраструктуру, людей, процессы и экспертизу так, чтобы ролик объяснял масштаб и уровень бизнеса.",
-          },
-          {
-            title: "Видео для выставок и презентаций",
-            text: "Цикличные ролики для стендов, экранов и питчей: без перегруза, с ясным визуальным считыванием и сильными ключевыми кадрами.",
-          },
-          {
-            title: "HR и внутренние коммуникации",
-            text: "Приветственные видео, онбординг, EVP-коммуникации, отчётные ролики и внутренние истории для команды.",
-          },
-          {
-            title: "Интервью и кейс-истории",
-            text: "Руководители, эксперты, клиенты и партнёры в кадре, когда нужно усилить доверие и зафиксировать реальный опыт.",
-          },
-        ],
-      }}
-      gallery={{
-        eyebrow: "Визуальный тон",
-        title: "Подача без офисной скуки",
-        lead: "Архитектура, процессы, портреты и атмосферные детали в одном чистом языке.",
-        items: [
-          { src: "/images/frames/f004.jpg", tag: "Пространство", title: "Пространства и процессы читаются сразу" },
-          { src: "/images/frames/f011.jpg", tag: "Портрет", title: "Люди в кадре выглядят уверенно, а не зажато" },
-          { src: "/images/frames/f018.jpg", tag: "Детали", title: "Детали инфраструктуры и продукта работают на доверие" },
-        ],
-      }}
-      workflow={{
-        eyebrow: "Процесс",
-        title: "Как строим корпоративный проект",
-        lead: "Фиксируем сообщения, порядок рассказа и точки согласования до начала съёмок.",
-        items: [
-          {
-            title: "Бриф и сообщение",
-            text: "Определяем, кому и что именно должен объяснить ролик: клиенту, партнёру, сотруднику, инвестору или выставочной аудитории.",
-          },
-          {
-            title: "Структура и подготовка",
-            text: "Собираем сценарный каркас, тезисы, список героев, локаций, процессов и необходимых вставок.",
-          },
-          {
-            title: "Съёмка",
-            text: "Снимаем интервью, перебивки, пространство и процессы так, чтобы в монтаже была гибкость, а не борьба за материал.",
-          },
-          {
-            title: "Монтаж и финальные версии",
-            text: "Делаем главную версию, короткие адаптации, версии без обязательной озвучки для экранов и при необходимости субтитры и графику.",
-          },
-        ],
-      }}
-      deliverables={{
-        title: "Что получает компания",
-        groups: [
-          {
-            title: "Видео-пакет",
-            items: [
-              "Основная версия ролика под ключевой сценарий",
-              "Адаптации под сайт, соцсети, презентации или экранные носители",
-              "Субтитры, графические плашки и превью-кадры по задаче",
-            ],
-          },
-          {
-            title: "Проектная прозрачность",
-            items: [
-              "Понятная смета и этапы производства",
-              "Нормальный согласовательный процесс без хаотичных правок",
-              "Чёткое понимание, что, когда и зачем снимается",
-            ],
-          },
-        ],
-      }}
-      faq={{
-        title: "Часто спрашивают",
-        items: [
-          {
-            question: "Можно снять и интервью, и производственный контент за один цикл?",
-            answer: "Да. Обычно именно так и строим проект: один продакшн закрывает несколько сценариев использования.",
-          },
-          {
-            question: "Подходит ли формат для выставок и экранов без звука?",
-            answer: "Да. Мы сразу делаем версии без обязательной озвучки, с ясной графикой и структурой.",
-          },
-          {
-            question: "Нужно ли готовить сотрудников к съёмке?",
-            answer: "Да, но без излишней формальности. Мы заранее даём понятную рамку и помогаем людям выглядеть в кадре естественно.",
-          },
-          {
-            question: "Можно ли адаптировать ролик под HR и внешнюю коммуникацию одновременно?",
-            answer: "Да. Если заложить это в структуру заранее, из одного проекта можно собрать несколько рабочих версий.",
-          },
-        ],
-      }}
-      closing={{
-        title: "Нужно видео, которое объяснит компанию без ощущения корпоративной скуки?",
-        description: "Пришлите задачу, площадку и аудиторию. Соберём структуру ролика, смету и сроки.",
-        ctaLabel: "Обсудить корпоративный проект",
-        href: "/contacts",
-        note: "Подходит для HR, выставок, инвесторов и внутренних коммуникаций",
-      }}
-    />
+    <div className="page-shell corporate-page">
+      <div className="page-ambient corporate-ambient" />
+
+      <section className="corporate-hero">
+        <div className="corporate-hero__bg" aria-hidden>
+          <Image
+            src={corporateImages.hero}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="corporate-hero__overlay" />
+          <div className="corporate-hero__vignette" />
+          <div className="corporate-hero__grain" />
+        </div>
+
+        <div className="container corporate-hero__content">
+          <div className="corporate-hero__copy cinematic-reveal">
+            <p className="eyebrow text-white/54">Корпоративное видео</p>
+            <h1 className="corporate-hero__title font-display text-white">
+              <span>Корпоративные</span>
+              <span>и презентационные</span>
+              <span>фильмы</span>
+            </h1>
+            <p className="corporate-hero__lead text-white/70">
+              Видео, которое объясняет бизнес, продукт и экспертизу компании.
+            </p>
+            <div className="corporate-hero__actions">
+              <Link href="/contacts" className="home-primary-button">
+                Запросить КП
+              </Link>
+              <a
+                href="https://t.me/highwayfilms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="home-secondary-link"
+              >
+                Telegram
+              </a>
+            </div>
+            <div className="corporate-hero__ribbon" aria-hidden>
+              <div className="corporate-hero__ribbon-track">
+                {heroLabels.map((label, index) => (
+                  <span key={`${label}-${index}`} className="corporate-hero__ribbon-item">
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="corporate-hero__media-card cinematic-reveal delay-1">
+            <div className="corporate-hero__media-frame">
+              <Image
+                src={corporateImages.heroMobile}
+                alt="Корпоративный фильм Highway Films"
+                fill
+                sizes="(max-width: 768px) 92vw, 40vw"
+                className="object-cover"
+              />
+              <div className="corporate-hero__media-overlay" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="corporate-section">
+        <div className="container cinematic-reveal">
+          <div className="corporate-section__head">
+            <p className="eyebrow text-white/50">Кейсы</p>
+            <h2 className="corporate-section__title font-display text-white">
+              Кинематографичная галерея корпоративных историй.
+            </h2>
+            <p className="corporate-section__lead text-white/64">
+              Видео работает как инструмент объяснения: структура, визуальная ясность и доверие на каждом кадре.
+            </p>
+          </div>
+
+          <div className="corporate-cases no-scrollbar">
+            <div className="corporate-cases__track">
+              {cases.map((item) => (
+                <article key={item.title} className="corporate-case">
+                  <div className="corporate-case__media">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 1024px) 85vw, 36vw"
+                      className="object-cover"
+                    />
+                    <div className="corporate-case__overlay" />
+                  </div>
+                  <div className="corporate-case__caption">
+                    <p className="corporate-case__title">{item.title}</p>
+                    <p className="corporate-case__desc">{item.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="corporate-section corporate-section--timeline">
+        <div className="container cinematic-reveal delay-1">
+          <div className="corporate-section__head">
+            <p className="eyebrow text-white/50">Как работает корпоративное видео</p>
+            <h2 className="corporate-section__title font-display text-white">
+              Процесс построен как структура фильма, а не как набор разрозненных съёмок.
+            </h2>
+          </div>
+
+          <div className="corporate-timeline">
+            {steps.map((step) => (
+              <article key={step.index} className="corporate-step">
+                <div className="corporate-step__index">{step.index}</div>
+                <div className="corporate-step__body">
+                  <h3 className="corporate-step__title">{step.title}</h3>
+                  <p className="corporate-step__text">{step.text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

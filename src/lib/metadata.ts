@@ -12,7 +12,7 @@ type BuildPageMetadataOptions = {
 };
 
 const SITE_NAME = "Highway Films";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://highwayfilms.ru";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://highway-films.ru";
 
 function normalizePath(path: string) {
   if (!path || path === "") return "/";

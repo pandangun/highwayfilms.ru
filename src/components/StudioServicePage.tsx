@@ -1,18 +1,33 @@
 import Image from "next/image";
 import CTA from "@/components/CTA";
+import ServiceFaqSection from "@/components/ServiceFaqSection";
 import StudioMasthead from "@/components/StudioMasthead";
 
 type HeroMetric = { value: string; label: string };
 type TextCard = { title: string; text: string };
-type GalleryItem = { src: string; tag: string; title: string };
+type GalleryImageItem = {
+  src: string;
+  tag: string;
+  title: string;
+  alt?: string;
+};
+type GalleryItem = GalleryImageItem;
 type ListGroup = { title: string; items: string[] };
 type FaqItem = { question: string; answer: string };
+type FaqCta = {
+  title: string;
+  description: string;
+  ctaLabel: string;
+  href: string;
+  note?: string;
+};
 
 type StudioServicePageProps = {
   hero: {
     eyebrow: string;
     title: string;
     lead: string;
+    heroVariant?: "default" | "commercials";
     primaryHref: string;
     primaryLabel: string;
     secondaryHref: string;
@@ -26,6 +41,12 @@ type StudioServicePageProps = {
     imageAlt: string;
   };
   statement?: string;
+  positioning?: {
+    eyebrow: string;
+    title: string;
+    lead?: string;
+    items: TextCard[];
+  };
   offerings: {
     eyebrow: string;
     title: string;
@@ -49,8 +70,12 @@ type StudioServicePageProps = {
     groups: ListGroup[];
   };
   faq?: {
+    variant?: "default" | "enhanced";
+    eyebrow?: string;
     title: string;
+    intro?: string;
     items: FaqItem[];
+    cta?: FaqCta;
   };
   closing: {
     title: string;
@@ -86,6 +111,7 @@ function SectionHeading({
 export default function StudioServicePage({
   hero,
   statement,
+  positioning,
   offerings,
   gallery,
   workflow,
@@ -94,17 +120,38 @@ export default function StudioServicePage({
   closing,
 }: StudioServicePageProps) {
   return (
-    <main className="page-shell">
+    <div className="page-shell">
       <div className="page-ambient" />
       <div className="page-content">
         <StudioMasthead {...hero} />
 
         {statement ? (
           <section className="container pb-8">
-            <div className="surface-panel px-6 py-8 md:px-8">
+            <div className="section-panel section-panel--statement">
               <p className="font-display max-w-4xl text-[clamp(1.8rem,2vw+1rem,2.9rem)] leading-[1.1] tracking-[-0.035em] text-white">
                 {statement}
               </p>
+            </div>
+          </section>
+        ) : null}
+
+        {positioning ? (
+          <section className="container section-divider py-10 md:py-14">
+            <SectionHeading {...positioning} />
+            <div className="grid gap-4 lg:grid-cols-2">
+              {positioning.items.map((item, index) => (
+                <div
+                  key={item.title}
+                  className="section-panel section-panel--card"
+                >
+                  <div className="mb-4 flex items-center gap-3">
+                    <span className="text-[10px] uppercase tracking-[0.22em] text-white/34">0{index + 1}</span>
+                    <span className="rule-fade flex-1" />
+                  </div>
+                  <h3 className="font-display text-xl text-white">{item.title}</h3>
+                  <p className="mt-3 text-white/64">{item.text}</p>
+                </div>
+              ))}
             </div>
           </section>
         ) : null}
@@ -115,7 +162,7 @@ export default function StudioServicePage({
             {offerings.items.map((item, index) => (
               <div
                 key={item.title}
-                className="surface-panel p-6"
+                className="section-panel section-panel--card"
               >
                 <div className="mb-4 flex items-center gap-3">
                   <span className="text-[10px] uppercase tracking-[0.22em] text-white/34">0{index + 1}</span>
@@ -139,7 +186,7 @@ export default function StudioServicePage({
                 >
                   <Image
                     src={item.src}
-                    alt={item.title}
+                    alt={item.alt ?? item.title}
                     fill
                     className="object-cover transition duration-500 ease-out group-hover:scale-[1.03]"
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
@@ -167,7 +214,7 @@ export default function StudioServicePage({
             {workflow.items.map((item, index) => (
               <div
                 key={item.title}
-                className="surface-panel p-6"
+                className="section-panel section-panel--card"
               >
                 <div className="flex items-start gap-4">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/4 text-sm text-white/80">
@@ -194,7 +241,7 @@ export default function StudioServicePage({
               {deliverables.groups.map((group) => (
                 <div
                   key={group.title}
-                  className="surface-panel p-6"
+                  className="section-panel section-panel--card"
                 >
                   <div className="mb-4 rule-fade" />
                   <h3 className="font-display text-xl text-white">{group.title}</h3>
@@ -213,26 +260,36 @@ export default function StudioServicePage({
         ) : null}
 
         {faq ? (
-          <section className="container section-divider py-10 md:py-14">
-            <div className="mb-7">
-              <h2 className="font-display text-3xl tracking-[-0.03em] text-white md:text-4xl">
-                {faq.title}
-              </h2>
-            </div>
-            <div className="surface-panel overflow-hidden">
-              {faq.items.map((item) => (
-                <details
-                  key={item.question}
-                  className="border-b border-white/8 px-6 py-5 last:border-b-0"
-                >
-                  <summary className="font-display cursor-pointer list-none text-[1.35rem] leading-tight text-white md:text-[1.55rem]">
-                    {item.question}
-                  </summary>
-                  <p className="mt-4 max-w-3xl text-white/62">{item.answer}</p>
-                </details>
-              ))}
-            </div>
-          </section>
+          faq.variant === "enhanced" ? (
+            <ServiceFaqSection
+              eyebrow={faq.eyebrow}
+              title={faq.title}
+              intro={faq.intro}
+              items={faq.items}
+              cta={faq.cta}
+            />
+          ) : (
+            <section className="container section-divider py-10 md:py-14">
+              <div className="mb-7">
+                <h2 className="font-display text-3xl tracking-[-0.03em] text-white md:text-4xl">
+                  {faq.title}
+                </h2>
+              </div>
+              <div className="section-panel section-panel--flush">
+                {faq.items.map((item) => (
+                  <details
+                    key={item.question}
+                    className="border-b border-white/8 px-6 py-5 last:border-b-0"
+                  >
+                    <summary className="font-display cursor-pointer list-none text-[1.35rem] leading-tight text-white md:text-[1.55rem]">
+                      {item.question}
+                    </summary>
+                    <p className="mt-4 max-w-3xl text-white/62">{item.answer}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
+          )
         ) : null}
 
         <CTA
@@ -244,6 +301,6 @@ export default function StudioServicePage({
           locale={closing.href.startsWith("/en") ? "en" : "ru"}
         />
       </div>
-    </main>
+    </div>
   );
 }

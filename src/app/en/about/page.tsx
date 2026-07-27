@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Clapperboard,
@@ -7,6 +8,43 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { buildPageMetadata } from "@/lib/metadata";
+
+type BackstageStill = {
+  title: string;
+  note: string;
+  image: string;
+  sizes: string;
+  className?: string;
+};
+
+const backstageStills: BackstageStill[] = [
+  {
+    title: "Lighting goes in before the shot feels effortless",
+    note: "Prep, checks, and adjustments before the take.",
+    image: "/images/frames/f001.jpg",
+    sizes: "(max-width: 1023px) 100vw, 50vw",
+    className: "md:col-span-2",
+  },
+  {
+    title: "Real production has texture and pace",
+    note: "Crew movement, equipment, and decisions in real time.",
+    image: "/images/frames/f006.jpg",
+    sizes: "(max-width: 1023px) 100vw, 25vw",
+  },
+  {
+    title: "The frame is held together by preparation",
+    note: "Short iterations, resets, and technical control.",
+    image: "/images/frames/f018.jpg",
+    sizes: "(max-width: 1023px) 100vw, 25vw",
+  },
+  {
+    title: "Backstage, not self-congratulation",
+    note: "What the work actually looks like between finished shots.",
+    image: "/images/frames/f031.jpg",
+    sizes: "(max-width: 1023px) 100vw, 50vw",
+    className: "md:col-span-2",
+  },
+];
 
 export const metadata: Metadata = buildPageMetadata({
   title: "About — Highway Films",
@@ -132,7 +170,7 @@ function Step({
 
 export default function AboutPageEn() {
   return (
-    <main className="page-shell">
+    <div className="page-shell">
       <div className="page-ambient" />
       <div className="container page-content pt-header-safe pb-16">
       <section className="py-10 md:py-14">
@@ -252,6 +290,44 @@ export default function AboutPageEn() {
         </div>
       </section>
 
+      <section className="py-10 md:py-14">
+        <SectionHeader
+          kicker="Production stills / backstage"
+          title="A production floor should feel real, not over-polished."
+          lead="This section is about the atmosphere of actual work: lighting passes, resets, crew rhythm, and the technical layer behind the finished frame."
+        />
+        <div className="grid gap-4 md:grid-cols-2">
+          {backstageStills.map((item) => (
+            <article
+              key={item.image}
+              className={[
+                "group relative min-h-[18rem] overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)]",
+                item.className ?? "",
+              ].join(" ")}
+            >
+              <Image
+                src={item.image}
+                alt={item.title}
+                fill
+                sizes={item.sizes}
+                className="object-cover transition duration-700 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,10,.06),rgba(8,8,10,.14)_34%,rgba(8,8,10,.8)_100%)]" />
+              <div className="absolute inset-x-5 top-5 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.24em] text-white/44">
+                <span>Backstage</span>
+                <span>placeholder frame</span>
+              </div>
+              <div className="absolute inset-x-5 bottom-5 max-w-md">
+                <h3 className="font-display text-[1.45rem] leading-[1.02] tracking-[-0.03em] text-white md:text-[1.7rem]">
+                  {item.title}
+                </h3>
+                <p className="mt-3 max-w-sm text-sm leading-6 text-white/64">{item.note}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="pb-4 pt-10 md:pt-14">
         <div className="rounded-[30px] border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.05))] px-6 py-8 shadow-[0_25px_80px_rgba(0,0,0,0.38)] md:px-8 md:py-10">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -281,6 +357,6 @@ export default function AboutPageEn() {
         </div>
       </section>
       </div>
-    </main>
+    </div>
   );
 }

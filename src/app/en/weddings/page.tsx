@@ -168,7 +168,7 @@ function QA({ q, a }: { q: string; a: ReactNode }) {
 
 export default function WeddingsEnPage() {
   return (
-    <main className="page-shell">
+    <div className="page-shell">
       <div className="page-ambient" />
       <div className="page-content">
       <section className="container relative grid items-start gap-8 pt-6 md:grid-cols-[1.2fr_0.8fr] md:pt-10">
@@ -359,7 +359,7 @@ export default function WeddingsEnPage() {
         </div>
       </div>
       </div>
-    </main>
+    </div>
   );
 }
 

@@ -40,7 +40,7 @@ export default function CorporateEnPage() {
       offerings={{
         eyebrow: "Formats",
         title: "Where this works",
-        lead: "We design the film around the real use case, not around a vague request for something ‘about the company’.",
+        lead: "We design the film around the real use case, not around a vague request for something 'about the company'.",
         items: [
           {
             title: "Company and manufacturing films",

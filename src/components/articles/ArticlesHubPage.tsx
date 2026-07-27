@@ -41,7 +41,7 @@ export function ArticlesHubPage({ locale }: ArticlesHubPageProps) {
   const articles = getAllArticles(locale).filter((article) => article.slug !== featured?.slug);
 
   return (
-    <main className="page-shell">
+    <div className="page-shell">
       <div className="page-ambient" />
       <div className="page-content">
         <section className="articles-hub-hero pt-header-safe relative overflow-hidden pb-12 pt-6 md:pb-16 md:pt-10">
@@ -86,7 +86,7 @@ export function ArticlesHubPage({ locale }: ArticlesHubPageProps) {
         </section>
 
         <section className="container pb-16 md:pb-20">
-          <div className="articles-hub-cta surface-panel px-6 py-8 md:px-8 md:py-9">
+          <div className="articles-hub-cta section-panel section-panel--content">
             <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr] xl:items-end">
               <div className="max-w-3xl">
                 <p className="eyebrow text-white/46">Highway Films</p>
@@ -95,7 +95,7 @@ export function ArticlesHubPage({ locale }: ArticlesHubPageProps) {
                 </h2>
                 <p className="mt-4 text-[1rem] leading-8 text-white/64">{t.ctaLead}</p>
               </div>
-              <div className="surface-quiet p-5">
+              <div className="section-card section-card--steady">
                 <div className="flex flex-wrap gap-3">
                   <Link href={locale === "en" ? "/en/brief" : "/brief"} className="btn-primary inline-flex rounded-full px-6 text-sm">
                     {t.primary}
@@ -109,6 +109,6 @@ export function ArticlesHubPage({ locale }: ArticlesHubPageProps) {
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

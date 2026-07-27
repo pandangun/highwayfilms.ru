@@ -23,7 +23,17 @@ type FullscreenCapableVideoElement = HTMLVideoElement & {
   webkitEnterFullscreen?: () => void;
 };
 
+type NetworkInformationLike = {
+  effectiveType?: string;
+  saveData?: boolean;
+};
+
+type NavigatorWithConnection = Navigator & {
+  connection?: NetworkInformationLike;
+};
+
 const HERO_VIDEO_VERSION = process.env.NEXT_PUBLIC_HERO_VIDEO_VERSION ?? "20260330";
+const HERO_VIDEO_MODE = process.env.NEXT_PUBLIC_HERO_VIDEO_MODE ?? "auto";
 const HERO_VIDEO_READY_STATE = 2;
 
 function withVersion(url: string | undefined, version: string) {
@@ -56,8 +66,24 @@ const HERO_VIDEO_SOURCES = HAS_REMOTE_HERO_VIDEO
   : HERO_VIDEO_LOCAL_SOURCES;
 
 const SHOULD_RENDER_HERO_VIDEO = Boolean(
-  HERO_VIDEO_SOURCES.desktop && HERO_VIDEO_SOURCES.mobile
+  HERO_VIDEO_MODE !== "poster" && HERO_VIDEO_SOURCES.desktop && HERO_VIDEO_SOURCES.mobile
 );
+
+function canAutoplayHeroVideo() {
+  if (!SHOULD_RENDER_HERO_VIDEO) return false;
+
+  const connection = (navigator as NavigatorWithConnection).connection;
+
+  if (connection?.saveData) return false;
+
+  const effectiveType = connection?.effectiveType;
+  const isDesktopViewport = window.matchMedia("(min-width: 768px)").matches;
+
+  if (effectiveType === "slow-2g" || effectiveType === "2g") return false;
+  if (!isDesktopViewport && effectiveType === "3g") return false;
+
+  return true;
+}
 
 export default function VideoHero({
   title = "Highway Films",
@@ -70,11 +96,22 @@ export default function VideoHero({
   const [isMuted, setIsMuted] = useState(true);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [isOverlayVisible, setIsOverlayVisible] = useState(true);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (!SHOULD_RENDER_HERO_VIDEO) return;
+    const frame = requestAnimationFrame(() => {
+      setShouldLoadVideo(canAutoplayHeroVideo());
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoadVideo) return;
 
     const video = videoRef.current;
     if (!video) return;
@@ -118,7 +155,7 @@ export default function VideoHero({
         clearTimeout(hideOverlayTimeout);
       }
     };
-  }, []);
+  }, [shouldLoadVideo]);
 
   const handleToggleMute = () => {
     const video = videoRef.current;
@@ -190,7 +227,7 @@ export default function VideoHero({
           )}
         />
 
-        {SHOULD_RENDER_HERO_VIDEO ? (
+        {shouldLoadVideo ? (
           <video
             ref={videoRef}
             autoPlay
@@ -233,7 +270,7 @@ export default function VideoHero({
         </div>
       </div>
 
-      {SHOULD_RENDER_HERO_VIDEO ? (
+      {shouldLoadVideo ? (
         <>
           <button
             type="button"
@@ -241,7 +278,7 @@ export default function VideoHero({
             className="hero-video-fullscreen absolute bottom-4 left-4 z-30 rounded-full border border-white/20 bg-black/55 p-3 text-white transition hover:bg-black/70 md:hidden"
             aria-label={fullscreenLabel}
           >
-            <Expand className="h-[18px] w-[18px]" aria-hidden />
+            <Expand className="h-4.5 w-4.5" aria-hidden />
           </button>
 
           <button
@@ -251,7 +288,7 @@ export default function VideoHero({
             aria-label={isMuted ? muteLabel : unmuteLabel}
             aria-pressed={!isMuted}
           >
-            {isMuted ? <VolumeX className="h-[18px] w-[18px]" aria-hidden /> : <Volume2 className="h-[18px] w-[18px]" aria-hidden />}
+            {isMuted ? <VolumeX className="h-4.5 w-4.5" aria-hidden /> : <Volume2 className="h-4.5 w-4.5" aria-hidden />}
           </button>
         </>
       ) : null}

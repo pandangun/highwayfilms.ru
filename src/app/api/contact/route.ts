@@ -42,15 +42,28 @@ function getRedirectPath(
   reason?: string,
   source?: string,
 ) {
+  const isEn = locale === "en";
+  const sourceKey = source === "contacts" || source === "weddings" ? source : "brief";
   const basePath =
-    source === "contacts" ? (locale === "en" ? "/en/contacts" : "/contacts") : locale === "en" ? "/en/brief" : "/brief";
+    sourceKey === "contacts"
+      ? isEn
+        ? "/en/contacts"
+        : "/contacts"
+      : sourceKey === "weddings"
+        ? isEn
+          ? "/en/weddings"
+          : "/weddings"
+        : isEn
+          ? "/en/brief"
+          : "/brief";
+  const anchor = sourceKey === "weddings" ? "#wedding-brief" : "#contact-form";
   const searchParams = new URLSearchParams({ status });
 
   if (reason) {
     searchParams.set("reason", reason);
   }
 
-  return `${basePath}?${searchParams.toString()}#contact-form`;
+  return `${basePath}?${searchParams.toString()}${anchor}`;
 }
 
 function getClientIp(request: Request) {
@@ -111,7 +124,9 @@ export async function POST(request: Request) {
   const phone = getStringValue(formData.get("phone"));
   const agree = getStringValue(formData.get("agree"));
   const website = getStringValue(formData.get("website"));
-  const source = getStringValue(formData.get("source")) === "contacts" ? "contacts" : "brief";
+  const sourceValue = getStringValue(formData.get("source"));
+  const source =
+    sourceValue === "contacts" || sourceValue === "weddings" ? sourceValue : "brief";
   const ip = getClientIp(request);
 
   if (website) {
@@ -177,7 +192,16 @@ export async function POST(request: Request) {
     );
   }
 
-  payload.set("_subject", locale === "en" ? "Website brief request" : "Заявка с сайта: бриф");
+  payload.set(
+    "_subject",
+    source === "weddings"
+      ? locale === "en"
+        ? "Wedding page request"
+        : "Заявка с сайта: свадьбы"
+      : locale === "en"
+        ? "Website brief request"
+        : "Заявка с сайта: бриф",
+  );
 
   try {
     const response = await fetch(FORMSPREE_ENDPOINT, {

@@ -39,7 +39,7 @@ const SECTIONS = [
 
 export default function PrivacyPage() {
   return (
-    <main className="page-shell">
+    <div className="page-shell">
       <div className="page-ambient" />
       <div className="container page-content pt-header-safe pb-12 md:pb-16">
       {/* JSON-LD */}
@@ -260,6 +260,6 @@ export default function PrivacyPage() {
         </article>
       </div>
       </div>
-    </main>
+    </div>
   );
 }

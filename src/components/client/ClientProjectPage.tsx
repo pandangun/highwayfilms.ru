@@ -41,7 +41,7 @@ export function ClientProjectPage({ locale }: ClientProjectPageProps) {
   const contactHref = locale === "en" ? "/en/contacts" : "/contacts";
 
   return (
-    <main className="page-shell">
+    <div className="page-shell">
       <div className="page-ambient" />
       <div className="page-content">
         <section className="pt-header-safe relative overflow-hidden pb-10 pt-6 md:pb-14 md:pt-10">
@@ -77,11 +77,11 @@ export function ClientProjectPage({ locale }: ClientProjectPageProps) {
         </section>
 
         <section className="container pb-10 md:pb-14">
-          <div className="project-room px-6 py-7 md:px-8 md:py-9">
+          <div className="project-room project-room--content">
             <p className="max-w-4xl text-[1rem] leading-8 text-white/66">{getLocalizedText(clientProjectDemo.summary, locale)}</p>
             <div className="mt-7 grid gap-4 md:grid-cols-3">
               {clientProjectDemo.checkpoints.map((item) => (
-                <div key={item.label.ru} className="surface-quiet p-5">
+                <div key={item.label.ru} className="section-card section-card--steady">
                   <div className="text-xs uppercase tracking-[0.18em] text-white/42">{getLocalizedText(item.label, locale)}</div>
                   <div className="mt-3 text-sm leading-7 text-white/74">{getLocalizedText(item.value, locale)}</div>
                 </div>
@@ -93,11 +93,11 @@ export function ClientProjectPage({ locale }: ClientProjectPageProps) {
         <section className="container pb-10 md:pb-14">
           <div className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
             <div className="space-y-6">
-              <div className="surface-panel p-5 md:p-6">
+              <div className="section-panel section-panel--compact">
                 <p className="eyebrow text-white/44">{t.versions}</p>
                 <div className="mt-5 space-y-4">
                   {clientProjectDemo.versions.map((version) => (
-                    <div key={version.name} className="surface-quiet flex flex-col gap-3 p-5 md:flex-row md:items-start md:justify-between">
+                    <div key={version.name} className="section-card section-card--steady flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                       <div>
                         <div className="flex items-center gap-3">
                           <PlayCircle className="h-5 w-5 text-white/62" />
@@ -114,11 +114,11 @@ export function ClientProjectPage({ locale }: ClientProjectPageProps) {
                 </div>
               </div>
 
-              <div className="surface-panel p-5 md:p-6">
+              <div className="section-panel section-panel--compact">
                 <p className="eyebrow text-white/44">{t.comments}</p>
                 <div className="mt-5 space-y-4">
                   {clientProjectDemo.comments.map((comment) => (
-                    <div key={`${comment.timecode}-${comment.author}`} className="surface-quiet p-5">
+                    <div key={`${comment.timecode}-${comment.author}`} className="section-card section-card--steady">
                       <div className="flex flex-wrap items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
                           <span className="status-pill status-pill--slate">{comment.timecode}</span>
@@ -136,11 +136,11 @@ export function ClientProjectPage({ locale }: ClientProjectPageProps) {
             </div>
 
             <div className="space-y-6">
-              <div className="surface-panel p-5 md:p-6">
+              <div className="section-panel section-panel--compact">
                 <p className="eyebrow text-white/44">{t.assets}</p>
                 <div className="mt-5 space-y-4">
                   {clientProjectDemo.assets.map((asset) => (
-                    <div key={asset.name} className="surface-quiet flex flex-col gap-3 p-5">
+                    <div key={asset.name} className="section-card section-card--steady flex flex-col gap-3">
                       <div className="flex items-center justify-between gap-4">
                         <div>
                           <h2 className="font-display text-[1.55rem] leading-[1] text-white">{asset.name}</h2>
@@ -159,7 +159,7 @@ export function ClientProjectPage({ locale }: ClientProjectPageProps) {
                 </div>
               </div>
 
-              <div className="surface-panel p-5 md:p-6">
+              <div className="section-panel section-panel--compact">
                 <p className="eyebrow text-white/44">{t.needChanges}</p>
                 <h2 className="font-display mt-3 text-[clamp(1.8rem,1.45rem+1vw,2.6rem)] leading-[0.98] text-white">
                   {locale === "en" ? "Send the next feedback round calmly" : "Соберём следующий раунд правок спокойно"}
@@ -181,6 +181,6 @@ export function ClientProjectPage({ locale }: ClientProjectPageProps) {
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

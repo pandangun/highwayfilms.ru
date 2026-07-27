@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 interface CTAProps {
   title?: string;
@@ -25,7 +24,7 @@ export default function CTA({
 
   return (
     <section className="container py-14 md:py-16">
-      <div className="surface-panel relative overflow-hidden px-6 py-8 md:px-8 md:py-10">
+      <div className="section-panel section-panel--feature">
         <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent" />
         <div className="relative flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,24rem)] lg:items-end">
           <div className="max-w-2xl">
@@ -36,12 +35,11 @@ export default function CTA({
             <p className="mt-4 text-base leading-7 text-white/68 md:text-lg">{description}</p>
           </div>
 
-          <div className="surface-quiet p-4 md:p-5">
+          <div className="section-card section-card--compact">
             <div className="rule-fade" />
             <div className="mt-4 flex flex-col gap-3">
-              <Link href={resolvedHref} className="btn-primary h-12 rounded-full px-6 text-center">
-                {ctaLabel}
-                <ArrowRight className="h-4 w-4" />
+              <Link href={resolvedHref} className="cta-action" aria-label={ctaLabel}>
+                <span className="cta-action__label">{ctaLabel}</span>
               </Link>
               <p className="text-sm leading-6 text-white/58">{note}</p>
             </div>

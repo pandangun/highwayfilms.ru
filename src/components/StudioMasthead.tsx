@@ -3,11 +3,13 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import clsx from "clsx";
+import CommercialsHeroStage from "@/components/CommercialsHeroStage";
 
 type StudioMastheadProps = {
   eyebrow: string;
   title: string;
   lead: string;
+  heroVariant?: "default" | "commercials";
   primaryHref: string;
   primaryLabel: string;
   secondaryHref: string;
@@ -27,6 +29,7 @@ export default function StudioMasthead({
   eyebrow,
   title,
   lead,
+  heroVariant = "default",
   primaryHref,
   primaryLabel,
   secondaryHref,
@@ -41,30 +44,41 @@ export default function StudioMasthead({
   spotlight,
   compactTop = false,
 }: StudioMastheadProps) {
-  return (
-    <section
-      className={clsx(
-        "service-masthead relative overflow-hidden",
-        compactTop ? "pt-12 md:pt-16" : "pt-header-safe pb-14"
-      )}
-    >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(72rem_38rem_at_8%_0%,rgba(124,58,237,.22),transparent_58%),radial-gradient(52rem_28rem_at_100%_0%,rgba(214,183,138,.14),transparent_50%),linear-gradient(180deg,rgba(255,255,255,.02),transparent_42%)]" />
-      <div className="service-masthead-frame container relative overflow-hidden pb-12">
+  const isCommercialsHero = heroVariant === "commercials";
+
+  const mastheadInner = (
+    <>
+      <div
+        className={clsx(
+          "pointer-events-none absolute inset-0 bg-[radial-gradient(72rem_38rem_at_8%_0%,rgba(124,58,237,.22),transparent_58%),radial-gradient(52rem_28rem_at_100%_0%,rgba(214,183,138,.14),transparent_50%),linear-gradient(180deg,rgba(255,255,255,.02),transparent_42%)]",
+          isCommercialsHero && "commercials-hero__ambient"
+        )}
+      />
+
+      {isCommercialsHero ? (
+        <div className="commercials-hero__stage" aria-hidden="true">
+          <div className="commercials-hero__darkness" />
+          <div className="commercials-hero__light commercials-hero__light--left" />
+          <div className="commercials-hero__light commercials-hero__light--right" />
+        </div>
+      ) : null}
+
+      <div className={clsx("service-masthead-frame container relative overflow-hidden pb-12", isCommercialsHero && "z-10")}>
         <div className="grid gap-10 xl:grid-cols-[1.02fr_0.98fr] xl:items-end">
-          <div className="service-masthead-copy relative">
-            <p className="eyebrow flex items-center gap-2">
+          <div className={clsx("service-masthead-copy relative", isCommercialsHero && "commercials-hero__content")}>
+            <p className={clsx("eyebrow flex items-center gap-2", isCommercialsHero && "commercials-hero__eyebrow")}>
               <Sparkles className="h-4 w-4 text-brand" />
               {eyebrow}
             </p>
-            <h1 className="service-masthead-title font-display mt-4 max-w-4xl text-[clamp(3rem,7vw,5.75rem)] leading-[0.94] tracking-[-0.045em] text-white">
+            <h1 className={clsx("service-masthead-title font-display mt-4 max-w-4xl text-[clamp(3rem,7vw,5.75rem)] leading-[0.94] tracking-[-0.045em] text-white", isCommercialsHero && "commercials-hero__title")}>
               {title}
             </h1>
-            <p className="service-masthead-lead mt-6 max-w-2xl text-lg leading-8 text-white/68 md:text-[1.28rem]">
+            <p className={clsx("service-masthead-lead mt-6 max-w-2xl text-lg leading-8 text-white/68 md:text-[1.28rem]", isCommercialsHero && "commercials-hero__lead")}>
               {lead}
             </p>
 
             {chips.length > 0 ? (
-              <div className="service-masthead-chips mt-7 flex flex-wrap gap-3">
+              <div className={clsx("service-masthead-chips mt-7 flex flex-wrap gap-3", isCommercialsHero && "commercials-hero__chips")}>
                 {chips.map((chip) => (
                   <span
                     key={chip}
@@ -76,7 +90,7 @@ export default function StudioMasthead({
               </div>
             ) : null}
 
-            <div className="service-masthead-actions mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className={clsx("service-masthead-actions mt-8 flex flex-col gap-3 sm:flex-row", isCommercialsHero && "commercials-hero__actions")}>
               <Link href={primaryHref} className="btn-primary h-12 rounded-full px-6">
                 {primaryLabel}
                 <ArrowRight className="h-4 w-4" />
@@ -94,8 +108,8 @@ export default function StudioMasthead({
             {spotlight ? <div className="mt-7">{spotlight}</div> : null}
           </div>
 
-          <div className="service-masthead-side relative">
-            <div className="service-masthead-media surface-panel overflow-hidden p-3">
+          <div className={clsx("service-masthead-side relative", isCommercialsHero && "commercials-hero__side")}>
+            <div className={clsx("service-masthead-media surface-panel overflow-hidden p-3", isCommercialsHero && "commercials-hero__visual")}>
               <div className="relative min-h-[24rem] overflow-hidden rounded-[26px]">
                 <Image
                   src={imageSrc}
@@ -122,7 +136,7 @@ export default function StudioMasthead({
             </div>
 
             {metrics.length > 0 ? (
-              <div className="service-masthead-metrics mt-4 grid gap-3 sm:grid-cols-3">
+              <div className={clsx("service-masthead-metrics mt-4 grid gap-3 sm:grid-cols-3", isCommercialsHero && "commercials-hero__metrics")}>
                 {metrics.map((metric, index) => (
                   <div
                     key={metric.label}
@@ -143,6 +157,21 @@ export default function StudioMasthead({
           </div>
         </div>
       </div>
+    </>
+  );
+
+  if (isCommercialsHero) {
+    return <CommercialsHeroStage compactTop={compactTop}>{mastheadInner}</CommercialsHeroStage>;
+  }
+
+  return (
+    <section
+      className={clsx(
+        "service-masthead relative overflow-hidden",
+        compactTop ? "pt-12 md:pt-16" : "pt-header-safe pb-14"
+      )}
+    >
+      {mastheadInner}
     </section>
   );
 }

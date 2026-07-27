@@ -10,70 +10,78 @@ type ClientAccessFormProps = {
 
 export function ClientAccessForm({ locale }: ClientAccessFormProps) {
   const router = useRouter();
-  const [projectCode, setProjectCode] = useState("HF-274");
-  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
 
   const labels = useMemo(
     () =>
       locale === "en"
         ? {
-            code: "Project code",
-            email: "E-mail or contact",
+            login: "Login",
+            password: "Password",
             submit: "Open project",
-            placeholderCode: "HF-274",
-            placeholderEmail: "name@company.com",
+            placeholderLogin: "client@company.com",
+            placeholderPassword: "Enter your password",
+            note: "Demo access opens the preview room without checking the credentials yet.",
           }
         : {
-            code: "Код проекта",
-            email: "E-mail или контакт",
+            login: "Логин",
+            password: "Пароль",
             submit: "Открыть проект",
-            placeholderCode: "HF-274",
-            placeholderEmail: "name@company.com",
+            placeholderLogin: "client@company.com",
+            placeholderPassword: "Введите пароль",
+            note: "Демо-вход пока открывает тестовую комнату без проверки данных.",
           },
     [locale],
   );
 
   return (
     <form
-      className="grid gap-4"
+      className="grid gap-6"
       onSubmit={(event) => {
         event.preventDefault();
         const basePath = locale === "en" ? "/en/client/demo-project" : "/client/demo-project";
-        const query = new URLSearchParams();
-
-        if (projectCode.trim()) {
-          query.set("code", projectCode.trim());
-        }
-
-        if (email.trim()) {
-          query.set("contact", email.trim());
-        }
-
-        router.push(query.toString() ? `${basePath}?${query.toString()}` : basePath);
+        router.push(basePath);
       }}
     >
-      <label className="block">
-        <div className="mb-2 text-sm text-white/68">{labels.code}</div>
-        <input
-          value={projectCode}
-          onChange={(event) => setProjectCode(event.target.value)}
-          placeholder={labels.placeholderCode}
-          className="field-shell"
-          required
-        />
-      </label>
-      <label className="block">
-        <div className="mb-2 text-sm text-white/68">{labels.email}</div>
-        <input
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          placeholder={labels.placeholderEmail}
-          className="field-shell"
-          required
-        />
-      </label>
-      <button type="submit" className="btn-primary mt-2 inline-flex rounded-full px-6 text-sm">
+      <div className="grid gap-5">
+        <label className="client-access-label">
+          <div className="client-access-label__eyebrow">{labels.login}</div>
+          <div className="client-access-line">
+            <input
+              type="text"
+              value={login}
+              onChange={(event) => setLogin(event.target.value)}
+              placeholder={labels.placeholderLogin}
+              autoComplete="username"
+              className="client-access-input"
+              required
+            />
+          </div>
+        </label>
+
+        <label className="client-access-label">
+          <div className="client-access-label__eyebrow">{labels.password}</div>
+          <div className="client-access-line">
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder={labels.placeholderPassword}
+              autoComplete="current-password"
+              className="client-access-input"
+              required
+            />
+          </div>
+        </label>
+      </div>
+
+      <p className="client-access-note">{labels.note}</p>
+
+      <button
+        type="submit"
+        className="client-access-submit"
+      >
         {labels.submit}
       </button>
     </form>

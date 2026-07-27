@@ -1,20 +1,10 @@
-"use client";
-
-import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
-import { useState } from "react";
-import {
-  MessageCircle,
-  MessageSquare,
-  Send,
-  SendHorizonal,
-} from "lucide-react";
+import type { ComponentType, CSSProperties } from "react";
+import { MessageCircleMore, MessageSquareMore, MonitorPlay, Play, Send } from "lucide-react";
+import LightRays from "@/components/LightRays";
 
 type ContactStudioPageProps = {
   locale?: "ru" | "en";
-  status?: string;
-  reason?: string;
 };
 
 const CONTACTS = {
@@ -24,11 +14,91 @@ const CONTACTS = {
   emailHref: "mailto:info@highway-films.ru",
   telegramUrl: "https://t.me/highwayfilms",
   whatsappUrl: "https://wa.me/79692141717",
+  youtubeUrl: "https://www.youtube.com/",
+  vkUrl: "https://vk.com/",
+  rutubeUrl: "https://rutube.ru/",
   briefUrl: "/brief",
-  messengerIcons: {
-    telegram: "/contact-icons/telegram.svg",
-    whatsapp: "/contact-icons/whatsapp.svg",
-    max: "/contact-icons/max.svg",
+} as const;
+
+type PlatformItem = {
+  label: string;
+  href: string;
+  icon: ComponentType<{ className?: string; strokeWidth?: number }>;
+  accent: string;
+};
+
+const MESSENGER_LINKS: PlatformItem[] = [
+  {
+    label: "Telegram",
+    href: CONTACTS.telegramUrl,
+    icon: Send,
+    accent: "42 171 238",
+  },
+  {
+    label: "WhatsApp",
+    href: CONTACTS.whatsappUrl,
+    icon: MessageCircleMore,
+    accent: "37 211 102",
+  },
+];
+
+const SOCIAL_LINKS: PlatformItem[] = [
+  {
+    label: "YouTube",
+    href: CONTACTS.youtubeUrl,
+    icon: Play,
+    accent: "255 62 62",
+  },
+  {
+    label: "VK",
+    href: CONTACTS.vkUrl,
+    icon: MessageSquareMore,
+    accent: "76 117 163",
+  },
+  {
+    label: "RuTube",
+    href: CONTACTS.rutubeUrl,
+    icon: MonitorPlay,
+    accent: "138 92 246",
+  },
+];
+
+const copy = {
+  ru: {
+    pageTitle: "\u041a\u043e\u043d\u0442\u0430\u043a\u0442\u044b Highway Films",
+    eyebrow: "\u041a\u043e\u043d\u0442\u0430\u043a\u0442\u044b",
+    phoneLabel: "\u0422\u0435\u043b\u0435\u0444\u043e\u043d",
+    emailLabel: "E-mail",
+    messengersLabel: "\u041c\u0435\u0441\u0441\u0435\u043d\u0434\u0436\u0435\u0440\u044b",
+    socialsLabel: "\u0421\u043e\u0446\u0441\u0435\u0442\u0438",
+    briefLabel: "\u0411\u0440\u0438\u0444",
+    briefTitle: "\u041a\u0440\u0430\u0442\u043a\u043e \u043e \u0437\u0430\u0434\u0430\u0447\u0435",
+    briefLead: "\u0414\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u0442\u0440\u0451\u0445 \u043e\u043f\u043e\u0440\u043d\u044b\u0445 \u0442\u043e\u0447\u0435\u043a, \u0447\u0442\u043e\u0431\u044b \u043c\u044b \u0431\u044b\u0441\u0442\u0440\u043e \u0441\u043e\u0431\u0440\u0430\u043b\u0438 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0439 \u0448\u0430\u0433 \u043f\u043e \u043f\u0440\u043e\u0435\u043a\u0442\u0443.",
+    briefItems: [
+      "\u0427\u0442\u043e \u043d\u0443\u0436\u043d\u043e \u0441\u043d\u044f\u0442\u044c: \u0440\u043e\u043b\u0438\u043a, \u043a\u043b\u0438\u043f, brand-film, \u0438\u0432\u0435\u043d\u0442 \u0438\u043b\u0438 \u0441\u0432\u0430\u0434\u044c\u0431\u0430",
+      "\u0413\u0434\u0435 \u0438 \u043a\u043e\u0433\u0434\u0430: \u0433\u043e\u0440\u043e\u0434, \u0434\u0430\u0442\u0430 \u0438\u043b\u0438 \u043e\u043a\u043d\u043e \u0441\u044a\u0451\u043c\u043a\u0438",
+      "\u041a\u0430\u043a\u043e\u0439 \u043d\u0443\u0436\u0435\u043d \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442: \u043e\u0434\u0438\u043d master \u0438\u043b\u0438 \u043f\u0430\u043a\u0435\u0442 \u0432\u0435\u0440\u0441\u0438\u0439 \u043f\u043e\u0434 \u043f\u043b\u043e\u0449\u0430\u0434\u043a\u0438",
+    ],
+    briefAction: "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0431\u0440\u0438\u0444",
+    briefMeta: "\u041c\u043e\u0436\u043d\u043e \u043d\u0430\u0447\u0430\u0442\u044c \u043a\u043e\u0440\u043e\u0442\u043a\u043e. \u0414\u0435\u0442\u0430\u043b\u0438 \u0443\u0442\u043e\u0447\u043d\u0438\u043c \u0443\u0436\u0435 \u043f\u043e\u0441\u043b\u0435 \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u043a\u043e\u043d\u0442\u0430\u043a\u0442\u0430.",
+  },
+  en: {
+    pageTitle: "Highway Films contacts",
+    eyebrow: "Contacts",
+    phoneLabel: "Phone",
+    emailLabel: "E-mail",
+    messengersLabel: "Messengers",
+    socialsLabel: "Social",
+    briefLabel: "Brief",
+    briefTitle: "Short brief",
+    briefLead: "Three anchors are enough for us to shape the next step and reply with a practical production route.",
+    briefItems: [
+      "What needs to be produced: commercial, music video, brand film, event, or wedding story",
+      "Where and when: city, date, or the expected production window",
+      "What should be delivered: one master or a release package for several platforms",
+    ],
+    briefAction: "Open brief",
+    briefMeta: "A short note is enough to start. We can clarify the rest after the first contact.",
   },
 } as const;
 
@@ -41,304 +111,139 @@ function externalProps(href: string) {
     : {};
 }
 
-function StatusBanner({
-  locale,
-  status,
-  reason,
-}: {
-  locale: "ru" | "en";
-  status?: string;
-  reason?: string;
-}) {
-  if (status !== "success" && status !== "error") return null;
-
-  const isRu = locale === "ru";
-
-  if (status === "success") {
-    return (
-      <div className="rounded-[22px] border border-emerald-400/20 bg-emerald-500/8 px-4 py-3 text-sm leading-6 text-emerald-100/88">
-        {isRu
-          ? "Заявка отправлена. Вернёмся с ответом в рабочее время."
-          : "Your message has been sent. We will get back during business hours."}
-      </div>
-    );
-  }
-
-  const errorText = isRu
-    ? reason === "contact"
-      ? "Оставьте хотя бы один рабочий контакт."
-      : reason === "rate-limit"
-        ? "Слишком много попыток за короткое время. Попробуйте чуть позже."
-        : "Не удалось отправить заявку. Проверьте поля и попробуйте ещё раз."
-    : reason === "contact"
-      ? "Please leave at least one working contact."
-      : reason === "rate-limit"
-        ? "Too many attempts in a short time. Please try again later."
-        : "The message could not be sent. Please check the fields and try again.";
-
+function ContactLinkGroup({ label, items }: { label: string; items: PlatformItem[] }) {
   return (
-    <div className="rounded-[22px] border border-rose-400/20 bg-rose-500/8 px-4 py-3 text-sm leading-6 text-rose-100/88">
-      {errorText}
+    <div className="contact-platform-group">
+      <div className="contact-quick-label">{label}</div>
+      <div className="contact-platforms-grid mt-5">
+        {items.map((item, index) => {
+          const Icon = item.icon;
+
+          return (
+            <a
+              key={item.label}
+              href={item.href}
+              className="contact-platform-card"
+              aria-label={item.label}
+              title={item.label}
+              style={
+                {
+                  "--contact-accent": item.accent,
+                  "--contact-index": index,
+                } as CSSProperties
+              }
+              {...externalProps(item.href)}
+            >
+              <span className="contact-platform-card__halo" aria-hidden />
+              <span className="contact-platform-card__orb" aria-hidden>
+                <span className="contact-platform-card__ring" />
+                <span className="contact-platform-card__sheen" />
+                <span className="contact-platform-card__core">
+                  <span className="contact-platform-icon">
+                    <Icon className="h-7 w-7" strokeWidth={1.85} />
+                  </span>
+                </span>
+              </span>
+              <span className="visually-hidden">{item.label}</span>
+            </a>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
-function MessengerIcon({
-  src,
-  fallback,
-}: {
-  src?: string;
-  fallback: ReactNode;
-}) {
-  const [failed, setFailed] = useState(false);
-
-  if (src && !failed) {
-    return (
-      <Image
-        src={src}
-        alt=""
-        aria-hidden
-        width={20}
-        height={20}
-        unoptimized
-        className="h-5 w-5 object-contain opacity-90"
-        onError={() => setFailed(true)}
-      />
-    );
-  }
-
-  return <span className="inline-flex h-5 w-5 items-center justify-center text-white/86">{fallback}</span>;
-}
-
-function ContactField({
-  label,
-  placeholder,
-  name,
-  type = "text",
-  required = false,
-}: {
-  label: string;
-  placeholder: string;
-  name: string;
-  type?: string;
-  required?: boolean;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-2.5 block text-sm text-white/58">{label}</span>
-      <input
-        type={type}
-        name={name}
-        required={required}
-        placeholder={placeholder}
-        className="contact-form-input"
-      />
-    </label>
-  );
-}
-
-type MessengerItem = {
-  label: string;
-  href?: string;
-  iconSrc?: string;
-  fallback: ReactNode;
-  soon?: boolean;
-};
-
-export function ContactStudioPage({
-  locale = "ru",
-  status,
-  reason,
-}: ContactStudioPageProps) {
-  const isRu = locale === "ru";
-  const briefHref = isRu ? CONTACTS.briefUrl : "/en/brief";
-
-  const messengers: MessengerItem[] = [
-    {
-      label: "Telegram",
-      href: CONTACTS.telegramUrl,
-      iconSrc: CONTACTS.messengerIcons.telegram,
-      fallback: <SendHorizonal className="h-[18px] w-[18px]" />,
-    },
-    {
-      label: "WhatsApp",
-      href: CONTACTS.whatsappUrl,
-      iconSrc: CONTACTS.messengerIcons.whatsapp,
-      fallback: <MessageCircle className="h-[18px] w-[18px]" />,
-    },
-    {
-      label: isRu ? "MAX (скоро)" : "MAX (soon)",
-      iconSrc: CONTACTS.messengerIcons.max,
-      fallback: <MessageSquare className="h-[18px] w-[18px]" />,
-      soon: true,
-    },
-  ];
-
-  if (!isRu) {
-    return (
-      <main className="page-shell contact-page-shell">
-        <div className="contact-page-ambient" />
-        <div className="page-content">
-          <section className="container pb-16 pt-header-safe md:pb-20">
-            <div className="contact-hero-copy max-w-3xl py-10">
-              <p className="eyebrow">Saint Petersburg • productions across Russia</p>
-              <h1 className="font-display mt-4 text-[clamp(2.8rem,5vw,4.8rem)] leading-[0.94] tracking-[-0.05em] text-white">
-                Contacts Highway Films
-              </h1>
-              <p className="mt-5 text-base leading-8 text-white/64 md:text-[1.05rem]">
-                Reach out by phone, e-mail, or messenger. If easier, leave a short request and we
-                will suggest the next step.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <a href={CONTACTS.phoneHref} className="contact-primary-link" {...externalProps(CONTACTS.phoneHref)}>
-                  {CONTACTS.phoneDisplay}
-                </a>
-                <a href={CONTACTS.emailHref} className="contact-secondary-link" {...externalProps(CONTACTS.emailHref)}>
-                  {CONTACTS.emailDisplay}
-                </a>
-              </div>
-            </div>
-          </section>
-        </div>
-      </main>
-    );
-  }
+export function ContactStudioPage({ locale = "ru" }: ContactStudioPageProps) {
+  const t = copy[locale];
+  const briefHref = locale === "en" ? "/en/brief" : CONTACTS.briefUrl;
 
   return (
-    <main className="page-shell contact-page-shell">
+    <div className="page-shell contact-page-shell">
       <div className="contact-page-ambient" />
       <div className="page-content">
         <section className="container relative pb-16 pt-header-safe md:pb-20">
           <div className="contact-page-map" aria-hidden />
+          <h1 className="visually-hidden">{t.pageTitle}</h1>
 
-          <div className="contact-hero-copy max-w-3xl py-8 md:py-10">
-            <p className="eyebrow reveal-up">Санкт-Петербург • выездные съёмки по России</p>
-            <h1 className="font-display reveal-up delay-1 mt-4 text-[clamp(3rem,5.6vw,5.4rem)] leading-[0.92] tracking-[-0.055em] text-white">
-              Контакты Highway Films
-            </h1>
-            <p className="reveal-up delay-2 mt-5 max-w-3xl text-[1rem] leading-8 text-white/64 md:text-[1.08rem]">
-              Связаться с нами можно так, как вам удобно: по телефону, почте или в мессенджере.
-              Если проще сразу описать задачу, оставьте короткую заявку ниже.
-            </p>
-          </div>
-
-          <section className="reveal-up delay-2 max-w-4xl">
-            <p className="eyebrow">Контакты</p>
-
-            <div className="mt-6 grid gap-8 border-b border-white/10 pb-6 md:grid-cols-2 md:gap-12">
-              <div className="contact-primary-block">
-                <div className="text-[0.72rem] uppercase tracking-[0.18em] text-white/38">Телефон</div>
-                <a href={CONTACTS.phoneHref} className="contact-primary-link mt-3" {...externalProps(CONTACTS.phoneHref)}>
-                  {CONTACTS.phoneDisplay}
-                </a>
-              </div>
-
-              <div className="contact-primary-block">
-                <div className="text-[0.72rem] uppercase tracking-[0.18em] text-white/38">E-mail</div>
-                <a href={CONTACTS.emailHref} className="contact-primary-link mt-3" {...externalProps(CONTACTS.emailHref)}>
-                  {CONTACTS.emailDisplay}
-                </a>
-              </div>
-            </div>
-
-            <div className="mt-5">
-              <div className="text-[0.72rem] uppercase tracking-[0.18em] text-white/38">Мессенджеры</div>
-              <div className="mt-4 flex flex-wrap items-center gap-x-7 gap-y-4 md:gap-x-9">
-                {messengers.map((item) =>
-                  item.href ? (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className="contact-messenger-link"
-                      {...externalProps(item.href)}
-                    >
-                      <MessengerIcon src={item.iconSrc} fallback={item.fallback} />
-                      <span>{item.label}</span>
-                    </a>
-                  ) : (
-                    <div key={item.label} className="contact-messenger-link is-disabled" aria-disabled="true">
-                      <MessengerIcon src={item.iconSrc} fallback={item.fallback} />
-                      <span>{item.label}</span>
-                    </div>
-                  ),
-                )}
-              </div>
-            </div>
-          </section>
-
-          <section id="contact-form" className="mt-14 grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:gap-12">
-            <div className="reveal-up delay-3 max-w-xl">
-              <p className="eyebrow">Заявка</p>
-              <h2 className="font-display mt-4 text-[clamp(2.2rem,3vw,3.5rem)] leading-[0.95] tracking-[-0.04em] text-white">
-                Расскажите о проекте
-              </h2>
-              <p className="mt-4 text-[1rem] leading-8 text-white/62">
-                Напишите в двух словах, что нужно снять: рекламный ролик, корпоративное видео,
-                клип, свадебный фильм, контент для бренда или съёмку мероприятия. Этого
-                достаточно, чтобы мы поняли задачу и предложили следующий шаг.
-              </p>
-              <div className="mt-6">
-                <StatusBanner locale={locale} status={status} reason={reason} />
-              </div>
-            </div>
-
-            <form
-              action="/api/contact"
-              method="POST"
-              className="contact-form-shell reveal-up delay-4"
-            >
-              <input type="hidden" name="locale" value={locale} />
-              <input type="hidden" name="source" value="contacts" />
-              <input type="hidden" name="agree" value="yes" />
-
-              <div className="visually-hidden" aria-hidden="true">
-                <label htmlFor="website">Website</label>
-                <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
-              </div>
-
-              <div className="grid gap-5">
-                <ContactField
-                  label="Ваше имя"
-                  placeholder="Как к вам обращаться"
-                  name="name"
-                />
-
-                <ContactField
-                  label="Телефон, Telegram или e-mail"
-                  placeholder="Как с вами связаться"
-                  name="phone"
-                  required
-                />
-
-                <label className="block">
-                  <span className="mb-2.5 block text-sm text-white/58">Что нужно снять</span>
-                  <textarea
-                    name="message"
-                    rows={6}
-                    required
-                    placeholder="Коротко опишите задачу, формат или идею"
-                    className="contact-form-textarea"
+          <div className="contact-first-screen">
+            <div className="contact-first-screen__primary reveal-up">
+              <section className="contact-quick-panel">
+                <div className="contact-quick-panel__rays" aria-hidden>
+                  <LightRays
+                    raysOrigin="top-center"
+                    raysColor="#f6efe6"
+                    raysSpeed={0.58}
+                    lightSpread={0.62}
+                    rayLength={3.6}
+                    followMouse={false}
+                    mouseInfluence={0.04}
+                    noiseAmount={0}
+                    distortion={0.04}
+                    pulsating={false}
+                    fadeDistance={1}
+                    saturation={1.06}
+                    className="contact-light-rays"
                   />
-                </label>
-              </div>
+                </div>
 
-              <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-4">
-                <button type="submit" className="home-primary-button">
-                  Отправить заявку
-                  <Send className="h-4 w-4" />
-                </button>
-                <Link href={briefHref} className="home-secondary-link">
-                  Полный бриф
-                </Link>
-              </div>
+                <div className="contact-quick-panel__overlay" aria-hidden />
+                <div className="contact-quick-panel__content">
+                  <div className="contact-quick-panel__main mx-auto w-full max-w-[1120px]">
+                    <div className="contact-quick-head">
+                      <p className="eyebrow">{t.eyebrow}</p>
+                    </div>
 
-              <p className="mt-5 text-sm leading-6 text-white/46">
-                Можно начать с короткого описания. Детали обсудим после первого контакта.
-              </p>
-            </form>
-          </section>
+                    <div className="contact-quick-list mt-6">
+                      <div className="contact-quick-item">
+                        <div className="contact-quick-label">{t.phoneLabel}</div>
+                        <a href={CONTACTS.phoneHref} className="contact-primary-link" {...externalProps(CONTACTS.phoneHref)}>
+                          {CONTACTS.phoneDisplay}
+                        </a>
+                      </div>
+
+                      <div className="contact-quick-item">
+                        <div className="contact-quick-label">{t.emailLabel}</div>
+                        <a href={CONTACTS.emailHref} className="contact-primary-link" {...externalProps(CONTACTS.emailHref)}>
+                          {CONTACTS.emailDisplay}
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="contact-platform-row">
+                      <ContactLinkGroup label={t.messengersLabel} items={MESSENGER_LINKS} />
+                      <ContactLinkGroup label={t.socialsLabel} items={SOCIAL_LINKS} />
+                    </div>
+
+                    <div className="contact-brief-stage">
+                      <div className="contact-brief-stage__rail" aria-hidden />
+                      <div className="contact-platform-group contact-platform-group--brief">
+                        <div className="contact-quick-label">{t.briefLabel}</div>
+                        <div className="contact-brief-card mt-5">
+                          <p className="contact-brief-card__title">{t.briefTitle}</p>
+                          <p className="contact-brief-card__lead">{t.briefLead}</p>
+                          <ul className="contact-brief-list">
+                            {t.briefItems.map((item) => (
+                              <li key={item} className="contact-brief-list__item">
+                                <span className="contact-brief-list__dot" aria-hidden />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <Link href={briefHref} className="contact-brief-link">
+                            {t.briefAction}
+                          </Link>
+                          <p className="contact-brief-card__meta">{t.briefMeta}</p>
+                        </div>
+                      </div>
+                      <div className="contact-brief-stage__rail" aria-hidden />
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

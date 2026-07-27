@@ -11,7 +11,6 @@
 @import "./styles/shared.css";
 
 /* feature modules */
-@import "./styles/home.css";
 @import "./styles/header.css";
 @import "./styles/motion.css";
 @import "./styles/footer.css";

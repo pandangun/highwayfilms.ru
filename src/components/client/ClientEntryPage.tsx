@@ -43,7 +43,7 @@ export function ClientEntryPage({ locale }: ClientEntryPageProps) {
   const contactsHref = locale === "en" ? "/en/contacts" : "/contacts";
 
   return (
-    <main className="page-shell">
+    <div className="page-shell">
       <div className="page-ambient" />
       <div className="page-content">
         <section className="pt-header-safe relative overflow-hidden pb-16 pt-6 md:pb-20 md:pt-10">
@@ -61,7 +61,7 @@ export function ClientEntryPage({ locale }: ClientEntryPageProps) {
                 {t.features.map((item, index) => {
                   const Icon = [MonitorPlay, MessageSquareMore, FolderLock][index] ?? MonitorPlay;
                   return (
-                    <div key={item} className="surface-quiet flex items-center gap-4 px-4 py-4">
+                    <div key={item} className="section-card section-card--compact flex items-center gap-4">
                       <div className="contact-node__icon h-12 w-12">
                         <Icon className="h-5 w-5" />
                       </div>
@@ -73,30 +73,30 @@ export function ClientEntryPage({ locale }: ClientEntryPageProps) {
               <p className="mt-6 max-w-2xl text-sm leading-7 text-white/46">{t.note}</p>
             </div>
 
-            <div className="project-room p-4 md:p-5">
+            <div className="project-room project-room--hero">
               <div className="grid gap-5 lg:grid-cols-[1.02fr_0.98fr]">
-                <div className="surface-quiet p-5 md:p-6">
-                  <p className="eyebrow text-white/44">{locale === "en" ? "Access form" : "Форма доступа"}</p>
+                <div className="section-card">
+                  <p className="eyebrow text-white/44">{locale === "en" ? "Access form" : "Форма входа"}</p>
                   <h2 className="font-display mt-3 text-[clamp(1.8rem,1.45rem+1vw,2.6rem)] leading-[0.98] text-white">
-                    {locale === "en" ? "Open a project room" : "Открыть проектную комнату"}
+                    {locale === "en" ? "Log in to your project room" : "Войти в проектную комнату"}
                   </h2>
                   <p className="mt-3 text-sm leading-7 text-white/58">
                     {locale === "en"
-                      ? "Enter the project code and the contact e-mail associated with the production."
-                      : "Введите код проекта и контакт, который связан с производством или согласованием."}
+                      ? "A clean entry point with only login and password. The real access routing can be connected later."
+                      : "Спокойный минималистичный вход: только логин и пароль. Реальную логику доступа можно подключить следующим шагом."}
                   </p>
                   <div className="mt-6">
                     <ClientAccessForm locale={locale} />
                   </div>
                 </div>
 
-                <div className="surface-quiet p-5 md:p-6">
+                <div className="section-card">
                   <p className="eyebrow text-white/44">{t.sideTitle}</p>
                   <h2 className="font-display mt-3 text-[clamp(1.8rem,1.45rem+1vw,2.6rem)] leading-[0.98] text-white">
                     {locale === "en" ? "A studio-side project interface" : "Спокойный студийный интерфейс проекта"}
                   </h2>
                   <p className="mt-4 text-sm leading-7 text-white/58">{t.sideLead}</p>
-                  <div className="mt-6 rounded-[26px] border border-white/10 bg-white/[0.03] p-5">
+                  <div className="section-frame mt-6">
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <div className="text-xs uppercase tracking-[0.18em] text-white/42">HF-274</div>
@@ -124,6 +124,6 @@ export function ClientEntryPage({ locale }: ClientEntryPageProps) {
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

@@ -5,6 +5,7 @@ import VideoHero from "@/components/VideoHero";
 import ServiceCards from "@/components/ServiceCards";
 import CTA from "@/components/CTA";
 import { buildPageMetadata } from "@/lib/metadata";
+import "../styles/home.css";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Highway Films - full-cycle video production",

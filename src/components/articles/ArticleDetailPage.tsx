@@ -37,7 +37,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
   const t = copy[locale];
 
   return (
-    <main className="page-shell">
+    <div className="page-shell">
       <div className="page-ambient" />
       <div className="page-content">
         <section className="article-detail-hero pt-header-safe relative overflow-hidden pb-10 pt-6 md:pb-14 md:pt-10">
@@ -71,7 +71,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
 
         <section className="container pb-10 md:pb-14">
           <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_20rem]">
-            <article className="article-detail-body surface-panel px-6 py-7 md:px-8 md:py-9">
+            <article className="article-detail-body section-panel section-panel--content">
               <p className="max-w-3xl text-[1.05rem] leading-8 text-white/70 md:text-[1.12rem]">{article.content.intro}</p>
               <div className="mt-8 space-y-8">
                 {article.content.sections.map((section) => (
@@ -100,7 +100,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
             </article>
 
             <aside className="space-y-4">
-              <div className="surface-quiet p-5">
+              <div className="section-card section-card--steady">
                 <p className="eyebrow text-white/44">{t.service}</p>
                 <h2 className="font-display mt-3 text-[1.8rem] leading-[1] text-white">{article.serviceLabel[locale]}</h2>
                 <p className="mt-3 text-sm leading-7 text-white/58">
@@ -114,7 +114,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
                 </Link>
               </div>
 
-              <div className="surface-quiet p-5">
+              <div className="section-card section-card--steady">
                 <p className="text-sm leading-7 text-white/58">
                   {locale === "en"
                     ? "This editorial layer is local for now, but the structure is ready for migration to a CMS without rebuilding the pages."
@@ -142,7 +142,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
         ) : null}
 
         <section className="container pb-16 md:pb-20">
-          <div className="article-detail-cta surface-panel px-6 py-8 md:px-8 md:py-9">
+          <div className="article-detail-cta section-panel section-panel--content">
             <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr] xl:items-end">
               <div className="max-w-3xl">
                 <p className="eyebrow text-white/46">Highway Films</p>
@@ -151,7 +151,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
                 </h2>
                 <p className="mt-4 text-[1rem] leading-8 text-white/64">{t.ctaLead}</p>
               </div>
-              <div className="surface-quiet p-5">
+              <div className="section-card section-card--steady">
                 <div className="flex flex-wrap gap-3">
                   <Link href={locale === "en" ? "/en/brief" : "/brief"} className="btn-primary inline-flex rounded-full px-6 text-sm">
                     {t.primary}
@@ -165,6 +165,6 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }
