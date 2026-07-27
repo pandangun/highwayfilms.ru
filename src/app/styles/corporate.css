@@ -328,17 +328,7 @@
 
 @media (min-width: 768px) {
   .corporate-hero {
-    min-height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
-  }
-  @supports (height: 100dvh) {
-    .corporate-hero {
-      min-height: calc(100dvh - var(--header-h) - env(safe-area-inset-top));
-    }
-  }
-  @supports not (height: 100svh) {
-    .corporate-hero {
-      min-height: calc(100vh - var(--header-h) - env(safe-area-inset-top));
-    }
+    min-height: var(--hero-h);
   }
 }
 

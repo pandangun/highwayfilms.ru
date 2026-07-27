@@ -73,6 +73,27 @@
   /* layout */
   --container: 1200px;
   --header-h: 76px;
+
+  /* Единица высоты вьюпорта. Переопределяется ниже через @supports —
+     это единственное место, где решается svh/dvh/vh. Использовать как
+     calc(74 * var(--vh)), а не писать 74svh по месту. */
+  --vh: 1svh;
+  --hero-h: calc(100 * var(--vh) - var(--header-h) - env(safe-area-inset-top));
+
+  /* Шкала слоёв. Только сквозные слои документа — локальные z-index
+     внутри карточек (0/1/2) остаются literal'ами, они не конфликтуют. */
+  --z-sticky: 20;
+  --z-header: 60;
+  --z-drawer: 70;
+  --z-modal: 120;
+}
+
+@supports (height: 100dvh) {
+  :root { --vh: 1dvh; }
+}
+
+@supports not (height: 100svh) {
+  :root { --vh: 1vh; }
 }
 
 html[data-theme="light"] {

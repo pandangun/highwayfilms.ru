@@ -221,7 +221,7 @@
   z-index: 1;
   display: grid;
   align-items: end;
-  min-height: clamp(34rem, calc(100svh - var(--header-h) - 3rem), 49rem);
+  min-height: clamp(34rem, calc(100 * var(--vh) - var(--header-h) - 3rem), 49rem);
   gap: clamp(1.5rem, 4vw, 3rem);
 }
 
@@ -2307,7 +2307,7 @@
   }
 
   .wedding-hero-frame {
-    min-height: clamp(31rem, calc(100svh - var(--header-h) - 2rem), 42rem);
+    min-height: clamp(31rem, calc(100 * var(--vh) - var(--header-h) - 2rem), 42rem);
     grid-template-columns: 1fr;
     gap: 1.25rem;
   }

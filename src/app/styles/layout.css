@@ -145,7 +145,7 @@
 
 .contact-first-screen {
   display: grid;
-  min-height: calc(100svh - var(--header-h) - env(safe-area-inset-top) - 2rem);
+  min-height: calc(var(--hero-h) - 2rem);
   gap: 0;
 }
 
@@ -640,20 +640,8 @@
 }
 
 .hero-fill {
-  height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
-  min-height: calc(100svh - var(--header-h) - env(safe-area-inset-top));
-}
-@supports (height: 100dvh) {
-  .hero-fill {
-    height: calc(100dvh - var(--header-h) - env(safe-area-inset-top));
-    min-height: calc(100dvh - var(--header-h) - env(safe-area-inset-top));
-  }
-}
-@supports not (height: 100svh) {
-  .hero-fill {
-    height: calc(100vh - var(--header-h) - env(safe-area-inset-top));
-    min-height: calc(100vh - var(--header-h) - env(safe-area-inset-top));
-  }
+  height: var(--hero-h);
+  min-height: var(--hero-h);
 }
 
 /* accessibility */

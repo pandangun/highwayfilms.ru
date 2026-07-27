@@ -21,7 +21,7 @@ export default async function Header() {
   const homeHref = locale === "en" ? "/en" : "/";
 
   return (
-    <header className="header-shell fixed inset-x-0 top-0 z-[60] pt-safe" role="banner">
+    <header className="header-shell fixed inset-x-0 top-0 z-[var(--z-header)] pt-safe" role="banner">
       <div className="container">
         <div className="header-rail flex min-h-[var(--header-h)] flex-wrap items-center gap-3 px-3 py-3 md:px-4 xl:h-[var(--header-h)] xl:flex-nowrap xl:py-0">
           <Link

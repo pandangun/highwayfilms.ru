@@ -60,7 +60,7 @@ export default function HeaderDrawer({ locale, pathname, items }: HeaderDrawerPr
         aria-hidden={!isOpen}
         inert={!isOpen}
         className={clsx(
-          "drawer-panel fixed right-0 z-[70] w-[88vw] max-w-[400px] transition-[opacity,transform,visibility] duration-200 md:hidden",
+          "drawer-panel fixed right-0 z-[var(--z-drawer)] w-[88vw] max-w-[400px] transition-[opacity,transform,visibility] duration-200 md:hidden",
           isOpen && "is-open",
           isOpen ? "visible translate-x-0 opacity-100" : "invisible pointer-events-none translate-x-0 opacity-0",
         )}

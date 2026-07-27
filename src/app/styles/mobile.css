@@ -111,15 +111,8 @@
   }
 
   .hero-fill {
-    height: clamp(29rem, calc(74svh - var(--header-h) - env(safe-area-inset-top)), 38rem);
-    min-height: clamp(29rem, calc(74svh - var(--header-h) - env(safe-area-inset-top)), 38rem);
-  }
-
-  @supports (height: 100dvh) {
-    .hero-fill {
-      height: clamp(29rem, calc(74dvh - var(--header-h) - env(safe-area-inset-top)), 38rem);
-      min-height: clamp(29rem, calc(74dvh - var(--header-h) - env(safe-area-inset-top)), 38rem);
-    }
+    height: clamp(29rem, calc(74 * var(--vh) - var(--header-h) - env(safe-area-inset-top)), 38rem);
+    min-height: clamp(29rem, calc(74 * var(--vh) - var(--header-h) - env(safe-area-inset-top)), 38rem);
   }
 
   .hero-video-caption {
