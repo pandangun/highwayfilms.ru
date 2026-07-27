@@ -287,7 +287,11 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="page-shell">
+    // on-dark на корне: страница дарк-онли по конструкции — все её поверхности
+    // это зашитые тёмные градиенты, ни одной темозависимой (.section-card и
+    // подобных) здесь нет. Светлая тема меняла только цвет текста, из-за чего
+    // он и пропадал на чёрном.
+    <div className="on-dark page-shell">
       <div className="page-ambient" />
       <div className="container page-content pt-header-safe pb-20">
         <script
@@ -450,7 +454,9 @@ export default function AboutPage() {
                     key={item.href}
                     href={item.href}
                     className={[
-                      "group relative block overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),rgba(6,6,8,.84)] px-5 py-5 shadow-[0_24px_70px_rgba(0,0,0,0.26)] transition duration-500 hover:-translate-y-1.5 hover:border-white/18 hover:shadow-[0_30px_100px_rgba(0,0,0,0.34)] md:px-6 md:py-6",
+                      // on-dark: фон карточки зашит тёмным rgba(6,6,8,.84) и не
+                      // зависит от темы — текст поверх остаётся светлым.
+                      "on-dark group relative block overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),rgba(6,6,8,.84)] px-5 py-5 shadow-[0_24px_70px_rgba(0,0,0,0.26)] transition duration-500 hover:-translate-y-1.5 hover:border-white/18 hover:shadow-[0_30px_100px_rgba(0,0,0,0.34)] md:px-6 md:py-6",
                     ].join(" ")}
                   >
                     <div
@@ -515,7 +521,8 @@ export default function AboutPage() {
             <span className="h-px flex-1 bg-gradient-to-r from-white/14 via-white/8 to-transparent" />
           </div>
 
-          <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-black px-2 shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
+          {/* on-dark: bg-black не зависит от темы, текст остаётся светлым */}
+          <div className="on-dark relative overflow-hidden rounded-[36px] border border-white/10 bg-black px-2 shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,6,7,.72),rgba(6,6,7,.82)_36%,rgba(6,6,7,.9)),radial-gradient(80rem_40rem_at_18%_0%,rgba(26,42,88,.18),transparent_58%),radial-gradient(56rem_26rem_at_100%_100%,rgba(122,34,64,.16),transparent_60%),radial-gradient(52rem_24rem_at_52%_42%,rgba(255,255,255,.04),transparent_64%)]" />
             <div className="pointer-events-none absolute inset-x-6 top-3 h-px bg-[repeating-linear-gradient(90deg,rgba(255,255,255,.16)_0_12px,transparent_12px_24px)] opacity-20" />
             <div className="pointer-events-none absolute inset-x-6 bottom-3 h-px bg-[repeating-linear-gradient(90deg,rgba(255,255,255,.16)_0_12px,transparent_12px_24px)] opacity-20" />

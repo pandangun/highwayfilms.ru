@@ -1,4 +1,5 @@
-﻿.footer-link {
+@layer hf-components {
+.footer-link {
   position: relative;
   width: fit-content;
   transition: color .18s ease;
@@ -90,3 +91,4 @@
   box-shadow: var(--theme-button-active-shadow);
 }
 
+}

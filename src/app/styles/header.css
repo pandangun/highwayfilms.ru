@@ -1,4 +1,5 @@
-﻿.nav-link {
+@layer hf-components {
+.nav-link {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -450,3 +451,4 @@
 }
 
 
+}

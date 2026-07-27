@@ -213,7 +213,9 @@ export default function VideoHero({
   };
 
   return (
-    <section ref={heroRef} className="relative w-full hero-fill overflow-hidden bg-black">
+    // on-dark: фон здесь — видео и bg-black, он не меняется вместе с темой,
+    // поэтому текст поверх обязан оставаться светлым в обеих темах.
+    <section ref={heroRef} className="on-dark relative w-full hero-fill overflow-hidden bg-black">
       <div className="absolute inset-0">
         <Image
           src={HERO_VIDEO_POSTER_SRC}

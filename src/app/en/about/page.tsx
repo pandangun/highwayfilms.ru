@@ -170,7 +170,8 @@ function Step({
 
 export default function AboutPageEn() {
   return (
-    <div className="page-shell">
+    // on-dark: страница дарк-онли, как и русская версия — см. app/about/page.tsx
+    <div className="on-dark page-shell">
       <div className="page-ambient" />
       <div className="container page-content pt-header-safe pb-16">
       <section className="py-10 md:py-14">

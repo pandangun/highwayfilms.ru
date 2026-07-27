@@ -1,3 +1,4 @@
+@layer hf-page {
 .ai-gallery-grid {
   display: grid;
   gap: 1rem;
@@ -292,4 +293,5 @@
   .ai-video-lightbox__meta {
     padding: .95rem 1rem 1.1rem;
   }
+}
 }

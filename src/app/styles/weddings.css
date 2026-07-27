@@ -1,3 +1,4 @@
+@layer hf-page {
 /* =========================
    WEDDINGS PAGE
    ========================= */
@@ -2558,4 +2559,5 @@ html[data-theme="light"] .wedding-brief-field .field-shell:focus {
   border-color: rgba(185,143,90,.22);
   border-bottom-color: rgba(185,143,90,.5);
   box-shadow: 0 0 0 4px rgba(185,143,90,.08);
+}
 }

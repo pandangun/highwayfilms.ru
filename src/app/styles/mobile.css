@@ -1,3 +1,4 @@
+@layer hf-mobile {
 /* =========================
    MOBILE OVERRIDES
    ========================= */
@@ -34,7 +35,7 @@
   .header-rail::after,
   .drawer-nav::before,
   .drawer-mobile-controls {
-    display: none !important;
+    display: none;
   }
 
   .brand-mark__text {
@@ -107,7 +108,7 @@
   }
 
   .home-intro-panel {
-    padding: 1.15rem !important;
+    padding: 1.15rem;
   }
 
   .hero-fill {
@@ -116,7 +117,7 @@
   }
 
   .hero-video-caption {
-    padding: 1rem 0 1.15rem !important;
+    padding: 1rem 0 1.15rem;
   }
 
   .hero-video-caption .container {
@@ -140,8 +141,8 @@
   }
 
   .home-intro-panel > .mt-12 {
-    margin-top: 2rem !important;
-    padding-top: 1.5rem !important;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
   }
 
   .home-display-xl {
@@ -180,7 +181,7 @@
   .home-service-card,
   .home-process-card {
     min-height: 0;
-    padding: 1.15rem !important;
+    padding: 1.15rem;
   }
 
   .home-cta-row {
@@ -203,27 +204,27 @@
   }
 
   .service-masthead {
-    padding-bottom: 1.75rem !important;
+    padding-bottom: 1.75rem;
   }
 
   .service-masthead-frame {
-    padding-bottom: 1rem !important;
+    padding-bottom: 1rem;
   }
 
   .service-masthead-title {
-    font-size: clamp(2.15rem, 10.4vw, 3.35rem) !important;
-    line-height: 1 !important;
+    font-size: clamp(2.15rem, 10.4vw, 3.35rem);
+    line-height: 1;
     letter-spacing: -0.03em;
   }
 
   .service-masthead-lead,
   .service-masthead-panel-copy {
-    font-size: 0.98rem !important;
-    line-height: 1.72 !important;
+    font-size: 0.98rem;
+    line-height: 1.72;
   }
 
   .service-masthead-chips {
-    gap: 0.55rem !important;
+    gap: 0.55rem;
   }
 
   .service-masthead-chips > span {
@@ -232,7 +233,7 @@
   }
 
   .service-masthead-actions {
-    margin-top: 1.25rem !important;
+    margin-top: 1.25rem;
   }
 
   .service-masthead-actions > a,
@@ -243,12 +244,12 @@
   }
 
   .service-masthead-media {
-    padding: 0.55rem !important;
+    padding: 0.55rem;
   }
 
   .service-masthead-media > div {
-    min-height: 18.5rem !important;
-    border-radius: 18px !important;
+    min-height: 18.5rem;
+    border-radius: 18px;
   }
 
   .service-masthead-metrics {
@@ -260,7 +261,7 @@
   }
 
   .editorial-card {
-    padding: 0.65rem !important;
+    padding: 0.65rem;
   }
 
   .editorial-cover {
@@ -268,28 +269,28 @@
   }
 
   .editorial-cover > .relative {
-    padding: 1rem !important;
+    padding: 1rem;
   }
 
   .article-card-body {
-    gap: 0.9rem !important;
-    padding-inline: 0.35rem !important;
-    padding-bottom: 0.2rem !important;
+    gap: 0.9rem;
+    padding-inline: 0.35rem;
+    padding-bottom: 0.2rem;
   }
 
   .article-card-body h3 {
-    margin-top: 0.9rem !important;
-    font-size: clamp(1.55rem, 8vw, 2.1rem) !important;
+    margin-top: 0.9rem;
+    font-size: clamp(1.55rem, 8vw, 2.1rem);
   }
 
   .article-card-body p {
-    margin-top: 0.75rem !important;
-    font-size: 0.95rem !important;
-    line-height: 1.66 !important;
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.66;
   }
 
   .article-card-actions {
-    gap: 0.75rem !important;
+    gap: 0.75rem;
   }
 
   .article-card-actions .btn {
@@ -304,31 +305,31 @@
   }
 
   .articles-hub-hero {
-    padding-top: 1.2rem !important;
-    padding-bottom: 1.6rem !important;
+    padding-top: 1.2rem;
+    padding-bottom: 1.6rem;
   }
 
   .articles-hub-title,
   .article-detail-title {
-    font-size: clamp(2rem, 9vw, 2.85rem) !important;
-    line-height: 1.02 !important;
-    letter-spacing: -0.028em !important;
+    font-size: clamp(2rem, 9vw, 2.85rem);
+    line-height: 1.02;
+    letter-spacing: -0.028em;
   }
 
   .articles-hub-lead,
   .article-detail-lead {
-    font-size: 0.98rem !important;
-    line-height: 1.72 !important;
+    font-size: 0.98rem;
+    line-height: 1.72;
   }
 
   .articles-hub-note {
-    margin-top: 0.9rem !important;
-    line-height: 1.6 !important;
+    margin-top: 0.9rem;
+    line-height: 1.6;
   }
 
   .articles-hub-cta .section-card,
   .article-detail-cta .section-card {
-    padding: 1rem !important;
+    padding: 1rem;
   }
 
   .articles-hub-cta .section-card > div,
@@ -354,25 +355,25 @@
   }
 
   .article-detail-body {
-    padding: 1rem !important;
+    padding: 1rem;
   }
 
   .article-detail-body section {
-    padding-top: 1.25rem !important;
+    padding-top: 1.25rem;
   }
 
   .article-detail-body h2 {
-    font-size: clamp(1.55rem, 7.4vw, 2rem) !important;
+    font-size: clamp(1.55rem, 7.4vw, 2rem);
   }
 
   .article-detail-body p,
   .article-detail-body li {
-    font-size: 0.97rem !important;
-    line-height: 1.7 !important;
+    font-size: 0.97rem;
+    line-height: 1.7;
   }
 
   .project-room {
-    padding: 1rem !important;
+    padding: 1rem;
   }
 
   .contact-page-map {
@@ -387,7 +388,7 @@
   }
 
   .brief-page-frame {
-    padding-inline: var(--page-gutter) !important;
+    padding-inline: var(--page-gutter);
   }
 
   .brief-page-frame::before {
@@ -396,54 +397,54 @@
   }
 
   .brief-page-frame > .relative {
-    padding-inline: 0 !important;
+    padding-inline: 0;
   }
 
   .brief-title {
-    font-size: clamp(2rem, 8.8vw, 2.9rem) !important;
-    line-height: 1.03 !important;
-    letter-spacing: -0.028em !important;
+    font-size: clamp(2rem, 8.8vw, 2.9rem);
+    line-height: 1.03;
+    letter-spacing: -0.028em;
   }
 
   .brief-lead {
-    font-size: 0.98rem !important;
-    line-height: 1.72 !important;
-    margin-top: 1rem !important;
+    font-size: 0.98rem;
+    line-height: 1.72;
+    margin-top: 1rem;
   }
 
   .brief-top-note {
-    margin-top: 0.9rem !important;
-    padding: 0.85rem 1rem !important;
-    line-height: 1.55 !important;
+    margin-top: 0.9rem;
+    padding: 0.85rem 1rem;
+    line-height: 1.55;
   }
 
   .brief-steps-grid {
-    gap: 0.6rem !important;
+    gap: 0.6rem;
   }
 
   .brief-step-link {
-    padding: 0.85rem 0.95rem !important;
-    border-radius: 16px !important;
+    padding: 0.85rem 0.95rem;
+    border-radius: 16px;
   }
 
   .brief-step-link p {
-    margin-top: 0.55rem !important;
-    font-size: 0.88rem !important;
-    line-height: 1.45 !important;
+    margin-top: 0.55rem;
+    font-size: 0.88rem;
+    line-height: 1.45;
   }
 
   .brief-form {
-    margin-top: 1.5rem !important;
-    gap: 1.5rem !important;
+    margin-top: 1.5rem;
+    gap: 1.5rem;
   }
 
   .brief-section-panel {
-    padding: 1rem !important;
-    border-radius: 24px !important;
+    padding: 1rem;
+    border-radius: 24px;
   }
 
   .brief-section-panel > div:first-of-type {
-    gap: 0.9rem !important;
+    gap: 0.9rem;
   }
 
   .brief-section-panel > div:first-of-type > span:last-child {
@@ -451,53 +452,53 @@
   }
 
   .brief-section-panel > div:last-child {
-    margin-top: 1.1rem !important;
-    gap: 0.9rem !important;
+    margin-top: 1.1rem;
+    gap: 0.9rem;
   }
 
   .brief-field {
-    padding: 1rem !important;
-    border-radius: 22px !important;
+    padding: 1rem;
+    border-radius: 22px;
   }
 
   .brief-field > div:first-child {
-    align-items: flex-start !important;
-    gap: 0.5rem !important;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 
   .brief-field > div:first-child > span {
-    font-size: 0.58rem !important;
-    letter-spacing: 0.14em !important;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
   }
 
   .brief-field > div:last-child {
-    margin-top: 0.85rem !important;
+    margin-top: 0.85rem;
   }
 
   .brief-field label {
-    font-size: 1rem !important;
+    font-size: 1rem;
   }
 
   .brief-field input,
   .brief-field select {
-    height: 3.55rem !important;
-    border-radius: 20px !important;
-    padding-inline: 1rem !important;
-    font-size: 0.98rem !important;
+    height: 3.55rem;
+    border-radius: 20px;
+    padding-inline: 1rem;
+    font-size: 0.98rem;
   }
 
   .brief-field textarea {
-    min-height: 9.5rem !important;
-    border-radius: 22px !important;
-    padding: 0.95rem 1rem !important;
-    font-size: 0.98rem !important;
-    line-height: 1.6 !important;
+    min-height: 9.5rem;
+    border-radius: 22px;
+    padding: 0.95rem 1rem;
+    font-size: 0.98rem;
+    line-height: 1.6;
   }
 
   .brief-section-panel label.rounded-\[24px\] {
-    border-radius: 18px !important;
-    padding: 0.95rem 1rem !important;
-    font-size: 0.95rem !important;
+    border-radius: 18px;
+    padding: 0.95rem 1rem;
+    font-size: 0.95rem;
   }
 
   .service-faq-shell {
@@ -565,7 +566,7 @@
   }
 
   .footer-panel {
-    padding: 1.15rem !important;
+    padding: 1.15rem;
   }
 
   .footer-meta {
@@ -593,4 +594,5 @@
   .footer-link {
     width: fit-content;
   }
+}
 }

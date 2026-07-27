@@ -1,4 +1,5 @@
-﻿/* =========================
+@layer hf-theme {
+/* =========================
    THEME
    ========================= */
 /* tokens */
@@ -266,10 +267,10 @@ html[data-theme="light"] .header-rail,
 html[data-theme="light"] .drawer-panel,
 html[data-theme="light"] .header-theme-switch,
 html[data-theme="light"] .footer-theme-switch {
-  border-color: rgba(0,0,0,.12) !important;
+  border-color: rgba(0,0,0,.12);
   box-shadow:
     0 18px 40px rgba(0,0,0,.08),
-    inset 0 1px 0 rgba(255,255,255,.5) !important;
+    inset 0 1px 0 rgba(255,255,255,.5);
 }
 
 html[data-theme="light"] .surface-panel,
@@ -285,20 +286,20 @@ html[data-theme="light"] .brief-field {
   background:
     linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.7)),
     radial-gradient(130% 120% at 0% 0%, rgba(124,58,237,.08), transparent 58%),
-    rgba(255,255,255,.86) !important;
+    rgba(255,255,255,.86);
 }
 
 html[data-theme="light"] .section-card,
 html[data-theme="light"] .section-frame {
   background:
     linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.7)),
-    rgba(255,255,255,.86) !important;
+    rgba(255,255,255,.86);
 }
 
 html[data-theme="light"] .brief-form-control {
   background:
     linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.75)),
-    rgba(255,255,255,.88) !important;
+    rgba(255,255,255,.88);
 }
 
 html[data-theme="light"] .client-access-line {
@@ -320,9 +321,9 @@ html[data-theme="light"] .contact-quick-item {
 }
 
 html[data-theme="light"] .contact-platform-card {
-  border: 0 !important;
-  background: none !important;
-  box-shadow: none !important;
+  border: 0;
+  background: none;
+  box-shadow: none;
 }
 
 html[data-theme="light"] .contact-platform-card__halo {
@@ -439,7 +440,7 @@ html[data-theme="light"] .header-theme-switch svg,
 html[data-theme="light"] .footer-theme-switch svg,
 html[data-theme="light"] .header-theme-button svg,
 html[data-theme="light"] .footer-theme-button svg {
-  filter: none !important;
+  filter: none;
 }
 
 html[data-theme="light"] .header-theme-button,
@@ -460,45 +461,56 @@ html[data-theme="light"] .footer-theme-switch,
 html[data-theme="light"] .drawer-mobile-controls {
   box-shadow:
     0 12px 28px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.06) !important;
+    inset 0 1px 0 rgba(255,255,255,.06);
 }
 
+/* Области, которые остаются тёмными при любой теме: hero поверх видео,
+   карточки с зашитым тёмным фоном поверх кадров.
+
+   Блок ниже красит .text-white/NN в тёмные чернила через
+   rgb(var(--light-ink) / X). Значит достаточно переопределить саму
+   переменную — и весь блок начинает работать в обратную сторону внутри
+   такой области. Одна строка вместо 35 исключений.
+
+   Вешать .on-dark на контейнер, фон которого НЕ зависит от темы. */
+.on-dark { --light-ink: 243 243 242; }
+
 /* light-mode text overrides */
-html[data-theme="light"] .text-white { color: rgb(var(--light-ink) / 1) !important; }
-html[data-theme="light"] .text-white\/14 { color: rgb(var(--light-ink) / 0.14) !important; }
-html[data-theme="light"] .text-white\/30 { color: rgb(var(--light-ink) / 0.3) !important; }
-html[data-theme="light"] .text-white\/34 { color: rgb(var(--light-ink) / 0.34) !important; }
-html[data-theme="light"] .text-white\/36 { color: rgb(var(--light-ink) / 0.36) !important; }
-html[data-theme="light"] .text-white\/38 { color: rgb(var(--light-ink) / 0.38) !important; }
-html[data-theme="light"] .text-white\/40 { color: rgb(var(--light-ink) / 0.4) !important; }
-html[data-theme="light"] .text-white\/42 { color: rgb(var(--light-ink) / 0.42) !important; }
-html[data-theme="light"] .text-white\/44 { color: rgb(var(--light-ink) / 0.44) !important; }
-html[data-theme="light"] .text-white\/45 { color: rgb(var(--light-ink) / 0.45) !important; }
-html[data-theme="light"] .text-white\/46 { color: rgb(var(--light-ink) / 0.46) !important; }
-html[data-theme="light"] .text-white\/48 { color: rgb(var(--light-ink) / 0.48) !important; }
-html[data-theme="light"] .text-white\/50 { color: rgb(var(--light-ink) / 0.5) !important; }
-html[data-theme="light"] .text-white\/52 { color: rgb(var(--light-ink) / 0.52) !important; }
-html[data-theme="light"] .text-white\/54 { color: rgb(var(--light-ink) / 0.54) !important; }
-html[data-theme="light"] .text-white\/55 { color: rgb(var(--light-ink) / 0.55) !important; }
-html[data-theme="light"] .text-white\/56 { color: rgb(var(--light-ink) / 0.56) !important; }
-html[data-theme="light"] .text-white\/58 { color: rgb(var(--light-ink) / 0.58) !important; }
-html[data-theme="light"] .text-white\/60 { color: rgb(var(--light-ink) / 0.6) !important; }
-html[data-theme="light"] .text-white\/62 { color: rgb(var(--light-ink) / 0.62) !important; }
-html[data-theme="light"] .text-white\/64 { color: rgb(var(--light-ink) / 0.64) !important; }
-html[data-theme="light"] .text-white\/66 { color: rgb(var(--light-ink) / 0.66) !important; }
-html[data-theme="light"] .text-white\/68 { color: rgb(var(--light-ink) / 0.68) !important; }
-html[data-theme="light"] .text-white\/70 { color: rgb(var(--light-ink) / 0.7) !important; }
-html[data-theme="light"] .text-white\/72 { color: rgb(var(--light-ink) / 0.72) !important; }
-html[data-theme="light"] .text-white\/74 { color: rgb(var(--light-ink) / 0.74) !important; }
-html[data-theme="light"] .text-white\/75 { color: rgb(var(--light-ink) / 0.75) !important; }
-html[data-theme="light"] .text-white\/76 { color: rgb(var(--light-ink) / 0.76) !important; }
-html[data-theme="light"] .text-white\/78 { color: rgb(var(--light-ink) / 0.78) !important; }
-html[data-theme="light"] .text-white\/80 { color: rgb(var(--light-ink) / 0.8) !important; }
-html[data-theme="light"] .text-white\/82 { color: rgb(var(--light-ink) / 0.82) !important; }
-html[data-theme="light"] .text-white\/85 { color: rgb(var(--light-ink) / 0.85) !important; }
-html[data-theme="light"] .text-white\/86 { color: rgb(var(--light-ink) / 0.86) !important; }
-html[data-theme="light"] .text-white\/88 { color: rgb(var(--light-ink) / 0.88) !important; }
-html[data-theme="light"] .text-white\/90 { color: rgb(var(--light-ink) / 0.9) !important; }
+html[data-theme="light"] .text-white { color: rgb(var(--light-ink) / 1); }
+html[data-theme="light"] .text-white\/14 { color: rgb(var(--light-ink) / 0.14); }
+html[data-theme="light"] .text-white\/30 { color: rgb(var(--light-ink) / 0.3); }
+html[data-theme="light"] .text-white\/34 { color: rgb(var(--light-ink) / 0.34); }
+html[data-theme="light"] .text-white\/36 { color: rgb(var(--light-ink) / 0.36); }
+html[data-theme="light"] .text-white\/38 { color: rgb(var(--light-ink) / 0.38); }
+html[data-theme="light"] .text-white\/40 { color: rgb(var(--light-ink) / 0.4); }
+html[data-theme="light"] .text-white\/42 { color: rgb(var(--light-ink) / 0.42); }
+html[data-theme="light"] .text-white\/44 { color: rgb(var(--light-ink) / 0.44); }
+html[data-theme="light"] .text-white\/45 { color: rgb(var(--light-ink) / 0.45); }
+html[data-theme="light"] .text-white\/46 { color: rgb(var(--light-ink) / 0.46); }
+html[data-theme="light"] .text-white\/48 { color: rgb(var(--light-ink) / 0.48); }
+html[data-theme="light"] .text-white\/50 { color: rgb(var(--light-ink) / 0.5); }
+html[data-theme="light"] .text-white\/52 { color: rgb(var(--light-ink) / 0.52); }
+html[data-theme="light"] .text-white\/54 { color: rgb(var(--light-ink) / 0.54); }
+html[data-theme="light"] .text-white\/55 { color: rgb(var(--light-ink) / 0.55); }
+html[data-theme="light"] .text-white\/56 { color: rgb(var(--light-ink) / 0.56); }
+html[data-theme="light"] .text-white\/58 { color: rgb(var(--light-ink) / 0.58); }
+html[data-theme="light"] .text-white\/60 { color: rgb(var(--light-ink) / 0.6); }
+html[data-theme="light"] .text-white\/62 { color: rgb(var(--light-ink) / 0.62); }
+html[data-theme="light"] .text-white\/64 { color: rgb(var(--light-ink) / 0.64); }
+html[data-theme="light"] .text-white\/66 { color: rgb(var(--light-ink) / 0.66); }
+html[data-theme="light"] .text-white\/68 { color: rgb(var(--light-ink) / 0.68); }
+html[data-theme="light"] .text-white\/70 { color: rgb(var(--light-ink) / 0.7); }
+html[data-theme="light"] .text-white\/72 { color: rgb(var(--light-ink) / 0.72); }
+html[data-theme="light"] .text-white\/74 { color: rgb(var(--light-ink) / 0.74); }
+html[data-theme="light"] .text-white\/75 { color: rgb(var(--light-ink) / 0.75); }
+html[data-theme="light"] .text-white\/76 { color: rgb(var(--light-ink) / 0.76); }
+html[data-theme="light"] .text-white\/78 { color: rgb(var(--light-ink) / 0.78); }
+html[data-theme="light"] .text-white\/80 { color: rgb(var(--light-ink) / 0.8); }
+html[data-theme="light"] .text-white\/82 { color: rgb(var(--light-ink) / 0.82); }
+html[data-theme="light"] .text-white\/85 { color: rgb(var(--light-ink) / 0.85); }
+html[data-theme="light"] .text-white\/86 { color: rgb(var(--light-ink) / 0.86); }
+html[data-theme="light"] .text-white\/88 { color: rgb(var(--light-ink) / 0.88); }
+html[data-theme="light"] .text-white\/90 { color: rgb(var(--light-ink) / 0.9); }
 
 html[data-theme="light"] .nav-link,
 html[data-theme="light"] .nav-link--vertical,
@@ -517,7 +529,7 @@ html[data-theme="light"] .service-faq-cta__eyebrow,
 html[data-theme="light"] .service-faq-cta__text,
 html[data-theme="light"] .service-faq-cta__note,
 html[data-theme="light"] .client-access-note {
-  color: rgb(var(--light-ink) / 0.7) !important;
+  color: rgb(var(--light-ink) / 0.7);
 }
 
 html[data-theme="light"] .nav-link:hover,
@@ -531,19 +543,19 @@ html[data-theme="light"] .home-secondary-link:hover,
 html[data-theme="light"] .service-faq-title,
 html[data-theme="light"] .service-faq-question,
 html[data-theme="light"] .service-faq-cta__title {
-  color: rgb(var(--light-ink) / 0.95) !important;
+  color: rgb(var(--light-ink) / 0.95);
 }
 
 html[data-theme="light"] .contact-primary-link {
-  color: rgb(var(--light-ink) / 1) !important;
+  color: rgb(var(--light-ink) / 1);
 }
 
 html[data-theme="light"] .contact-brief-card__meta {
-  color: rgb(var(--light-ink) / 0.5) !important;
+  color: rgb(var(--light-ink) / 0.5);
 }
 
 html[data-theme="light"] .home-process-arrow {
-  color: rgb(var(--light-ink) / 0.46) !important;
+  color: rgb(var(--light-ink) / 0.46);
 }
 
 html[data-theme="light"] .home-process-arrow svg {
@@ -567,3 +579,4 @@ video {
   height: auto;
 }
 
+}

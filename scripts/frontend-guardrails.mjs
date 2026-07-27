@@ -95,7 +95,7 @@ const LIGHT_THEME_MIN_CONTRAST = 2.0;
  * «типографика и токены». Список обязан схлопнуться до нуля вместе с ним;
  * пополнять его новыми записями нельзя.
  */
-const KNOWN_LIGHT_THEME_ISSUES = new Set(["/", "/en", "/about"]);
+const KNOWN_LIGHT_THEME_ISSUES = new Set([]);
 
 const MOTION_SELECTOR = [
   ".reveal-up",
