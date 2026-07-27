@@ -158,6 +158,47 @@ h3,
 }
 
 /* button atoms */
+/* .card и .btn жили в home.css, но используются на /about, /articles, /client,
+   /commercials, /music-videos и в StudioMasthead. Постраничный CSS не грузится
+   при холодной загрузке этих страниц — кнопка оставалась голой, а после
+   клиентского перехода с главной внезапно оживала. Место общих примитивов —
+   здесь. Проверяется в audit:frontend (SHARED_PRIMITIVES). */
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+  box-shadow: var(--shadow);
+  transition: border-color .2s ease, transform .2s ease, background .2s ease;
+}
+
+.card h3 { font-size: 1.0625rem; font-weight: 600; }
+.card p  { line-height: 1.6; }
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  color: var(--fgc);
+  transition: border-color .18s ease, background .18s ease, transform .12s ease;
+}
+
+.btn:hover {
+  border-color: var(--border-strong);
+  background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
+}
+
+.btn:active { transform: translateY(1px); }
+
 .btn-primary,
 .home-primary-button {
   display: inline-flex;
