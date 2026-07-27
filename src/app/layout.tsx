@@ -1,11 +1,29 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import Script from "next/script";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MotionObserver from "@/components/MotionObserver";
 import { SITE_URL } from "@/lib/metadata";
+
+/**
+ * Имена переменных намеренно не совпадают с --font-display / --font-sans:
+ * те объявлены в theme.css и ссылаются сюда. Если назвать одинаково, :root
+ * в theme.css перезатрёт то, что подставил next/font.
+ */
+const display = Cormorant_Garamond({
+  subsets: ["cyrillic", "latin"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+
+const sans = Manrope({
+  subsets: ["cyrillic", "latin"],
+  variable: "--font-manrope",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -17,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const lang = pathname.startsWith("/en") ? "en" : "ru";
 
   return (
-    <html lang={lang} suppressHydrationWarning>
+    <html lang={lang} className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
       <head>
         <Script
           id="set-site-theme"
