@@ -71,9 +71,65 @@
     inset 0 1px 0 rgba(255,255,255,.035),
     0 10px 20px rgba(0,0,0,.12);
 
-  /* depth & radius */
-  --r: 12px;
-  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  /* ===== ТИПОГРАФИЧЕСКАЯ ШКАЛА =====
+     Восемь ступеней вместо 240 решений, принятых по месту (155 произвольных
+     text-[...] в JSX плюс 87 уникальных font-size в CSS). Когда иерархию
+     держит типографика, а не рамки, она обязана быть системной.
+
+     Значения текучие: clamp между 360px и 1440px вьюпорта, поэтому
+     промежуточные брейкпоинты не нужны.
+
+     Ступени именованы по роли, а не по размеру: eyebrow / meta / body /
+     lead / display-*. Так видно, когда берут не ту. Это ещё и защита от
+     коллизии — у Tailwind уже заняты --text-sm, --text-base и --text-lg,
+     и переопределение сломало бы существующие утилиты по всему сайту. */
+  --type-eyebrow: 0.7rem;                                  /* капслок-метки */
+  --type-meta: 0.875rem;                                   /* подписи, мета */
+  --type-body: 1rem;                                       /* основной текст */
+  --type-lead: clamp(1.05rem, 0.99rem + 0.28vw, 1.22rem);  /* лид-абзацы */
+  --type-display-sm: clamp(1.35rem, 1.2rem + 0.65vw, 1.75rem); /* заголовки карточек */
+  --type-display-md: clamp(1.9rem, 1.5rem + 1.7vw, 2.9rem);    /* заголовки секций */
+  --type-display-lg: clamp(2.5rem, 1.8rem + 3vw, 4.2rem);      /* заголовки страниц */
+  --type-display-xl: clamp(3rem, 2rem + 4.4vw, 5.6rem);        /* герой */
+
+  /* Межстрочные и трекинг под антикву: крупный кегль требует плотнее. */
+  --leading-display: 0.94;
+  --leading-title: 1.06;
+  --leading-body: 1.7;
+  --tracking-display: -0.045em;
+  --tracking-caps: 0.2em;
+
+  /* ===== СЕМАНТИЧЕСКИЙ ЦВЕТ ТЕКСТА =====
+     Пять ролей вместо 33 ступеней прозрачности text-white/NN. Значение
+     хранится триплетом, чтобы можно было задавать альфу на месте. */
+  --ink-rgb: 243 243 242;
+  --ink: rgb(var(--ink-rgb));
+  --ink-muted: rgb(var(--ink-rgb) / .64);   /* вторичный текст */
+  --ink-faint: rgb(var(--ink-rgb) / .44);   /* мета, подписи */
+  --ink-ghost: rgb(var(--ink-rgb) / .26);   /* декоративное */
+  --hairline: rgb(var(--ink-rgb) / .1);     /* волосяной разделитель */
+
+  /* ===== ФОРМА =====
+     Три радиуса вместо 23. В линейном языке скругления нужны редко —
+     они остались там, где элемент действительно объект: медиа и контролы. */
+  --r-sm: 10px;
+  --r-md: 18px;
+  --r-lg: 28px;
+  --r-full: 999px;
+  --r: 12px;                                /* legacy, вытесняется --r-sm */
+
+  /* Две ступени глубины вместо 116 разных box-shadow. */
+  --elev-1: 0 10px 30px rgba(0,0,0,.24);
+  --elev-2: 0 24px 60px rgba(0,0,0,.32);
+  --shadow: var(--elev-1);                  /* legacy-алиас */
+
+  /* ===== МОТОРИКА =====
+     Одна кривая на весь сайт. Она же «монтажная»: быстрый старт, долгий
+     выход — так работает наплыв в монтаже. */
+  --ease-film: cubic-bezier(.22, 1, .36, 1);
+  --dur-fast: 180ms;
+  --dur-base: 320ms;
+  --dur-slow: 700ms;
 
   /* layout */
   --container: 1200px;
@@ -112,7 +168,11 @@ html[data-theme="light"] {
   --brand-2: #3b6ad6;
   --accent: #b98f5a;
   --brand-soft: rgba(111,63,224,.16);
-  --light-ink: 29 27 24;
+  --ink-rgb: 29 27 24;
+  /* --light-ink оставлен как алиас: на нём держится блок из 35 правил для
+     text-white/NN и переключатель .on-dark. Уйдёт вместе с миграцией JSX
+     на семантические классы. */
+  --light-ink: var(--ink-rgb);
   --surface-panel-border: rgba(92,72,46,.12);
   --surface-panel-bg:
     linear-gradient(180deg, rgba(255,251,246,.92), rgba(245,236,226,.78)),
@@ -473,7 +533,10 @@ html[data-theme="light"] .drawer-mobile-controls {
    такой области. Одна строка вместо 35 исключений.
 
    Вешать .on-dark на контейнер, фон которого НЕ зависит от темы. */
-.on-dark { --light-ink: 243 243 242; }
+.on-dark {
+  --ink-rgb: 243 243 242;
+  --light-ink: 243 243 242;
+}
 
 /* light-mode text overrides */
 html[data-theme="light"] .text-white { color: rgb(var(--light-ink) / 1); }

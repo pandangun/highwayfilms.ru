@@ -64,37 +64,36 @@
   transition: transform .34s cubic-bezier(.22,1,.36,1), opacity .28s ease;
 }
 
+/* Наведение: линия и свет вместо подъёма карточки.
+   Приподнимание с тенью — язык интерфейсов, а не кино. Здесь вместо него
+   работает тот же приём, что в меню: линия дорастает до полной ширины.
+   Он тебе нравится, и когда один жест повторён везде, это и есть
+   фирменный стиль. */
 @media (hover: hover) and (pointer: fine) {
   .service-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255,255,255,.16);
-    background:
-      linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
-      rgba(9,9,11,.78);
-    box-shadow: 0 22px 48px rgba(0,0,0,.26);
+    border-color: rgb(var(--ink-rgb) / .18);
   }
 
   .service-card:hover::after {
-    opacity: .9;
+    opacity: 1;
     transform: scaleX(1);
   }
 
   .home-feature-card:hover,
   .home-process-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255,255,255,.16);
-    box-shadow: 0 22px 44px rgba(0,0,0,.24);
+    border-color: rgb(var(--ink-rgb) / .18);
   }
 
   .home-process-card:hover .home-process-arrow {
     transform: translateX(4px);
-    color: rgba(255,255,255,.82);
+    color: var(--ink);
   }
 
+  /* Кадр отзывается яркостью, а не масштабом: это ближе к тому, как
+     изображение реагирует на свет, чем к «кнопке, которая выросла». */
   .service-card:hover img,
   .editorial-card:hover img {
-    transform: scale(1.035);
-    filter: saturate(1.08) contrast(1.03);
+    filter: saturate(1.06) brightness(1.04);
   }
 }
 
@@ -115,11 +114,16 @@
   .editorial-card,
   .service-faq-shell
 ) {
+  /* Наплыв вместо выезда снизу.
+     Сдвиг на 18px читается как «элемент интерфейса приехал». Кадр в кино
+     не приезжает — он проявляется. Поэтому движение сведено к проявлению
+     плюс едва заметный наезд: 1.5% масштаба глаз не считывает как
+     анимацию, но ощущает как оптику. */
   opacity: 0;
-  transform: translateY(18px) scale(.988);
+  transform: scale(1.015);
   transition:
-    opacity .62s cubic-bezier(.22,1,.36,1),
-    transform .76s cubic-bezier(.22,1,.36,1);
+    opacity var(--dur-slow) var(--ease-film),
+    transform 1.1s var(--ease-film);
   transition-delay: var(--reveal-delay, 0s);
   will-change: opacity, transform;
 }
@@ -136,7 +140,7 @@
   .service-faq-shell
 ).is-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: scale(1);
 }
 
 .motion-enhanced .delay-1 { --reveal-delay: .08s; }

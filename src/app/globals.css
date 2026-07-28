@@ -25,6 +25,37 @@
    custom properties разрешаются в месте использования. */
 @layer hf-base, hf-components, hf-page, hf-mobile, hf-theme;
 
+/* Токены дизайн-системы, поднятые в Tailwind, чтобы в JSX писали
+   text-display-md и text-ink-muted вместо произвольных значений.
+   Сами значения объявлены в styles/theme.css — здесь только проброс.
+
+   Зачем: на момент введения в разметке было 155 произвольных размеров
+   шрифта и 33 ступени прозрачности text-white. Утилиты дают короткий
+   правильный путь, иначе система остаётся на бумаге. */
+@theme inline {
+  --text-eyebrow: var(--type-eyebrow);
+  --text-meta: var(--type-meta);
+  --text-body: var(--type-body);
+  --text-lead: var(--type-lead);
+  --text-display-sm: var(--type-display-sm);
+  --text-display-md: var(--type-display-md);
+  --text-display-lg: var(--type-display-lg);
+  --text-display-xl: var(--type-display-xl);
+
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-ink-ghost: var(--ink-ghost);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+
+  --ease-film: var(--ease-film);
+}
+
 /* foundations */
 @import "./styles/theme.css";
 @import "./styles/layout.css";
