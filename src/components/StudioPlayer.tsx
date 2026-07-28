@@ -3,7 +3,7 @@
 import Image from "next/image";
 import clsx from "clsx";
 import { Play } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { MediaSource } from "@/lib/media";
 
 type NetworkInformationLike = { effectiveType?: string; saveData?: boolean };
@@ -105,12 +105,19 @@ export default function StudioPlayer({
 
   // Решение о загрузке принимаем после монтирования: до него неизвестны ни
   // ширина, ни сеть, ни настройки движения.
+  //
+  // Через requestAnimationFrame, а не прямо в теле эффекта: так первый кадр
+  // успевает отрисоваться с постером, и мы не даём каскад ре-рендеров.
   useEffect(() => {
     if (placeholder) return;
     if (mode === "interactive") return; // interactive грузится по клику
 
-    if (!shouldLoadVideo(mode)) return;
-    setSrc(pickSource(source));
+    const frame = requestAnimationFrame(() => {
+      if (!shouldLoadVideo(mode)) return;
+      setSrc(pickSource(source));
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, [mode, placeholder, source]);
 
   // React исторически не проставляет свойство muted при первом рендере
@@ -148,7 +155,9 @@ export default function StudioPlayer({
     onPlayingChange?.(isReady && !hasFailed);
   }, [isReady, hasFailed, onPlayingChange]);
 
-  const handlePlayRequest = useCallback(() => {
+  // Обычный обработчик, без useCallback: мемоизировать нечего, а React
+  // Compiler на ручной мемоизации с внешним ref спотыкается.
+  const handlePlayRequest = () => {
     setNeedsGesture(false);
 
     if (!src) {
@@ -161,7 +170,7 @@ export default function StudioPlayer({
 
     if (mode === "interactive") video.muted = false;
     void video.play().catch(() => setNeedsGesture(true));
-  }, [mode, source, src, videoRef]);
+  };
 
   // Постер держим под видео всегда: он же первый кадр, он же то, что
   // остаётся при любой ошибке — битом файле, 404, отказе кодека.
