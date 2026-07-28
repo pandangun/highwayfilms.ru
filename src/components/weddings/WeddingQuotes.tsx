@@ -1,51 +1,47 @@
-import Image from "next/image";
-import { Award } from "lucide-react";
-import { weddingEditorialImages, weddingQuotes } from "@/data/weddings";
+import { weddingQuotes } from "@/data/weddings";
 
+/**
+ * Отзывы пар в виде номинаций кинофестиваля.
+ *
+ * Приём работает только вместе с подзаголовком: без него «Grand Prix» без
+ * указания фестиваля читается как настоящая награда, и это уже не приём,
+ * а вымышленная регалия. Поэтому шапка проговаривает шутку вслух — заодно
+ * она получается обаятельнее, чем немой ряд статуэток.
+ *
+ * Свёрстано линиями, без карточек: рамки и подложки здесь только мешали бы
+ * читать сами фразы.
+ */
 export default function WeddingQuotes() {
   return (
     <section className="wedding-section">
       <div className="container">
-        <div className="wedding-quotes-shell reveal-up">
-          <Image
-            src={weddingEditorialImages.lakesidePortrait.src}
-            alt={weddingEditorialImages.lakesidePortrait.alt}
-            fill
-            sizes="100vw"
-            className="wedding-quotes-image"
-            style={{ objectPosition: weddingEditorialImages.lakesidePortrait.objectPosition }}
-          />
-          <div className="wedding-quotes-overlay" />
-
-          <div className="wedding-quotes-content">
-            <h2 className="wedding-section-title font-display">Цитаты из отзывов</h2>
-            <div className="wedding-quotes-cloud">
-              {weddingQuotes.map((item, index) => (
-                <article
-                  key={item.text}
-                  className={`wedding-award-quote reveal-up ${
-                    index === 0
-                      ? "delay-1"
-                      : index === 1
-                        ? "delay-2"
-                        : index === 2
-                          ? "delay-3"
-                      : index === 3
-                            ? "delay-4"
-                            : "delay-5"
-                  }`}
-                >
-                  <div className="wedding-award-quote__head">
-                    <span className="wedding-award-quote__icon" aria-hidden="true">
-                      <Award size={16} />
-                    </span>
-                    <span className="wedding-award-quote__label">{item.award}</span>
-                  </div>
-                  <blockquote className="wedding-award-quote__text">{item.text}</blockquote>
-                </article>
-              ))}
-            </div>
+        <div className="wedding-awards reveal-up">
+          <div className="wedding-awards__head">
+            <p className="eyebrow wedding-section-kicker">Отзывы</p>
+            <h2 className="wedding-section-title font-display">Награды, которых не существует</h2>
+            <p className="wedding-awards__lead">
+              Мы не возим статуэтки с фестивалей. Это то, что писали нам пары после свадьбы —
+              мы просто разложили по номинациям.
+            </p>
           </div>
+
+          <ul className="wedding-awards__list">
+            {weddingQuotes.map((item, index) => (
+              <li
+                key={item.award}
+                className={`wedding-award reveal-up delay-${Math.min(index + 1, 5)}`}
+              >
+                <p className="wedding-award__category">{item.award}</p>
+                <blockquote className="wedding-award__text font-display">{item.text}</blockquote>
+                {item.author ? (
+                  <p className="wedding-award__author">
+                    {item.author}
+                    {item.date ? <span className="wedding-award__date">{item.date}</span> : null}
+                  </p>
+                ) : null}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
