@@ -36,6 +36,12 @@ export default function VideoProductionPage() {
         imageSrc: "/video/derived/hero-poster.jpg",
         imageAlt: "Кадр Highway Films",
       }}
+      reel={{
+        section: "videoproduction",
+        eyebrow: "Примеры работ",
+        title: "Как это выглядит",
+        mode: "reel",
+      }}
       statement="Сильный проект начинается не с аренды камеры. Он начинается с того, что идея, сроки и бюджет собраны в одну рабочую архитектуру."
       offerings={{
         eyebrow: "Что делаем",

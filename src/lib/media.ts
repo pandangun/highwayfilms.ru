@@ -132,7 +132,3 @@ export const sectionReels: Record<SectionKey, ReelItem[]> = {
   ],
 };
 
-/** Сколько роликов в разделе реально готовы — для подписей и аналитики. */
-export function readyCount(section: SectionKey) {
-  return sectionReels[section].filter((item) => !item.placeholder).length;
-}

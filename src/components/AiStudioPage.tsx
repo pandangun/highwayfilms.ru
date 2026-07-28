@@ -1,5 +1,5 @@
 import CTA from "@/components/CTA";
-import AiVideoGallery, { type AiVideoItem } from "@/components/AiVideoGallery";
+import ReelSection from "@/components/ReelSection";
 import ServiceFaqSection from "@/components/ServiceFaqSection";
 import StudioMasthead from "@/components/StudioMasthead";
 
@@ -8,61 +8,6 @@ type Locale = "ru" | "en";
 type TextCard = {
   title: string;
   text: string;
-};
-
-const videoItems: Record<Locale, AiVideoItem[]> = {
-  ru: [
-    {
-      tag: "AI Ad",
-      title: "Быстрый рекламный тест",
-      video: "/video/ai/ai-01.mp4",
-      poster: "/images/ai/ai-01.jpg",
-    },
-    {
-      tag: "Avatar",
-      title: "Виртуальный ведущий",
-      video: "/video/ai/ai-02.mp4",
-      poster: "/images/ai/ai-02.jpg",
-    },
-    {
-      tag: "Hybrid",
-      title: "Гибрид съёмки и генерации",
-      video: "/video/ai/ai-03.mp4",
-      poster: "/images/ai/ai-03.jpg",
-    },
-    {
-      tag: "Visual",
-      title: "Стилизованный AI-визуал",
-      video: "/video/ai/ai-04.mp4",
-      poster: "/images/ai/ai-04.jpg",
-    },
-  ],
-  en: [
-    {
-      tag: "AI Ad",
-      title: "Fast ad concept test",
-      video: "/video/ai/ai-01.mp4",
-      poster: "/images/ai/ai-01.jpg",
-    },
-    {
-      tag: "Avatar",
-      title: "Virtual presenter",
-      video: "/video/ai/ai-02.mp4",
-      poster: "/images/ai/ai-02.jpg",
-    },
-    {
-      tag: "Hybrid",
-      title: "Live-action with generation",
-      video: "/video/ai/ai-03.mp4",
-      poster: "/images/ai/ai-03.jpg",
-    },
-    {
-      tag: "Visual",
-      title: "Stylised AI visual layer",
-      video: "/video/ai/ai-04.mp4",
-      poster: "/images/ai/ai-04.jpg",
-    },
-  ],
 };
 
 const copy: Record<
@@ -390,7 +335,6 @@ function TextCardGrid({ items }: { items: TextCard[] }) {
 
 export default function AiStudioPage({ locale = "ru" }: { locale?: Locale }) {
   const t = copy[locale];
-  const currentVideoItems = videoItems[locale];
   const contactsHref = locale === "en" ? "/en/contacts" : "/contacts";
 
   return (
@@ -427,10 +371,12 @@ export default function AiStudioPage({ locale = "ru" }: { locale?: Locale }) {
           <TextCardGrid items={t.whereItems} />
         </section>
 
-        <section className="container section-divider py-10 md:py-14">
-          <SectionHeading title={t.galleryTitle} />
-          <AiVideoGallery items={currentVideoItems} locale={locale} />
-        </section>
+        <ReelSection
+          section="ai"
+          eyebrow={locale === "en" ? "Examples" : "Примеры работ"}
+          title={t.galleryTitle}
+          mode="catalog"
+        />
 
         <section className="container section-divider py-10 md:py-14">
           <div className="section-panel section-panel--content">

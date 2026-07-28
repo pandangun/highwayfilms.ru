@@ -2,6 +2,7 @@ import "@/app/styles/corporate.css";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import ReelSection from "@/components/ReelSection";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -150,6 +151,13 @@ export default function CorporatePage() {
           </div>
         </div>
       </section>
+
+      <ReelSection
+        section="corporate"
+        eyebrow="Примеры работ"
+        title="Как это выглядит"
+        mode="reel"
+      />
 
       <section className="corporate-section">
         <div className="container cinematic-reveal">

@@ -1,5 +1,6 @@
 import "@/app/styles/weddings.css";
 import type { Metadata } from "next";
+import ReelSection from "@/components/ReelSection";
 import { buildPageMetadata, SITE_URL } from "@/lib/metadata";
 import WeddingApproach from "@/components/weddings/WeddingApproach";
 import WeddingBriefContact from "@/components/weddings/WeddingBriefContact";
@@ -79,6 +80,13 @@ export default function WeddingsPage() {
 
         <WeddingHero />
         <WeddingApproach />
+        <ReelSection
+          section="weddings"
+          eyebrow="Примеры работ"
+          title="Фильмы, которые мы сняли"
+          lead="Выберите похожее на ваш день: город, загород, камерная церемония, большой вечер."
+          mode="catalog"
+        />
         <WeddingCasesCarousel />
         <WeddingProcess />
         <WeddingPackages />

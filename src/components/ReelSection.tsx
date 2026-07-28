@@ -1,5 +1,6 @@
 import StudioPlayer from "@/components/StudioPlayer";
 import { sectionReels, type SectionKey } from "@/lib/media";
+import { sectionPricing } from "@/lib/pricing";
 
 type ReelSectionProps = {
   section: SectionKey;
@@ -36,6 +37,8 @@ export default function ReelSection({
   const items = sectionReels[section];
   if (items.length === 0) return null;
 
+  const price = sectionPricing[section];
+
   return (
     <section className="container section-divider py-10 md:py-14">
       <div className="mb-7 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -45,7 +48,18 @@ export default function ReelSection({
             {title}
           </h2>
         </div>
-        {lead ? <p className="max-w-xl text-white/62">{lead}</p> : null}
+        <div className="max-w-xl">
+          {lead ? <p className="text-white/62">{lead}</p> : null}
+          {/* Вилка рядом с примерами, а не отдельным прайс-блоком: цифра
+              читается вместе с тем, за что она. У свадеб её нет — там цены
+              показаны пакетами ниже по странице. */}
+          {price ? (
+            <p className="mt-3 text-sm leading-6 text-white/50">
+              <span className="font-display text-[1.35rem] text-white/85">от {price.from}</span>
+              <span className="mt-1 block">В стоимость входит: {price.includes}.</span>
+            </p>
+          ) : null}
+        </div>
       </div>
 
       {mode === "reel" ? (

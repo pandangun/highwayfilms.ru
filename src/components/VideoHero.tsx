@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import type { ElementType } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Expand, Volume2, VolumeX } from "lucide-react";
 import clsx from "clsx";
+import StudioPlayer from "@/components/StudioPlayer";
+import { heroMedia } from "@/lib/media";
 
 interface VideoHeroProps {
   title?: string;
@@ -23,153 +24,50 @@ type FullscreenCapableVideoElement = HTMLVideoElement & {
   webkitEnterFullscreen?: () => void;
 };
 
-type NetworkInformationLike = {
-  effectiveType?: string;
-  saveData?: boolean;
-};
+/** Через сколько прячется подпись поверх видео, чтобы не мешать кадру. */
+const CAPTION_VISIBLE_MS = 10_000;
 
-type NavigatorWithConnection = Navigator & {
-  connection?: NetworkInformationLike;
-};
-
-const HERO_VIDEO_VERSION = process.env.NEXT_PUBLIC_HERO_VIDEO_VERSION ?? "20260330";
-const HERO_VIDEO_MODE = process.env.NEXT_PUBLIC_HERO_VIDEO_MODE ?? "auto";
-const HERO_VIDEO_READY_STATE = 2;
-
-function withVersion(url: string | undefined, version: string) {
-  if (!url) return "";
-  const separator = url.includes("?") ? "&" : "?";
-  return `${url}${separator}v=${version}`;
-}
-
-const HERO_VIDEO_POSTER_SRC = withVersion("/video/derived/hero-poster.jpg", HERO_VIDEO_VERSION);
-
-const HERO_VIDEO_REMOTE_SOURCES = {
-  desktop: process.env.NEXT_PUBLIC_HERO_VIDEO_DESKTOP_URL,
-  mobile: process.env.NEXT_PUBLIC_HERO_VIDEO_MOBILE_URL,
-} as const;
-
-const HERO_VIDEO_LOCAL_SOURCES = {
-  desktop: withVersion("/video/derived/hero-desktop.mp4", HERO_VIDEO_VERSION),
-  mobile: withVersion("/video/derived/hero-mobile.mp4", HERO_VIDEO_VERSION),
-} as const;
-
-const HAS_REMOTE_HERO_VIDEO = Boolean(
-  HERO_VIDEO_REMOTE_SOURCES.desktop && HERO_VIDEO_REMOTE_SOURCES.mobile
-);
-
-const HERO_VIDEO_SOURCES = HAS_REMOTE_HERO_VIDEO
-  ? {
-      desktop: withVersion(HERO_VIDEO_REMOTE_SOURCES.desktop, HERO_VIDEO_VERSION),
-      mobile: withVersion(HERO_VIDEO_REMOTE_SOURCES.mobile, HERO_VIDEO_VERSION),
-    }
-  : HERO_VIDEO_LOCAL_SOURCES;
-
-const SHOULD_RENDER_HERO_VIDEO = Boolean(
-  HERO_VIDEO_MODE !== "poster" && HERO_VIDEO_SOURCES.desktop && HERO_VIDEO_SOURCES.mobile
-);
-
-function canAutoplayHeroVideo() {
-  if (!SHOULD_RENDER_HERO_VIDEO) return false;
-
-  const connection = (navigator as NavigatorWithConnection).connection;
-
-  if (connection?.saveData) return false;
-
-  const effectiveType = connection?.effectiveType;
-  const isDesktopViewport = window.matchMedia("(min-width: 768px)").matches;
-
-  if (effectiveType === "slow-2g" || effectiveType === "2g") return false;
-  if (!isDesktopViewport && effectiveType === "3g") return false;
-
-  return true;
-}
-
+/**
+ * Первый экран главной.
+ *
+ * Воспроизведением занимается StudioPlayer — здесь только «обвязка» героя:
+ * подпись, звук и фуллскрин. Раньше вся логика плеера жила прямо тут и
+ * больше нигде не переиспользовалась, из-за чего исправления приходилось бы
+ * дублировать в каждом новом месте с видео.
+ */
 export default function VideoHero({
   title = "Highway Films",
-  subtitle = "Реклама, бренд-фильмы, корпоративные истории и клипы.",
+  subtitle = "Реклама, бренд-фильмы, клипы и свадьбы. Петербург, съёмки по России.",
   muteLabel = "Включить звук",
   unmuteLabel = "Выключить звук",
   fullscreenLabel = "Открыть видео на весь экран",
   headingAs: HeadingTag = "h1",
 }: VideoHeroProps) {
-  const [isMuted, setIsMuted] = useState(true);
-  const [isVideoReady, setIsVideoReady] = useState(false);
-  const [isOverlayVisible, setIsOverlayVisible] = useState(true);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      setShouldLoadVideo(canAutoplayHeroVideo());
-    });
-
-    return () => {
-      cancelAnimationFrame(frame);
-    };
-  }, []);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isCaptionVisible, setIsCaptionVisible] = useState(true);
 
   useEffect(() => {
-    if (!shouldLoadVideo) return;
+    if (!isPlaying) return;
 
-    const video = videoRef.current;
-    if (!video) return;
-
-    let hideOverlayTimeout: ReturnType<typeof setTimeout> | null = null;
-
-    const markVideoReady = () => {
-      setIsVideoReady(true);
-    };
-
-    const scheduleOverlayHide = () => {
-      if (hideOverlayTimeout) return;
-
-      const remainingMs = Math.max(0, 10_000 - video.currentTime * 1000);
-      hideOverlayTimeout = setTimeout(() => {
-        setIsOverlayVisible(false);
-      }, remainingMs);
-    };
-
-    if (video.readyState >= HERO_VIDEO_READY_STATE) {
-      markVideoReady();
-    } else {
-      video.addEventListener("loadeddata", markVideoReady, { once: true });
-    }
-
-    void video.play().catch(() => {
-      /* muted autoplay can still be rejected silently */
-    });
-
-    if (!video.paused || video.currentTime > 0) {
-      scheduleOverlayHide();
-    } else {
-      video.addEventListener("playing", scheduleOverlayHide, { once: true });
-    }
-
-    return () => {
-      video.removeEventListener("loadeddata", markVideoReady);
-      video.removeEventListener("playing", scheduleOverlayHide);
-
-      if (hideOverlayTimeout) {
-        clearTimeout(hideOverlayTimeout);
-      }
-    };
-  }, [shouldLoadVideo]);
+    const timeout = setTimeout(() => setIsCaptionVisible(false), CAPTION_VISIBLE_MS);
+    return () => clearTimeout(timeout);
+  }, [isPlaying]);
 
   const handleToggleMute = () => {
     const video = videoRef.current;
     const nextMuted = !isMuted;
 
     setIsMuted(nextMuted);
-
     if (!video) return;
 
     video.muted = nextMuted;
-
     if (video.paused) {
       void video.play().catch(() => {
-        /* ignore */
+        /* браузер вправе отказать */
       });
     }
   };
@@ -184,7 +82,7 @@ export default function VideoHero({
       try {
         await video.play();
       } catch {
-        /* ignore */
+        /* игнорируем */
       }
     }
 
@@ -193,22 +91,19 @@ export default function VideoHero({
         await video.requestFullscreen();
         return;
       }
-
       if (typeof hero?.requestFullscreen === "function") {
         await hero.requestFullscreen();
         return;
       }
-
       if (typeof hero?.webkitRequestFullscreen === "function") {
         await hero.webkitRequestFullscreen();
         return;
       }
-
       if (typeof video.webkitEnterFullscreen === "function") {
         video.webkitEnterFullscreen();
       }
     } catch {
-      /* fullscreen requests can be rejected by the browser */
+      /* браузер вправе отказать в полноэкранном режиме */
     }
   };
 
@@ -216,50 +111,23 @@ export default function VideoHero({
     // on-dark: фон здесь — видео и bg-black, он не меняется вместе с темой,
     // поэтому текст поверх обязан оставаться светлым в обеих темах.
     <section ref={heroRef} className="on-dark relative w-full hero-fill overflow-hidden bg-black">
-      <div className="absolute inset-0">
-        <Image
-          src={HERO_VIDEO_POSTER_SRC}
-          alt={title}
-          fill
-          priority
-          sizes="100vw"
-          className={clsx(
-            "object-cover md:object-contain transition-opacity duration-200",
-            isVideoReady ? "opacity-0" : "opacity-100"
-          )}
-        />
-
-        {shouldLoadVideo ? (
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted={isMuted}
-            playsInline
-            preload="metadata"
-            poster={HERO_VIDEO_POSTER_SRC}
-            className={clsx(
-              "hero-video absolute inset-0 h-full w-full transition-opacity duration-300",
-              isVideoReady ? "opacity-100" : "opacity-0"
-            )}
-          >
-            <source
-              src={HERO_VIDEO_SOURCES.desktop}
-              type="video/mp4"
-              media="(min-width: 960px)"
-            />
-            <source src={HERO_VIDEO_SOURCES.mobile} type="video/mp4" />
-            Ваш браузер не поддерживает воспроизведение видео.
-          </video>
-        ) : null}
-      </div>
+      <StudioPlayer
+        source={heroMedia}
+        label={title}
+        mode="ambient"
+        priority
+        objectFit="cover"
+        className="absolute inset-0"
+        videoRef={videoRef}
+        onPlayingChange={setIsPlaying}
+      />
 
       <div className="hero-video-overlay absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/22 to-black/14" />
 
       <div
         className={clsx(
           "hero-video-caption absolute inset-x-0 bottom-0 z-20 p-6 transition-opacity duration-700 md:p-12",
-          isOverlayVisible ? "opacity-100" : "pointer-events-none opacity-0"
+          isCaptionVisible ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
         <div className="container px-0">
@@ -272,7 +140,7 @@ export default function VideoHero({
         </div>
       </div>
 
-      {shouldLoadVideo ? (
+      {isPlaying ? (
         <>
           <button
             type="button"
@@ -290,7 +158,11 @@ export default function VideoHero({
             aria-label={isMuted ? muteLabel : unmuteLabel}
             aria-pressed={!isMuted}
           >
-            {isMuted ? <VolumeX className="h-4.5 w-4.5" aria-hidden /> : <Volume2 className="h-4.5 w-4.5" aria-hidden />}
+            {isMuted ? (
+              <VolumeX className="h-4.5 w-4.5" aria-hidden />
+            ) : (
+              <Volume2 className="h-4.5 w-4.5" aria-hidden />
+            )}
           </button>
         </>
       ) : null}
