@@ -219,7 +219,7 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="home-grid home-grid--3 mt-8">
+          <div className="rule-grid rule-grid--3 mt-8">
             {studioCards.map((card, index) => (
               <article
                 key={card.title}
@@ -246,7 +246,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="home-grid home-grid--4 mt-8">
+        <div className="rule-grid rule-grid--4 mt-8">
           {serviceCards.map((service, index) => (
             <Link
               key={service.title}
@@ -275,7 +275,7 @@ export default function HomePage() {
           </h2>
         </div>
 
-        <div className="home-grid home-grid--3 mt-10">
+        <div className="rule-grid rule-grid--3 mt-10">
           {processSteps.map((item, index) => (
             <article
               key={item.step}

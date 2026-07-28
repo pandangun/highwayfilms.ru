@@ -164,6 +164,88 @@ h3,
   }
 }
 
+/* ===== СЕТКА НА ЛИНИЯХ =====
+   Основной способ раскладки в линейном языке: вместо карточек с рамками —
+   ячейки, разделённые волосяной линией. Границу рисует сама сетка, поэтому
+   не нужны ни рамки, ни фоны, ни зазоры между элементами.
+
+   На узком экране линии горизонтальные, на широком вертикальные — один
+   механизм, а не две вёрстки. Модификатор задаёт число колонок на широком.
+
+   Живёт здесь, а не в постраничном CSS: это примитив, и дублировать его
+   по страницам значило бы повторить ту же ошибку, из-за которой .btn
+   когда-то оказался в home.css. */
+.rule-grid {
+  display: grid;
+  gap: 0;
+}
+
+.rule-grid > * {
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.rule-grid > *:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+@media (min-width: 768px) {
+  .rule-grid--2,
+  .rule-grid--3,
+  .rule-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(1.75rem, 3.5vw, 3rem);
+  }
+
+  .rule-grid > *:nth-child(2) {
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
+@media (min-width: 1140px) {
+  .rule-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rule-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  .rule-grid--3 > *,
+  .rule-grid--4 > * {
+    padding: 0 0 0 clamp(1.5rem, 2.5vw, 2.5rem);
+    border-top: 0;
+    border-left: 1px solid var(--hairline);
+  }
+
+  .rule-grid--3 > *:nth-child(3n + 1),
+  .rule-grid--4 > *:nth-child(4n + 1) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .rule-grid--3 > *:nth-child(n + 4),
+  .rule-grid--4 > *:nth-child(n + 5) {
+    margin-top: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .rule-grid--2 > * {
+    padding: 0 0 0 clamp(1.75rem, 3vw, 3rem);
+    border-top: 0;
+    border-left: 1px solid var(--hairline);
+  }
+
+  .rule-grid--2 > *:nth-child(2n + 1) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .rule-grid--2 > *:nth-child(n + 3) {
+    margin-top: 2.5rem;
+  }
+}
+
 /* button atoms */
 /* .card и .btn жили в home.css, но используются на /about, /articles, /client,
    /commercials, /music-videos и в StudioMasthead. Постраничный CSS не грузится
