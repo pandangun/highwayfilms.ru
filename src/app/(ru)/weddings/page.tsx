@@ -1,4 +1,4 @@
-import "../styles/weddings.css";
+import "@/app/styles/weddings.css";
 import type { Metadata } from "next";
 import { buildPageMetadata, SITE_URL } from "@/lib/metadata";
 import WeddingApproach from "@/components/weddings/WeddingApproach";
@@ -21,15 +21,7 @@ export const metadata: Metadata = buildPageMetadata({
   imagePath: weddingEditorialImages.morningPortrait.src,
 });
 
-type WeddingsSearchParams = Promise<{ status?: string; reason?: string }>;
-
-export default async function WeddingsPage({
-  searchParams,
-}: {
-  searchParams?: WeddingsSearchParams;
-}) {
-  const resolvedSearchParams = searchParams ? await searchParams : undefined;
-
+export default function WeddingsPage() {
   const serviceJsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -93,10 +85,7 @@ export default async function WeddingsPage({
         <WeddingExtras />
         <WeddingQuotes />
         <WeddingFaq />
-        <WeddingBriefContact
-          status={resolvedSearchParams?.status}
-          reason={resolvedSearchParams?.reason}
-        />
+        <WeddingBriefContact />
       </div>
     </div>
   );

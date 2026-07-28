@@ -46,6 +46,12 @@ h3,
   hyphens: none;
 }
 
+/* Cormorant Garamond по умолчанию рисует минускульные (старостильные) цифры:
+   «Более 10 лет» читалось как «Более ıo лет». В заголовках нужны прописные. */
+:where(h1, h2, h3, h4, .h1, .font-display) {
+  font-variant-numeric: lining-nums;
+}
+
 .eyebrow {
   font-size: .8rem;
   letter-spacing: .12em;

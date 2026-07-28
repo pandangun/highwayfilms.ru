@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { headers } from "next/headers";
+import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import ThemeToggle from "@/components/ThemeToggle";
 import {
@@ -10,9 +12,9 @@ import {
   withLocalePath,
 } from "@/components/siteNavigation";
 
-export default async function Footer() {
-  const headerStore = await headers();
-  const currentPath = headerStore.get("x-pathname") ?? "/";
+/** Клиентский по той же причине, что и Header — см. комментарий там. */
+export default function Footer() {
+  const currentPath = usePathname() ?? "/";
   const locale = getLocaleFromPath(currentPath);
   const year = new Date().getFullYear();
   const ruHref = getAlternateLocaleHref(currentPath, "ru");

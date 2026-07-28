@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buildPageMetadata, SITE_URL } from "@/lib/metadata";
 import VideoHero from "@/components/VideoHero";
-import "./styles/home.css";
+import "@/app/styles/home.css";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Highway Films — видеостудия в Санкт-Петербурге",

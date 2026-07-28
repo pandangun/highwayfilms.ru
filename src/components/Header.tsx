@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { headers } from "next/headers";
+import { usePathname } from "next/navigation";
 import type { CSSProperties } from "react";
 import { ArrowUpRight } from "lucide-react";
 import clsx from "clsx";
@@ -13,9 +15,14 @@ import {
   withLocalePath,
 } from "@/components/siteNavigation";
 
-export default async function Header() {
-  const headerStore = await headers();
-  const currentPath = headerStore.get("x-pathname") ?? "/";
+/**
+ * Клиентский компонент ради usePathname(). Раньше путь брался из заголовка
+ * x-pathname через headers(), а это переводит весь layout в динамический
+ * рендер — из-за чего ни одна страница сайта не могла быть статикой.
+ * usePathname() работает и при пререндере, статику не ломает.
+ */
+export default function Header() {
+  const currentPath = usePathname() ?? "/";
   const locale = getLocaleFromPath(currentPath);
   const pathname = normalizeLocalePath(currentPath);
   const homeHref = locale === "en" ? "/en" : "/";

@@ -1,21 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 type Locale = "ru" | "en";
 type Step = "project" | "audience" | "creative" | "production" | "contact";
 
-function StatusBanner({
-  locale,
-  status,
-  reason,
-}: {
-  locale: Locale;
-  status?: string;
-  reason?: string;
-}) {
+/**
+ * Читает ?status/?reason сам, вместо того чтобы получать их пропсами из
+ * страницы. Прокидывание через searchParams переводило /brief в динамический
+ * рендер целиком — ради баннера, который виден только после отправки формы.
+ * Обязательно внутри <Suspense>, иначе useSearchParams утянет ветку обратно
+ * в динамику.
+ */
+function StatusBanner({ locale }: { locale: Locale }) {
+  const searchParams = useSearchParams();
+  const status = searchParams.get("status");
+  const reason = searchParams.get("reason");
+
   if (status !== "success" && status !== "error") return null;
 
   const isRu = locale === "ru";
@@ -121,15 +125,7 @@ function Section({
   );
 }
 
-export function BriefStudioPage({
-  locale,
-  status,
-  reason,
-}: {
-  locale: Locale;
-  status?: string;
-  reason?: string;
-}) {
+export function BriefStudioPage({ locale }: { locale: Locale }) {
   const isRu = locale === "ru";
   const t = (ru: string, en: string) => (isRu ? ru : en);
   const privacyHref = isRu ? "/privacy" : "/en/privacy";
@@ -203,7 +199,9 @@ export function BriefStudioPage({
               )}
             </p>
             <div className="mt-7 max-w-3xl">
-              <StatusBanner locale={locale} status={status} reason={reason} />
+              <Suspense fallback={null}>
+                <StatusBanner locale={locale} />
+              </Suspense>
             </div>
           </div>
 

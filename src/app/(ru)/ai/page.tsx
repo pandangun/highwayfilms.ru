@@ -1,4 +1,4 @@
-import "../styles/ai.css";
+import "@/app/styles/ai.css";
 import type { Metadata } from "next";
 import AiStudioPage from "@/components/AiStudioPage";
 import { buildPageMetadata } from "@/lib/metadata";

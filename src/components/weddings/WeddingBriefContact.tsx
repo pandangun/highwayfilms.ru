@@ -1,32 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { InputHTMLAttributes } from "react";
+import { Suspense, type InputHTMLAttributes } from "react";
+import FormStatusBanner from "@/components/FormStatusBanner";
 import { weddingEditorialImages } from "@/data/weddings";
 
-type WeddingBriefContactProps = {
-  status?: string;
-  reason?: string;
-};
-
-function WeddingBriefStatusBanner({ status, reason }: WeddingBriefContactProps) {
-  if (status !== "success" && status !== "error") return null;
-
-  if (status === "success") {
-    return (
-      <div className="wedding-brief-status wedding-brief-status--success">
-        Бриф отправлен. Вернёмся с ответом.
-      </div>
-    );
-  }
-
-  const errorText =
-    reason === "contact"
-      ? "Оставьте контакт для связи."
-      : reason === "rate-limit"
-        ? "Слишком много попыток. Попробуйте позже."
-        : "Не удалось отправить бриф. Попробуйте ещё раз.";
-
-  return <div className="wedding-brief-status wedding-brief-status--error">{errorText}</div>;
+function WeddingBriefStatusBanner() {
+  return (
+    <Suspense fallback={null}>
+      <FormStatusBanner
+        className="wedding-brief-status"
+        successClassName="wedding-brief-status--success"
+        errorClassName="wedding-brief-status--error"
+        copy={{
+          success: "Бриф отправлен. Вернёмся с ответом.",
+          contact: "Оставьте контакт для связи.",
+          rateLimit: "Слишком много попыток. Попробуйте позже.",
+          generic: "Не удалось отправить бриф. Попробуйте ещё раз.",
+        }}
+      />
+    </Suspense>
+  );
 }
 
 type WeddingFieldProps = {
@@ -91,7 +84,7 @@ function WeddingField({
   );
 }
 
-export default function WeddingBriefContact({ status, reason }: WeddingBriefContactProps) {
+export default function WeddingBriefContact() {
   return (
     <section
       id="wedding-brief"
@@ -120,7 +113,7 @@ export default function WeddingBriefContact({ status, reason }: WeddingBriefCont
               <div className="wedding-brief-rail" aria-hidden="true" />
 
               <div className="wedding-brief-form-wrap reveal-up delay-1">
-                <WeddingBriefStatusBanner status={status} reason={reason} />
+                <WeddingBriefStatusBanner />
 
                 <form action="/api/contact" method="POST" className="wedding-brief-form-panel">
                   <input type="hidden" name="locale" value="ru" />

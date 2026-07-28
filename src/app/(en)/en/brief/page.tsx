@@ -12,20 +12,6 @@ export const metadata: Metadata = buildPageMetadata({
   noIndex: true,
 });
 
-type BriefSearchParams = Promise<{ status?: string; reason?: string }>;
-
-export default async function BriefEnPage({
-  searchParams,
-}: {
-  searchParams?: BriefSearchParams;
-}) {
-  const resolvedSearchParams = searchParams ? await searchParams : undefined;
-
-  return (
-    <BriefStudioPage
-      locale="en"
-      status={resolvedSearchParams?.status}
-      reason={resolvedSearchParams?.reason}
-    />
-  );
+export default function BriefEnPage() {
+  return <BriefStudioPage locale="en" />;
 }
