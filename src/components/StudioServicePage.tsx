@@ -1,7 +1,9 @@
 import Image from "next/image";
 import CTA from "@/components/CTA";
+import ReelSection from "@/components/ReelSection";
 import ServiceFaqSection from "@/components/ServiceFaqSection";
 import StudioMasthead from "@/components/StudioMasthead";
+import type { SectionKey } from "@/lib/media";
 
 type HeroMetric = { value: string; label: string };
 type TextCard = { title: string; text: string };
@@ -39,6 +41,18 @@ type StudioServicePageProps = {
     panelCopy: string;
     imageSrc: string;
     imageAlt: string;
+  };
+  /**
+   * Второй экран раздела: сначала текст первым экраном, потом видео
+   * с примерами работ. Для B2B-разделов режим reel — один зацикленный
+   * ролик, а не каталог: здесь не выбирают, здесь убеждаются.
+   */
+  reel?: {
+    section: SectionKey;
+    eyebrow: string;
+    title: string;
+    lead?: string;
+    mode?: "catalog" | "reel";
   };
   statement?: string;
   positioning?: {
@@ -110,6 +124,7 @@ function SectionHeading({
 
 export default function StudioServicePage({
   hero,
+  reel,
   statement,
   positioning,
   offerings,
@@ -124,6 +139,8 @@ export default function StudioServicePage({
       <div className="page-ambient" />
       <div className="page-content">
         <StudioMasthead {...hero} />
+
+        {reel ? <ReelSection {...reel} /> : null}
 
         {statement ? (
           <section className="container pb-8">

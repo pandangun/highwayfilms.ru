@@ -56,6 +56,13 @@ export default function CommercialsPage() {
           imageSrc: "/images/ads/a01.jpg",
           imageAlt: "Рекламный кадр Highway Films",
         }}
+        reel={{
+          section: "commercials",
+          eyebrow: "Примеры работ",
+          title: "Как это выглядит",
+          lead: "Ролики раздела одной лентой — без каталога и выбора, просто чтобы увидеть картинку.",
+          mode: "reel",
+        }}
         statement="Хорошая реклама не выглядит как шаблонный контент. Она быстро объясняет ценность и делает это в визуальном языке бренда."
         offerings={{
           eyebrow: "Форматы",
