@@ -5,88 +5,52 @@
 /* .card и .btn переехали в shared.css — это общие примитивы, а не части
    главной. См. комментарий там. */
 
+/* Была фиолетовая таблетка с градиентом, внутренней подсветкой, бликом на
+   ::after и тенью — самая «продуктовая» деталь на сайте киностудии.
+   Стала подчёркнутая ссылка: тот же приём, что в меню. Акцент — тёплый
+   --accent, а не фиолетовый: он и в палитре студии, и не спорит с кадром. */
 .cta-action {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-height: 4rem;
-  padding-inline: 1.5rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.08);
-  background:
-    linear-gradient(135deg, rgba(126,74,234,.98), rgba(170,130,244,.94)),
-    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.02));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.18),
-    0 20px 40px rgba(74,42,146,.24);
-  overflow: hidden;
-  isolation: isolate;
-  transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
-}
-
-.cta-action::before {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  background:
-    radial-gradient(90% 160% at 0% 0%, rgba(255,255,255,.18), transparent 48%),
-    linear-gradient(120deg, rgba(255,255,255,.08), transparent 42%),
-    linear-gradient(135deg, rgba(125,80,233,.98), rgba(171,133,244,.92));
-  z-index: -2;
+  gap: .5rem;
+  min-height: 2.75rem;
+  padding-bottom: .35rem;
+  color: var(--ink);
+  transition: color var(--dur-fast) ease;
 }
 
 .cta-action::after {
   content: "";
   position: absolute;
-  inset: 0 auto 0 -26%;
-  width: 28%;
-  background: linear-gradient(110deg, transparent, rgba(255,255,255,.22), transparent);
-  opacity: .8;
-  transform: translateX(-160%) skewX(-18deg);
-  transition: transform .6s ease;
-  z-index: -1;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), rgb(var(--ink-rgb) / .2));
+  transform: scaleX(.5);
+  transform-origin: left center;
+  transition: transform var(--dur-base) var(--ease-film);
 }
 
-.cta-action:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.03);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.2),
-    0 24px 46px rgba(74,42,146,.28);
+@media (hover: hover) and (pointer: fine) {
+  .cta-action:hover::after { transform: scaleX(1); }
 }
 
-.cta-action:hover::after {
-  transform: translateX(520%) skewX(-18deg);
-}
-
-.cta-action:focus-visible {
-  box-shadow:
-    0 0 0 4px rgba(124,58,237,.26),
-    inset 0 1px 0 rgba(255,255,255,.2),
-    0 24px 46px rgba(74,42,146,.28);
-}
+.cta-action:focus-visible::after { transform: scaleX(1); }
 
 .cta-action__label {
-  text-align: center;
-  font-size: 1.02rem;
-  font-weight: 600;
+  font-size: var(--type-body);
   line-height: 1.2;
   letter-spacing: -.01em;
-  color: #fff;
-  text-wrap: balance;
+  color: inherit;
 }
 
 /* intro */
+/* Панель убрана: была рамка, скругление 34px, градиентная подложка и тень.
+   Контент теперь лежит прямо на фоне страницы — как разворот, а не как
+   виджет на нём. */
 .home-intro-panel {
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 34px;
-  background:
-    radial-gradient(140% 130% at 50% 0%, rgba(124,58,237,.12), transparent 56%),
-    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
-    rgba(10,10,11,.76);
-  box-shadow: 0 24px 56px rgba(0,0,0,.24);
+  padding-block: clamp(1rem, 3vw, 2rem);
 }
 
 .home-center-copy {
@@ -94,52 +58,101 @@
   text-align: center;
 }
 
+/* Размеры — из шкалы. Локальные clamp'ы убраны: их было четыре штуки,
+   и ни один не совпадал с остальным сайтом. */
 .home-display-xl {
   font-family: var(--font-display), serif;
-  font-size: clamp(3.4rem, 7vw, 6.9rem);
-  line-height: .9;
-  letter-spacing: -0.065em;
+  font-size: var(--type-display-xl);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
   text-wrap: balance;
 }
 
 .home-lead {
   margin-inline: auto;
-  font-size: clamp(1.08rem, 1rem + .5vw, 1.34rem);
-  line-height: 1.85;
-  color: rgba(255,255,255,.7);
+  font-size: var(--type-lead);
+  line-height: var(--leading-body);
+  color: var(--ink-muted);
 }
 
 .home-section-title {
   font-family: var(--font-display), serif;
-  font-size: clamp(2.35rem, 1.8rem + 2vw, 4rem);
-  line-height: .98;
-  letter-spacing: -0.045em;
+  font-size: var(--type-display-lg);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
   text-wrap: balance;
 }
 
 .home-card-title {
   font-family: var(--font-display), serif;
-  font-size: clamp(1.8rem, 1.5rem + .55vw, 2.25rem);
-  line-height: 1.03;
-  letter-spacing: -0.034em;
+  font-size: var(--type-display-sm);
+  line-height: var(--leading-title);
+  letter-spacing: -0.03em;
   text-wrap: balance;
-  min-height: 2.15em;
 }
 
 .home-card-copy {
-  font-size: .98rem;
-  line-height: 1.9;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
 }
 
-.home-feature-card,
-.home-service-card,
-.home-process-card {
+/* ===== СЕТКА НА ЛИНИЯХ =====
+   Вместо карточек с рамками — ячейки, разделённые волосяной линией.
+   Границу рисует сама сетка, поэтому не нужно ни рамок, ни отступов
+   между элементами, ни фонов. */
+.home-grid {
+  display: grid;
+  gap: 0;
+}
+
+.home-grid > * {
   display: flex;
   flex-direction: column;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--hairline);
 }
 
-.home-feature-card {
-  min-height: 18rem;
+.home-grid > *:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+@media (min-width: 768px) {
+  .home-grid--3,
+  .home-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(1.75rem, 3.5vw, 3rem);
+  }
+
+  /* На двух колонках верхняя линия у второй ячейки лишняя. */
+  .home-grid > *:nth-child(2) {
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
+@media (min-width: 1140px) {
+  .home-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .home-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  /* Широкая раскладка: линии становятся вертикальными, между колонками. */
+  .home-grid > * {
+    padding: 0 0 0 clamp(1.5rem, 2.5vw, 2.5rem);
+    border-top: 0;
+    border-left: 1px solid var(--hairline);
+  }
+
+  .home-grid--3 > *:nth-child(3n + 1),
+  .home-grid--4 > *:nth-child(4n + 1) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  /* Вторая строка отбивается сверху, иначе ряды слипаются. */
+  .home-grid--3 > *:nth-child(n + 4),
+  .home-grid--4 > *:nth-child(n + 5) {
+    margin-top: 2.5rem;
+  }
 }
 
 .home-cta-row {
@@ -185,55 +198,21 @@
 }
 
 /* service grid */
-.home-service-card {
-  min-height: 19rem;
-  text-align: center;
-  align-items: center;
-}
-
+/* Центрирование убрано: в линейной сетке текст выравнивается по левому
+   краю колонки, иначе разделители не читаются как система. */
 .home-service-card .home-card-copy {
-  max-width: 25ch;
-  margin-inline: auto;
+  max-width: 30ch;
 }
 
 /* process */
 .home-process-card {
   position: relative;
-  min-height: 16.5rem;
-  transition: transform .2s ease, border-color .2s ease, background .2s ease;
 }
 
-.home-process-card .home-card-title {
-  min-height: 0;
-}
-
+/* Стрелка между шагами больше не нужна: разделители сетки сами показывают
+   последовательность, а стрелка поверх линий читалась бы как шум. */
 .home-process-arrow {
-  position: absolute;
-  top: 3rem;
-  right: -2.75rem;
-  width: 4.5rem;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255,255,255,.18), rgba(255,255,255,.05));
-  color: rgba(255,255,255,.44);
-  transition: transform .2s ease, color .2s ease;
-  z-index: 2;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.home-process-arrow::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(214,183,138,.14), transparent 75%);
-  opacity: .6;
-}
-
-.home-process-arrow svg {
-  position: relative;
-  top: 0;
-  right: -2px;
-  background: #0b0b0c;
+  display: none !important;
 }
 
 /* faq */
@@ -256,16 +235,16 @@
 
 .home-faq-question {
   font-family: var(--font-display), serif;
-  font-size: clamp(1.65rem, 1.3rem + 1vw, 2.35rem);
-  line-height: .99;
-  letter-spacing: -0.038em;
+  font-size: var(--type-display-md);
+  line-height: var(--leading-title);
+  letter-spacing: var(--tracking-display);
   text-wrap: balance;
 }
 
 .home-faq-answer {
   margin: 0;
-  font-size: 1.02rem;
-  line-height: 1.85;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
 }
 
 .home-faq-panel {

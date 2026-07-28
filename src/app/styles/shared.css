@@ -206,6 +206,11 @@ h3,
 
 .btn:active { transform: translateY(1px); }
 
+/* Главное действие остаётся залитым — это единственный такой элемент на
+   экране, и его заметность оправдана. Но заливка теперь тёплая (--accent),
+   а не фиолетовый градиент с внутренней подсветкой и цветной тенью: тот
+   выглядел как кнопка SaaS-продукта и спорил с кадром. Тёплый на тёмном
+   читается как свет, а не как интерфейс. */
 .btn-primary,
 .home-primary-button {
   display: inline-flex;
@@ -214,22 +219,16 @@ h3,
   gap: var(--primary-button-gap, 12px);
   min-height: var(--primary-button-height, 44px);
   padding: var(--primary-button-padding, 0 18px);
-  border-radius: var(--primary-button-radius, 10px);
-  border: 1px solid rgba(255,255,255,.08);
-  background: var(--primary-button-background,
-    linear-gradient(135deg, rgba(125,80,233,.98), rgba(170,130,244,.96)),
-    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02))
-  );
-  box-shadow: var(--primary-button-shadow,
-    inset 0 1px 0 rgba(255,255,255,.14),
-    0 16px 34px rgba(74,42,146,.28)
-  );
-  color: #fff;
+  border-radius: var(--primary-button-radius, var(--r-sm));
+  border: 0;
+  background: var(--primary-button-background, var(--accent));
+  box-shadow: var(--primary-button-shadow, none);
+  color: #14120f;
   font-size: var(--primary-button-font-size, .98rem);
   font-weight: var(--primary-button-weight, 500);
   letter-spacing: .01em;
   white-space: nowrap;
-  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  transition: filter var(--dur-fast) ease, background var(--dur-fast) ease;
 }
 
 .btn-primary {
@@ -239,17 +238,6 @@ h3,
   --primary-button-gap: 12px;
   --primary-button-font-size: .98rem;
   --primary-button-weight: 500;
-  --primary-button-background: linear-gradient(135deg, var(--brand), color-mix(in srgb, var(--brand) 60%, white));
-  --primary-button-shadow:
-    inset 0 1px 0 rgba(255,255,255,.14),
-    0 14px 30px rgba(74,42,146,.2);
-  --primary-button-hover-shadow:
-    inset 0 1px 0 rgba(255,255,255,.18),
-    0 18px 36px rgba(74,42,146,.26);
-  --primary-button-focus-shadow:
-    0 0 0 4px rgba(124,58,237,.35),
-    inset 0 1px 0 rgba(255,255,255,.18),
-    0 18px 36px rgba(74,42,146,.26);
 }
 
 .btn-primary.rounded-full {
@@ -267,43 +255,23 @@ h3,
   --primary-button-gap: 10px;
   --primary-button-font-size: .98rem;
   --primary-button-weight: 400;
-  --primary-button-background:
-    linear-gradient(135deg, rgba(125,80,233,.98), rgba(170,130,244,.96)),
-    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
-  --primary-button-shadow:
-    inset 0 1px 0 rgba(255,255,255,.14),
-    0 16px 34px rgba(74,42,146,.28);
-  --primary-button-hover-shadow:
-    inset 0 1px 0 rgba(255,255,255,.18),
-    0 18px 38px rgba(74,42,146,.34);
-  --primary-button-focus-shadow:
-    0 0 0 4px rgba(124,58,237,.26),
-    inset 0 1px 0 rgba(255,255,255,.18),
-    0 18px 38px rgba(74,42,146,.34);
 }
 
+/* Отклик — светом, а не подъёмом с цветной тенью. */
 .btn-primary:hover,
 .home-primary-button:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.03);
-  box-shadow: var(--primary-button-hover-shadow,
-    inset 0 1px 0 rgba(255,255,255,.18),
-    0 18px 38px rgba(74,42,146,.34)
-  );
+  filter: brightness(1.08);
 }
 
 .btn-primary:active,
 .home-primary-button:active {
-  transform: translateY(1px);
+  filter: brightness(0.96);
 }
 
 .btn-primary:focus-visible,
 .home-primary-button:focus-visible {
-  box-shadow: var(--primary-button-focus-shadow,
-    0 0 0 4px rgba(124,58,237,.26),
-    inset 0 1px 0 rgba(255,255,255,.18),
-    0 18px 38px rgba(74,42,146,.34)
-  );
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .btn-primary svg,

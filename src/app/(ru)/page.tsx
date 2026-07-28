@@ -219,16 +219,16 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="mt-7 grid gap-5 md:grid-cols-3">
+          <div className="home-grid home-grid--3 mt-8">
             {studioCards.map((card, index) => (
               <article
                 key={card.title}
-                className={`home-feature-card surface-quiet reveal-up p-6 md:p-7 ${
+                className={`home-feature-card reveal-up ${
                   index === 0 ? "delay-1" : index === 1 ? "delay-2" : "delay-3"
                 }`}
               >
-                <h3 className="home-card-title text-white">{card.title}</h3>
-                <p className="home-card-copy mt-3 text-white/62">{card.text}</p>
+                <h3 className="home-card-title text-ink">{card.title}</h3>
+                <p className="home-card-copy mt-3 text-ink-muted">{card.text}</p>
               </article>
             ))}
           </div>
@@ -246,12 +246,12 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <div className="home-grid home-grid--4 mt-8">
           {serviceCards.map((service, index) => (
             <Link
               key={service.title}
               href={service.href}
-              className={`service-card home-service-card surface-quiet reveal-up p-6 md:p-7 ${
+              className={`service-card home-service-card reveal-up ${
                 index === 0
                   ? "delay-1"
                   : index === 1
@@ -261,8 +261,8 @@ export default function HomePage() {
                       : "delay-4"
               }`}
             >
-              <h3 className="home-card-title text-white">{service.title}</h3>
-              <p className="home-card-copy mt-3 text-white/62">{service.text}</p>
+              <h3 className="home-card-title text-ink">{service.title}</h3>
+              <p className="home-card-copy mt-3 text-ink-muted">{service.text}</p>
             </Link>
           ))}
         </div>
@@ -275,11 +275,11 @@ export default function HomePage() {
           </h2>
         </div>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3 xl:gap-10">
+        <div className="home-grid home-grid--3 mt-10">
           {processSteps.map((item, index) => (
             <article
               key={item.step}
-              className={`home-process-card surface-quiet reveal-up p-6 md:p-7 ${
+              className={`home-process-card reveal-up ${
                 index === 0
                   ? "delay-1"
                   : index === 1
@@ -294,11 +294,11 @@ export default function HomePage() {
               }`}
             >
               <div className="mb-5 flex items-center gap-4">
-                <span className="font-display text-3xl leading-none text-white/88">{item.step}</span>
+                <span className="font-display text-3xl leading-none text-ink">{item.step}</span>
                 <span className="h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
               </div>
-              <h3 className="home-card-title text-white">{item.title}</h3>
-              <p className="home-card-copy mt-3 text-white/62">{item.text}</p>
+              <h3 className="home-card-title text-ink">{item.title}</h3>
+              <p className="home-card-copy mt-3 text-ink-muted">{item.text}</p>
               {index < processSteps.length - 1 ? (
                 <span
                   className={`home-process-arrow ${
