@@ -133,14 +133,14 @@
   font-size: clamp(1.95rem, 1.45rem + 1.35vw, 2.9rem);
   line-height: .98;
   letter-spacing: -0.04em;
-  color: #fff;
+  color: var(--ink);
   max-width: 100%;
   overflow-wrap: anywhere;
   transition: color .18s ease, transform .18s ease;
 }
 
 .contact-primary-link:hover {
-  color: rgba(255,255,255,.88);
+  color: var(--ink);
   transform: translateY(-1px);
 }
 
@@ -405,7 +405,7 @@
   justify-content: center;
   width: 2.55rem;
   height: 2.55rem;
-  color: rgba(255,255,255,.92);
+  color: var(--ink);
   filter: drop-shadow(0 8px 16px rgba(0,0,0,.24));
   transition: transform .32s cubic-bezier(.22,1,.36,1), color .32s ease, filter .32s ease;
 }
@@ -427,7 +427,7 @@
   font-size: clamp(1.95rem, 1.35rem + 1.5vw, 2.85rem);
   line-height: .98;
   letter-spacing: -.045em;
-  color: rgba(255,255,255,.96);
+  color: var(--ink);
 }
 
 .contact-brief-card__lead {
@@ -435,7 +435,7 @@
   max-width: 34rem;
   font-size: 1rem;
   line-height: 1.82;
-  color: rgba(255,255,255,.62);
+  color: var(--ink-muted);
 }
 
 .contact-brief-list {
@@ -455,7 +455,7 @@
   align-items: start;
   font-size: .92rem;
   line-height: 1.68;
-  color: rgba(255,255,255,.68);
+  color: var(--ink-muted);
   text-align: left;
 }
 
@@ -496,7 +496,7 @@
   line-height: 1.75;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.42);
+  color: var(--ink-faint);
 }
 
 .contact-platform-card:hover {
@@ -510,7 +510,7 @@
 }
 
 .contact-platform-card:hover .contact-platform-card__orb {
-  border-color: rgba(255,255,255,.18);
+  border-color: var(--hairline);
   background:
     linear-gradient(180deg, rgba(255,255,255,.082), rgba(255,255,255,.024)),
     radial-gradient(120% 120% at 28% 18%, rgb(var(--contact-accent) / .24), transparent 58%),
@@ -541,7 +541,7 @@
 
 .contact-platform-card:hover .contact-platform-icon {
   transform: translateY(-1px) scale(1.08);
-  color: #fff;
+  color: var(--ink);
   filter: drop-shadow(0 10px 18px rgba(0,0,0,.28));
 }
 
@@ -556,7 +556,7 @@
 }
 
 .contact-platform-card:focus-visible .contact-platform-card__orb {
-  border-color: rgba(255,255,255,.2);
+  border-color: var(--hairline);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.1),
     0 30px 50px rgba(0,0,0,.28);
@@ -666,7 +666,7 @@
 }
 
 /* scrollbars */
-* { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.2) transparent; }
+* { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.18) transparent transparent; }
 *::-webkit-scrollbar { width: 8px; height: 8px; }
 *::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 8px; }
 

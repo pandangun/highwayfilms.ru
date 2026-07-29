@@ -368,7 +368,7 @@ h3,
     rgba(255,255,255,.02)
   );
   padding: var(--field-padding, .9rem 1rem);
-  color: #fff;
+  color: var(--ink);
   outline: none;
   transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
 }
@@ -418,14 +418,14 @@ h3,
 .brief-field__label {
   font-size: 1.08rem;
   font-weight: 500;
-  color: rgba(255,255,255,.88);
+  color: var(--ink);
 }
 
 .brief-field__hint {
   font-size: .68rem;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.38);
+  color: var(--ink-faint);
 }
 
 .brief-field__body {
@@ -474,7 +474,7 @@ h3,
   font-size: .72rem;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.42);
+  color: var(--ink-faint);
 }
 
 .client-access-line {
@@ -483,7 +483,7 @@ h3,
 }
 
 .client-access-line:focus-within {
-  border-color: rgba(255,255,255,.28);
+  border-color: var(--hairline);
 }
 
 .client-access-input {
@@ -492,18 +492,18 @@ h3,
   background: transparent;
   padding: 0 0 .75rem;
   font-size: 1.02rem;
-  color: #fff;
+  color: var(--ink);
   outline: none;
 }
 
 .client-access-input::placeholder {
-  color: rgba(255,255,255,.24);
+  color: var(--ink-ghost);
 }
 
 .client-access-note {
   font-size: .75rem;
   line-height: 1.8;
-  color: rgba(255,255,255,.4);
+  color: var(--ink-faint);
 }
 
 .client-access-submit {
@@ -518,13 +518,13 @@ h3,
     rgba(255,255,255,.02);
   padding: 0 1.5rem;
   font-size: .95rem;
-  color: #fff;
+  color: var(--ink);
   transition: border-color .18s ease, background .18s ease, transform .18s ease;
 }
 
 .client-access-submit:hover {
   transform: translateY(-1px);
-  border-color: rgba(255,255,255,.22);
+  border-color: var(--hairline);
   background:
     linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.05)),
     rgba(255,255,255,.03);
@@ -557,7 +557,7 @@ h3,
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.06),
     0 8px 18px rgba(0,0,0,.18);
-  color: rgba(255,255,255,.88);
+  color: var(--ink);
 }
 
 /* rules */
@@ -638,7 +638,7 @@ h3,
   font-size: .74rem;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.62);
+  color: var(--ink-muted);
 }
 
 .project-room {
@@ -689,7 +689,7 @@ h3,
 }
 
 .service-faq-eyebrow {
-  color: rgba(255,255,255,.5);
+  color: var(--ink-faint);
 }
 
 .service-faq-title {
@@ -698,7 +698,7 @@ h3,
   font-size: clamp(2.15rem, 1.7rem + 1.7vw, 3.75rem);
   line-height: .96;
   letter-spacing: -0.04em;
-  color: #fff;
+  color: var(--ink);
   text-wrap: balance;
 }
 
@@ -707,7 +707,7 @@ h3,
   max-width: 46rem;
   font-size: 1rem;
   line-height: 1.85;
-  color: rgba(255,255,255,.64);
+  color: var(--ink-muted);
 }
 
 .service-faq-list {
@@ -733,7 +733,7 @@ h3,
 }
 
 .service-faq-item[open] {
-  border-color: rgba(255,255,255,.14);
+  border-color: var(--hairline);
   background:
     linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
     radial-gradient(140% 120% at 0% 0%, rgba(124,58,237,.12), transparent 52%),
@@ -774,7 +774,7 @@ h3,
   font-size: clamp(1.35rem, 1.15rem + .7vw, 2rem);
   line-height: 1.02;
   letter-spacing: -0.03em;
-  color: rgba(255,255,255,.94);
+  color: var(--ink);
   text-wrap: balance;
 }
 
@@ -811,7 +811,7 @@ h3,
 }
 
 .service-faq-item[open] .service-faq-icon {
-  border-color: rgba(255,255,255,.18);
+  border-color: var(--hairline);
   background:
     linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.04)),
     rgba(124,58,237,.1);
@@ -850,7 +850,7 @@ h3,
   max-width: 58rem;
   font-size: 1rem;
   line-height: 1.9;
-  color: rgba(255,255,255,.68);
+  color: var(--ink-muted);
 }
 
 .service-faq-cta {
@@ -870,7 +870,7 @@ h3,
   font-size: .7rem;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.44);
+  color: var(--ink-faint);
 }
 
 .service-faq-cta__title {
@@ -879,7 +879,7 @@ h3,
   font-size: clamp(1.6rem, 1.35rem + .7vw, 2.15rem);
   line-height: 1;
   letter-spacing: -0.03em;
-  color: #fff;
+  color: var(--ink);
 }
 
 .service-faq-cta__text {
@@ -887,7 +887,7 @@ h3,
   max-width: 42rem;
   font-size: .98rem;
   line-height: 1.8;
-  color: rgba(255,255,255,.64);
+  color: var(--ink-muted);
 }
 
 .service-faq-cta__actions {
@@ -900,7 +900,7 @@ h3,
   margin: 0;
   font-size: .92rem;
   line-height: 1.65;
-  color: rgba(255,255,255,.52);
+  color: var(--ink-faint);
 }
 
 @media (min-width: 1024px) {
@@ -914,14 +914,14 @@ h3,
 @media (hover: hover) and (pointer: fine) {
   .service-faq-item:hover {
     transform: translateY(-2px);
-    border-color: rgba(255,255,255,.12);
+    border-color: var(--hairline);
     background:
       linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
       rgba(9,9,11,.5);
   }
 
   .service-faq-item:hover .service-faq-icon {
-    border-color: rgba(255,255,255,.18);
+    border-color: var(--hairline);
   }
 }
 
@@ -936,7 +936,7 @@ h3,
   font-size: .74rem;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.82);
+  color: var(--ink);
   background-clip: padding-box;
 }
 

@@ -123,7 +123,7 @@
   font-size: .72rem;
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.7);
+  color: var(--ink-muted);
 }
 
 .corporate-hero__media-card {
@@ -201,7 +201,7 @@
 .corporate-step__index {
   font-family: var(--font-display), serif;
   font-size: 1.6rem;
-  color: rgba(255,255,255,.72);
+  color: var(--ink-muted);
   letter-spacing: .1em;
 }
 
@@ -209,12 +209,12 @@
   font-family: var(--font-display), serif;
   font-size: var(--type-display-sm);
   letter-spacing: -0.03em;
-  color: #fff;
+  color: var(--ink);
 }
 
 .corporate-step__text {
   margin-top: .6rem;
-  color: rgba(255,255,255,.68);
+  color: var(--ink-muted);
   line-height: 1.7;
 }
 

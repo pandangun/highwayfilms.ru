@@ -379,7 +379,7 @@ export default function AboutPage() {
         </section>
 
         <section className="py-14 md:py-18">
-          <div className="on-dark rounded-lg border border-white/10 bg-[radial-gradient(90rem_48rem_at_0%_0%,rgba(124,58,237,.1),transparent_56%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012)),rgba(8,8,10,.72)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+          <div className="rounded-lg border border-white/10 bg-[radial-gradient(90rem_48rem_at_0%_0%,rgba(124,58,237,.1),transparent_56%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012)),rgba(8,8,10,.72)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8 lg:px-10 lg:py-10">
             <div className="grid gap-6 xl:grid-cols-[0.86fr_1.14fr] xl:gap-10">
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-4">

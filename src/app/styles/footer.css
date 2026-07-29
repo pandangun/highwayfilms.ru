@@ -19,7 +19,7 @@
 }
 
 .footer-link:hover {
-  color: #fff;
+  color: var(--ink);
 }
 
 .footer-link:hover::after {
@@ -28,24 +28,24 @@
 
 /* locale */
 .footer-lang {
-  color: rgba(255,255,255,.28);
+  color: var(--ink-ghost);
   font-size: .72rem;
   letter-spacing: .14em;
   text-transform: uppercase;
 }
 
 .footer-lang-sep {
-  color: rgba(255,255,255,.18);
+  color: var(--ink-ghost);
 }
 
 .footer-lang-link {
-  color: rgba(255,255,255,.34);
+  color: var(--ink-faint);
   transition: color .18s ease;
 }
 
 .footer-lang-link:hover,
 .footer-lang-link.is-active {
-  color: rgba(255,255,255,.62);
+  color: var(--ink-muted);
 }
 
 /* controls */
@@ -75,19 +75,19 @@
   border: 0;
   border-radius: var(--r-full);
   background: transparent;
-  color: rgba(255,255,255,.78);
+  color: var(--ink-muted);
   transition: color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
 }
 
 .footer-theme-button:hover {
-  color: #fff;
+  color: var(--ink);
   transform: translateY(-1px);
   background: var(--theme-button-hover-bg);
 }
 
 .footer-theme-button.is-active {
   background: var(--theme-button-active-bg);
-  color: #fff;
+  color: var(--ink);
   box-shadow: var(--theme-button-active-shadow);
 }
 

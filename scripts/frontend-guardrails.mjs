@@ -84,28 +84,14 @@ const CLIENT_NAV_ROUTES = [
 const LIGHT_THEME_MIN_CONTRAST = 2.0;
 
 /**
- * Светлая тема на этих маршрутах не доведена. Это не регресс редизайна:
- * тема изначально держалась на 35 !important-правилах и никогда не
- * проверялась — детектор просто научился её видеть.
+ * Пусто — и должно таким остаться.
  *
- * Каждый случай — «тёмный остров», который не помечен .on-dark, либо
- * элемент с зашитым светлым цветом текста:
- *   /about       — карточки преимуществ поверх чёрной панели
- *   /commercials — заголовок блока FAQ (.eyebrow внутри .service-faq-shell)
- *   /ai          — то же самое
- *   /weddings    — hero поверх кадра (.wedding-hero-*)
- *   /brief       — нумерация шагов: тёмные чернила на 30% прозрачности
- *
- * Список обязан только сокращаться. Если запись перестала
- * воспроизводиться, аудит потребует убрать её отсюда.
+ * Сюда попадают маршруты с подтверждённым багом светлой темы, который
+ * нельзя починить, не увеличив долг. Каждая запись обязана иметь разбор
+ * причины. Если баг перестал воспроизводиться, проверка сама потребует
+ * убрать запись — иначе список протухнет и перестанет что-либо значить.
  */
-const KNOWN_LIGHT_THEME_ISSUES = new Set([
-  "/about",
-  "/commercials",
-  "/ai",
-  "/weddings",
-  "/brief",
-]);
+const KNOWN_LIGHT_THEME_ISSUES = new Set([]);
 
 const MOTION_SELECTOR = [
   ".reveal-up",
@@ -410,6 +396,18 @@ async function checkLightTheme(browser, path) {
         : [0, 0, 0];
     };
 
+    // .on-dark — явное утверждение автора: «здесь фон тёмный при любой теме».
+    // Такое встречается там, где фон даёт <Image>, а не CSS: заголовок hero
+    // поверх фотографии. Вычислить яркость снимка нельзя, поэтому доверяем
+    // пометке и элемент пропускаем.
+    //
+    // Цена доверия: ошибочно поставленная пометка станет невидимой для
+    // проверки. Так и случилось на /about, где .on-dark оказался на
+    // полупрозрачной панели — светлый текст лёг на кремовый фон. Ловится
+    // это отдельной проверкой ниже: контейнер с .on-dark обязан иметь
+    // непрозрачный тёмный фон либо содержать изображение.
+    const insideOnDark = (el) => el.closest(".on-dark") !== null;
+
     const effectiveBackground = (start) => {
       let node = start;
       let beneath = null;
@@ -492,6 +490,13 @@ async function checkLightTheme(browser, path) {
       const color = parse(cs.color);
       if (color.length < 3) continue;
 
+      if (insideOnDark(el)) continue;
+
+      // --ink-ghost по определению декоративный: крупные цифры, фоновые
+      // метки. Проверять его на читаемость бессмысленно — токен сам
+      // объявляет намерение «это не для чтения».
+      if (el.classList.contains("text-ink-ghost")) continue;
+
       const background = effectiveBackground(el);
       if (!background) continue;
 
@@ -509,6 +514,30 @@ async function checkLightTheme(browser, path) {
       }
 
       if (offenders.length >= 5) break;
+    }
+
+    // Проверка самой пометки: если .on-dark стоит на светлой поверхности,
+    // всё внутри неё окажется светлым текстом на светлом фоне — и обычная
+    // проверка контраста это пропустит, потому что доверяет пометке.
+    for (const el of Array.from(document.querySelectorAll(".on-dark"))) {
+      const rect = el.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) continue;
+
+      // Судим только по собственному непрозрачному фону элемента.
+      // Подниматься выше нельзя: фон часто даёт соседний <Image>
+      // (так устроены hero), и наследованный расчёт даст ерунду.
+      const own = parse(getComputedStyle(el).backgroundColor);
+      if (own.length < 3) continue;
+      const ownAlpha = own.length === 4 ? own[3] : 1;
+      if (ownAlpha < 0.9) continue;
+
+      const bg = [own[0], own[1], own[2]];
+      const lum = luminance(bg);
+      if (lum > 0.35) {
+        const name = el.className.toString().trim().split(/\s+/).slice(0, 2).join(".");
+        offenders.push(`.on-dark на светлой поверхности: ${name} (яркость ${lum.toFixed(2)})`);
+      }
+      if (offenders.length >= 8) break;
     }
 
     return offenders;

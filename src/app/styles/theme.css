@@ -563,7 +563,12 @@ html[data-theme="light"] .drawer-mobile-controls {
 :is(
   .service-faq-item,
   .editorial-cover,
-  .project-room--content
+  .project-room--content,
+  .wedding-extra-card,
+  .wedding-approach-shell,
+  .wedding-process-shell,
+  .wedding-faq-shell,
+  .wedding-brief-shell
 ) {
   --ink-rgb: 243 243 242;
   --light-ink: 243 243 242;

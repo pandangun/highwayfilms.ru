@@ -8,7 +8,7 @@
   background:
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
     rgba(0,0,0,.18);
-  color: rgba(255,255,255,.76);
+  color: var(--ink-muted);
 }
 
 .ai-tools-list {
@@ -26,7 +26,7 @@
 
 .ai-tool-chip:hover {
   transform: translateY(-1px);
-  border-color: rgba(255,255,255,.18);
-  color: #fff;
+  border-color: var(--hairline);
+  color: var(--ink);
 }
 }

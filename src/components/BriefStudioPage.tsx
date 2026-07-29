@@ -214,7 +214,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
                   className="brief-step-link rounded-[20px] border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left transition hover:border-white/14 hover:bg-white/[0.03]"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <span className="text-[0.68rem] uppercase tracking-[0.2em] text-white/30">{index + 1}/5</span>
+                    <span className="text-[0.68rem] uppercase tracking-[0.2em] text-ink-faint">{index + 1}/5</span>
                     <span className="text-[0.6rem] uppercase tracking-[0.18em] text-white/34">{t("Открыть", "Open")}</span>
                   </div>
                   <p className="mt-2.5 text-[0.92rem] font-medium leading-6 text-white/68">{step.title}</p>
