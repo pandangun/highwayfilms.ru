@@ -84,7 +84,8 @@ const steps = [
 
 export default function CorporatePage() {
   return (
-    <div className="page-shell corporate-page">
+    // on-dark: фон .corporate-page зашит тёмным и не переключается по теме
+    <div className="on-dark page-shell corporate-page">
       <div className="page-ambient corporate-ambient" />
 
       <section className="corporate-hero">
@@ -103,7 +104,7 @@ export default function CorporatePage() {
         </div>
 
         <div className="container corporate-hero__content">
-          <div className="corporate-hero__copy cinematic-reveal">
+          <div className="on-dark corporate-hero__copy cinematic-reveal">
             <p className="eyebrow text-white/54">Корпоративное видео</p>
             <h1 className="corporate-hero__title font-display text-white">
               <span>Корпоративные</span>
@@ -171,27 +172,30 @@ export default function CorporatePage() {
             </p>
           </div>
 
-          <div className="corporate-cases no-scrollbar">
-            <div className="corporate-cases__track">
-              {cases.map((item) => (
-                <article key={item.title} className="corporate-case">
-                  <div className="corporate-case__media">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      sizes="(max-width: 1024px) 85vw, 36vw"
-                      className="object-cover"
-                    />
-                    <div className="corporate-case__overlay" />
-                  </div>
-                  <div className="corporate-case__caption">
-                    <p className="corporate-case__title">{item.title}</p>
-                    <p className="corporate-case__desc">{item.description}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
+          {/* Кейсы были карточками в горизонтальной прокрутке: кадр под
+              затемнением, подпись поверх и появляется только при наведении —
+              на телефоне её не увидеть вовсе. Теперь обычная сетка, кадр
+              открыт, подпись под ним за линией. */}
+          <div className="mt-9 grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
+            {cases.map((item) => (
+              <article key={item.title}>
+                <div className="on-dark relative aspect-[4/3] overflow-hidden rounded-md">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="mt-4 border-t border-hairline pt-4">
+                  <h3 className="font-display text-display-sm leading-[var(--leading-title)] text-ink">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-ink-muted">{item.description}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>

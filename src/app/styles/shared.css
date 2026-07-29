@@ -71,7 +71,7 @@ h3,
   right: 24px;
   top: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.16), rgba(214,183,138,.18), transparent);
+  background: var(--hairline);
 }
 
 /* surfaces */
@@ -385,7 +385,7 @@ h3,
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.024)),
     rgba(255,255,255,.03)
   );
-  box-shadow: var(--field-focus-shadow, 0 0 0 4px rgba(124,58,237,.14));
+  box-shadow: var(--field-focus-shadow, 0 0 0 3px rgb(214 183 138 / .22));
 }
 
 .brief-section-panel {
@@ -437,11 +437,11 @@ h3,
   --field-background:
     linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.018)),
     rgba(0,0,0,.3);
-  --field-focus-border: rgba(124,58,237,.7);
+  --field-focus-border: rgb(214 183 138 / .7);
   --field-focus-background:
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.024)),
     rgba(0,0,0,.38);
-  --field-focus-shadow: 0 0 0 4px rgba(124,58,237,.18);
+  --field-focus-shadow: 0 0 0 3px rgb(214 183 138 / .26);
 }
 
 .brief-form-control--input,
@@ -563,7 +563,7 @@ h3,
 /* rules */
 .rule-fade {
   height: 1px;
-  background: linear-gradient(90deg, rgba(255,255,255,.28), rgba(214,183,138,.22), transparent);
+  background: linear-gradient(90deg, var(--hairline), transparent);
 }
 
 /* editorial and content blocks */
@@ -954,5 +954,22 @@ h3,
 .status-pill--emerald { background: rgba(16,185,129,.12); color: rgba(110,231,183,.95); }
 .status-pill--slate { background: rgba(148,163,184,.12); color: rgba(203,213,225,.9); }
 
+
+
+/* Чипы и плашки: прозрачный фон, волосяная рамка, токен-цвет.
+   Полупрозрачная тёмная заливка на кремовом фоне давала мутную плашку
+   со светлым текстом — нечитаемо. Прозрачность решает это в обеих темах
+   и заодно отвечает линейному языку. */
+:is(.meta-chip, .ai-tool-chip, .status-pill) {
+  border-color: var(--hairline);
+  background: transparent;
+  color: var(--ink-muted);
+}
+
+.client-access-submit {
+  background: var(--accent);
+  border-color: transparent;
+  color: #14120f;
+}
 
 }

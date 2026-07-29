@@ -192,8 +192,8 @@ export default function StudioServicePage({
                 свечение, наезд на 3% и текст, лежавший поверх кадра. */}
             <div className="grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
               {gallery.items.map((item) => (
-                <article key={`${item.src}-${item.title}`} className="on-dark">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-md">
+                <article key={`${item.src}-${item.title}`}>
+                  <div className="on-dark relative aspect-[4/3] overflow-hidden rounded-md">
                     <Image
                       src={item.src}
                       alt={item.alt ?? item.title}

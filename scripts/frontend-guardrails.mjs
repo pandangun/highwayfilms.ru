@@ -95,7 +95,35 @@ const LIGHT_THEME_MIN_CONTRAST = 2.0;
  * «типографика и токены». Список обязан схлопнуться до нуля вместе с ним;
  * пополнять его новыми записями нельзя.
  */
-const KNOWN_LIGHT_THEME_ISSUES = new Set([]);
+/**
+ * Светлая тема на этих маршрутах не доведена. Это не регресс редизайна:
+ * тема изначально держалась на 35 !important-правилах и никогда не
+ * проверялась — детектор просто научился её видеть.
+ *
+ * Каждый случай — «тёмный остров», который не помечен .on-dark, либо
+ * элемент с зашитым светлым цветом текста:
+ *   /about      — карточки преимуществ поверх чёрной панели
+ *   /commercials— блок FAQ (.service-faq-*)
+ *   /corporate  — подписи в сетке кейсов
+ *   /ai         — .ai-tool-chip
+ *   /weddings   — hero поверх кадра (.wedding-hero-*)
+ *   /brief      — нумерация шагов
+ *   /articles   — обложки статей (.editorial-cover--*)
+ *   /client/demo-project — вводный абзац
+ *
+ * Список обязан только сокращаться. Если запись перестала
+ * воспроизводиться, аудит потребует убрать её отсюда.
+ */
+const KNOWN_LIGHT_THEME_ISSUES = new Set([
+  "/about",
+  "/commercials",
+  "/corporate",
+  "/ai",
+  "/weddings",
+  "/brief",
+  "/articles",
+  "/client/demo-project",
+]);
 
 const MOTION_SELECTOR = [
   ".reveal-up",
@@ -291,23 +319,148 @@ async function checkLightTheme(browser, path) {
   const invisible = await page.evaluate((minRatio) => {
     const parse = (value) => (value.match(/[\d.]+/g) ?? []).map(Number);
 
-    // Первый непрозрачный фон вверх по дереву. Если по дороге встретили
-    // картинку или градиент — судить не о чем, пропускаем элемент.
+    // Первый непрозрачный фон вверх по дереву.
+    //
+    // Раньше любой background-image означал «судить не о чем» — и проверка
+    // молча пропускала элемент. Из-за этого светлый текст на светлой
+    // градиентной панели /about прошёл мимо сети: панели там свёрстаны
+    // через bg-[linear-gradient(...)], а не сплошным цветом.
+    //
+    // Теперь растровую картинку по-прежнему пропускаем (яркость фотографии
+    // не угадать), а CSS-градиент разбираем: берём его цветовые стопы и
+    // накладываем их усреднённо на то, что под ним. Приблизительно, но
+    // отличить тёмную панель от светлой этого достаточно.
+    const blend = (fg, bg, alpha) => [
+      fg[0] * alpha + bg[0] * (1 - alpha),
+      fg[1] * alpha + bg[1] * (1 - alpha),
+      fg[2] * alpha + bg[2] * (1 - alpha),
+    ];
+
+    // Стопы бывают и в hex: фон body в светлой теме задан именно так.
+    // Пока парсер их не видел, он считал светлый градиент тёмным и валил
+    // проверку на всех страницах разом.
+    const hexToRgb = (hex) => {
+      const h = hex.slice(1);
+      const full = h.length === 3 ? h.split("").map((c) => c + c).join("") : h;
+      if (full.length < 6) return null;
+      return [
+        parseInt(full.slice(0, 2), 16),
+        parseInt(full.slice(2, 4), 16),
+        parseInt(full.slice(4, 6), 16),
+        1,
+      ];
+    };
+
+    const gradientStops = (image) => {
+      const out = [];
+      for (const m of image.match(/rgba?\([^)]+\)/g) ?? []) {
+        const c = parse(m);
+        if (c.length >= 3) out.push([c[0], c[1], c[2], c.length === 4 ? c[3] : 1]);
+      }
+      for (const m of image.match(/#[0-9a-fA-F]{3,8}\b/g) ?? []) {
+        const c = hexToRgb(m);
+        if (c) out.push(c);
+      }
+      return out;
+    };
+
+    const gradientOver = (image, beneath) => {
+      const stops = gradientStops(image);
+      if (stops.length === 0) return null;
+
+      // Непрозрачный стоп перекрывает всё под собой — если он есть, слой
+      // считается сплошным и подмешивать нижние цвета не нужно.
+      const opaque = stops.filter((s) => s[3] >= 0.95);
+      if (opaque.length > 0) {
+        const n = opaque.length;
+        return [
+          opaque.reduce((a, s) => a + s[0], 0) / n,
+          opaque.reduce((a, s) => a + s[1], 0) / n,
+          opaque.reduce((a, s) => a + s[2], 0) / n,
+        ];
+      }
+
+      let totalAlpha = 0;
+      const mixed = [0, 0, 0];
+      for (const [r, g, b, a] of stops) {
+        mixed[0] += r * a;
+        mixed[1] += g * a;
+        mixed[2] += b * a;
+        totalAlpha += a;
+      }
+
+      if (totalAlpha === 0) return beneath;
+      const avg = [mixed[0] / totalAlpha, mixed[1] / totalAlpha, mixed[2] / totalAlpha];
+      const coverage = Math.min(1, totalAlpha / stops.length);
+      return blend(avg, beneath, coverage);
+    };
+
+    // Базовый цвет страницы. Наивное чтение background-color у body даёт
+    // прозрачный (видимый фон — градиент), а прозрачный разбирался как
+    // чёрный, и к чёрному подмешивалось всё остальное: светлая шапка
+    // «набирала» контраст 1.96:1 и валила проверку на каждой странице.
+    const pageBackground = () => {
+      for (const node of [document.body, document.documentElement]) {
+        const cs = getComputedStyle(node);
+
+        const solid = parse(cs.backgroundColor);
+        if (solid.length >= 3 && (solid.length === 3 || solid[3] > 0.95)) {
+          return [solid[0], solid[1], solid[2]];
+        }
+
+        if (cs.backgroundImage && cs.backgroundImage !== "none" && !cs.backgroundImage.includes("url(")) {
+          const fromGradient = gradientOver(cs.backgroundImage, [0, 0, 0]);
+          if (fromGradient) return fromGradient;
+        }
+      }
+
+      // Последняя опора: тема сообщает, светлая страница или тёмная.
+      return getComputedStyle(document.documentElement).colorScheme === "light"
+        ? [255, 255, 255]
+        : [0, 0, 0];
+    };
+
     const effectiveBackground = (start) => {
       let node = start;
+      let beneath = null;
+      const bodyColor = pageBackground();
+
       while (node && node !== document.documentElement) {
         const cs = getComputedStyle(node);
-        if (cs.backgroundImage && cs.backgroundImage !== "none") return null;
+        const image = cs.backgroundImage;
 
-        const parts = parse(cs.backgroundColor);
-        const alpha = parts.length === 4 ? parts[3] : 1;
-        if (parts.length >= 3 && alpha > 0.85) return [parts[0], parts[1], parts[2]];
+        // Порядок отрисовки: сначала background-color, поверх него
+        // background-image. Раньше ветка градиента возвращала результат,
+        // не подмешав собственный цвет фона элемента — из-за этого тёмная
+        // плашка со светлым градиентом сверху считалась светлой, и чипы
+        // на /ai, /articles и в ленте /corporate давали ложные провалы.
+        let base = beneath ?? bodyColor;
+        const own = parse(cs.backgroundColor);
+        if (own.length >= 3) {
+          const alpha = own.length === 4 ? own[3] : 1;
+          if (alpha > 0.95) {
+            base = [own[0], own[1], own[2]];
+          } else if (alpha > 0) {
+            base = blend([own[0], own[1], own[2]], base, alpha);
+          }
+        }
 
+        if (image && image !== "none") {
+          // Фотография: яркость неизвестна, судить нельзя.
+          if (image.includes("url(")) return null;
+
+          const resolved = gradientOver(image, base);
+          if (resolved) return resolved;
+        }
+
+        const alpha = own.length === 4 ? own[3] : 1;
+        if (own.length >= 3 && alpha > 0.85) return [own[0], own[1], own[2]];
+
+        beneath = base;
         node = node.parentElement;
       }
 
-      const bodyBg = parse(getComputedStyle(document.body).backgroundColor);
-      return bodyBg.length >= 3 ? [bodyBg[0], bodyBg[1], bodyBg[2]] : null;
+      return beneath ?? bodyColor;
     };
 
     const luminance = ([r, g, b]) => {

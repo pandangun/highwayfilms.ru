@@ -224,15 +224,15 @@ function FaqItem({ item }: { item: AboutFaqItem }) {
   return (
     <details className="group border-t border-white/10 py-5 first:border-t-0">
       <summary className="flex cursor-pointer list-none items-start justify-between gap-6">
-        <span className="font-display max-w-3xl text-xl leading-tight tracking-[-0.03em] text-white md:text-[1.7rem]">
+        <span className="font-display max-w-3xl text-xl leading-tight tracking-[-0.03em] text-ink md:text-[1.7rem]">
           {item.q}
         </span>
-        <span className="relative mt-1 h-5 w-5 shrink-0 text-white/40">
+        <span className="relative mt-1 h-5 w-5 shrink-0 text-ink-faint">
           <span className="absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 -translate-y-1/2 bg-current" />
           <span className="absolute left-1/2 top-1/2 h-4 w-px -translate-x-1/2 -translate-y-1/2 bg-current transition-transform duration-300 group-open:scale-y-0" />
         </span>
       </summary>
-      <div className="max-w-3xl pt-4 text-[0.98rem] leading-7 text-white/62">{item.a}</div>
+      <div className="max-w-3xl pt-4 text-[0.98rem] leading-7 text-ink-muted">{item.a}</div>
     </details>
   );
 }
@@ -287,11 +287,7 @@ export default function AboutPage() {
   };
 
   return (
-    // on-dark на корне: страница дарк-онли по конструкции — все её поверхности
-    // это зашитые тёмные градиенты, ни одной темозависимой (.section-card и
-    // подобных) здесь нет. Светлая тема меняла только цвет текста, из-за чего
-    // он и пропадал на чёрном.
-    <div className="on-dark page-shell">
+    <div className="page-shell">
       <div className="page-ambient" />
       <div className="container page-content pt-header-safe pb-20">
         <script
@@ -308,7 +304,7 @@ export default function AboutPage() {
         />
 
         <section className="py-8 md:py-12">
-          <div className="relative min-h-[36rem] overflow-hidden rounded-[42px] border border-white/10 shadow-[0_28px_80px_rgba(0,0,0,0.34)] lg:min-h-[44rem]">
+          <div className="relative min-h-[36rem] overflow-hidden rounded-lg border border-white/10 shadow-[0_28px_80px_rgba(0,0,0,0.34)] lg:min-h-[44rem]">
             <Image
               src={aboutHeroImage}
               alt="Команда Highway Films на съёмке рекламного видео"
@@ -319,7 +315,7 @@ export default function AboutPage() {
             />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,8,.2),rgba(7,7,8,.36)_24%,rgba(7,7,8,.68)_68%,rgba(7,7,8,.9)),radial-gradient(80%_70%_at_0%_0%,rgba(0,0,0,.16),transparent_60%),radial-gradient(70%_70%_at_100%_100%,rgba(214,183,138,.1),transparent_60%)]" />
             <div className="relative z-[1] flex min-h-[36rem] flex-col justify-between gap-10 px-6 py-6 md:px-8 md:py-8 lg:min-h-[44rem] lg:px-10 lg:py-10">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.24em] text-white/58">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.24em] text-ink-muted">
                 <span>Highway Films</span>
                 <span>О нас</span>
                 <span>Продакшн полного цикла</span>
@@ -327,11 +323,11 @@ export default function AboutPage() {
 
               <div className="grid gap-10 xl:grid-cols-[1.16fr_0.84fr] xl:items-end">
                 <div className="max-w-4xl">
-                  <p className="eyebrow text-white/52">Видеопродакшн полного цикла</p>
-                  <h1 className="font-display mt-4 max-w-5xl text-[clamp(3rem,6.3vw,6.25rem)] leading-[0.92] tracking-[-0.05em] text-white">
+                  <p className="eyebrow text-ink-faint">Видеопродакшн полного цикла</p>
+                  <h1 className="font-display mt-4 max-w-5xl text-[clamp(3rem,6.3vw,6.25rem)] leading-[0.92] tracking-[-0.05em] text-ink">
                     Highway Films снимает видео, которое работает на бренд, бизнес и сильную визуальную историю.
                   </h1>
-                  <p className="mt-6 max-w-3xl text-[1.08rem] leading-8 text-white/74 md:text-[1.22rem]">
+                  <p className="mt-6 max-w-3xl text-[1.08rem] leading-8 text-ink-muted md:text-[1.22rem]">
                     Мы создаём рекламные ролики, бренд-фильмы, корпоративное видео, клипы и спецпроекты. Базово
                     работаем как видеопродакшн в Москве и как видеопродакшн в Санкт-Петербурге, выезжаем на съёмки по
                     России и ведём проект от идеи до финального мастера.
@@ -353,15 +349,15 @@ export default function AboutPage() {
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
-                  <div className="rounded-[26px] border border-white/12 bg-white/[0.06] px-5 py-5 backdrop-blur-sm">
-                    <p className="text-[10px] uppercase tracking-[0.24em] text-white/42">Что снимаем</p>
-                    <p className="mt-3 font-display text-[1.5rem] leading-[1.02] tracking-[-0.035em] text-white">
+                  <div className="rounded-md border border-white/12 bg-white/[0.06] px-5 py-5 backdrop-blur-sm">
+                    <p className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">Что снимаем</p>
+                    <p className="mt-3 font-display text-[1.5rem] leading-[1.02] tracking-[-0.035em] text-ink">
                       Рекламные ролики, бренд-фильмы, корпоративные видео и контент для digital.
                     </p>
                   </div>
-                  <div className="rounded-[26px] border border-white/12 bg-white/[0.06] px-5 py-5 backdrop-blur-sm">
-                    <p className="text-[10px] uppercase tracking-[0.24em] text-white/42">География</p>
-                    <p className="mt-3 font-display text-[1.5rem] leading-[1.02] tracking-[-0.035em] text-white">
+                  <div className="rounded-md border border-white/12 bg-white/[0.06] px-5 py-5 backdrop-blur-sm">
+                    <p className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">География</p>
+                    <p className="mt-3 font-display text-[1.5rem] leading-[1.02] tracking-[-0.035em] text-ink">
                       Москва, Санкт-Петербург и выездные съёмки по России.
                     </p>
                   </div>
@@ -372,7 +368,7 @@ export default function AboutPage() {
                 {aboutSearchPhrases.map((item) => (
                   <span
                     key={item}
-                    className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] uppercase tracking-[0.18em] text-white/62 backdrop-blur-sm"
+                    className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] uppercase tracking-[0.18em] text-ink-muted backdrop-blur-sm"
                   >
                     {item}
                   </span>
@@ -383,18 +379,18 @@ export default function AboutPage() {
         </section>
 
         <section className="py-14 md:py-18">
-          <div className="rounded-[40px] border border-white/10 bg-[radial-gradient(90rem_48rem_at_0%_0%,rgba(124,58,237,.1),transparent_56%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012)),rgba(8,8,10,.72)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+          <div className="on-dark rounded-lg border border-white/10 bg-[radial-gradient(90rem_48rem_at_0%_0%,rgba(124,58,237,.1),transparent_56%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012)),rgba(8,8,10,.72)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8 lg:px-10 lg:py-10">
             <div className="grid gap-6 xl:grid-cols-[0.86fr_1.14fr] xl:gap-10">
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-4">
-                  <p className="eyebrow text-white/45">Кто мы</p>
+                  <p className="eyebrow text-ink-faint">Кто мы</p>
                   <span className="h-px flex-1 bg-gradient-to-r from-white/14 to-transparent" />
                 </div>
 
-                <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),rgba(4,4,5,.78)] px-5 py-6 md:px-7 md:py-8">
+                <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),rgba(4,4,5,.78)] px-5 py-6 md:px-7 md:py-8">
                   <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-[radial-gradient(80%_80%_at_100%_50%,rgba(214,183,138,.12),transparent_72%)]" />
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-white/36">Highway Films</p>
-                  <h2 className="font-display relative z-[1] mt-5 max-w-[11ch] text-[clamp(3rem,5vw,5.4rem)] leading-[0.88] tracking-[-0.05em] text-white">
+                  <p className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">Highway Films</p>
+                  <h2 className="font-display relative z-[1] mt-5 max-w-[11ch] text-[clamp(3rem,5vw,5.4rem)] leading-[0.88] tracking-[-0.05em] text-ink">
                     Студия видеопродакшна, которая выросла из реальных съёмок, а не из красивых формулировок.
                   </h2>
                 </div>
@@ -402,33 +398,33 @@ export default function AboutPage() {
 
               <div className="flex flex-col gap-5">
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-[24px] border border-white/10 bg-white/[0.03] px-4 py-4">
-                    <p className="text-[10px] uppercase tracking-[0.22em] text-white/38">Фокус</p>
-                    <p className="mt-3 text-sm leading-6 text-white/62">
+                  <div className="rounded-md border border-white/10 bg-white/[0.03] px-4 py-4">
+                    <p className="text-[10px] uppercase tracking-[0.22em] text-ink-faint">Фокус</p>
+                    <p className="mt-3 text-sm leading-6 text-ink-muted">
                       Рекламные ролики, бренд-фильмы, корпоративное видео, интервью, клипы и спецпроекты.
                     </p>
                   </div>
-                  <div className="rounded-[24px] border border-white/10 bg-white/[0.03] px-4 py-4">
-                    <p className="text-[10px] uppercase tracking-[0.22em] text-white/38">География</p>
-                    <p className="mt-3 text-sm leading-6 text-white/62">
+                  <div className="rounded-md border border-white/10 bg-white/[0.03] px-4 py-4">
+                    <p className="text-[10px] uppercase tracking-[0.22em] text-ink-faint">География</p>
+                    <p className="mt-3 text-sm leading-6 text-ink-muted">
                       Москва, Санкт-Петербург и выездные съёмки по России с заранее просчитанной логистикой.
                     </p>
                   </div>
                 </div>
 
-                <div className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01)),rgba(4,4,5,.62)] px-5 py-6 md:px-7 md:py-7">
+                <div className="rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01)),rgba(4,4,5,.62)] px-5 py-6 md:px-7 md:py-7">
                   <div className="space-y-5">
-                    <p className="max-w-3xl text-[1.03rem] leading-8 text-white/68">
+                    <p className="max-w-3xl text-[1.03rem] leading-8 text-ink-muted">
                       Highway Films — продакшн студия полного цикла. Мы снимаем видео для брендов, компаний, команд и
                       проектов, которым нужен не просто визуально сильный ролик, а рабочий инструмент для коммуникации,
                       продаж, имиджа или запуска продукта.
                     </p>
-                    <p className="max-w-3xl text-[1.03rem] leading-8 text-white/68">
+                    <p className="max-w-3xl text-[1.03rem] leading-8 text-ink-muted">
                       В фокусе команды: рекламные ролики, бренд-фильмы, корпоративное видео, интервью, клипы и другие
                       форматы, где важно связать идею, съёмку и постпродакшн в одну понятную систему. Мы не отделяем
                       креатив от производства и не разрываем проект на случайные куски.
                     </p>
-                    <p className="max-w-3xl text-[1.03rem] leading-8 text-white/68">
+                    <p className="max-w-3xl text-[1.03rem] leading-8 text-ink-muted">
                       Для локальных запросов это тоже важно: мы работаем как видеопродакшн в Москве и как
                       видеопродакшн в Санкт-Петербурге, но география не ограничивается двумя городами. Если проект
                       требует выезда, заранее собираем маршрут, логистику, график и состав команды, чтобы съёмка
@@ -443,7 +439,7 @@ export default function AboutPage() {
 
           <div className="mt-10">
             <div className="mb-8 flex items-center gap-4">
-              <p className="eyebrow text-white/45">Что снимаем</p>
+              <p className="eyebrow text-ink-faint">Что снимаем</p>
               <span className="h-px flex-1 bg-gradient-to-r from-white/14 via-white/8 to-transparent" />
             </div>
 
@@ -456,7 +452,7 @@ export default function AboutPage() {
                     className={[
                       // on-dark: фон карточки зашит тёмным rgba(6,6,8,.84) и не
                       // зависит от темы — текст поверх остаётся светлым.
-                      "on-dark group relative block overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),rgba(6,6,8,.84)] px-5 py-5 shadow-[0_24px_70px_rgba(0,0,0,0.26)] transition duration-500 hover:-translate-y-1.5 hover:border-white/18 hover:shadow-[0_30px_100px_rgba(0,0,0,0.34)] md:px-6 md:py-6",
+                      "on-dark group relative block overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),rgba(6,6,8,.84)] px-5 py-5 shadow-[0_24px_70px_rgba(0,0,0,0.26)] transition duration-500 hover:-translate-y-1.5 hover:border-white/18 hover:shadow-[0_30px_100px_rgba(0,0,0,0.34)] md:px-6 md:py-6",
                     ].join(" ")}
                   >
                     <div
@@ -472,19 +468,19 @@ export default function AboutPage() {
 
                     <div className="relative z-[1] flex min-h-[24rem] flex-col">
                       <div className="flex items-start justify-end">
-                        <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-white/42">
+                        <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-ink-faint">
                           Раздел
                         </span>
                       </div>
 
                       <div className="mt-8 min-h-[5.2rem]">
-                        <h3 className="font-display max-w-[11ch] text-[1.72rem] leading-[0.94] tracking-[-0.04em] text-white md:text-[2.08rem]">
+                        <h3 className="font-display max-w-[11ch] text-[1.72rem] leading-[0.94] tracking-[-0.04em] text-ink md:text-[2.08rem]">
                           {item.title}
                         </h3>
                       </div>
 
                       <div className="mt-4 min-h-[10.5rem]">
-                        <p className="max-w-[27rem] text-[0.98rem] leading-7 text-white/64">
+                        <p className="max-w-[27rem] text-[0.98rem] leading-7 text-ink-muted">
                           {item.text}
                         </p>
                       </div>
@@ -495,14 +491,14 @@ export default function AboutPage() {
                           {item.details.map((detail) => (
                             <span
                               key={detail}
-                              className="rounded-full border border-white/8 bg-white/[0.03] px-3 py-1.5 text-[11px] leading-none text-white/44"
+                              className="rounded-full border border-white/8 bg-white/[0.03] px-3 py-1.5 text-[11px] leading-none text-ink-faint"
                             >
                               {detail}
                             </span>
                           ))}
                         </div>
 
-                        <div className="mt-5 flex items-center justify-between text-[0.82rem] uppercase tracking-[0.18em] text-white/42 transition duration-500 group-hover:text-white/70">
+                        <div className="mt-5 flex items-center justify-between text-[0.82rem] uppercase tracking-[0.18em] text-ink-faint transition duration-500 group-hover:text-ink-muted">
                           <span>Перейти в раздел</span>
                           <ArrowRight className="h-4 w-4 transition duration-500 group-hover:translate-x-1" />
                         </div>
@@ -517,12 +513,12 @@ export default function AboutPage() {
 
         <section className="py-14 md:py-18">
           <div className="mb-8 flex items-center gap-4">
-            <p className="eyebrow text-white/45">Почему мы</p>
+            <p className="eyebrow text-ink-faint">Почему мы</p>
             <span className="h-px flex-1 bg-gradient-to-r from-white/14 via-white/8 to-transparent" />
           </div>
 
           {/* on-dark: bg-black не зависит от темы, текст остаётся светлым */}
-          <div className="on-dark relative overflow-hidden rounded-[36px] border border-white/10 bg-black px-2 shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
+          <div className="on-dark relative overflow-hidden rounded-lg border border-white/10 bg-black px-2 shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,6,7,.72),rgba(6,6,7,.82)_36%,rgba(6,6,7,.9)),radial-gradient(80rem_40rem_at_18%_0%,rgba(26,42,88,.18),transparent_58%),radial-gradient(56rem_26rem_at_100%_100%,rgba(122,34,64,.16),transparent_60%),radial-gradient(52rem_24rem_at_52%_42%,rgba(255,255,255,.04),transparent_64%)]" />
             <div className="pointer-events-none absolute inset-x-6 top-3 h-px bg-[repeating-linear-gradient(90deg,rgba(255,255,255,.16)_0_12px,transparent_12px_24px)] opacity-20" />
             <div className="pointer-events-none absolute inset-x-6 bottom-3 h-px bg-[repeating-linear-gradient(90deg,rgba(255,255,255,.16)_0_12px,transparent_12px_24px)] opacity-20" />
@@ -542,16 +538,16 @@ export default function AboutPage() {
                     <div className="relative grid min-h-[20rem] grid-rows-[9.5rem_minmax(0,1fr)]">
 
                       <div className="flex flex-col items-start pt-1">
-                        <span className="text-[10px] uppercase tracking-[0.24em] text-white/36">
+                        <span className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">
                           {item.index}
                         </span>
-                        <h3 className="font-display mt-3 max-w-[11ch] text-[1.7rem] leading-[0.95] tracking-[-0.035em] text-white">
+                        <h3 className="font-display mt-3 max-w-[11ch] text-[1.7rem] leading-[0.95] tracking-[-0.035em] text-ink">
                           {item.title}
                         </h3>
                       </div>
 
                       <div className="flex items-start pt-12">
-                        <p className="max-w-[16rem] text-sm leading-6 text-white/60">
+                        <p className="max-w-[16rem] text-sm leading-6 text-ink-muted">
                           {item.text}
                         </p>
                       </div>
@@ -568,11 +564,11 @@ export default function AboutPage() {
 
         <section className="py-14 md:py-18">
           <div className="mb-8 flex items-center gap-4">
-            <p className="eyebrow text-white/48">Подход</p>
+            <p className="eyebrow text-ink-faint">Подход</p>
             <span className="h-px flex-1 bg-gradient-to-r from-white/14 via-white/8 to-transparent" />
           </div>
 
-          <div className="relative overflow-hidden rounded-[38px] border border-white/10 bg-black shadow-[0_24px_70px_rgba(0,0,0,0.3)]">
+          <div className="on-dark relative overflow-hidden rounded-lg border border-white/10 bg-black shadow-[0_24px_70px_rgba(0,0,0,0.3)]">
             <div className="absolute inset-0 opacity-90">
               <DarkVeil
                 hueShift={16}
@@ -587,10 +583,10 @@ export default function AboutPage() {
 
             <div className="relative z-[1] px-6 py-8 md:px-8 md:py-10">
               <div className="grid gap-6 xl:grid-cols-[1.18fr_0.82fr] xl:items-end">
-                <p className="font-display max-w-5xl text-[clamp(2rem,2vw+1.2rem,4.1rem)] leading-[1.02] tracking-[-0.045em] text-white">
+                <p className="font-display max-w-5xl text-[clamp(2rem,2vw+1.2rem,4.1rem)] leading-[1.02] tracking-[-0.045em] text-ink">
                   Мы не делаем видео ради жеста. Мы создаём ролики и фильмы, у которых есть конкретная задача.
                 </p>
-                <p className="max-w-lg text-[1rem] leading-7 text-white/64">
+                <p className="max-w-lg text-[1rem] leading-7 text-ink-muted">
                   Удержать внимание, усилить бренд, объяснить продукт, собрать доверие, показать команду или сохранить
                   событие. Для нас красивый кадр важен, но он должен работать на смысл и результат.
                 </p>
@@ -602,12 +598,12 @@ export default function AboutPage() {
         <section className="py-14 md:py-18">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="eyebrow text-white/45">Как мы работаем</p>
-              <h2 className="font-display mt-3 text-3xl tracking-[-0.04em] text-white md:text-[2.8rem]">
+              <p className="eyebrow text-ink-faint">Как мы работаем</p>
+              <h2 className="font-display mt-3 text-3xl tracking-[-0.04em] text-ink md:text-[2.8rem]">
                 От идеи до релиза без хаоса на площадке и в посте.
               </h2>
             </div>
-            <p className="max-w-xl text-white/58">
+            <p className="max-w-xl text-ink-muted">
               Каждый этап нужен для того, чтобы итоговое видео было сильнее, а процесс оставался прозрачным и
               управляемым для клиента.
             </p>
@@ -624,18 +620,18 @@ export default function AboutPage() {
                 ].join(" ")}
               >
                 <div className="pl-10 md:pl-0">
-                  <span className="absolute left-0 top-8 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/60 text-[11px] uppercase tracking-[0.18em] text-white/68 md:left-[4.85rem] md:-translate-x-1/2">
+                  <span className="absolute left-0 top-8 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/60 text-[11px] uppercase tracking-[0.18em] text-ink-muted md:left-[4.85rem] md:-translate-x-1/2">
                     {step.index}
                   </span>
-                  <span className="font-display text-[2.8rem] leading-none tracking-[-0.05em] text-white/14 md:text-[4rem]">
+                  <span className="font-display text-[2.8rem] leading-none tracking-[-0.05em] text-ink-ghost md:text-[4rem]">
                     {step.index}
                   </span>
                 </div>
                 <div className="pl-10 md:pl-0">
-                  <h3 className="font-display text-[1.7rem] leading-tight tracking-[-0.03em] text-white md:text-[2.2rem]">
+                  <h3 className="font-display text-[1.7rem] leading-tight tracking-[-0.03em] text-ink md:text-[2.2rem]">
                     {step.title}
                   </h3>
-                  <p className="mt-3 max-w-2xl text-[1rem] leading-7 text-white/62">{step.text}</p>
+                  <p className="mt-3 max-w-2xl text-[1rem] leading-7 text-ink-muted">{step.text}</p>
                 </div>
               </article>
             ))}
@@ -645,12 +641,12 @@ export default function AboutPage() {
         <section className="py-14 md:py-18">
           <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="eyebrow text-white/45">За кадром / production stills</p>
-              <h2 className="font-display mt-3 max-w-3xl text-3xl tracking-[-0.04em] text-white md:text-[2.8rem]">
+              <p className="eyebrow text-ink-faint">За кадром / production stills</p>
+              <h2 className="font-display mt-3 max-w-3xl text-3xl tracking-[-0.04em] text-ink md:text-[2.8rem]">
                 Настоящий продакшн выглядит не как витрина, а как собранная рабочая среда.
               </h2>
             </div>
-            <p className="max-w-xl text-white/58">
+            <p className="max-w-xl text-ink-muted">
               Здесь важны свет, подготовка, ритм команды, паузы между дублями и контроль над деталями. Именно это и
               держит итоговый кадр.
             </p>
@@ -661,7 +657,7 @@ export default function AboutPage() {
               <article
                 key={item.image}
                 className={[
-                  "group relative min-h-[18rem] overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)]",
+                  "group relative min-h-[18rem] overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)]",
                   item.className ?? "",
                 ].join(" ")}
               >
@@ -673,15 +669,15 @@ export default function AboutPage() {
                   className="object-cover transition duration-700 group-hover:scale-[1.03]"
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,10,.06),rgba(8,8,10,.14)_34%,rgba(8,8,10,.8)_100%)]" />
-                <div className="absolute inset-x-5 top-5 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.24em] text-white/44">
+                <div className="absolute inset-x-5 top-5 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.24em] text-ink-faint">
                   <span>Backstage</span>
                   <span>Highway Films</span>
                 </div>
                 <div className="absolute inset-x-5 bottom-5 max-w-md">
-                  <h3 className="font-display text-[1.45rem] leading-[1.02] tracking-[-0.03em] text-white md:text-[1.7rem]">
+                  <h3 className="font-display text-[1.45rem] leading-[1.02] tracking-[-0.03em] text-ink md:text-[1.7rem]">
                     {item.title}
                   </h3>
-                  <p className="mt-3 max-w-sm text-sm leading-6 text-white/64">{item.note}</p>
+                  <p className="mt-3 max-w-sm text-sm leading-6 text-ink-muted">{item.note}</p>
                 </div>
               </article>
             ))}
@@ -691,46 +687,46 @@ export default function AboutPage() {
         <section className="py-14 md:py-18">
           <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="eyebrow text-white/45">Локальный SEO</p>
-              <h2 className="font-display mt-3 max-w-4xl text-3xl tracking-[-0.04em] text-white md:text-[2.8rem]">
+              <p className="eyebrow text-ink-faint">Локальный SEO</p>
+              <h2 className="font-display mt-3 max-w-4xl text-3xl tracking-[-0.04em] text-ink md:text-[2.8rem]">
                 Видеопродакшн в Москве и Санкт-Петербурге для брендов, бизнеса и рекламных задач.
               </h2>
             </div>
-            <p className="max-w-xl text-white/58">
+            <p className="max-w-xl text-ink-muted">
               Этот блок усиливает локальную релевантность страницы и при этом остаётся нормальным по тону и смыслу для
               живого сайта.
             </p>
           </div>
 
           <div className="grid gap-4 xl:grid-cols-2">
-            <article className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8">
-              <p className="text-[10px] uppercase tracking-[0.24em] text-white/42">Москва</p>
-              <h3 className="font-display mt-4 text-[clamp(2rem,3vw,3.2rem)] leading-[0.96] tracking-[-0.04em] text-white">
+            <article className="rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8">
+              <p className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">Москва</p>
+              <h3 className="font-display mt-4 text-[clamp(2rem,3vw,3.2rem)] leading-[0.96] tracking-[-0.04em] text-ink">
                 Видеопродакшн в Москве
               </h3>
-              <p className="mt-5 max-w-2xl text-[1rem] leading-7 text-white/64">
+              <p className="mt-5 max-w-2xl text-[1rem] leading-7 text-ink-muted">
                 Если вам нужен видеопродакшн в Москве, мы можем взять на себя весь цикл работ: от брифа и концепции до
                 съёмки, монтажа, цветокоррекции и финальных адаптаций. Работаем с рекламными роликами, бренд-фильмами,
                 корпоративным видео и digital-контентом для компаний, агентств и команд.
               </p>
-              <p className="mt-4 max-w-2xl text-[1rem] leading-7 text-white/64">
+              <p className="mt-4 max-w-2xl text-[1rem] leading-7 text-ink-muted">
                 Москва часто требует плотной логистики, точного тайминга и собранного продакшна. Поэтому мы заранее
                 планируем площадку, график, технику и съёмочную группу, чтобы проект двигался без хаоса и лишних
                 потерь времени.
               </p>
             </article>
 
-            <article className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8">
-              <p className="text-[10px] uppercase tracking-[0.24em] text-white/42">Санкт-Петербург</p>
-              <h3 className="font-display mt-4 text-[clamp(2rem,3vw,3.2rem)] leading-[0.96] tracking-[-0.04em] text-white">
+            <article className="rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8">
+              <p className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">Санкт-Петербург</p>
+              <h3 className="font-display mt-4 text-[clamp(2rem,3vw,3.2rem)] leading-[0.96] tracking-[-0.04em] text-ink">
                 Видеопродакшн в Санкт-Петербурге
               </h3>
-              <p className="mt-5 max-w-2xl text-[1rem] leading-7 text-white/64">
+              <p className="mt-5 max-w-2xl text-[1rem] leading-7 text-ink-muted">
                 Как видеопродакшн в Санкт-Петербурге, мы работаем с брендами и бизнесом, которым нужен сильный визуал,
                 продуманный процесс и видео под конкретную задачу. Снимаем рекламные ролики, брендовые истории,
                 корпоративные фильмы, интервью и контент для сайта, соцсетей и рекламных размещений.
               </p>
-              <p className="mt-4 max-w-2xl text-[1rem] leading-7 text-white/64">
+              <p className="mt-4 max-w-2xl text-[1rem] leading-7 text-ink-muted">
                 Для проектов в Санкт-Петербурге нам важны не только кадр и атмосфера, но и точная организация
                 продакшна: подготовка, ритм команды, работа с локациями и финальная выдача материалов под нужные
                 каналы.
@@ -740,7 +736,7 @@ export default function AboutPage() {
         </section>
 
         <section className="py-14 md:py-18">
-          <div className="rounded-[36px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-2 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8">
+          <div className="rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-2 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8">
             {aboutFaqItems.map((item) => (
               <FaqItem key={item.q} item={item} />
             ))}
@@ -748,16 +744,16 @@ export default function AboutPage() {
         </section>
 
         <section className="pb-6 pt-14 md:pt-18">
-          <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-[radial-gradient(80rem_34rem_at_0%_0%,rgba(124,58,237,.2),transparent_56%),radial-gradient(46rem_22rem_at_100%_100%,rgba(214,183,138,.12),transparent_54%),linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.016)),rgba(8,8,10,.8)] px-6 py-8 shadow-[0_30px_84px_rgba(0,0,0,0.36)] md:px-8 md:py-10 lg:px-10">
+          <div className="on-dark relative overflow-hidden rounded-lg border border-white/10 bg-[radial-gradient(80rem_34rem_at_0%_0%,rgba(124,58,237,.2),transparent_56%),radial-gradient(46rem_22rem_at_100%_100%,rgba(214,183,138,.12),transparent_54%),linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.016)),rgba(8,8,10,.8)] px-6 py-8 shadow-[0_30px_84px_rgba(0,0,0,0.36)] md:px-8 md:py-10 lg:px-10">
             <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[34%] bg-[radial-gradient(72%_82%_at_100%_50%,rgba(255,255,255,.08),transparent_70%)] lg:block" />
             <div className="relative z-[1] flex flex-col gap-8">
               <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
                 <div className="max-w-3xl">
-                  <p className="eyebrow text-white/48">Следующий шаг</p>
-                  <h2 className="font-display mt-3 text-[clamp(2.2rem,4.2vw,4.4rem)] leading-[0.96] tracking-[-0.045em] text-white">
+                  <p className="eyebrow text-ink-faint">Следующий шаг</p>
+                  <h2 className="font-display mt-3 text-[clamp(2.2rem,4.2vw,4.4rem)] leading-[0.96] tracking-[-0.045em] text-ink">
                     Если вам нужен рекламный ролик, бренд-фильм или корпоративное видео, присылайте задачу.
                   </h2>
-                  <p className="mt-5 max-w-2xl text-[1.03rem] leading-8 text-white/68">
+                  <p className="mt-5 max-w-2xl text-[1.03rem] leading-8 text-ink-muted">
                     Поможем определить формат, объём работ, состав продакшна и следующий шаг. Для хорошего старта не
                     всегда нужен готовый бриф, иногда достаточно нормального разговора по сути проекта.
                   </p>
@@ -778,9 +774,9 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-5 border-t border-white/10 pt-5 text-sm text-white/54 md:flex-row md:items-end md:justify-between">
+              <div className="flex flex-col gap-5 border-t border-white/10 pt-5 text-sm text-ink-faint md:flex-row md:items-end md:justify-between">
                 <div className="max-w-3xl">
-                  <p className="font-display text-[1.4rem] tracking-[-0.03em] text-white">
+                  <p className="font-display text-[1.4rem] tracking-[-0.03em] text-ink">
                     Highway Films — видеопродакшн полного цикла.
                   </p>
                   <p className="mt-2 leading-7">
@@ -788,20 +784,20 @@ export default function AboutPage() {
                   </p>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] uppercase tracking-[0.2em] text-white/42 md:justify-end">
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] uppercase tracking-[0.2em] text-ink-faint md:justify-end">
                   <span>Москва / Санкт-Петербург / выездные съёмки</span>
-                  <a href="mailto:info@highway-films.ru" className="transition hover:text-white/72">
+                  <a href="mailto:info@highway-films.ru" className="transition hover:text-ink-muted">
                     info@highway-films.ru
                   </a>
                   <a
                     href="https://t.me/highwayfilms"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="transition hover:text-white/72"
+                    className="transition hover:text-ink-muted"
                   >
                     Telegram
                   </a>
-                  <Link href="/brief" className="transition hover:text-white/72">
+                  <Link href="/brief" className="transition hover:text-ink-muted">
                     Brief
                   </Link>
                 </div>

@@ -42,11 +42,6 @@
   --text-display-lg: var(--type-display-lg);
   --text-display-xl: var(--type-display-xl);
 
-  --color-ink: var(--ink);
-  --color-ink-muted: var(--ink-muted);
-  --color-ink-faint: var(--ink-faint);
-  --color-ink-ghost: var(--ink-ghost);
-  --color-hairline: var(--hairline);
   --color-accent: var(--accent);
 
   --radius-sm: var(--r-sm);
@@ -54,6 +49,22 @@
   --radius-lg: var(--r-lg);
 
   --ease-film: var(--ease-film);
+}
+
+/* Цветовые утилиты написаны руками, а не через @theme.
+   Причина: @theme объявляет --color-ink: var(--ink) в :root, и подстановка
+   происходит ТАМ ЖЕ — потомки наследуют уже вычисленный цвет. Из-за этого
+   .on-dark, переопределяющий --ink, до утилиты не доставал, и текст поверх
+   тёмных областей в светлой теме темнел и исчезал.
+   Здесь var() стоит прямо в объявлении утилиты и разрешается на элементе,
+   поэтому ближайший .on-dark работает как надо. */
+@layer hf-components {
+  .text-ink { color: var(--ink); }
+  .text-ink-muted { color: var(--ink-muted); }
+  .text-ink-faint { color: var(--ink-faint); }
+  .text-ink-ghost { color: var(--ink-ghost); }
+  .border-hairline { border-color: var(--hairline); }
+  .bg-hairline { background-color: var(--hairline); }
 }
 
 /* foundations */

@@ -32,7 +32,7 @@ export default function WeddingHero() {
       </div>
 
       <div className="container wedding-hero-frame">
-        <div className="wedding-hero-copy">
+        <div className="on-dark wedding-hero-copy">
           <p className="eyebrow wedding-section-kicker wedding-hero-kicker commercials-hero__eyebrow">
             Wedding Films by Highway Films
           </p>

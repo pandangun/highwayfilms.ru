@@ -536,6 +536,32 @@ html[data-theme="light"] .drawer-mobile-controls {
 .on-dark {
   --ink-rgb: 243 243 242;
   --light-ink: 243 243 242;
+
+  /* Производные токены переобъявляются здесь намеренно, а не наследуются.
+     Подстановка var() в кастомном свойстве происходит на том элементе, где
+     свойство ОБЪЯВЛЕНО. --ink-muted объявлен в :root, значит там же и
+     подставился --ink-rgb; потомки наследуют уже вычисленный цвет, и одного
+     переопределения --ink-rgb недостаточно. Без этих строк текст внутри
+     .on-dark в светлой теме становился тёмным поверх тёмного кадра. */
+  --ink: rgb(var(--ink-rgb));
+  --ink-muted: rgb(var(--ink-rgb) / .64);
+  --ink-faint: rgb(var(--ink-rgb) / .44);
+  --ink-ghost: rgb(var(--ink-rgb) / .26);
+  --hairline: rgb(var(--ink-rgb) / .1);
+}
+
+/* Лента в hero /corporate лежит поверх кадра и остаётся тёмной при любой
+   теме. Чипы (.meta-chip, .ai-tool-chip, .status-pill) сюда НЕ входят: им
+   сделали прозрачный фон, и закрепление светлых чернил их бы сломало —
+   светлый текст оказался бы на кремовом. */
+:is(
+  .corporate-hero__ribbon-item
+) {
+  --ink-rgb: 243 243 242;
+  --light-ink: 243 243 242;
+  --ink: rgb(var(--ink-rgb));
+  --ink-muted: rgb(var(--ink-rgb) / .64);
+  --ink-faint: rgb(var(--ink-rgb) / .44);
 }
 
 /* light-mode text overrides */

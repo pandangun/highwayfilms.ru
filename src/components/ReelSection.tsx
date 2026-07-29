@@ -74,7 +74,7 @@ export default function ReelSection({
             mode="ambient"
             className="aspect-[16/9] w-full"
           />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/72 to-transparent p-6 md:p-8">
+          <div className="on-dark pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/72 to-transparent p-6 md:p-8">
             <p className="text-eyebrow uppercase tracking-[var(--tracking-caps)] text-ink-muted">
               {items[0].tag}
             </p>
@@ -86,13 +86,13 @@ export default function ReelSection({
       ) : (
         <div className="grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
           {items.map((item) => (
-            <article key={item.id} className="on-dark">
+            <article key={item.id}>
               <StudioPlayer
                 source={item.source}
                 label={item.title}
                 placeholder={item.placeholder}
                 mode="interactive"
-                className="aspect-[16/9] w-full rounded-md"
+                className="on-dark aspect-[16/9] w-full rounded-md"
               />
               <div className="mt-4 flex items-baseline justify-between gap-4 border-t border-hairline pt-4">
                 <div>

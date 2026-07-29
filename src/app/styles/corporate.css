@@ -71,7 +71,7 @@
 
 .corporate-hero__title {
   margin-top: 1rem;
-  font-size: clamp(3rem, 5.4vw, 6.1rem);
+  font-size: var(--type-display-xl);
   line-height: .9;
   letter-spacing: -0.05em;
 }
@@ -82,7 +82,7 @@
 
 .corporate-hero__lead {
   margin-top: 1.6rem;
-  font-size: clamp(1.05rem, 1rem + .45vw, 1.35rem);
+  font-size: var(--type-lead);
   line-height: 1.7;
 }
 
@@ -158,90 +158,15 @@
 
 .corporate-section__title {
   margin-top: .9rem;
-  font-size: clamp(2.2rem, 2rem + 1.6vw, 3.6rem);
+  font-size: var(--type-display-lg);
   line-height: .96;
   letter-spacing: -0.04em;
 }
 
 .corporate-section__lead {
   margin-top: 1rem;
-  font-size: 1.02rem;
+  font-size: var(--type-body);
   line-height: 1.8;
-}
-
-.corporate-cases {
-  margin-top: 2.4rem;
-  overflow-x: auto;
-}
-
-.corporate-cases__track {
-  display: flex;
-  gap: 1.6rem;
-  padding-bottom: .75rem;
-}
-
-.corporate-case {
-  position: relative;
-  width: min(76vw, 420px);
-  flex: 0 0 auto;
-  border-radius: 26px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.1);
-  background: rgba(10,10,11,.7);
-  box-shadow: 0 24px 60px rgba(0,0,0,.34);
-  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
-}
-
-.corporate-case__media {
-  position: relative;
-  height: 280px;
-}
-
-.corporate-case__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.7) 76%, rgba(0,0,0,.92));
-  opacity: .5;
-  transition: opacity .3s ease;
-}
-
-.corporate-case__caption {
-  position: absolute;
-  inset: auto 0 0;
-  padding: 1.4rem 1.4rem 1.6rem;
-  display: grid;
-  gap: .4rem;
-  transform: translateY(12px);
-  opacity: 0;
-  transition: opacity .3s ease, transform .3s ease;
-}
-
-.corporate-case__title {
-  font-family: var(--font-display), serif;
-  font-size: 1.4rem;
-  letter-spacing: -0.03em;
-  color: #fff;
-}
-
-.corporate-case__desc {
-  font-size: .95rem;
-  line-height: 1.6;
-  color: rgba(255,255,255,.68);
-}
-
-.corporate-case:hover {
-  transform: scale(1.02);
-  border-color: rgba(255,255,255,.18);
-  box-shadow: 0 30px 70px rgba(0,0,0,.4);
-}
-
-.corporate-case:hover .corporate-case__overlay {
-  opacity: .8;
-}
-
-.corporate-case:hover .corporate-case__caption {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .corporate-section--timeline {
@@ -282,7 +207,7 @@
 
 .corporate-step__title {
   font-family: var(--font-display), serif;
-  font-size: 1.45rem;
+  font-size: var(--type-display-sm);
   letter-spacing: -0.03em;
   color: #fff;
 }
@@ -367,15 +292,6 @@
 
   .corporate-timeline::before {
     left: 1.1rem;
-  }
-
-  .corporate-case__caption {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .corporate-case__overlay {
-    opacity: .75;
   }
 }
 }

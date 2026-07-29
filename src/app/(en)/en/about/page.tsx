@@ -68,11 +68,11 @@ function SectionHeader({
     <header className="mb-7 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
       <div>
         <p className="eyebrow">{kicker}</p>
-        <h2 className="font-display mt-3 text-3xl tracking-[-0.03em] text-white md:text-4xl">
+        <h2 className="font-display mt-3 text-3xl tracking-[-0.03em] text-ink md:text-4xl">
           {title}
         </h2>
       </div>
-      {lead ? <p className="max-w-xl text-white/62">{lead}</p> : null}
+      {lead ? <p className="max-w-xl text-ink-muted">{lead}</p> : null}
     </header>
   );
 }
@@ -91,19 +91,19 @@ function StatPanel({
   return (
     <div
       className={[
-        "relative overflow-hidden rounded-[30px] border border-white/10 p-6 shadow-soft",
+        "relative overflow-hidden rounded-lg border border-white/10 p-6 shadow-soft",
         "bg-[radial-gradient(140%_120%_at_0%_0%,rgba(124,58,237,.24),transparent_60%),radial-gradient(120%_120%_at_100%_100%,rgba(59,130,246,.14),transparent_58%),rgba(255,255,255,.03)]",
         featured ? "md:col-span-2" : "",
       ].join(" ")}
     >
       <div className="mb-6 flex items-center gap-4">
-        <span className="text-[11px] uppercase tracking-[0.22em] text-white/45">{label}</span>
+        <span className="text-[11px] uppercase tracking-[0.22em] text-ink-faint">{label}</span>
         <span className="h-px flex-1 bg-white/10" />
       </div>
       <div className="text-transparent bg-clip-text bg-gradient-to-br from-white via-white/90 to-violet-200/85 font-extrabold tracking-tight text-[clamp(2.4rem,1.4rem+3vw,3.4rem)]">
         {value}
       </div>
-      <p className="mt-4 max-w-md text-sm leading-6 text-white/62">{detail}</p>
+      <p className="mt-4 max-w-md text-sm leading-6 text-ink-muted">{detail}</p>
     </div>
   );
 }
@@ -120,15 +120,15 @@ function AdvantageCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 shadow-soft">
+    <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 shadow-soft">
       <div className="mb-6 flex items-center justify-between gap-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white/80">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-ink">
           {icon}
         </div>
-        <span className="text-[11px] uppercase tracking-[0.22em] text-white/36">{note}</span>
+        <span className="text-[11px] uppercase tracking-[0.22em] text-ink-faint">{note}</span>
       </div>
-      <h3 className="font-display text-2xl text-white">{title}</h3>
-      <p className="mt-3 text-white/62">{text}</p>
+      <h3 className="font-display text-2xl text-ink">{title}</h3>
+      <p className="mt-3 text-ink-muted">{text}</p>
       <div className="mt-6 h-px w-full bg-gradient-to-r from-white/20 via-white/5 to-transparent" />
     </div>
   );
@@ -136,8 +136,8 @@ function AdvantageCard({
 
 function Statement({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-[30px] border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.04))] px-6 py-8 shadow-soft md:px-8">
-      <p className="font-display max-w-4xl text-[clamp(1.8rem,2vw+1rem,2.9rem)] leading-[1.08] tracking-[-0.035em] text-white">
+    <div className="rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.04))] px-6 py-8 shadow-soft md:px-8">
+      <p className="font-display max-w-4xl text-[clamp(1.8rem,2vw+1rem,2.9rem)] leading-[1.08] tracking-[-0.035em] text-ink">
         {children}
       </p>
     </div>
@@ -154,14 +154,14 @@ function Step({
   text: string;
 }) {
   return (
-    <div className="rounded-[28px] border border-white/10 bg-black/25 p-6 shadow-soft">
+    <div className="rounded-lg border border-white/10 bg-black/25 p-6 shadow-soft">
       <div className="flex items-start gap-4">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm text-white/80">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm text-ink">
           {index}
         </div>
         <div>
-          <h3 className="font-display text-xl text-white">{title}</h3>
-          <p className="mt-3 text-white/62">{text}</p>
+          <h3 className="font-display text-xl text-ink">{title}</h3>
+          <p className="mt-3 text-ink-muted">{text}</p>
         </div>
       </div>
     </div>
@@ -170,18 +170,17 @@ function Step({
 
 export default function AboutPageEn() {
   return (
-    // on-dark: страница дарк-онли, как и русская версия — см. app/about/page.tsx
-    <div className="on-dark page-shell">
+    <div className="page-shell">
       <div className="page-ambient" />
       <div className="container page-content pt-header-safe pb-16">
       <section className="py-10 md:py-14">
         <div className="grid gap-10 xl:grid-cols-[1.05fr_0.95fr] xl:items-end">
           <div>
             <p className="eyebrow">About</p>
-            <h1 className="font-display mt-4 max-w-4xl text-[clamp(3rem,7vw,5.7rem)] leading-[0.95] tracking-[-0.045em] text-white">
+            <h1 className="font-display mt-4 max-w-4xl text-[clamp(3rem,7vw,5.7rem)] leading-[0.95] tracking-[-0.045em] text-ink">
               Highway Films — full-cycle video production
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/68 md:text-[1.28rem]">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-ink-muted md:text-[1.28rem]">
               We create commercials, corporate films, brand content, and music videos. The point is not only to make something beautiful, but to build strong production logic and a clear outcome around the brief.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -302,7 +301,7 @@ export default function AboutPageEn() {
             <article
               key={item.image}
               className={[
-                "group relative min-h-[18rem] overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)]",
+                "group relative min-h-[18rem] overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)]",
                 item.className ?? "",
               ].join(" ")}
             >
@@ -314,15 +313,15 @@ export default function AboutPageEn() {
                 className="object-cover transition duration-700 group-hover:scale-[1.03]"
               />
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,10,.06),rgba(8,8,10,.14)_34%,rgba(8,8,10,.8)_100%)]" />
-              <div className="absolute inset-x-5 top-5 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.24em] text-white/44">
+              <div className="absolute inset-x-5 top-5 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.24em] text-ink-faint">
                 <span>Backstage</span>
                 <span>placeholder frame</span>
               </div>
               <div className="absolute inset-x-5 bottom-5 max-w-md">
-                <h3 className="font-display text-[1.45rem] leading-[1.02] tracking-[-0.03em] text-white md:text-[1.7rem]">
+                <h3 className="font-display text-[1.45rem] leading-[1.02] tracking-[-0.03em] text-ink md:text-[1.7rem]">
                   {item.title}
                 </h3>
-                <p className="mt-3 max-w-sm text-sm leading-6 text-white/64">{item.note}</p>
+                <p className="mt-3 max-w-sm text-sm leading-6 text-ink-muted">{item.note}</p>
               </div>
             </article>
           ))}
@@ -330,14 +329,14 @@ export default function AboutPageEn() {
       </section>
 
       <section className="pb-4 pt-10 md:pt-14">
-        <div className="rounded-[30px] border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.05))] px-6 py-8 shadow-[0_25px_80px_rgba(0,0,0,0.38)] md:px-8 md:py-10">
+        <div className="rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.05))] px-6 py-8 shadow-[0_25px_80px_rgba(0,0,0,0.38)] md:px-8 md:py-10">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
-              <p className="eyebrow text-white/55">Next move</p>
-              <h2 className="font-display mt-3 text-3xl tracking-[-0.03em] text-white md:text-4xl">
+              <p className="eyebrow text-ink-muted">Next move</p>
+              <h2 className="font-display mt-3 text-3xl tracking-[-0.03em] text-ink md:text-4xl">
                 Want to discuss your project?
               </h2>
-              <p className="mt-4 text-white/68">
+              <p className="mt-4 text-ink-muted">
                 Send the product, brand, or just the brief notes. We will return with treatment direction, timing, and a working estimate.
               </p>
             </div>
