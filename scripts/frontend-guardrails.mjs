@@ -84,32 +84,17 @@ const CLIENT_NAV_ROUTES = [
 const LIGHT_THEME_MIN_CONTRAST = 2.0;
 
 /**
- * Подтверждённые баги, которые нельзя починить точечно, не увеличив долг.
- *
- * Все три — один корень: глобальные правила `html[data-theme="light"]
- * .text-white\/NN { ... !important }` в theme.css красят текст в тёмные
- * чернила независимо от того, что под ним. Над видео-hero и над тёмными
- * панелями фон остаётся чёрным, и текст исчезает.
- *
- * Лечится заменой всей этой конструкции на семантические токены — это шаг
- * «типографика и токены». Список обязан схлопнуться до нуля вместе с ним;
- * пополнять его новыми записями нельзя.
- */
-/**
  * Светлая тема на этих маршрутах не доведена. Это не регресс редизайна:
  * тема изначально держалась на 35 !important-правилах и никогда не
  * проверялась — детектор просто научился её видеть.
  *
  * Каждый случай — «тёмный остров», который не помечен .on-dark, либо
  * элемент с зашитым светлым цветом текста:
- *   /about      — карточки преимуществ поверх чёрной панели
- *   /commercials— блок FAQ (.service-faq-*)
- *   /corporate  — подписи в сетке кейсов
- *   /ai         — .ai-tool-chip
- *   /weddings   — hero поверх кадра (.wedding-hero-*)
- *   /brief      — нумерация шагов
- *   /articles   — обложки статей (.editorial-cover--*)
- *   /client/demo-project — вводный абзац
+ *   /about       — карточки преимуществ поверх чёрной панели
+ *   /commercials — заголовок блока FAQ (.eyebrow внутри .service-faq-shell)
+ *   /ai          — то же самое
+ *   /weddings    — hero поверх кадра (.wedding-hero-*)
+ *   /brief       — нумерация шагов: тёмные чернила на 30% прозрачности
  *
  * Список обязан только сокращаться. Если запись перестала
  * воспроизводиться, аудит потребует убрать её отсюда.
@@ -117,12 +102,9 @@ const LIGHT_THEME_MIN_CONTRAST = 2.0;
 const KNOWN_LIGHT_THEME_ISSUES = new Set([
   "/about",
   "/commercials",
-  "/corporate",
   "/ai",
   "/weddings",
   "/brief",
-  "/articles",
-  "/client/demo-project",
 ]);
 
 const MOTION_SELECTOR = [
@@ -364,7 +346,15 @@ async function checkLightTheme(browser, path) {
       return out;
     };
 
+    // Tailwind v4 отдаёт цвета в oklab()/oklch(). Разбирать их здесь не
+    // будем — но и судить по неполным данным нельзя: раньше такой градиент
+    // читался как пустой, подменялся фоном страницы, и светлый текст над
+    // тёмной подложкой объявлялся нечитаемым. Возвращаем null = пропускаем.
+    const UNPARSEABLE = /\b(oklab|oklch|lab|lch|color)\(/;
+
     const gradientOver = (image, beneath) => {
+      if (UNPARSEABLE.test(image)) return null;
+
       const stops = gradientStops(image);
       if (stops.length === 0) return null;
 
@@ -448,6 +438,12 @@ async function checkLightTheme(browser, path) {
         if (image && image !== "none") {
           // Фотография: яркость неизвестна, судить нельзя.
           if (image.includes("url(")) return null;
+
+          // Цвет в oklab/oklch мы не разбираем. Раньше здесь возвращался
+          // null и обход шёл ВЫШЕ — доходил до фона страницы и объявлял
+          // светлый текст над тёмной подложкой нечитаемым. Правильно
+          // пропустить элемент целиком.
+          if (UNPARSEABLE.test(image)) return null;
 
           const resolved = gradientOver(image, base);
           if (resolved) return resolved;

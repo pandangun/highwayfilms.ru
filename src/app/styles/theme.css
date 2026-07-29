@@ -548,6 +548,31 @@ html[data-theme="light"] .drawer-mobile-controls {
   --ink-faint: rgb(var(--ink-rgb) / .44);
   --ink-ghost: rgb(var(--ink-rgb) / .26);
   --hairline: rgb(var(--ink-rgb) / .1);
+
+  /* Наследуемый цвет тоже нужно перевернуть: текст без явного класса
+     берёт color от body, а тот — из --fgc. Без этой строки любой
+     ненакрашенный абзац внутри тёмного блока оставался тёмным. */
+  --fgc: #f3f3f2;
+  color: var(--fgc);
+}
+
+/* ПРИЧИНА 2: поверхности, зашитые тёмными и не имеющие светлого
+   переопределения. Раньше в светлой теме на них ложился тёмный текст.
+   Помечаем их тёмными островами в самом CSS, чтобы не расставлять
+   .on-dark руками по разметке. */
+:is(
+  .service-faq-item,
+  .editorial-cover,
+  .project-room--content
+) {
+  --ink-rgb: 243 243 242;
+  --light-ink: 243 243 242;
+  --ink: rgb(var(--ink-rgb));
+  --ink-muted: rgb(var(--ink-rgb) / .64);
+  --ink-faint: rgb(var(--ink-rgb) / .44);
+  --hairline: rgb(var(--ink-rgb) / .1);
+  --fgc: #f3f3f2;
+  color: var(--fgc);
 }
 
 /* Лента в hero /corporate лежит поверх кадра и остаётся тёмной при любой
@@ -666,6 +691,23 @@ video {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+
+/* Чипы и плашки: прозрачный фон, волосяная рамка, токен-цвет.
+   Полупрозрачная тёмная заливка на кремовом фоне давала мутную плашку
+   со светлым текстом — нечитаемо. Прозрачность решает это в обеих темах
+   и заодно отвечает линейному языку. */
+:is(.meta-chip, .ai-tool-chip, .status-pill) {
+  border-color: var(--hairline);
+  background: transparent;
+  color: var(--ink-muted);
+}
+
+.client-access-submit {
+  background: var(--accent);
+  border-color: transparent;
+  color: #14120f;
 }
 
 }

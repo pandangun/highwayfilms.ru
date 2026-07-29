@@ -956,20 +956,4 @@ h3,
 
 
 
-/* Чипы и плашки: прозрачный фон, волосяная рамка, токен-цвет.
-   Полупрозрачная тёмная заливка на кремовом фоне давала мутную плашку
-   со светлым текстом — нечитаемо. Прозрачность решает это в обеих темах
-   и заодно отвечает линейному языку. */
-:is(.meta-chip, .ai-tool-chip, .status-pill) {
-  border-color: var(--hairline);
-  background: transparent;
-  color: var(--ink-muted);
-}
-
-.client-access-submit {
-  background: var(--accent);
-  border-color: transparent;
-  color: #14120f;
-}
-
 }
