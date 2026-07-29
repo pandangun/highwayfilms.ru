@@ -73,7 +73,7 @@ type MusicVideosContent = {
 const contentByLocale: Record<Locale, MusicVideosContent> = {
   ru: {
     eyebrow: "Музыкальные клипы",
-    title: "Снимаем клипы, где музыка превращается в визуальный мир.",
+    title: "Клип, который смотрят до конца.",
     lead:
       "Не набрасываем случайные красивые кадры поверх трека. Собираем клип как цельную среду: образ артиста, свет, монтажный ритм, фактуру пространства и релизную логику.",
     chips: ["Концепция", "Режиссура", "Съёмка", "Монтаж", "Color"],
@@ -85,7 +85,7 @@ const contentByLocale: Record<Locale, MusicVideosContent> = {
       kicker: "Featured case",
       artist: "HIGHWAY SESSION",
       title: "Night Signal",
-      note: "Постерный кейс. Сам ролик и private preview можно открыть по запросу без autoplay и без тяжёлой загрузки страницы.",
+      note: "Полную версию и черновые кадры со съёмки пришлём по запросу — напишите в Telegram.",
       poster: "/images/frames/f022.jpg",
       alt: "Постер музыкального клипа Highway Films",
       href: "/contacts",
@@ -93,7 +93,7 @@ const contentByLocale: Record<Locale, MusicVideosContent> = {
     },
     gallery: {
       eyebrow: "Selected clips",
-      title: "Шахматная галерея вместо ровной CMS-сетки.",
+      title: "Клипы, которые мы сняли.",
       lead:
         "Карточки работают как editorial layout: разный масштаб, воздух между постерами, тёмный overlay и акцент на артисте и названии трека.",
       items: [
@@ -158,7 +158,7 @@ const contentByLocale: Record<Locale, MusicVideosContent> = {
     },
     production: {
       eyebrow: "Съёмочная площадка",
-      title: "Кинематографичный продакшн строится не только в кадре, но и между дублями.",
+      title: "Половина клипа делается до съёмки.",
       lead:
         "Подготовка света, перестановки, ритм команды, короткие проверки, запас под монтаж и контроль над фактурой пространства. Именно это потом чувствуется в готовом клипе.",
       poster: "/images/frames/f031.jpg",
@@ -174,22 +174,22 @@ const contentByLocale: Record<Locale, MusicVideosContent> = {
         {
           index: "01",
           title: "Трек и образ",
-          text: "Снимаем смысл, темп, публичный образ артиста и референсы, чтобы понять не только настроение, но и зрительский ракурс.",
+          text: "Слушаем трек, смотрим, как артист выглядит на сцене и в соцсетях, разбираем референсы. На выходе — один внятный образ, а не смесь пяти.",
         },
         {
           index: "02",
           title: "Treatment и продакшн-схема",
-          text: "Собираем визуальный язык, площадку, свет, стайлинг, тайминг и объём съёмки под реальную задачу и бюджет.",
+          text: "Локация, свет, стайлинг, тайминг и список сцен — всё согласуем до съёмочного дня, чтобы на площадке не решать заново.",
         },
         {
           index: "03",
           title: "Съёмка и запас под монтаж",
-          text: "Работаем не только на один красивый проход, а на материал, который потом держит ритм, вертикали и релизные версии.",
+          text: "Снимаем с запасом на монтаж: дубли под разный ритм, вертикальные кадры под клипы в соцсетях, крупные планы под обложки.",
         },
         {
           index: "04",
           title: "Монтаж, color, release package",
-          text: "Собираем финальный клип, короткие версии, обложки и релизные адаптации без лишней пересборки на посте.",
+          text: "Отдаём клип, вертикальные нарезки под Reels и Shorts, кадры для обложки релиза и превью для площадок.",
         },
       ],
     },
@@ -200,7 +200,7 @@ const contentByLocale: Record<Locale, MusicVideosContent> = {
         "Присылай музыку, moodboard или короткий набросок. Вернёмся с treatment-направлением, производственной рамкой и следующим шагом без лишней перегрузки.",
       href: "/contacts",
       label: "Запустить обсуждение",
-      note: "Видео на этой странице не автозагружаются: только постеры и лёгкие карточки, чтобы страница оставалась быстрой.",
+      note: "Ответим в течение дня. Если трек уже готов — пришлите ссылку, так разговор пойдёт быстрее.",
     },
   },
   en: {
@@ -217,7 +217,7 @@ const contentByLocale: Record<Locale, MusicVideosContent> = {
       kicker: "Featured case",
       artist: "HIGHWAY SESSION",
       title: "Night Signal",
-      note: "Poster-first case card. The full reel or private preview can be shared on request without autoplay and without loading heavy video into the page.",
+      note: "We will send the full cut and behind-the-scenes footage on request — write on Telegram.",
       poster: "/images/frames/f022.jpg",
       alt: "Highway Films featured music video poster",
       href: "/en/contacts",
@@ -225,7 +225,7 @@ const contentByLocale: Record<Locale, MusicVideosContent> = {
     },
     gallery: {
       eyebrow: "Selected clips",
-      title: "An editorial clip wall instead of a flat CMS grid.",
+      title: "Videos we have shot.",
       lead:
         "Cards use uneven scale, breathing room, dark overlays, and clear hierarchy around the artist and the track title.",
       items: [
@@ -290,7 +290,7 @@ const contentByLocale: Record<Locale, MusicVideosContent> = {
     },
     production: {
       eyebrow: "Production floor",
-      title: "Cinematic production is built not only in the shot, but between takes.",
+      title: "Half of the video is made before the shoot.",
       lead:
         "Lighting adjustments, resets, crew rhythm, quick checks, edit coverage, and control over the feel of the space. That is what the finished clip ends up carrying.",
       poster: "/images/frames/f031.jpg",

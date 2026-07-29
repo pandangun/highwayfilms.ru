@@ -8,7 +8,7 @@ import { buildPageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = buildPageMetadata({
   title: "Корпоративное и презентационное видео — Highway Films",
   description:
-    "Фильмы о компании, производстве, HR и презентациях. Корпоративное видео, которое объясняет ценность бизнеса без визуальной бюрократии.",
+    "Фильмы о компании, съёмка производства, HR-видео и презентации для инвесторов. Корпоративное видео, которое можно показать клиенту, партнёру и кандидату — и не стыдно.",
   path: "/corporate",
   locale: "ru",
   imagePath: "/images/corporate/office%20(3)_main_1.png",
@@ -112,7 +112,7 @@ export default function CorporatePage() {
               <span>фильмы</span>
             </h1>
             <p className="corporate-hero__lead text-white/70">
-              Видео, которое объясняет бизнес, продукт и экспертизу компании.
+              Видео, которое объясняет бизнес за две минуты — без корпоративных штампов и закадрового пафоса.
             </p>
             <div className="corporate-hero__actions">
               <Link href="/contacts" className="home-primary-button">
@@ -168,7 +168,7 @@ export default function CorporatePage() {
               Кинематографичная галерея корпоративных историй.
             </h2>
             <p className="corporate-section__lead text-white/64">
-              Видео работает как инструмент объяснения: структура, визуальная ясность и доверие на каждом кадре.
+              Съёмка на реальных объектах и с реальными людьми. Показываем, как устроено дело, а не как выглядит стоковый офис.
             </p>
           </div>
 
