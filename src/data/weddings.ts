@@ -91,13 +91,6 @@ export const weddingEditorialImages = {
   },
 } as const satisfies Record<string, WeddingEditorialImage>;
 
-export const weddingHeroChips = [
-  "Без лишней постановки",
-  "Помогаем с таймингом",
-  "Тизер через несколько дней",
-  "Москва / Санкт-Петербург / Россия",
-] as const;
-
 export const weddingApproachPoints = [
   "Подсказываем, где нужна короткая пауза для света и портретов.",
   "Не превращаем день в бесконечную постановку.",
@@ -317,8 +310,3 @@ export const weddingFaqItems: WeddingFaqItem[] = [
   },
 ] as const;
 
-export const weddingContactHighlights = [
-  "Ответим в день обращения",
-  "Соберём смету под ваш тайминг",
-  "Сразу скажем, где можно упростить продакшн",
-] as const;

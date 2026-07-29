@@ -113,11 +113,33 @@ export const sectionReels: Record<SectionKey, ReelItem[]> = {
     placeholderItem("music-videos", 2, "Лайв-сессия", "Музыка"),
     placeholderItem("music-videos", 3, "Тизер", "Музыка"),
   ],
+  /**
+   * Разбивка по типу дня, а не по типу материала: клиент выбирает похожее
+   * на свою свадьбу. Названия и постеры взяты из weddingCases — раньше эти
+   * же кейсы показывала отдельная карусель на 433 строки и 19 KB CSS,
+   * и на странице их стало две штуки подряд.
+   */
   weddings: [
-    placeholderItem("weddings", 1, "Свадебный фильм", "Свадьба"),
-    placeholderItem("weddings", 2, "Тизер дня", "Свадьба"),
-    placeholderItem("weddings", 3, "Утро", "Свадьба"),
-    placeholderItem("weddings", 4, "Выездная регистрация", "Свадьба"),
+    {
+      ...placeholderItem("weddings", 1, "Камерная свадьба", "Санкт-Петербург",
+        "/images/weddings/wedding-city-exit.png"),
+      id: "wedding-intimate",
+    },
+    {
+      ...placeholderItem("weddings", 2, "Городская свадьба", "Москва",
+        "/images/weddings/wedding-city-portrait.png"),
+      id: "wedding-city",
+    },
+    {
+      ...placeholderItem("weddings", 3, "Загородная церемония", "Ленобласть",
+        "/images/weddings/wedding-lakeside-portrait.png"),
+      id: "wedding-country",
+    },
+    {
+      ...placeholderItem("weddings", 4, "Большой вечерний банкет", "Москва",
+        "/images/weddings/wedding-evening-sparklers.png"),
+      id: "wedding-banquet",
+    },
   ],
   ai: [
     {

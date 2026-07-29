@@ -4,7 +4,6 @@ import ReelSection from "@/components/ReelSection";
 import { buildPageMetadata, SITE_URL } from "@/lib/metadata";
 import WeddingApproach from "@/components/weddings/WeddingApproach";
 import WeddingBriefContact from "@/components/weddings/WeddingBriefContact";
-import WeddingCasesCarousel from "@/components/weddings/WeddingCasesCarousel";
 import WeddingExtras from "@/components/weddings/WeddingExtras";
 import WeddingFaq from "@/components/weddings/WeddingFaq";
 import WeddingHero from "@/components/weddings/WeddingHero";
@@ -87,7 +86,6 @@ export default function WeddingsPage() {
           lead="Выберите похожее на ваш день: город, загород, камерная церемония, большой вечер."
           mode="catalog"
         />
-        <WeddingCasesCarousel />
         <WeddingProcess />
         <WeddingPackages />
         <WeddingExtras />

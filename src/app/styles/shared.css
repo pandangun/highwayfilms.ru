@@ -126,10 +126,6 @@ h3,
   --section-panel-padding-desktop: 1.5rem;
 }
 
-.section-panel--flush {
-  padding: 0;
-  overflow: hidden;
-}
 
 .section-card {
   padding: var(--section-card-padding-mobile, 1.25rem);
@@ -515,7 +511,7 @@ h3,
   align-items: center;
   justify-content: center;
   min-height: 46px;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   border: 1px solid rgba(255,255,255,.12);
   background:
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)),
@@ -554,7 +550,7 @@ h3,
   justify-content: center;
   width: 3.25rem;
   height: 3.25rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   background:
     linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)),
     rgba(255,255,255,.03);
@@ -633,7 +629,7 @@ h3,
   display: inline-flex;
   align-items: center;
   gap: .45rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   border: 1px solid rgba(255,255,255,.1);
   background:
     linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.018)),
@@ -790,7 +786,7 @@ h3,
   flex-shrink: 0;
   width: 2.4rem;
   height: 2.4rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   border: 1px solid rgba(255,255,255,.12);
   background:
     linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
@@ -934,7 +930,7 @@ h3,
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
   padding: .5rem .85rem;
   font-size: .74rem;
@@ -948,7 +944,7 @@ h3,
   content: "";
   width: .48rem;
   height: .48rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   background: currentColor;
   box-shadow: 0 0 10px color-mix(in srgb, currentColor 58%, transparent);
 }

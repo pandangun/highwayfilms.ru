@@ -115,7 +115,7 @@
   align-items: center;
   gap: .45rem;
   padding: .35rem .75rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   border: 1px solid rgba(255,255,255,.12);
   background:
     linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)),

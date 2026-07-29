@@ -5,7 +5,7 @@
   align-items: center;
   min-height: 42px;
   padding: 0 1rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   font-size: .92rem;
   font-weight: 450;
   letter-spacing: .01em;
@@ -52,7 +52,7 @@
   transform: scaleX(0);
   transform-origin: center;
   background: linear-gradient(90deg, rgba(214,183,138,.1), rgba(214,183,138,.8), rgba(124,58,237,.88));
-  border-radius: 999px;
+  border-radius: var(--r-full);
   opacity: .95;
   transition: transform .28s cubic-bezier(.22,1,.36,1);
 }
@@ -201,7 +201,7 @@
 .brand-mark__dot {
   width: .62rem;
   height: .62rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(214,183,138,.88), rgba(124,58,237,.96));
   box-shadow:
     0 0 0 1px rgba(255,255,255,.08),
@@ -222,7 +222,7 @@
 
 .header-cluster {
   border: none;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   background: transparent;
   box-shadow: none;
 }
@@ -234,7 +234,7 @@
   justify-content: center;
   min-height: 42px;
   padding: 0 19px;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   border: 1px solid rgba(255,255,255,.08);
   background:
     linear-gradient(135deg, rgba(124,58,237,.42), rgba(124,58,237,.18) 54%, rgba(255,255,255,.06)),
@@ -262,7 +262,7 @@
   align-items: center;
   gap: .35rem;
   padding: 4px;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   background: var(--theme-switch-bg);
   border: 1px solid var(--theme-switch-border);
   box-shadow: var(--theme-switch-shadow);
@@ -282,7 +282,7 @@
   min-width: 34px;
   padding: 0 .85rem;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   background: transparent;
   color: rgba(255,255,255,.78);
   font-size: .78rem;

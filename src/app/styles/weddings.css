@@ -85,7 +85,7 @@
   min-height: 3.15rem;
   padding: 0 1.25rem;
   border: 1px solid rgba(255,255,255,.1);
-  border-radius: 999px;
+  border-radius: var(--r-full);
   color: #fff;
   font-size: .94rem;
   font-weight: 500;
@@ -335,7 +335,7 @@
   top: .72rem;
   width: .34rem;
   height: .34rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(214,183,138,.7));
   box-shadow: 0 0 0 5px rgba(255,255,255,.025);
 }
@@ -370,13 +370,11 @@
   color: rgba(255,245,241,.84);
   text-wrap: balance;
 }
-
 :is(
   .wedding-approach-shell,
-  .wedding-cases-shell,
-  .wedding-process-shell,
-  .wedding-faq-shell,
-  .wedding-brief-shell
+.wedding-process-shell,
+.wedding-faq-shell,
+.wedding-brief-shell
 ) {
   position: relative;
   overflow: hidden;
@@ -386,13 +384,11 @@
   box-shadow: var(--wedding-surface-shadow);
   padding: clamp(1.2rem, 3vw, 2rem);
 }
-
 :is(
   .wedding-approach-shell,
-  .wedding-cases-shell,
-  .wedding-process-shell,
-  .wedding-faq-shell,
-  .wedding-brief-shell
+.wedding-process-shell,
+.wedding-faq-shell,
+.wedding-brief-shell
 )::before {
   content: "";
   position: absolute;
@@ -447,7 +443,7 @@
   top: .7rem;
   width: .38rem;
   height: .38rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(214,183,138,.6));
   box-shadow: 0 0 0 5px rgba(255,255,255,.02);
 }
@@ -458,917 +454,6 @@
   gap: .8rem;
   margin-top: 1.5rem;
 }
-
-.wedding-cases-head {
-  display: grid;
-  gap: 1.2rem;
-}
-
-.wedding-cases-controls {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 1rem;
-}
-
-.wedding-cases-progress {
-  display: inline-flex;
-  align-items: center;
-  gap: .9rem;
-}
-
-.wedding-cases-index,
-.wedding-cases-total {
-  font-size: .74rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-}
-
-.wedding-cases-index {
-  color: rgba(255,255,255,.72);
-}
-
-.wedding-cases-total {
-  color: rgba(255,255,255,.38);
-}
-
-.wedding-cases-progress__track {
-  position: relative;
-  width: clamp(4.5rem, 10vw, 7rem);
-  height: 1px;
-  background: rgba(255,255,255,.12);
-  overflow: hidden;
-}
-
-.wedding-cases-progress__fill {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,.9), rgba(214,183,138,.62));
-  transform-origin: left center;
-}
-
-.wedding-cases-desktop {
-  display: none;
-}
-
-.wedding-cases-mobile {
-  margin-top: 1.55rem;
-}
-
-.wedding-cases-viewport {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: 1rem;
-  overscroll-behavior-x: contain;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x pinch-zoom;
-}
-
-.wedding-cases-track {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 84vw);
-  gap: 1rem;
-  padding-inline: .05rem;
-}
-
-.wedding-case-card {
-  position: relative;
-  min-height: clamp(28rem, 78vw, 36rem);
-  overflow: hidden;
-  border: 1px solid var(--wedding-surface-border-soft);
-  border-radius: var(--wedding-card-radius);
-  background: rgba(8,8,10,.82);
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
-  isolation: isolate;
-  box-shadow: 0 26px 56px rgba(0,0,0,.22);
-}
-
-.wedding-case-card[data-active="true"] {
-  border-color: rgba(255,255,255,.16);
-  box-shadow: 0 28px 64px rgba(0,0,0,.26);
-}
-
-.wedding-case-card__media,
-.wedding-case-card__overlay,
-.wedding-case-feature__media,
-.wedding-case-feature__overlay {
-  position: absolute;
-  inset: 0;
-}
-
-.wedding-case-card__media img,
-.wedding-case-feature__media img {
-  filter: saturate(.88) brightness(.82);
-  transform: scale(1.025);
-  transition: transform .7s ease, filter .45s ease;
-}
-
-.wedding-case-card[data-active="true"] .wedding-case-card__media img {
-  filter: saturate(1) brightness(.9);
-  transform: scale(1.04);
-}
-
-.wedding-case-card__overlay {
-  background:
-    linear-gradient(180deg, rgba(8,8,10,.08), rgba(8,8,10,.14) 34%, rgba(8,8,10,.76) 78%, rgba(8,8,10,.94)),
-    radial-gradient(120% 120% at 100% 0%, rgba(124,58,237,.18), transparent 48%);
-}
-
-.wedding-case-card__topline {
-  position: absolute;
-  inset: 1rem auto auto 1rem;
-  z-index: 1;
-}
-
-.wedding-case-card__serial,
-.wedding-case-feature__serial {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2rem;
-  padding: 0 .82rem;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.03)),
-    rgba(10,10,12,.22);
-  color: rgba(255,248,244,.82);
-  font-size: .7rem;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  backdrop-filter: blur(10px);
-}
-
-.wedding-case-card__copy,
-.wedding-case-feature__copy {
-  position: absolute;
-  inset: auto 0 0 0;
-  z-index: 1;
-  display: grid;
-}
-
-.wedding-case-card__copy {
-  gap: .8rem;
-  padding: 1.15rem 1.05rem 1.1rem;
-}
-
-.wedding-case-card__meta,
-.wedding-case-feature__meta {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: .55rem;
-  font-size: .7rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.58);
-}
-
-.wedding-case-card__dot,
-.wedding-case-feature__dot {
-  width: .3rem;
-  height: .3rem;
-  border-radius: 999px;
-  background: rgba(214,183,138,.74);
-}
-
-.wedding-case-card__title {
-  margin: 0;
-  max-width: 11ch;
-  font-size: clamp(1.95rem, 8vw, 2.8rem);
-  line-height: .92;
-  letter-spacing: -.05em;
-  color: #fff;
-}
-
-.wedding-case-card__summary {
-  margin: 0;
-  max-width: 19rem;
-  font-size: .95rem;
-  line-height: 1.68;
-  color: rgba(255,255,255,.78);
-}
-
-.wedding-case-card__details,
-.wedding-case-feature__details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .55rem;
-}
-
-.wedding-case-card__detail,
-.wedding-case-feature__detail {
-  display: inline-flex;
-  align-items: center;
-  min-height: 1.95rem;
-  padding: 0 .82rem;
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
-    rgba(255,255,255,.03);
-  color: rgba(255,242,238,.72);
-  font-size: .76rem;
-  line-height: 1.3;
-  white-space: nowrap;
-  backdrop-filter: blur(10px);
-}
-
-.wedding-case-card__cta,
-.wedding-case-feature__link {
-  display: inline-flex;
-  align-items: center;
-  gap: .48rem;
-  color: rgba(255,244,239,.88);
-  font-size: .84rem;
-  line-height: 1.4;
-}
-
-.wedding-case-feature__link {
-  font-size: .92rem;
-}
-
-.wedding-cases-mobile__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.wedding-cases-mobile__status {
-  display: grid;
-  gap: .2rem;
-}
-
-.wedding-cases-mobile__current {
-  color: rgba(255,247,243,.92);
-  font-family: var(--font-display), serif;
-  font-size: 1.08rem;
-  line-height: 1;
-  letter-spacing: -.02em;
-}
-
-.wedding-cases-dots {
-  display: inline-flex;
-  align-items: center;
-  gap: .45rem;
-}
-
-.wedding-cases-dot {
-  width: .55rem;
-  height: .55rem;
-  cursor: pointer;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(255,255,255,.18);
-  transition: transform .24s ease, background .24s ease, width .24s ease;
-}
-
-.wedding-cases-dot[data-active="true"] {
-  width: 1.55rem;
-  background: linear-gradient(90deg, rgba(255,255,255,.92), rgba(214,183,138,.7));
-}
-
-.wedding-cases-mobile__hint {
-  color: rgba(255,255,255,.48);
-  font-size: .82rem;
-  line-height: 1.4;
-}
-
-.wedding-case-feature {
-  position: relative;
-  min-height: clamp(32rem, 48vw, 41rem);
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 34px;
-  background: rgba(8,8,10,.84);
-  box-shadow: 0 34px 78px rgba(0,0,0,.24);
-  isolation: isolate;
-  animation: wedding-case-feature-enter .7s cubic-bezier(.22,1,.36,1);
-}
-
-.wedding-case-feature__glow,
-.wedding-case-feature__frame {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.wedding-case-feature__glow {
-  background:
-    radial-gradient(52rem 26rem at 0% 100%, rgba(124,58,237,.14), transparent 52%),
-    radial-gradient(48rem 24rem at 100% 0%, rgba(214,183,138,.12), transparent 50%);
-}
-
-.wedding-case-feature__frame {
-  inset: 1rem;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 28px;
-}
-
-.wedding-case-feature__overlay {
-  background:
-    linear-gradient(180deg, rgba(8,8,10,.08), rgba(8,8,10,.12) 26%, rgba(8,8,10,.54) 68%, rgba(8,8,10,.92)),
-    radial-gradient(120% 120% at 0% 0%, rgba(124,58,237,.18), transparent 52%);
-}
-
-.wedding-case-feature__copy {
-  gap: 1rem;
-  padding: clamp(1.5rem, 3vw, 2rem);
-}
-
-.wedding-case-feature__topline {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.wedding-case-feature__body {
-  display: grid;
-  gap: 1rem;
-}
-
-.wedding-case-feature__title {
-  max-width: 9ch;
-  margin: 0;
-  font-size: clamp(2.7rem, 3vw + 1rem, 4.35rem);
-  line-height: .9;
-  letter-spacing: -.055em;
-  color: #fff;
-}
-
-.wedding-case-feature__summary {
-  max-width: 28rem;
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.8;
-  color: rgba(255,255,255,.76);
-}
-
-.wedding-cases-stage {
-  position: relative;
-  min-height: clamp(34rem, 52vw, 46rem);
-  padding: clamp(1rem, 2vw, 1.35rem);
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 34px;
-  background:
-    radial-gradient(120% 140% at 50% 100%, rgba(124,58,237,.12), transparent 50%),
-    radial-gradient(90% 110% at 50% 0%, rgba(255,255,255,.04), transparent 58%),
-    linear-gradient(180deg, rgba(12,12,15,.82), rgba(8,8,10,.96));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.04),
-    0 30px 74px rgba(0,0,0,.24);
-  isolation: isolate;
-}
-
-.wedding-cases-stage::before {
-  content: "";
-  position: absolute;
-  inset: auto 12% 1rem;
-  height: 5.5rem;
-  background: radial-gradient(50% 100% at 50% 50%, rgba(0,0,0,.52), transparent 74%);
-  filter: blur(18px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.wedding-cases-stage::after {
-  content: "";
-  position: absolute;
-  left: 16%;
-  right: 16%;
-  bottom: -4.5rem;
-  height: 10rem;
-  background:
-    linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent),
-    repeating-linear-gradient(
-      90deg,
-      rgba(255,255,255,.045) 0 1px,
-      transparent 1px 4.5rem
-    );
-  opacity: .22;
-  transform: perspective(960px) rotateX(78deg);
-  transform-origin: center top;
-  filter: blur(.2px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.wedding-cases-stage__ambient {
-  position: absolute;
-  inset: -20% -10%;
-  background:
-    radial-gradient(38rem 18rem at 50% 100%, rgba(124,58,237,.18), transparent 56%),
-    radial-gradient(28rem 16rem at 16% 20%, rgba(255,255,255,.05), transparent 62%),
-    radial-gradient(30rem 18rem at 84% 18%, rgba(214,183,138,.1), transparent 60%);
-  filter: blur(12px);
-  opacity: .96;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.wedding-cases-stage__deck {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(clamp(34rem, 52vw, 46rem) - clamp(2rem, 4vw, 2.7rem));
-  perspective: 1800px;
-  perspective-origin: 50% 42%;
-  transform-style: preserve-3d;
-}
-
-.wedding-case-feature--stage {
-  width: min(100%, clamp(30rem, 57vw, 48rem));
-  min-height: clamp(30rem, 46vw, 41rem);
-  margin-inline: auto;
-  z-index: 2;
-  box-shadow:
-    0 34px 84px rgba(0,0,0,.34),
-    0 0 0 1px rgba(255,255,255,.025);
-}
-
-.wedding-case-feature--stage::before,
-.wedding-case-feature--stage::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-}
-
-.wedding-case-feature--stage::before {
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  background:
-    linear-gradient(120deg, rgba(255,255,255,.14), transparent 18%, transparent 74%, rgba(255,232,205,.12)),
-    linear-gradient(180deg, rgba(255,255,255,.04), transparent 22%);
-  mix-blend-mode: screen;
-  opacity: .46;
-}
-
-.wedding-case-feature--stage::after {
-  left: 10%;
-  right: 10%;
-  bottom: -2.8rem;
-  z-index: -1;
-  height: 7rem;
-  background: radial-gradient(50% 100% at 50% 50%, rgba(124,58,237,.28), transparent 74%);
-  filter: blur(22px);
-  opacity: .74;
-}
-
-.wedding-case-feature--stage .wedding-case-feature__glow {
-  background:
-    radial-gradient(58rem 30rem at 50% 100%, rgba(124,58,237,.24), transparent 52%),
-    radial-gradient(42rem 22rem at 100% 0%, rgba(214,183,138,.18), transparent 46%);
-  opacity: .88;
-}
-
-.wedding-case-feature--stage .wedding-case-feature__frame {
-  inset: 1.05rem;
-  border-color: rgba(255,255,255,.09);
-  border-radius: 30px;
-}
-
-.wedding-case-feature--stage .wedding-case-feature__overlay {
-  background:
-    linear-gradient(180deg, rgba(8,8,10,.06), rgba(8,8,10,.12) 26%, rgba(8,8,10,.52) 68%, rgba(8,8,10,.94)),
-    radial-gradient(110% 120% at 0% 0%, rgba(124,58,237,.2), transparent 54%),
-    linear-gradient(90deg, rgba(255,255,255,.03), transparent 22%, transparent 78%, rgba(255,255,255,.04));
-}
-
-.wedding-case-feature--stage .wedding-case-feature__media img {
-  filter: saturate(1) brightness(.88);
-  transform: scale(1.018);
-}
-
-.wedding-case-feature--stage .wedding-case-feature__copy {
-  padding: clamp(1.4rem, 2.5vw, 2rem);
-}
-
-.wedding-case-feature--stage .wedding-case-feature__meta {
-  color: rgba(255,246,242,.66);
-  text-shadow: 0 1px 8px rgba(0,0,0,.24);
-}
-
-.wedding-case-feature--stage .wedding-case-feature__title {
-  max-width: 8ch;
-  font-size: clamp(3rem, 3.5vw + 1rem, 4.8rem);
-  text-shadow: 0 14px 34px rgba(0,0,0,.28);
-}
-
-.wedding-case-feature--stage .wedding-case-feature__summary {
-  max-width: 30rem;
-  font-size: 1rem;
-  line-height: 1.82;
-  color: rgba(255,247,242,.8);
-}
-
-.wedding-case-feature--stage .wedding-case-feature__details {
-  gap: .6rem;
-}
-
-.wedding-case-feature--stage .wedding-case-feature__detail {
-  border-color: rgba(255,255,255,.14);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.03)),
-    rgba(8,8,10,.18);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
-}
-
-.wedding-case-feature--stage .wedding-case-feature__link {
-  width: fit-content;
-  min-height: 2.75rem;
-  padding: 0 1rem;
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.028)),
-    rgba(12,12,16,.2);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.06),
-    0 14px 28px rgba(0,0,0,.18);
-  backdrop-filter: blur(12px);
-}
-
-.wedding-cases-stage__side {
-  position: absolute;
-  top: clamp(2rem, 6%, 3rem);
-  bottom: clamp(2rem, 6%, 3rem);
-  width: clamp(12rem, 18vw, 16rem);
-  padding: 0;
-  overflow: hidden;
-  cursor: pointer;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 28px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
-    rgba(8,8,10,.74);
-  color: inherit;
-  text-align: left;
-  box-shadow: 0 24px 56px rgba(0,0,0,.22);
-  transform-style: preserve-3d;
-  transition:
-    transform .34s cubic-bezier(.22,1,.36,1),
-    border-color .24s ease,
-    opacity .24s ease,
-    box-shadow .24s ease,
-    filter .24s ease;
-  z-index: 1;
-}
-
-.wedding-cases-stage__side--prev {
-  left: clamp(.4rem, 1.2vw, 1rem);
-  transform: translate3d(0, 1rem, -120px) rotateY(36deg) scale(.92);
-  transform-origin: 0 50%;
-}
-
-.wedding-cases-stage__side--next {
-  right: clamp(.4rem, 1.2vw, 1rem);
-  transform: translate3d(0, .4rem, -120px) rotateY(-36deg) scale(.92);
-  transform-origin: 100% 50%;
-}
-
-.wedding-cases-stage__side-media,
-.wedding-cases-stage__side-overlay {
-  position: absolute;
-  inset: 0;
-}
-
-.wedding-cases-stage__side-media img {
-  filter: saturate(.84) brightness(.72);
-  transform: scale(1.06);
-}
-
-.wedding-cases-stage__side-overlay {
-  background:
-    linear-gradient(180deg, rgba(8,8,10,.14), rgba(8,8,10,.54) 58%, rgba(8,8,10,.94)),
-    radial-gradient(100% 100% at 50% 0%, rgba(124,58,237,.16), transparent 56%);
-}
-
-.wedding-cases-stage__side-copy {
-  position: absolute;
-  inset: auto 1rem 1rem 1rem;
-  z-index: 1;
-  display: grid;
-  gap: .38rem;
-}
-
-.wedding-cases-stage__side-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: .38rem;
-  color: rgba(255,255,255,.44);
-  font-size: .62rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-}
-
-.wedding-cases-stage__side-city {
-  color: rgba(255,246,239,.74);
-  font-size: .66rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-}
-
-.wedding-cases-stage__side-title {
-  max-width: 8ch;
-  color: rgba(255,255,255,.94);
-  font-family: var(--font-display), serif;
-  font-size: clamp(1.35rem, 1.1rem + .7vw, 1.95rem);
-  line-height: .96;
-  letter-spacing: -.035em;
-}
-
-.wedding-cases-stage__side-note {
-  color: rgba(255,255,255,.58);
-  font-size: .78rem;
-  line-height: 1.45;
-}
-
-.wedding-cases-stage__nav {
-  position: absolute;
-  top: 50%;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 3.2rem;
-  height: 3.2rem;
-  cursor: pointer;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
-    rgba(10,10,12,.3);
-  color: rgba(255,255,255,.84);
-  box-shadow: 0 18px 38px rgba(0,0,0,.16);
-  backdrop-filter: blur(10px);
-  transform: translateY(-50%);
-  transition: transform .24s ease, border-color .24s ease, background .24s ease;
-}
-
-.wedding-cases-stage__nav--prev {
-  left: clamp(1rem, 2vw, 1.4rem);
-}
-
-.wedding-cases-stage__nav--next {
-  right: clamp(1rem, 2vw, 1.4rem);
-}
-
-.wedding-cases-selector {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-  gap: .8rem;
-}
-
-.wedding-cases-selector__item {
-  position: relative;
-  display: grid;
-  gap: .32rem;
-  min-height: 5.8rem;
-  width: 100%;
-  padding: 1rem 1.05rem;
-  cursor: pointer;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 22px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
-    rgba(8,8,10,.62);
-  color: inherit;
-  text-align: left;
-  backdrop-filter: blur(12px);
-  transition:
-    transform .24s ease,
-    border-color .24s ease,
-    background .24s ease,
-    box-shadow .24s ease;
-}
-
-.wedding-cases-selector__item::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 2px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255,255,255,.94), rgba(214,183,138,.72));
-  opacity: 0;
-  transform: scaleY(.32);
-  transform-origin: center top;
-  transition: opacity .24s ease, transform .24s ease;
-}
-
-.wedding-cases-selector__index {
-  color: rgba(255,255,255,.42);
-  font-size: .68rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-}
-
-.wedding-cases-selector__title {
-  color: rgba(255,255,255,.94);
-  font-family: var(--font-display), serif;
-  font-size: 1.18rem;
-  line-height: .98;
-  letter-spacing: -.03em;
-}
-
-.wedding-cases-selector__meta {
-  color: rgba(255,255,255,.56);
-  font-size: .82rem;
-  line-height: 1.5;
-}
-
-.wedding-cases-selector__note {
-  display: -webkit-box;
-  overflow: hidden;
-  color: rgba(255,244,239,.68);
-  font-size: .83rem;
-  line-height: 1.45;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.wedding-cases-selector__item[data-active="true"] {
-  border-color: rgba(214,183,138,.22);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02)),
-    radial-gradient(140% 120% at 0% 0%, rgba(124,58,237,.16), transparent 58%),
-    rgba(10,10,12,.78);
-  box-shadow: 0 20px 44px rgba(0,0,0,.18);
-  transform: translateY(-4px);
-}
-
-.wedding-cases-selector__item[data-active="true"]::before {
-  opacity: 1;
-  transform: scaleY(1);
-}
-
-.wedding-cases-stage[data-direction="next"] .wedding-case-feature--stage {
-  animation: wedding-case-stage-next .72s cubic-bezier(.22,1,.36,1);
-}
-
-.wedding-cases-stage[data-direction="prev"] .wedding-case-feature--stage {
-  animation: wedding-case-stage-prev .72s cubic-bezier(.22,1,.36,1);
-}
-
-.wedding-cases-stage__side--prev {
-  animation: wedding-case-side-prev-enter .6s cubic-bezier(.22,1,.36,1);
-}
-
-.wedding-cases-stage__side--next {
-  animation: wedding-case-side-next-enter .6s cubic-bezier(.22,1,.36,1);
-}
-
-.wedding-cases-desktop:focus-visible {
-  outline: none;
-}
-
-.wedding-cases-dot:focus-visible,
-.wedding-cases-selector__item:focus-visible,
-.wedding-cases-stage__nav:focus-visible,
-.wedding-cases-stage__side:focus-visible,
-.wedding-case-feature:focus-visible,
-.wedding-case-card:focus-visible,
-.wedding-cases-desktop:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(124,58,237,.18);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .wedding-case-card:hover .wedding-case-card__media img,
-  .wedding-case-feature:hover .wedding-case-feature__media img,
-  .wedding-cases-stage__side:hover .wedding-cases-stage__side-media img {
-    transform: scale(1.06);
-    filter: saturate(1) brightness(.92);
-  }
-
-  .wedding-cases-stage__nav:hover {
-    transform: translateY(calc(-50% - 1px));
-    border-color: rgba(255,255,255,.14);
-    background:
-      linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.04)),
-      rgba(10,10,12,.36);
-  }
-
-  .wedding-cases-stage__side:hover {
-    border-color: rgba(255,255,255,.16);
-    box-shadow: 0 28px 64px rgba(0,0,0,.28);
-    filter: saturate(1.04);
-  }
-
-  .wedding-cases-stage__side--prev:hover {
-    transform: translate3d(0, .8rem, -92px) rotateY(32deg) scale(.94);
-  }
-
-  .wedding-cases-stage__side--next:hover {
-    transform: translate3d(0, .2rem, -92px) rotateY(-32deg) scale(.94);
-  }
-
-  .wedding-cases-selector__item:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255,255,255,.14);
-    box-shadow: 0 18px 38px rgba(0,0,0,.16);
-  }
-
-  .wedding-case-feature--stage .wedding-case-feature__link:hover {
-    border-color: rgba(255,255,255,.18);
-    background:
-      linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04)),
-      rgba(12,12,16,.28);
-  }
-}
-
-@keyframes wedding-case-feature-enter {
-  from {
-    opacity: 0;
-    transform: translateY(18px) scale(.985);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes wedding-case-stage-next {
-  from {
-    opacity: 0;
-    transform: translate3d(2.4rem, 1rem, -80px) rotateY(-12deg) scale(.94);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) rotateY(0) scale(1);
-  }
-}
-
-@keyframes wedding-case-stage-prev {
-  from {
-    opacity: 0;
-    transform: translate3d(-2.4rem, 1rem, -80px) rotateY(12deg) scale(.94);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) rotateY(0) scale(1);
-  }
-}
-
-@keyframes wedding-case-side-prev-enter {
-  from {
-    opacity: 0;
-    transform: translate3d(-1rem, 1.4rem, -180px) rotateY(48deg) scale(.88);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 1rem, -120px) rotateY(36deg) scale(.92);
-  }
-}
-
-@keyframes wedding-case-side-next-enter {
-  from {
-    opacity: 0;
-    transform: translate3d(1rem, .8rem, -180px) rotateY(-48deg) scale(.88);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, .4rem, -120px) rotateY(-36deg) scale(.92);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .wedding-cases-stage__nav,
-  .wedding-cases-stage__side,
-  .wedding-cases-selector__item,
-  .wedding-case-card__media img,
-  .wedding-case-feature__media img {
-    transition: none;
-  }
-
-  .wedding-case-feature,
-  .wedding-cases-stage__side {
-    animation: none;
-  }
-}
-
-.wedding-process-grid,
-.wedding-packages-grid,
-.wedding-extras-grid,
-.wedding-brief-layout {
-  display: grid;
-  gap: 1rem;
-}
-
 .wedding-process-grid {
   margin-top: 1.65rem;
 }
@@ -1394,7 +479,7 @@
   align-items: center;
   min-height: 1.8rem;
   padding: 0 .72rem;
-  border-radius: 999px;
+  border-radius: var(--r-full);
   border: 1px solid rgba(255,255,255,.1);
   background: rgba(255,255,255,.03);
   color: var(--wedding-text-strong);
@@ -2080,31 +1165,11 @@
 }
 
 @media (min-width: 900px) {
-  .wedding-cases-head {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-  }
-
-  .wedding-cases-desktop {
-    display: grid;
-    gap: 1rem;
-    margin-top: 1.75rem;
-  }
-
-  .wedding-cases-mobile {
-    display: none;
-  }
 
   .wedding-process-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1rem;
   }
-
-  .wedding-packages-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
   .wedding-extras-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
@@ -2221,17 +1286,14 @@
     gap: .55rem;
     margin-top: 1.55rem;
   }
-
-  :is(
+:is(
     .wedding-approach-media,
-    .wedding-case-card,
-    .wedding-extra-card,
-    .wedding-approach-shell,
-    .wedding-cases-shell,
-    .wedding-process-shell,
-    .wedding-faq-shell,
-    .wedding-brief-shell,
-  ) {
+.wedding-extra-card,
+.wedding-approach-shell,
+.wedding-process-shell,
+.wedding-faq-shell,
+.wedding-brief-shell,
+) {
     border-radius: 26px;
   }
 
@@ -2240,68 +1302,13 @@
     margin-bottom: 0;
     padding: 1rem 1rem 1.05rem;
   }
-
-  :is(
+:is(
     .wedding-approach-shell,
-    .wedding-cases-shell,
-    .wedding-process-shell,
-    .wedding-faq-shell,
-    .wedding-brief-shell
+.wedding-process-shell,
+.wedding-faq-shell,
+.wedding-brief-shell
   ) {
     padding: 1rem;
-  }
-
-  .wedding-cases-track {
-    grid-auto-columns: minmax(0, 88vw);
-    gap: .85rem;
-  }
-
-  .wedding-case-card {
-    min-height: clamp(25.5rem, 112vw, 31rem);
-    border-radius: 26px;
-  }
-
-  .wedding-case-card__copy {
-    gap: .72rem;
-    padding: 1rem;
-  }
-
-  .wedding-case-card__title {
-    font-size: clamp(1.58rem, 7.4vw, 2rem);
-    line-height: 1.08;
-    letter-spacing: -.024em;
-  }
-
-  .wedding-case-card__summary {
-    font-size: .92rem;
-    line-height: 1.68;
-  }
-
-  .wedding-case-card__details {
-    gap: .45rem;
-  }
-
-  .wedding-case-card__detail {
-    min-height: 1.8rem;
-    padding-inline: .72rem;
-    font-size: .72rem;
-  }
-
-  .wedding-cases-mobile__footer {
-    align-items: flex-end;
-    margin-top: .85rem;
-  }
-
-  .wedding-cases-mobile__status {
-    gap: .14rem;
-  }
-
-  .wedding-cases-mobile__current {
-    font-size: 1rem;
-  }
-
-  .wedding-cases-mobile__hint {
-    font-size: .78rem;
   }
 
   .wedding-extra-copy {
@@ -2317,7 +1324,6 @@
     width: 5.8rem;
     height: 10.6rem;
   }
-
 
   .wedding-brief-shell {
     min-height: auto;
@@ -2367,17 +1373,14 @@
     width: 1.1rem;
   }
 }
-
 html[data-theme="light"] :is(
   .wedding-approach-shell,
-  .wedding-cases-shell,
-  .wedding-process-shell,
-  .wedding-faq-shell,
-  .wedding-brief-shell,
-  .wedding-case-card,
-  .wedding-extra-card,
-  .wedding-hero-aside,
-  .wedding-action--secondary
+.wedding-process-shell,
+.wedding-faq-shell,
+.wedding-brief-shell,
+.wedding-extra-card,
+.wedding-hero-aside,
+.wedding-action--secondary
 ) {
   border-color: rgba(255,255,255,.18);
   background:
