@@ -433,7 +433,7 @@ export default function AiStudioPage({ locale = "ru" }: { locale?: Locale }) {
                 <p className="mt-6 max-w-2xl text-white/72">{t.approachNote}</p>
               </div>
 
-              <div className="surface-quiet rounded-[28px] p-6">
+              <div className="surface-quiet rounded-none p-6">
                 <p className="eyebrow text-white/46">{t.approachRulesTitle}</p>
                 <ul className="mt-5 space-y-4 text-white/72">
                   {t.approachRules.map((rule) => (

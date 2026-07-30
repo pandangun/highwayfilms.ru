@@ -85,7 +85,7 @@
   min-height: 3.15rem;
   padding: 0 1.25rem;
   border: 1px solid rgba(255,255,255,.1);
-  border-radius: var(--r-full);
+  border-radius: 0;
   color: var(--ink);
   font-size: .94rem;
   font-weight: 500;
@@ -335,7 +335,7 @@
   top: .72rem;
   width: .34rem;
   height: .34rem;
-  border-radius: var(--r-full);
+  border-radius: 0;
   background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(214,183,138,.7));
   box-shadow: 0 0 0 5px rgba(255,255,255,.025);
 }
@@ -347,7 +347,7 @@
   margin-bottom: clamp(1rem, 4vw, 2.8rem);
   padding: 1.2rem 1.25rem 1.25rem;
   border: 1px solid rgba(255,255,255,.12);
-  border-radius: 26px;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
     rgba(14,11,16,.28);
@@ -379,7 +379,7 @@
   position: relative;
   overflow: hidden;
   border: 1px solid var(--wedding-surface-border);
-  border-radius: var(--wedding-shell-radius);
+  border-radius: 0;
   background: var(--wedding-surface-fill);
   box-shadow: var(--wedding-surface-shadow);
   padding: clamp(1.2rem, 3vw, 2rem);
@@ -409,7 +409,7 @@
   position: relative;
   min-height: clamp(19rem, 48vw, 31rem);
   overflow: hidden;
-  border-radius: 28px;
+  border-radius: 0;
 }
 
 .wedding-approach-media__overlay {
@@ -443,7 +443,7 @@
   top: .7rem;
   width: .38rem;
   height: .38rem;
-  border-radius: var(--r-full);
+  border-radius: 0;
   background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(214,183,138,.6));
   box-shadow: 0 0 0 5px rgba(255,255,255,.02);
 }
@@ -479,7 +479,7 @@
   align-items: center;
   min-height: 1.8rem;
   padding: 0 .72rem;
-  border-radius: var(--r-full);
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,.1);
   background: rgba(255,255,255,.03);
   color: var(--wedding-text-strong);
@@ -656,7 +656,7 @@
 .wedding-extra-card {
   overflow: hidden;
   border: 1px solid var(--wedding-surface-border);
-  border-radius: var(--wedding-card-radius);
+  border-radius: 0;
   background: var(--wedding-card-fill);
   box-shadow: var(--wedding-card-shadow);
 }
@@ -686,7 +686,7 @@
 .wedding-extra-media--phone::after {
   width: 7.4rem;
   height: 13.5rem;
-  border-radius: 28px;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.03)),
     rgba(8,8,10,.5);
@@ -706,7 +706,7 @@
 
 .wedding-extra-media--edit::before {
   inset: 14% 12% 28%;
-  border-radius: 24px;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.03)),
     rgba(8,8,10,.46);
@@ -717,7 +717,7 @@
   right: 15%;
   bottom: 14%;
   height: 16%;
-  border-radius: 18px;
+  border-radius: 0;
   background:
     linear-gradient(90deg, rgba(124,58,237,.56), rgba(214,183,138,.34), rgba(255,255,255,.12)),
     rgba(8,8,10,.42);
@@ -1072,7 +1072,7 @@
   padding: .88rem 1rem .94rem;
   border: 1px solid rgba(255,255,255,.06);
   border-bottom-color: var(--hairline);
-  border-radius: 16px;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.008)),
     rgba(255,255,255,.012);
@@ -1294,7 +1294,7 @@
 .wedding-faq-shell,
 .wedding-brief-shell,
 ) {
-    border-radius: 26px;
+    border-radius: 0;
   }
 
   .wedding-hero-aside {

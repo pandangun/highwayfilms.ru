@@ -66,7 +66,7 @@ export default function ReelSection({
           карточку, а скругление у самого кадра читается как объект, не как
           коробка вокруг контента. */}
       {mode === "reel" ? (
-        <div className="on-dark relative overflow-hidden rounded-lg">
+        <div className="on-dark relative overflow-hidden rounded-none">
           <StudioPlayer
             source={items[0].source}
             label={items[0].title}
@@ -92,7 +92,7 @@ export default function ReelSection({
                 label={item.title}
                 placeholder={item.placeholder}
                 mode="interactive"
-                className="on-dark aspect-[16/9] w-full rounded-md"
+                className="on-dark aspect-[16/9] w-full rounded-none"
               />
               <div className="mt-4 flex items-baseline justify-between gap-4 border-t border-hairline pt-4">
                 <div>

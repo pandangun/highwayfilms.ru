@@ -42,7 +42,11 @@ export default function HomePageEn() {
     <>
       <VideoHero
         title="Highway Films"
-        subtitle="Commercials, brand films, corporate stories, and music videos."
+        credits={[
+          { label: "Showreel", value: "2026" },
+          { label: "Formats", value: "Commercials · Brand films · Music videos · Weddings" },
+          { label: "Based in", value: "Saint Petersburg, 59°56′N 30°19′E" },
+        ]}
         muteLabel="Unmute showreel"
         unmuteLabel="Mute showreel"
         headingAs="div"
@@ -76,7 +80,7 @@ export default function HomePageEn() {
           {metrics.map((metric) => (
             <div
               key={metric.label}
-              className="rounded-[26px] border border-white/10 bg-white/[0.03] px-5 py-5 shadow-soft"
+              className="rounded-none border border-white/10 bg-white/[0.03] px-5 py-5 shadow-soft"
             >
               <p className="text-3xl font-semibold tracking-[-0.04em] text-white">{metric.value}</p>
               <p className="mt-2 text-sm leading-6 text-white/60">{metric.label}</p>
@@ -102,8 +106,8 @@ export default function HomePageEn() {
 
       <section className="container py-10 md:py-14">
         <div className="grid gap-6 xl:grid-cols-[0.96fr_1.04fr]">
-          <div className="overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] p-3 shadow-[0_25px_70px_rgba(0,0,0,0.4)]">
-            <div className="relative min-h-[30rem] overflow-hidden rounded-[26px]">
+          <div className="overflow-hidden rounded-none border border-white/10 bg-white/[0.03] p-3 shadow-[0_25px_70px_rgba(0,0,0,0.4)]">
+            <div className="relative min-h-[30rem] overflow-hidden rounded-none">
               <Image
                 src="/images/frames/f022.jpg"
                 alt="Highway Films frame"
@@ -125,14 +129,14 @@ export default function HomePageEn() {
             {pillars.map((pillar) => (
               <div
                 key={pillar.title}
-                className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-6 shadow-soft"
+                className="rounded-none border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-6 shadow-soft"
               >
                 <h3 className="font-display text-xl text-white">{pillar.title}</h3>
                 <p className="mt-3 max-w-2xl text-white/64">{pillar.text}</p>
               </div>
             ))}
 
-            <div className="rounded-[28px] border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.04))] p-6">
+            <div className="rounded-none border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.04))] p-6">
               <p className="text-sm uppercase tracking-[0.18em] text-white/55">From brief to release</p>
               <p className="mt-3 max-w-2xl text-lg leading-8 text-white/82">
                 We can carry the project from the first idea to the final master and social cutdown package, so the work stays alive beyond a single launch moment.

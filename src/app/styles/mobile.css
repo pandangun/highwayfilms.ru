@@ -25,7 +25,7 @@
 
   .header-rail {
     gap: 0.5rem;
-    border-radius: 22px;
+    border-radius: 0;
     border-color: var(--hairline);
     box-shadow:
       0 14px 32px rgba(0, 0, 0, 0.24),
@@ -86,7 +86,7 @@
   .home-intro-panel,
   .service-card,
   .editorial-cover {
-    border-radius: var(--mobile-radius);
+    border-radius: 0;
   }
 
   .surface-panel,
@@ -249,7 +249,7 @@
 
   .service-masthead-media > div {
     min-height: 18.5rem;
-    border-radius: 18px;
+    border-radius: 0;
   }
 
   .service-masthead-metrics {
@@ -393,7 +393,7 @@
 
   .brief-page-frame::before {
     inset-inline: var(--page-gutter);
-    border-radius: 26px;
+    border-radius: 0;
   }
 
   .brief-page-frame > .relative {
@@ -424,7 +424,7 @@
 
   .brief-step-link {
     padding: 0.85rem 0.95rem;
-    border-radius: 16px;
+    border-radius: 0;
   }
 
   .brief-step-link p {
@@ -440,7 +440,7 @@
 
   .brief-section-panel {
     padding: 1rem;
-    border-radius: 24px;
+    border-radius: 0;
   }
 
   .brief-section-panel > div:first-of-type {
@@ -458,7 +458,7 @@
 
   .brief-field {
     padding: 1rem;
-    border-radius: 22px;
+    border-radius: 0;
   }
 
   .brief-field > div:first-child {
@@ -482,21 +482,21 @@
   .brief-field input,
   .brief-field select {
     height: 3.55rem;
-    border-radius: 20px;
+    border-radius: 0;
     padding-inline: 1rem;
     font-size: 0.98rem;
   }
 
   .brief-field textarea {
     min-height: 9.5rem;
-    border-radius: 22px;
+    border-radius: 0;
     padding: 0.95rem 1rem;
     font-size: 0.98rem;
     line-height: 1.6;
   }
 
   .brief-section-panel label.rounded-\[24px\] {
-    border-radius: 18px;
+    border-radius: 0;
     padding: 0.95rem 1rem;
     font-size: 0.95rem;
   }
@@ -525,7 +525,7 @@
   }
 
   .service-faq-item {
-    border-radius: 20px;
+    border-radius: 0;
   }
 
   .service-faq-trigger {
@@ -552,7 +552,7 @@
     margin-top: 1rem;
     gap: 1rem;
     padding: 1rem;
-    border-radius: 22px;
+    border-radius: 0;
   }
 
   .footer-shell {

@@ -76,7 +76,7 @@ export default function ServiceCards({ locale = "ru" }: { locale?: "ru" | "en" }
             index === 0 ? "delay-1" : index === 1 ? "delay-2" : index === 2 ? "delay-3" : "delay-4"
           }`}
         >
-          <div className="relative min-h-[21rem] overflow-hidden rounded-[22px]">
+          <div className="relative min-h-[21rem] overflow-hidden rounded-none">
             <Image
               src={item.image}
               alt={item.title}

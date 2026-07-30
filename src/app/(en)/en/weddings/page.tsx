@@ -110,7 +110,7 @@ function Thumbs({ start = 0, count = 6 }: { start?: number; count?: number }) {
   return (
     <div className="mt-5 grid grid-cols-3 gap-2 md:grid-cols-6">
       {pics.map((src) => (
-        <div key={src} className="relative aspect-[3/2] overflow-hidden rounded-xl border border-white/10">
+        <div key={src} className="relative aspect-[3/2] overflow-hidden rounded-none border border-white/10">
           <Image
             src={src}
             alt="Wedding frame"
@@ -135,15 +135,15 @@ function Chip({ children }: { children: ReactNode }) {
 
 function GlowCard({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`rounded-2xl p-[1px] [background:linear-gradient(120deg,rgba(124,58,237,.6),rgba(255,255,255,.16))] ${className}`}>
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6">{children}</div>
+    <div className={`rounded-none p-[1px] [background:linear-gradient(120deg,rgba(124,58,237,.6),rgba(255,255,255,.16))] ${className}`}>
+      <div className="rounded-none border border-white/10 bg-white/5 p-6">{children}</div>
     </div>
   );
 }
 
 function CTAButton({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="btn-primary inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium">
+    <Link href={href} className="btn-primary inline-flex items-center justify-center rounded-none px-4 py-2 text-sm font-medium">
       {children}
     </Link>
   );
@@ -194,11 +194,11 @@ export default function WeddingsEnPage() {
 
         <GlowCard className="md:translate-y-2">
           <div className="grid gap-4">
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
+            <div className="rounded-none border border-white/10 bg-white/5 p-4 text-center">
               <div className="stat-value">3-5 days</div>
               <div className="stat-label">teaser delivery</div>
             </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
+            <div className="rounded-none border border-white/10 bg-white/5 p-4 text-center">
               <div className="stat-value">3-4 weeks</div>
               <div className="stat-label">feature film delivery</div>
             </div>
@@ -236,8 +236,8 @@ export default function WeddingsEnPage() {
             <div key={format.id} className={`grid content-start gap-2 ${format.wrapperClassName ?? ""}`}>
               <div className={format.accent ? "text-sm text-white/90" : "text-sm text-white/75"}>{format.label}</div>
               {format.accent ? (
-                <div className="rounded-2xl p-[1px] [background:linear-gradient(140deg,rgba(168,85,247,.7),rgba(255,255,255,.18))]">
-                  <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6">
+                <div className="rounded-none p-[1px] [background:linear-gradient(140deg,rgba(168,85,247,.7),rgba(255,255,255,.18))]">
+                  <div className="rounded-none border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-6">
                     <div className="flex items-start justify-between gap-3">
                       <h3 className="font-display text-xl text-white">{format.title}</h3>
                       <PriceBadge value={format.price} fromLabel="from" />
@@ -274,7 +274,7 @@ export default function WeddingsEnPage() {
           ))}
         </div>
 
-        <div className="mt-8 rounded-2xl border border-white/10 bg-gradient-to-r from-white/10 to-transparent px-6 py-7">
+        <div className="mt-8 rounded-none border border-white/10 bg-gradient-to-r from-white/10 to-transparent px-6 py-7">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <p className="text-neutral-100">Tell us about your venue and timeline - we will build a precise schedule and estimate.</p>
             <CTAButton href="/en/contacts">Check availability</CTAButton>
@@ -287,7 +287,7 @@ export default function WeddingsEnPage() {
         <div className="no-scrollbar -mx-4 mt-4 overflow-x-auto px-4">
           <div className="flex gap-3">
             {Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} className="relative h-44 w-[240px] shrink-0 overflow-hidden rounded-xl border border-white/10">
+              <div key={i} className="relative h-44 w-[240px] shrink-0 overflow-hidden rounded-none border border-white/10">
                 <Image
                   src={frames[i % frames.length]}
                   alt={`Wedding case ${i + 1}`}
@@ -351,7 +351,7 @@ export default function WeddingsEnPage() {
       <div className="container flex items-center justify-between gap-3 py-3 text-xs">
         <div className="text-white/60">Highway Films</div>
         <div className="flex items-center gap-3">
-          <div className="overflow-hidden rounded-xl border border-white/10">
+          <div className="overflow-hidden rounded-none border border-white/10">
             <Link href="/weddings" className="px-3 py-1 hover:bg-white/10">RU</Link>
             <Link href="/en/weddings" className="px-3 py-1 bg-white/10 hover:bg-white/20">EN</Link>
           </div>

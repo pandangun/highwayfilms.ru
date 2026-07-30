@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buildPageMetadata, SITE_URL } from "@/lib/metadata";
 import VideoHero from "@/components/VideoHero";
+import GenerativeField from "@/components/GenerativeField";
 import "@/app/styles/home.css";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -13,21 +14,6 @@ export const metadata: Metadata = buildPageMetadata({
   locale: "ru",
   imagePath: "/video/derived/hero-poster.jpg",
 });
-
-const studioCards = [
-  {
-    title: "Картинка — то, за чем к нам приходят",
-    text: "Свет, композиция, оптика и цвет — на это уходит больше всего времени. Проверить проще всего по шоурилу выше: если картинка нравится, дальше есть о чём говорить.",
-  },
-  {
-    title: "Понятно, за что вы платите",
-    text: "Смета складывается из съёмочных дней, состава команды и объёма постпродакшна. Без «зависит от задачи»: после короткого разговора называем вилку и говорим, что в неё входит.",
-  },
-  {
-    title: "Больше 10 лет на площадках",
-    text: "Опыт собран не из презентаций, а из съёмок — реклама, корпоративные фильмы, клипы, свадьбы. Знаем, где проект обычно ломается, и закладываем это в план заранее.",
-  },
-] as const;
 
 const serviceCards = [
   {
@@ -49,39 +35,6 @@ const serviceCards = [
     title: "Свадебные фильмы",
     text: "Съёмка без постановки и без липкого пафоса. Фильм, который пересматривают через пять лет, а не один раз на следующий день.",
     href: "/weddings",
-  },
-] as const;
-
-const processSteps = [
-  {
-    step: "01",
-    title: "Бриф",
-    text: "Уточняем задачу, сроки, площадки и рабочую рамку проекта.",
-  },
-  {
-    step: "02",
-    title: "Идея",
-    text: "Собираем подачу, структуру и сценарный ход под задачу.",
-  },
-  {
-    step: "03",
-    title: "Подготовка",
-    text: "Подбираем команду, технику, локации и понятный план съёмки.",
-  },
-  {
-    step: "04",
-    title: "Съёмка",
-    text: "Работаем спокойно на площадке и держим темп проекта без суеты.",
-  },
-  {
-    step: "05",
-    title: "Монтаж",
-    text: "Собираем ритм, смысл и версии по длительности и площадкам.",
-  },
-  {
-    step: "06",
-    title: "Финал",
-    text: "Доводим цвет, звук, графику и отдаём готовый материал.",
   },
 ] as const;
 
@@ -185,179 +138,80 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
+      {/* ЭКРАН 1 — ПОРТФОЛИО.
+          Шоурил и есть портфолио: он продаёт сам, без пояснений. Поэтому
+          первый экран отдан ему целиком, а текста ровно столько, чтобы
+          человек понял, куда попал. */}
       <VideoHero
         title="Highway Films"
-        subtitle="Реклама, бренд-фильмы, клипы и свадьбы. Петербург, съёмки по России."
-        headingAs="div"
+        headingAs="h1"
       />
 
-      <section className="container pb-10 pt-12 md:pb-14 md:pt-16">
-        <div className="home-intro-panel p-6 md:p-10 lg:p-12">
-          <div className="home-center-copy max-w-5xl">
-            <p className="eyebrow reveal-up delay-1">Highway Films</p>
-            <h1 className="home-display-xl reveal-up delay-2 mt-4 text-white">
-              Видеостудия в Санкт-Петербурге
-            </h1>
-            <p className="home-lead reveal-up delay-3 mt-6">
-              Мы студия, а не агентство: снимаем и монтируем сами, поэтому за картинку отвечаем
-              от первого созвона до финального мастера. Больше 10 лет работаем с брендами,
-              бизнесом и артистами — в Петербурге и на выездах по России.
-            </p>
-            <div className="home-cta-row reveal-up delay-4 mt-9">
-              <Link href="/brief" className="home-primary-button">
-                Заказать ролик
-              </Link>
-              <Link href="/contacts" className="home-secondary-link">
-                Контакты
-              </Link>
-            </div>
-          </div>
+      {/* ЭКРАН 2 — ЧТО СНИМАЕМ.
+          Резко другой по характеру: светлый, воздушный, крупная антиква,
+          абстрактное поле вместо фотографии. Никаких карточек — только
+          типографика и линии. */}
+      <section className="relative overflow-hidden py-24 md:py-36">
+        <GenerativeField className="opacity-70" />
 
-          <div className="mt-12 border-t border-white/10 pt-8">
-            <h2 className="home-section-title reveal-up text-center text-white">
-              За что мы отвечаем
-            </h2>
-          </div>
+        <div className="container relative">
+          <p className="eyebrow reveal-up">Что снимаем</p>
 
-          <div className="rule-grid rule-grid--3 mt-8">
-            {studioCards.map((card, index) => (
-              <article
-                key={card.title}
-                className={`home-feature-card reveal-up ${
-                  index === 0 ? "delay-1" : index === 1 ? "delay-2" : "delay-3"
-                }`}
+          <div className="mt-10 md:mt-16">
+            {serviceCards.map((service, index) => (
+              <Link
+                key={service.title}
+                href={service.href}
+                className={`home-line-item reveal-up delay-${Math.min(index + 1, 5)}`}
               >
-                <h3 className="home-card-title text-ink">{card.title}</h3>
-                <p className="home-card-copy mt-3 text-ink-muted">{card.text}</p>
-              </article>
+                <span className="home-line-item__index">{String(index + 1).padStart(2, "0")}</span>
+                <span className="home-line-item__title font-display">{service.title}</span>
+                <span className="home-line-item__text">{service.text}</span>
+                <ArrowRight className="home-line-item__arrow h-6 w-6" aria-hidden />
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="container section-divider py-10 md:py-14">
-        <div className="home-center-copy max-w-4xl">
-          <h2 className="home-section-title reveal-up text-white">
-            Что мы снимаем
-          </h2>
-          <p className="home-lead reveal-up delay-1 mt-4 max-w-3xl">
-            Четыре направления, за каждым — свои примеры работ. Если материал уже отснят, можем
-            подключиться только к монтажу, цвету, графике и звуку.
-          </p>
-        </div>
+      {/* ЭКРАН 3 — РАЗГОВОР.
+          Снова тёмный и плотный, после воздуха второго экрана. Одно
+          действие, одна цифра, никаких карточек. */}
+      <section className="home-closing relative overflow-hidden py-24 md:py-32">
+        <div className="container relative">
+          <div className="max-w-4xl">
+            <p className="eyebrow">Дальше</p>
+            <h2 className="home-closing__title font-display mt-6 text-ink">
+              Посмотрели шоурил — напишите, что нужно снять.
+            </h2>
+            <p className="home-closing__lead mt-8 max-w-2xl text-ink-muted">
+              Опишите задачу в двух абзацах. В ответ пришлём вилку по бюджету с расшифровкой,
+              что в неё входит, и срок до финальной версии. Отвечаем в течение рабочего дня.
+            </p>
 
-        <div className="rule-grid rule-grid--4 mt-8">
-          {serviceCards.map((service, index) => (
-            <Link
-              key={service.title}
-              href={service.href}
-              className={`service-card home-service-card reveal-up ${
-                index === 0
-                  ? "delay-1"
-                  : index === 1
-                    ? "delay-2"
-                    : index === 2
-                      ? "delay-3"
-                      : "delay-4"
-              }`}
-            >
-              <h3 className="home-card-title text-ink">{service.title}</h3>
-              <p className="home-card-copy mt-3 text-ink-muted">{service.text}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="container section-divider py-10 md:py-14">
-        <div className="home-center-copy max-w-4xl">
-          <h2 className="home-section-title reveal-up text-white">
-            Как мы работаем
-          </h2>
-        </div>
-
-        <div className="rule-grid rule-grid--3 mt-10">
-          {processSteps.map((item, index) => (
-            <article
-              key={item.step}
-              className={`home-process-card reveal-up ${
-                index === 0
-                  ? "delay-1"
-                  : index === 1
-                    ? "delay-2"
-                    : index === 2
-                      ? "delay-3"
-                      : index === 3
-                        ? "delay-4"
-                        : index === 4
-                          ? "delay-5"
-                          : "delay-6"
-              }`}
-            >
-              <div className="mb-5 flex items-center gap-4">
-                <span className="font-display text-3xl leading-none text-ink">{item.step}</span>
-                <span className="h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
-              </div>
-              <h3 className="home-card-title text-ink">{item.title}</h3>
-              <p className="home-card-copy mt-3 text-ink-muted">{item.text}</p>
-              {index < processSteps.length - 1 ? (
-                <span
-                  className={`home-process-arrow ${
-                    index === 0
-                      ? "hidden md:flex xl:flex"
-                      : index === 1
-                        ? "hidden xl:flex"
-                        : index === 2
-                          ? "hidden md:flex xl:hidden"
-                          : index === 3
-                            ? "hidden xl:flex"
-                            : "hidden md:flex xl:flex"
-                  }`}
-                  aria-hidden
-                >
-                  <ArrowRight className="h-5 w-5" />
-                </span>
-              ) : null}
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="container section-divider py-10 md:py-14">
-        <div className="home-center-copy max-w-4xl">
-          <h2 className="font-display heading-balance text-[clamp(2.5rem,2rem+2.4vw,4.8rem)] leading-[0.95] tracking-[-0.05em] text-white">
-            Обсудим ваш проект
-          </h2>
-          <p className="home-lead mt-5 max-w-3xl">
-            Если вам нужен рекламный ролик, корпоративное видео, клип, свадебный фильм или видео
-            для сайта и соцсетей, напишите нам. Обсудим задачу, формат съёмки, сроки и предложим
-            понятный вариант работы.
-          </p>
-          <div className="home-cta-row mt-8">
-            <Link href="/brief" className="home-primary-button">
-              Заказать ролик
-            </Link>
-            <Link href="/contacts" className="home-secondary-link">
-              Контакты
-            </Link>
+            <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-5">
+              <Link href="/brief" className="home-primary-button">
+                Заполнить бриф
+              </Link>
+              <Link href="/contacts" className="home-secondary-link">
+                Или просто написать
+              </Link>
+            </div>
           </div>
+
+          {/* FAQ оставлен ради поисковой выдачи, но свёрнут: это справка,
+              а не экран. Разметка FAQPage выше на нём и держится. */}
+          <details className="home-faq-fold mt-20 md:mt-28">
+            <summary className="home-faq-fold__summary">Частые вопросы</summary>
+            <div className="home-faq-wrap mt-8 max-w-4xl">
+              {faqItems.map((item) => (
+                <FAQItem key={item.q} question={item.q} answer={item.a} />
+              ))}
+            </div>
+          </details>
         </div>
       </section>
 
-      <section className="container section-divider py-10 md:py-14">
-        <div className="home-center-copy max-w-5xl">
-          <h2 className="home-section-title text-white">
-            Частые вопросы
-          </h2>
-        </div>
-
-        <div className="home-faq-wrap mt-8 max-w-5xl">
-          <div className="h-px bg-gradient-to-r from-white/40 via-white/12 to-transparent" />
-          {faqItems.map((item) => (
-            <FAQItem key={item.q} question={item.q} answer={item.a} />
-          ))}
-          <div className="h-px bg-gradient-to-r from-white/20 via-white/10 to-transparent" />
-        </div>
-      </section>
     </>
   );
 }

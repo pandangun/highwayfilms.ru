@@ -115,7 +115,7 @@
   align-items: center;
   gap: .45rem;
   padding: .35rem .75rem;
-  border-radius: var(--r-full);
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,.12);
   background:
     linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)),
@@ -134,7 +134,7 @@
 .corporate-hero__media-frame {
   position: relative;
   overflow: hidden;
-  border-radius: 28px;
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,.12);
   min-height: 18rem;
   box-shadow: 0 24px 60px rgba(0,0,0,.38);

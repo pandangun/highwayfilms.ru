@@ -79,7 +79,7 @@ h3,
 .section-panel,
 .service-faq-shell {
   border: 1px solid var(--surface-panel-border);
-  border-radius: 30px;
+  border-radius: 0;
   background: var(--surface-panel-bg);
   box-shadow: var(--surface-panel-shadow);
 }
@@ -87,7 +87,7 @@ h3,
 .surface-quiet,
 .section-card {
   border: 1px solid var(--surface-quiet-border);
-  border-radius: 26px;
+  border-radius: 0;
   background: var(--surface-quiet-bg);
 }
 
@@ -143,7 +143,7 @@ h3,
 
 .section-frame {
   border: 1px solid rgba(255,255,255,.1);
-  border-radius: 26px;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.028), rgba(255,255,255,.012)),
     rgba(255,255,255,.02);
@@ -250,7 +250,7 @@ h3,
    здесь. Проверяется в audit:frontend (SHARED_PRIMITIVES). */
 .card {
   border: 1px solid var(--border);
-  border-radius: var(--r);
+  border-radius: 0;
   background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
   box-shadow: var(--shadow);
   transition: border-color .2s ease, transform .2s ease, background .2s ease;
@@ -270,7 +270,7 @@ h3,
   gap: 10px;
   height: 44px;
   padding: 0 18px;
-  border-radius: 10px;
+  border-radius: 0;
   border: 1px solid var(--border);
   background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
   color: var(--fgc);
@@ -297,7 +297,7 @@ h3,
   gap: var(--primary-button-gap, 12px);
   min-height: var(--primary-button-height, 44px);
   padding: var(--primary-button-padding, 0 18px);
-  border-radius: var(--primary-button-radius, var(--r-sm));
+  border-radius: 0;
   border: 0;
   background: var(--primary-button-background, var(--accent));
   box-shadow: var(--primary-button-shadow, none);
@@ -362,7 +362,7 @@ h3,
 .brief-form-control {
   width: 100%;
   border: 1px solid var(--field-border, rgba(255,255,255,.1));
-  border-radius: var(--field-radius, 18px);
+  border-radius: 0;
   background: var(--field-background,
     linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.018)),
     rgba(255,255,255,.02)
@@ -391,7 +391,7 @@ h3,
 .brief-section-panel {
   position: relative;
   border: 1px solid rgba(255,255,255,.12);
-  border-radius: 34px;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
     rgba(255,255,255,.02);
@@ -400,7 +400,7 @@ h3,
 
 .brief-field {
   border: 1px solid rgba(255,255,255,.1);
-  border-radius: 30px;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.012)),
     rgba(0,0,0,.2);
@@ -447,7 +447,7 @@ h3,
 .brief-form-control--input,
 .brief-form-control--select {
   min-height: 4.5rem;
-  border-radius: 26px;
+  border-radius: 0;
   padding-inline: 1.5rem;
   font-size: 1.05rem;
 }
@@ -458,7 +458,7 @@ h3,
 
 .brief-form-control--textarea {
   min-height: 13.75rem;
-  border-radius: 30px;
+  border-radius: 0;
   padding: 1.25rem 1.5rem;
   resize: vertical;
   font-size: 1.05rem;
@@ -511,7 +511,7 @@ h3,
   align-items: center;
   justify-content: center;
   min-height: 46px;
-  border-radius: var(--r-full);
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,.12);
   background:
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)),
@@ -550,7 +550,7 @@ h3,
   justify-content: center;
   width: 3.25rem;
   height: 3.25rem;
-  border-radius: var(--r-full);
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)),
     rgba(255,255,255,.03);
@@ -570,7 +570,7 @@ h3,
 .editorial-card {
   position: relative;
   overflow: hidden;
-  border-radius: 32px;
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,.1);
   background:
     linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
@@ -585,7 +585,7 @@ h3,
   --editorial-c: rgba(255,255,255,.05);
   position: relative;
   overflow: hidden;
-  border-radius: 28px;
+  border-radius: 0;
   background:
     radial-gradient(72% 84% at 18% 14%, var(--editorial-a), transparent 58%),
     radial-gradient(54% 64% at 88% 82%, var(--editorial-b), transparent 54%),
@@ -629,7 +629,7 @@ h3,
   display: inline-flex;
   align-items: center;
   gap: .45rem;
-  border-radius: var(--r-full);
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,.1);
   background:
     linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.018)),
@@ -644,7 +644,7 @@ h3,
 .project-room {
   position: relative;
   overflow: hidden;
-  border-radius: 32px;
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,.1);
   background:
     radial-gradient(88% 120% at 0% 0%, rgba(124,58,237,.16), transparent 52%),
@@ -718,7 +718,7 @@ h3,
 
 .service-faq-item {
   border: 1px solid rgba(255,255,255,.08);
-  border-radius: 24px;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.028), rgba(255,255,255,.014)),
     rgba(8,8,10,.42);
@@ -755,7 +755,7 @@ h3,
   text-align: left;
   color: inherit;
   cursor: pointer;
-  border-radius: inherit;
+  border-radius: 0;
   transition: color .2s ease;
   list-style: none;
 }
@@ -786,7 +786,7 @@ h3,
   flex-shrink: 0;
   width: 2.4rem;
   height: 2.4rem;
-  border-radius: var(--r-full);
+  border-radius: 0;
   border: 1px solid rgba(255,255,255,.12);
   background:
     linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
@@ -858,7 +858,7 @@ h3,
   gap: 1.25rem;
   margin-top: 1.4rem;
   padding: 1.25rem;
-  border-radius: 26px;
+  border-radius: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.018)),
     radial-gradient(130% 120% at 0% 0%, rgba(124,58,237,.1), transparent 54%),
@@ -930,7 +930,7 @@ h3,
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  border-radius: var(--r-full);
+  border-radius: 0;
   border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
   padding: .5rem .85rem;
   font-size: .74rem;
@@ -944,7 +944,7 @@ h3,
   content: "";
   width: .48rem;
   height: .48rem;
-  border-radius: var(--r-full);
+  border-radius: 0;
   background: currentColor;
   box-shadow: 0 0 10px color-mix(in srgb, currentColor 58%, transparent);
 }

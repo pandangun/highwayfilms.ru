@@ -179,7 +179,7 @@ export default function CorporatePage() {
           <div className="mt-9 grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
             {cases.map((item) => (
               <article key={item.title}>
-                <div className="on-dark relative aspect-[4/3] overflow-hidden rounded-md">
+                <div className="on-dark relative aspect-[4/3] overflow-hidden rounded-none">
                   <Image
                     src={item.image}
                     alt={item.title}

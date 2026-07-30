@@ -193,7 +193,7 @@ export default function StudioServicePage({
             <div className="grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
               {gallery.items.map((item) => (
                 <article key={`${item.src}-${item.title}`}>
-                  <div className="on-dark relative aspect-[4/3] overflow-hidden rounded-md">
+                  <div className="on-dark relative aspect-[4/3] overflow-hidden rounded-none">
                     <Image
                       src={item.src}
                       alt={item.alt ?? item.title}

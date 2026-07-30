@@ -40,8 +40,16 @@ const ROUTES = [
 const SHARED_PRIMITIVES = [
   { selector: ".btn", check: (s) => s.borderTopWidth !== "0px", expected: "ненулевая рамка" },
   { selector: ".card", check: (s) => s.borderTopWidth !== "0px", expected: "ненулевая рамка" },
-  { selector: ".btn-primary", check: (s) => s.borderRadius !== "0px", expected: "скруглённые углы" },
-  { selector: ".section-card", check: (s) => s.borderRadius !== "0px", expected: "скруглённые углы" },
+  // Признак «стилизован» раньше был скруглением. После перехода на линейный
+  // язык радиусы обнулены везде, и проверка начала падать на здоровом коде.
+  // Теперь смотрим на то, что осталось: заливка у главной кнопки и рамка
+  // у карточки.
+  {
+    selector: ".btn-primary",
+    check: (s) => s.backgroundColor !== "rgba(0, 0, 0, 0)" || s.backgroundImage !== "none",
+    expected: "непрозрачная заливка",
+  },
+  { selector: ".section-card", check: (s) => s.borderTopWidth !== "0px", expected: "ненулевая рамка" },
 ];
 
 /**
@@ -189,6 +197,8 @@ async function checkSharedPrimitives(browser, path) {
       return {
         borderTopWidth: computed.borderTopWidth,
         borderRadius: computed.borderRadius,
+        backgroundColor: computed.backgroundColor,
+        backgroundImage: computed.backgroundImage,
       };
     }, primitive.selector);
 
@@ -198,7 +208,7 @@ async function checkSharedPrimitives(browser, path) {
       fail(
         `${path} примитив ${primitive.selector} не стилизован при холодной загрузке ` +
           `(ожидалось: ${primitive.expected}; получено borderTopWidth=${styles.borderTopWidth}, ` +
-          `borderRadius=${styles.borderRadius}). Класс определён в постраничном CSS, ` +
+          `background=${styles.backgroundColor}). Класс определён в постраничном CSS, ` +
           `а используется на этой странице.`,
       );
     } else {

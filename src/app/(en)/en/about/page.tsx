@@ -91,7 +91,7 @@ function StatPanel({
   return (
     <div
       className={[
-        "relative overflow-hidden rounded-lg border border-white/10 p-6 shadow-soft",
+        "relative overflow-hidden rounded-none border border-white/10 p-6 shadow-soft",
         "bg-[radial-gradient(140%_120%_at_0%_0%,rgba(124,58,237,.24),transparent_60%),radial-gradient(120%_120%_at_100%_100%,rgba(59,130,246,.14),transparent_58%),rgba(255,255,255,.03)]",
         featured ? "md:col-span-2" : "",
       ].join(" ")}
@@ -120,9 +120,9 @@ function AdvantageCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 shadow-soft">
+    <div className="relative overflow-hidden rounded-none border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 shadow-soft">
       <div className="mb-6 flex items-center justify-between gap-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-ink">
+        <div className="flex h-12 w-12 items-center justify-center rounded-none border border-white/10 bg-white/5 text-ink">
           {icon}
         </div>
         <span className="text-[11px] uppercase tracking-[0.22em] text-ink-faint">{note}</span>
@@ -136,7 +136,7 @@ function AdvantageCard({
 
 function Statement({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.04))] px-6 py-8 shadow-soft md:px-8">
+    <div className="rounded-none border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.04))] px-6 py-8 shadow-soft md:px-8">
       <p className="font-display max-w-4xl text-[clamp(1.8rem,2vw+1rem,2.9rem)] leading-[1.08] tracking-[-0.035em] text-ink">
         {children}
       </p>
@@ -154,7 +154,7 @@ function Step({
   text: string;
 }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-black/25 p-6 shadow-soft">
+    <div className="rounded-none border border-white/10 bg-black/25 p-6 shadow-soft">
       <div className="flex items-start gap-4">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm text-ink">
           {index}
@@ -301,7 +301,7 @@ export default function AboutPageEn() {
             <article
               key={item.image}
               className={[
-                "group relative min-h-[18rem] overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)]",
+                "group relative min-h-[18rem] overflow-hidden rounded-none border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)]",
                 item.className ?? "",
               ].join(" ")}
             >
@@ -329,7 +329,7 @@ export default function AboutPageEn() {
       </section>
 
       <section className="pb-4 pt-10 md:pt-14">
-        <div className="rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.05))] px-6 py-8 shadow-[0_25px_80px_rgba(0,0,0,0.38)] md:px-8 md:py-10">
+        <div className="rounded-none border border-white/10 bg-[linear-gradient(135deg,rgba(124,58,237,0.22),rgba(255,255,255,0.05))] px-6 py-8 shadow-[0_25px_80px_rgba(0,0,0,0.38)] md:px-8 md:py-10">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
               <p className="eyebrow text-ink-muted">Next move</p>

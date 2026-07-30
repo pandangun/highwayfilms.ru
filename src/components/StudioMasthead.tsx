@@ -110,7 +110,7 @@ export default function StudioMasthead({
 
           <div className={clsx("service-masthead-side relative", isCommercialsHero && "commercials-hero__side")}>
             <div className={clsx("service-masthead-media surface-panel overflow-hidden p-3", isCommercialsHero && "commercials-hero__visual")}>
-              <div className="relative min-h-[24rem] overflow-hidden rounded-[26px]">
+              <div className="relative min-h-[24rem] overflow-hidden rounded-none">
                 <Image
                   src={imageSrc}
                   alt={imageAlt}

@@ -304,7 +304,7 @@ export default function AboutPage() {
         />
 
         <section className="py-8 md:py-12">
-          <div className="relative min-h-[36rem] overflow-hidden rounded-lg border border-white/10 shadow-[0_28px_80px_rgba(0,0,0,0.34)] lg:min-h-[44rem]">
+          <div className="relative min-h-[36rem] overflow-hidden rounded-none border border-white/10 shadow-[0_28px_80px_rgba(0,0,0,0.34)] lg:min-h-[44rem]">
             <Image
               src={aboutHeroImage}
               alt="Команда Highway Films на съёмке рекламного видео"
@@ -349,13 +349,13 @@ export default function AboutPage() {
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
-                  <div className="rounded-md border border-white/12 bg-white/[0.06] px-5 py-5 backdrop-blur-sm">
+                  <div className="rounded-none border border-white/12 bg-white/[0.06] px-5 py-5 backdrop-blur-sm">
                     <p className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">Что снимаем</p>
                     <p className="mt-3 font-display text-[1.5rem] leading-[1.02] tracking-[-0.035em] text-ink">
                       Рекламные ролики, бренд-фильмы, корпоративные видео и контент для digital.
                     </p>
                   </div>
-                  <div className="rounded-md border border-white/12 bg-white/[0.06] px-5 py-5 backdrop-blur-sm">
+                  <div className="rounded-none border border-white/12 bg-white/[0.06] px-5 py-5 backdrop-blur-sm">
                     <p className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">География</p>
                     <p className="mt-3 font-display text-[1.5rem] leading-[1.02] tracking-[-0.035em] text-ink">
                       Москва, Санкт-Петербург и выездные съёмки по России.
@@ -379,7 +379,7 @@ export default function AboutPage() {
         </section>
 
         <section className="py-14 md:py-18">
-          <div className="rounded-lg border border-white/10 bg-[radial-gradient(90rem_48rem_at_0%_0%,rgba(124,58,237,.1),transparent_56%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012)),rgba(8,8,10,.72)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8 lg:px-10 lg:py-10">
+          <div className="rounded-none border border-white/10 bg-[radial-gradient(90rem_48rem_at_0%_0%,rgba(124,58,237,.1),transparent_56%),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012)),rgba(8,8,10,.72)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8 lg:px-10 lg:py-10">
             <div className="grid gap-6 xl:grid-cols-[0.86fr_1.14fr] xl:gap-10">
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-4">
@@ -387,7 +387,7 @@ export default function AboutPage() {
                   <span className="h-px flex-1 bg-gradient-to-r from-white/14 to-transparent" />
                 </div>
 
-                <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),rgba(4,4,5,.78)] px-5 py-6 md:px-7 md:py-8">
+                <div className="relative overflow-hidden rounded-none border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),rgba(4,4,5,.78)] px-5 py-6 md:px-7 md:py-8">
                   <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-[radial-gradient(80%_80%_at_100%_50%,rgba(214,183,138,.12),transparent_72%)]" />
                   <p className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">Highway Films</p>
                   <h2 className="font-display relative z-[1] mt-5 max-w-[11ch] text-[clamp(3rem,5vw,5.4rem)] leading-[0.88] tracking-[-0.05em] text-ink">
@@ -398,13 +398,13 @@ export default function AboutPage() {
 
               <div className="flex flex-col gap-5">
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-md border border-white/10 bg-white/[0.03] px-4 py-4">
+                  <div className="rounded-none border border-white/10 bg-white/[0.03] px-4 py-4">
                     <p className="text-[10px] uppercase tracking-[0.22em] text-ink-faint">Фокус</p>
                     <p className="mt-3 text-sm leading-6 text-ink-muted">
                       Рекламные ролики, бренд-фильмы, корпоративное видео, интервью, клипы и спецпроекты.
                     </p>
                   </div>
-                  <div className="rounded-md border border-white/10 bg-white/[0.03] px-4 py-4">
+                  <div className="rounded-none border border-white/10 bg-white/[0.03] px-4 py-4">
                     <p className="text-[10px] uppercase tracking-[0.22em] text-ink-faint">География</p>
                     <p className="mt-3 text-sm leading-6 text-ink-muted">
                       Москва, Санкт-Петербург и выездные съёмки по России с заранее просчитанной логистикой.
@@ -412,7 +412,7 @@ export default function AboutPage() {
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01)),rgba(4,4,5,.62)] px-5 py-6 md:px-7 md:py-7">
+                <div className="rounded-none border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01)),rgba(4,4,5,.62)] px-5 py-6 md:px-7 md:py-7">
                   <div className="space-y-5">
                     <p className="max-w-3xl text-[1.03rem] leading-8 text-ink-muted">
                       Highway Films — продакшн студия полного цикла. Мы снимаем видео для брендов, компаний, команд и
@@ -452,7 +452,7 @@ export default function AboutPage() {
                     className={[
                       // on-dark: фон карточки зашит тёмным rgba(6,6,8,.84) и не
                       // зависит от темы — текст поверх остаётся светлым.
-                      "on-dark group relative block overflow-hidden rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),rgba(6,6,8,.84)] px-5 py-5 shadow-[0_24px_70px_rgba(0,0,0,0.26)] transition duration-500 hover:-translate-y-1.5 hover:border-white/18 hover:shadow-[0_30px_100px_rgba(0,0,0,0.34)] md:px-6 md:py-6",
+                      "on-dark group relative block overflow-hidden rounded-none border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),rgba(6,6,8,.84)] px-5 py-5 shadow-[0_24px_70px_rgba(0,0,0,0.26)] transition duration-500 hover:-translate-y-1.5 hover:border-white/18 hover:shadow-[0_30px_100px_rgba(0,0,0,0.34)] md:px-6 md:py-6",
                     ].join(" ")}
                   >
                     <div
@@ -518,7 +518,7 @@ export default function AboutPage() {
           </div>
 
           {/* on-dark: bg-black не зависит от темы, текст остаётся светлым */}
-          <div className="on-dark relative overflow-hidden rounded-lg border border-white/10 bg-black px-2 shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
+          <div className="on-dark relative overflow-hidden rounded-none border border-white/10 bg-black px-2 shadow-[0_24px_70px_rgba(0,0,0,0.28)]">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,6,7,.72),rgba(6,6,7,.82)_36%,rgba(6,6,7,.9)),radial-gradient(80rem_40rem_at_18%_0%,rgba(26,42,88,.18),transparent_58%),radial-gradient(56rem_26rem_at_100%_100%,rgba(122,34,64,.16),transparent_60%),radial-gradient(52rem_24rem_at_52%_42%,rgba(255,255,255,.04),transparent_64%)]" />
             <div className="pointer-events-none absolute inset-x-6 top-3 h-px bg-[repeating-linear-gradient(90deg,rgba(255,255,255,.16)_0_12px,transparent_12px_24px)] opacity-20" />
             <div className="pointer-events-none absolute inset-x-6 bottom-3 h-px bg-[repeating-linear-gradient(90deg,rgba(255,255,255,.16)_0_12px,transparent_12px_24px)] opacity-20" />
@@ -568,7 +568,7 @@ export default function AboutPage() {
             <span className="h-px flex-1 bg-gradient-to-r from-white/14 via-white/8 to-transparent" />
           </div>
 
-          <div className="on-dark relative overflow-hidden rounded-lg border border-white/10 bg-black shadow-[0_24px_70px_rgba(0,0,0,0.3)]">
+          <div className="on-dark relative overflow-hidden rounded-none border border-white/10 bg-black shadow-[0_24px_70px_rgba(0,0,0,0.3)]">
             <div className="absolute inset-0 opacity-90">
               <DarkVeil
                 hueShift={16}
@@ -657,7 +657,7 @@ export default function AboutPage() {
               <article
                 key={item.image}
                 className={[
-                  "group relative min-h-[18rem] overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)]",
+                  "group relative min-h-[18rem] overflow-hidden rounded-none border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)]",
                   item.className ?? "",
                 ].join(" ")}
               >
@@ -699,7 +699,7 @@ export default function AboutPage() {
           </div>
 
           <div className="grid gap-4 xl:grid-cols-2">
-            <article className="rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8">
+            <article className="rounded-none border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8">
               <p className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">Москва</p>
               <h3 className="font-display mt-4 text-[clamp(2rem,3vw,3.2rem)] leading-[0.96] tracking-[-0.04em] text-ink">
                 Видеопродакшн в Москве
@@ -716,7 +716,7 @@ export default function AboutPage() {
               </p>
             </article>
 
-            <article className="rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8">
+            <article className="rounded-none border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8 md:py-8">
               <p className="text-[10px] uppercase tracking-[0.24em] text-ink-faint">Санкт-Петербург</p>
               <h3 className="font-display mt-4 text-[clamp(2rem,3vw,3.2rem)] leading-[0.96] tracking-[-0.04em] text-ink">
                 Видеопродакшн в Санкт-Петербурге
@@ -736,7 +736,7 @@ export default function AboutPage() {
         </section>
 
         <section className="py-14 md:py-18">
-          <div className="rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-2 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8">
+          <div className="rounded-none border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015)),rgba(8,8,10,.76)] px-6 py-2 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:px-8">
             {aboutFaqItems.map((item) => (
               <FaqItem key={item.q} item={item} />
             ))}
@@ -744,7 +744,7 @@ export default function AboutPage() {
         </section>
 
         <section className="pb-6 pt-14 md:pt-18">
-          <div className="on-dark relative overflow-hidden rounded-lg border border-white/10 bg-[radial-gradient(80rem_34rem_at_0%_0%,rgba(124,58,237,.2),transparent_56%),radial-gradient(46rem_22rem_at_100%_100%,rgba(214,183,138,.12),transparent_54%),linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.016)),rgba(8,8,10,.8)] px-6 py-8 shadow-[0_30px_84px_rgba(0,0,0,0.36)] md:px-8 md:py-10 lg:px-10">
+          <div className="on-dark relative overflow-hidden rounded-none border border-white/10 bg-[radial-gradient(80rem_34rem_at_0%_0%,rgba(124,58,237,.2),transparent_56%),radial-gradient(46rem_22rem_at_100%_100%,rgba(214,183,138,.12),transparent_54%),linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.016)),rgba(8,8,10,.8)] px-6 py-8 shadow-[0_30px_84px_rgba(0,0,0,0.36)] md:px-8 md:py-10 lg:px-10">
             <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[34%] bg-[radial-gradient(72%_82%_at_100%_50%,rgba(255,255,255,.08),transparent_70%)] lg:block" />
             <div className="relative z-[1] flex flex-col gap-8">
               <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">

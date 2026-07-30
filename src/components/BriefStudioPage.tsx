@@ -50,7 +50,7 @@ function StatusBanner({ locale }: { locale: Locale }) {
 
   return (
     <div
-      className={`rounded-[24px] border px-4 py-3 text-sm ${
+      className={`rounded-none border px-4 py-3 text-sm ${
         status === "success"
           ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-100"
           : "border-rose-400/30 bg-rose-500/10 text-rose-100"
@@ -192,7 +192,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
                 "The form is shorter now: task and production frame first, contact details last.",
               )}
             </p>
-            <p className="brief-top-note mt-5 max-w-3xl rounded-[22px] border border-white/10 bg-white/[0.03] px-4 py-4 text-sm leading-6 text-white/64">
+            <p className="brief-top-note mt-5 max-w-3xl rounded-none border border-white/10 bg-white/[0.03] px-4 py-4 text-sm leading-6 text-white/64">
               {t(
                 "Заполняйте только то, что уже известно. Пустые поля не мешают отправке.",
                 "Fill only what is already known. Empty fields will not block the submission.",
@@ -211,7 +211,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
                 <a
                   key={step.key}
                   href={`#brief-${step.key}`}
-                  className="brief-step-link rounded-[20px] border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left transition hover:border-white/14 hover:bg-white/[0.03]"
+                  className="brief-step-link rounded-none border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left transition hover:border-white/14 hover:bg-white/[0.03]"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <span className="text-[0.68rem] uppercase tracking-[0.2em] text-ink-faint">{index + 1}/5</span>
@@ -306,7 +306,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
                 <Field label={t("Статус сценария", "Script status")} hint={t("Необязательно", "Optional")}>
                   <div className="space-y-3">
                     {scriptOptions.map(([value, label]) => (
-                      <label key={value} className="flex cursor-pointer items-start gap-3 rounded-[24px] border border-white/10 bg-white/[0.03] px-5 py-5 text-base text-white/72 transition hover:border-white/18 hover:bg-white/[0.05]">
+                      <label key={value} className="flex cursor-pointer items-start gap-3 rounded-none border border-white/10 bg-white/[0.03] px-5 py-5 text-base text-white/72 transition hover:border-white/18 hover:bg-white/[0.05]">
                         <input type="radio" name="scriptStatus" value={value} className="mt-1 h-4 w-4 border-white/20 bg-white/5 accent-white/80" />
                         <span>{label}</span>
                       </label>
@@ -316,7 +316,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
                 <Field label={t("Площадки и форматы", "Platforms and formats")} hint={t("Необязательно", "Optional")}>
                   <div className="grid gap-3 xl:grid-cols-2">
                     {deliverables.map(([value, label]) => (
-                      <label key={value} className="flex cursor-pointer items-start gap-3 rounded-[24px] border border-white/10 bg-black/20 px-5 py-5 text-base text-white/70 transition hover:border-white/18 hover:bg-white/[0.04]">
+                      <label key={value} className="flex cursor-pointer items-start gap-3 rounded-none border border-white/10 bg-black/20 px-5 py-5 text-base text-white/70 transition hover:border-white/18 hover:bg-white/[0.04]">
                         <input type="checkbox" name="deliverables" value={value} className="mt-1 h-4 w-4 rounded border-white/20 bg-white/5 accent-white/80" />
                         <span>{label}</span>
                       </label>
@@ -342,7 +342,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
               </Section>
 
               <Section step="contact" badge="5/5" title={steps[4].title} description={steps[4].description}>
-                <p id="contact-note" className="rounded-[24px] border border-white/10 bg-white/[0.03] px-5 py-4 text-sm leading-6 text-white/58">
+                <p id="contact-note" className="rounded-none border border-white/10 bg-white/[0.03] px-5 py-4 text-sm leading-6 text-white/58">
                   {t("Достаточно e-mail или телефона / Telegram. Имя и комментарий можно добавить по желанию.", "Either an e-mail or a phone / Telegram contact is enough. Name and note are optional.")}
                 </p>
                 <div className="grid gap-5 xl:grid-cols-2">
@@ -361,7 +361,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
                     <textarea id="message" name="message" rows={5} placeholder={t("Если важно, добавьте детали по ответу, NDA или созвону.", "If useful, add details about reply format, NDA, or a call.")} className="brief-form-control brief-form-control--textarea" />
                   </Field>
                 </div>
-                <label className="flex items-start gap-3 rounded-[24px] border border-white/10 bg-black/20 px-5 py-5 text-sm text-white/66">
+                <label className="flex items-start gap-3 rounded-none border border-white/10 bg-black/20 px-5 py-5 text-sm text-white/66">
                   <input type="checkbox" name="agree" value="yes" required className="mt-1 h-4 w-4 rounded border-white/20 bg-white/5 accent-white/80" />
                   <span>
                     {t("Отправляя бриф, вы соглашаетесь с ", "By sending the brief, you agree with the ")}

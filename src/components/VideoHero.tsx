@@ -7,9 +7,12 @@ import clsx from "clsx";
 import StudioPlayer from "@/components/StudioPlayer";
 import { heroMedia } from "@/lib/media";
 
+type HeroCredit = { label: string; value: string };
+
 interface VideoHeroProps {
   title?: string;
-  subtitle?: string;
+  /** Титры под работой: что, для кого, когда. */
+  credits?: HeroCredit[];
   muteLabel?: string;
   unmuteLabel?: string;
   fullscreenLabel?: string;
@@ -37,7 +40,11 @@ const CAPTION_VISIBLE_MS = 10_000;
  */
 export default function VideoHero({
   title = "Highway Films",
-  subtitle = "Реклама, бренд-фильмы, клипы и свадьбы. Петербург, съёмки по России.",
+  credits = [
+    { label: "Шоурил", value: "2026" },
+    { label: "Формат", value: "Реклама · Бренд-фильмы · Клипы · Свадьбы" },
+    { label: "База", value: "Санкт-Петербург, 59°56′N 30°19′E" },
+  ],
   muteLabel = "Включить звук",
   unmuteLabel = "Выключить звук",
   fullscreenLabel = "Открыть видео на весь экран",
@@ -127,7 +134,9 @@ export default function VideoHero({
         onPlayingChange={setIsPlaying}
       />
 
-      <div className="hero-video-overlay absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/22 to-black/14" />
+      <div // Оверлей ослаблен: он нужен только чтобы титры внизу читались.
+        // Затемнять кадр целиком — значит прятать то, ради чего человек пришёл.
+        className="hero-video-overlay absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
       <div
         className={clsx(
@@ -135,12 +144,22 @@ export default function VideoHero({
           isCaptionVisible ? "opacity-100" : "pointer-events-none opacity-0",
         )}
       >
+        {/* Титры вместо маркетингового подзаголовка.
+            Международные продакшены (Partizan, RISK) на первом экране не
+            объясняют себя вообще: только работа и её титры — что это, для
+            кого, когда. Строка фактов читается увереннее любого слогана,
+            потому что её нельзя написать, не имея работы. */}
         <div className="container px-0">
-          <div className="max-w-3xl">
-            <HeadingTag className="font-display heading-balance text-[clamp(2.45rem,5.5vw,4.8rem)] leading-[0.97] tracking-[-0.04em] text-white">
-              {title}
-            </HeadingTag>
-            <p className="mt-3 max-w-2xl text-base leading-7 text-white/74 md:text-lg">{subtitle}</p>
+          <div className="hero-credits">
+            <HeadingTag className="hero-credits__name font-display">{title}</HeadingTag>
+            <dl className="hero-credits__meta">
+              {credits.map((item) => (
+                <div key={item.label} className="hero-credits__row">
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
       </div>

@@ -341,7 +341,7 @@ function ClipTile({ item, compact = false }: { item: ClipCard; compact?: boolean
   return (
     <article
       className={[
-        "group relative overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)] reveal-up",
+        "group relative overflow-hidden rounded-none border border-white/10 bg-white/[0.03] shadow-[0_24px_70px_rgba(0,0,0,0.24)] reveal-up",
         compact ? "min-h-[18rem]" : "min-h-[21rem]",
         item.className ?? "",
         item.delayClass ?? "",
@@ -412,7 +412,7 @@ export default function MusicVideosStudioPage({ locale = "ru" }: { locale?: Loca
               </div>
             </div>
 
-            <article className="reveal-up delay-1 relative overflow-hidden rounded-[34px] border border-white/10 bg-white/[0.03] shadow-[0_30px_84px_rgba(0,0,0,0.32)]">
+            <article className="reveal-up delay-1 relative overflow-hidden rounded-none border border-white/10 bg-white/[0.03] shadow-[0_30px_84px_rgba(0,0,0,0.32)]">
               <div className="relative min-h-[25rem]">
                 <Image
                   src={t.featured.poster}
@@ -468,7 +468,7 @@ export default function MusicVideosStudioPage({ locale = "ru" }: { locale?: Loca
         </section>
 
         <section className="py-10 md:py-14">
-          <div className="relative reveal-up overflow-hidden rounded-[38px] border border-white/10 bg-black/30 shadow-[0_30px_84px_rgba(0,0,0,0.32)]">
+          <div className="relative reveal-up overflow-hidden rounded-none border border-white/10 bg-black/30 shadow-[0_30px_84px_rgba(0,0,0,0.32)]">
             <div className="relative min-h-[32rem] md:min-h-[38rem]">
               <Image
                 src={t.production.poster}
@@ -521,7 +521,7 @@ export default function MusicVideosStudioPage({ locale = "ru" }: { locale?: Loca
             {t.process.items.map((item, index) => (
               <article
                 key={item.index}
-                className={`reveal-up ${index === 0 ? "delay-1" : index === 1 ? "delay-2" : index === 2 ? "delay-3" : ""} rounded-[30px] border border-white/10 bg-white/[0.03] p-6 shadow-soft`}
+                className={`reveal-up ${index === 0 ? "delay-1" : index === 1 ? "delay-2" : index === 2 ? "delay-3" : ""} rounded-none border border-white/10 bg-white/[0.03] p-6 shadow-soft`}
               >
                 <div className="flex items-start gap-4">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm text-white/82">
@@ -538,7 +538,7 @@ export default function MusicVideosStudioPage({ locale = "ru" }: { locale?: Loca
         </section>
 
         <section className="pb-4 pt-10 md:pt-14">
-          <div className="reveal-up relative overflow-hidden rounded-[38px] border border-white/10 bg-[radial-gradient(84rem_34rem_at_0%_0%,rgba(124,58,237,.18),transparent_56%),linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.016)),rgba(8,8,10,.8)] px-6 py-8 shadow-[0_30px_84px_rgba(0,0,0,0.34)] md:px-8 md:py-10">
+          <div className="reveal-up relative overflow-hidden rounded-none border border-white/10 bg-[radial-gradient(84rem_34rem_at_0%_0%,rgba(124,58,237,.18),transparent_56%),linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.016)),rgba(8,8,10,.8)] px-6 py-8 shadow-[0_30px_84px_rgba(0,0,0,0.34)] md:px-8 md:py-10">
             <div className="relative z-[1] flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-2xl">
                 <p className="eyebrow text-white/52">{t.cta.eyebrow}</p>
