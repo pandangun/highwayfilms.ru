@@ -44,8 +44,12 @@
   }
 
   .drawer-panel {
+    /* Ширину задаём через inset, а не width:100vw. При width:100vw вместе
+       с right:0 из разметки панель уезжала за правый край ровно на ширину
+       полосы прокрутки — на всех страницах сразу. */
     left: 0;
-    width: 100vw;
+    right: 0;
+    width: auto;
     max-width: none;
     border-left: 0;
     box-shadow: -18px 0 42px rgba(0, 0, 0, 0.26);

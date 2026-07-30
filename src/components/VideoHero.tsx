@@ -169,7 +169,7 @@ export default function VideoHero({
           <button
             type="button"
             onClick={handleOpenFullscreen}
-            className="hero-video-fullscreen absolute bottom-4 left-4 z-30 rounded-full border border-white/20 bg-black/55 p-3 text-white transition hover:bg-black/70 md:hidden"
+            className="hero-video-fullscreen absolute right-[4.5rem] top-[calc(var(--header-h)+1rem)] z-30 grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-black/45 text-white backdrop-blur-sm transition hover:bg-black/70 md:hidden"
             aria-label={fullscreenLabel}
           >
             <Expand className="h-4.5 w-4.5" aria-hidden />
@@ -178,7 +178,7 @@ export default function VideoHero({
           <button
             type="button"
             onClick={handleToggleMute}
-            className="hero-video-sound absolute bottom-4 right-4 z-30 rounded-full border border-white/20 bg-black/55 p-3 text-white transition hover:bg-black/70"
+            className="hero-video-sound absolute right-4 top-[calc(var(--header-h)+1rem)] z-30 grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-black/45 text-white backdrop-blur-sm transition hover:bg-black/70"
             aria-label={isMuted ? muteLabel : unmuteLabel}
             aria-pressed={!isMuted}
           >

@@ -67,6 +67,20 @@
   .bg-hairline { background-color: var(--hairline); }
 }
 
+/* Базовый сброс медиа — именно в слое base, до utilities.
+   Если положить его в проектный слой (все они идут после utilities),
+   height:auto начинает побеждать h-full: слои сильнее специфичности,
+   и :where() тут не помогает. Из-за этого видео в hero получало высоту
+   по своему соотношению сторон вместо высоты контейнера. */
+@layer base {
+  img,
+  video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 /* foundations */
 @import "./styles/theme.css";
 @import "./styles/layout.css";
