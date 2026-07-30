@@ -3,8 +3,8 @@
 import Image from "next/image";
 import clsx from "clsx";
 import { Play } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import type { MediaSource } from "@/lib/media";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { heroMedia, type MediaSource } from "@/lib/media";
 
 type NetworkInformationLike = { effectiveType?: string; saveData?: boolean };
 type NavigatorWithConnection = Navigator & { connection?: NetworkInformationLike };
@@ -103,22 +103,33 @@ export default function StudioPlayer({
   /** Автозапуск отклонён (iOS Low Power Mode и подобное) — нужна кнопка. */
   const [needsGesture, setNeedsGesture] = useState(false);
 
+  // Пока у раздела нет своего материала, играет основной шоурил. Статичная
+  // картинка вместо плеера на сайте видеостудии — хуже, чем «тот же ролик,
+  // что на главной»: во втором случае посетитель хотя бы видит, как мы
+  // снимаем. Когда приедут файлы раздела, флаг placeholder снимается и
+  // подставляется свой ролик.
+  // useMemo обязателен: без него объект пересоздаётся на каждом рендере,
+  // эффект ниже считает зависимость изменившейся и перезапускается вхолостую.
+  const effectiveSource = useMemo(
+    () => (placeholder ? { ...heroMedia, poster: source.poster } : source),
+    [placeholder, source],
+  );
+
   // Решение о загрузке принимаем после монтирования: до него неизвестны ни
   // ширина, ни сеть, ни настройки движения.
   //
   // Через requestAnimationFrame, а не прямо в теле эффекта: так первый кадр
   // успевает отрисоваться с постером, и мы не даём каскад ре-рендеров.
   useEffect(() => {
-    if (placeholder) return;
     if (mode === "interactive") return; // interactive грузится по клику
 
     const frame = requestAnimationFrame(() => {
       if (!shouldLoadVideo(mode)) return;
-      setSrc(pickSource(source));
+      setSrc(pickSource(effectiveSource));
     });
 
     return () => cancelAnimationFrame(frame);
-  }, [mode, placeholder, source]);
+  }, [mode, effectiveSource]);
 
   // React исторически не проставляет свойство muted при первом рендере
   // <video>, а без него браузер блокирует автозапуск. Ставим руками.
@@ -161,7 +172,7 @@ export default function StudioPlayer({
     setNeedsGesture(false);
 
     if (!src) {
-      setSrc(pickSource(source));
+      setSrc(pickSource(effectiveSource));
       return;
     }
 
@@ -222,7 +233,7 @@ export default function StudioPlayer({
           автозапуск (Low Power Mode) и отказ от загрузки по Save-Data.
           Раньше в этих случаях был просто статичный постер без всякого
           намёка, что видео вообще есть. */}
-      {(mode === "interactive" || needsGesture) && !placeholder && !hasFailed ? (
+      {(mode === "interactive" || needsGesture) && !hasFailed ? (
         <button
           type="button"
           onClick={handlePlayRequest}

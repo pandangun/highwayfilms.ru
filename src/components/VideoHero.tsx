@@ -117,7 +117,12 @@ export default function VideoHero({
         mode="ambient"
         priority
         objectFit="cover"
-        className="absolute inset-0"
+        // Именно h-full w-full, а НЕ absolute inset-0: корень плеера объявлен
+        // как relative, и оба position-класса попадали в один элемент.
+        // В сборке Tailwind .relative идёт после .absolute и побеждал —
+        // контейнер оставался relative, всё содержимое внутри абсолютное,
+        // высота схлопывалась в ноль, и первый экран был пустым.
+        className="h-full w-full"
         videoRef={videoRef}
         onPlayingChange={setIsPlaying}
       />
