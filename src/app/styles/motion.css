@@ -17,7 +17,6 @@
 
 /* media helpers */
 
-
 /* =========================
    MISC UTILITIES
    ========================= */
@@ -348,26 +347,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .contact-page-ambient,
-  .contact-page-map,
-  .contact-quick-list::before,
-  .contact-quick-list::after,
-  .contact-platform-group::before,
-  .contact-platform-group::after,
-  .contact-quick-item,
-  .contact-platform-card,
-  .contact-platform-card__halo,
-  .contact-platform-card__orb,
-  .contact-platform-card__ring,
-  .contact-platform-card__sheen,
-  .contact-platform-card__core,
-  .contact-platform-icon {
-    animation: none !important;
-    transition: none !important;
-    transform: none !important;
-    filter: none !important;
-    opacity: 1 !important;
-  }
 
   .commercials-hero__ambient,
   .commercials-hero__darkness,
@@ -406,6 +385,5 @@
     opacity: 1 !important;
   }
 }
-
 
 }

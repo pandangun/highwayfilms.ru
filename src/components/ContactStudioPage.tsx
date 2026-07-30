@@ -1,7 +1,5 @@
 import Link from "next/link";
-import type { ComponentType, CSSProperties } from "react";
-import { MessageCircleMore, MessageSquareMore, MonitorPlay, Play, Send } from "lucide-react";
-import LightRays from "@/components/LightRays";
+import GenerativeField from "@/components/GenerativeField";
 
 type ContactStudioPageProps = {
   locale?: "ru" | "en";
@@ -20,47 +18,22 @@ const CONTACTS = {
   briefUrl: "/brief",
 } as const;
 
-type PlatformItem = {
-  label: string;
-  href: string;
-  icon: ComponentType<{ className?: string; strokeWidth?: number }>;
-  accent: string;
-};
+type ChannelItem = { label: string; href: string; hint: string };
 
-const MESSENGER_LINKS: PlatformItem[] = [
-  {
-    label: "Telegram",
-    href: CONTACTS.telegramUrl,
-    icon: Send,
-    accent: "42 171 238",
-  },
-  {
-    label: "WhatsApp",
-    href: CONTACTS.whatsappUrl,
-    icon: MessageCircleMore,
-    accent: "37 211 102",
-  },
+const CHANNELS_RU: ChannelItem[] = [
+  { label: "Telegram", href: CONTACTS.telegramUrl, hint: "Быстрее всего" },
+  { label: "WhatsApp", href: CONTACTS.whatsappUrl, hint: "Если удобнее" },
+  { label: "YouTube", href: CONTACTS.youtubeUrl, hint: "Работы" },
+  { label: "VK", href: CONTACTS.vkUrl, hint: "Работы" },
+  { label: "RuTube", href: CONTACTS.rutubeUrl, hint: "Работы" },
 ];
 
-const SOCIAL_LINKS: PlatformItem[] = [
-  {
-    label: "YouTube",
-    href: CONTACTS.youtubeUrl,
-    icon: Play,
-    accent: "255 62 62",
-  },
-  {
-    label: "VK",
-    href: CONTACTS.vkUrl,
-    icon: MessageSquareMore,
-    accent: "76 117 163",
-  },
-  {
-    label: "RuTube",
-    href: CONTACTS.rutubeUrl,
-    icon: MonitorPlay,
-    accent: "138 92 246",
-  },
+const CHANNELS_EN: ChannelItem[] = [
+  { label: "Telegram", href: CONTACTS.telegramUrl, hint: "Fastest" },
+  { label: "WhatsApp", href: CONTACTS.whatsappUrl, hint: "If easier" },
+  { label: "YouTube", href: CONTACTS.youtubeUrl, hint: "Work" },
+  { label: "VK", href: CONTACTS.vkUrl, hint: "Work" },
+  { label: "RuTube", href: CONTACTS.rutubeUrl, hint: "Work" },
 ];
 
 const copy = {
@@ -69,177 +42,138 @@ const copy = {
     eyebrow: "Контакты",
     phoneLabel: "Телефон",
     emailLabel: "E-mail",
-    messengersLabel: "Мессенджеры",
-    socialsLabel: "Соцсети",
-    briefLabel: "Бриф",
+    channelsEyebrow: "Каналы",
+    channelsTitle: "Где ещё нас найти",
+    briefEyebrow: "Бриф",
     briefTitle: "Кратко о задаче",
-    briefLead: "Достаточно трёх опорных точек, чтобы мы быстро собрали следующий шаг по проекту.",
-    briefItems: [
-      "Что нужно снять: ролик, клип, brand-film, ивент или свадьба",
+    briefLead:
+      "Достаточно трёх опорных точек, чтобы мы быстро собрали следующий шаг по проекту.",
+    briefPoints: [
+      "Что нужно снять: ролик, клип, бренд-фильм, ивент или свадьба",
       "Где и когда: город, дата или окно съёмки",
-      "Какой нужен результат: один master или пакет версий под площадки",
+      "Какой нужен результат: один мастер или пакет версий под площадки",
     ],
     briefAction: "Открыть бриф",
     briefMeta: "Можно начать коротко. Детали уточним уже после первого контакта.",
+    channels: CHANNELS_RU,
   },
   en: {
     pageTitle: "Highway Films contacts",
     eyebrow: "Contacts",
     phoneLabel: "Phone",
     emailLabel: "E-mail",
-    messengersLabel: "Messengers",
-    socialsLabel: "Social",
-    briefLabel: "Brief",
-    briefTitle: "Short brief",
-    briefLead: "Three anchors are enough for us to shape the next step and reply with a practical production route.",
-    briefItems: [
-      "What needs to be produced: commercial, music video, brand film, event, or wedding story",
-      "Where and when: city, date, or the expected production window",
-      "What should be delivered: one master or a release package for several platforms",
+    channelsEyebrow: "Channels",
+    channelsTitle: "Where else to find us",
+    briefEyebrow: "Brief",
+    briefTitle: "A short outline is enough",
+    briefLead: "Three reference points are enough for us to prepare the next step.",
+    briefPoints: [
+      "What to shoot: commercial, music video, brand film, event, or wedding",
+      "Where and when: city, date, or shooting window",
+      "What you need: a single master or a package of platform versions",
     ],
     briefAction: "Open brief",
     briefMeta: "A short note is enough to start. We can clarify the rest after the first contact.",
+    channels: CHANNELS_EN,
   },
 } as const;
 
 function externalProps(href: string) {
-  return href.startsWith("http")
-    ? {
-        target: "_blank",
-        rel: "noopener noreferrer",
-      }
-    : {};
+  return href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {};
 }
 
-function ContactLinkGroup({ label, items }: { label: string; items: PlatformItem[] }) {
-  return (
-    <div className="contact-platform-group">
-      <div className="contact-quick-label">{label}</div>
-      <div className="contact-platforms-grid mt-5">
-        {items.map((item, index) => {
-          const Icon = item.icon;
-
-          return (
-            <a
-              key={item.label}
-              href={item.href}
-              className="contact-platform-card"
-              aria-label={item.label}
-              title={item.label}
-              style={
-                {
-                  "--contact-accent": item.accent,
-                  "--contact-index": index,
-                } as CSSProperties
-              }
-              {...externalProps(item.href)}
-            >
-              <span className="contact-platform-card__halo" aria-hidden />
-              <span className="contact-platform-card__orb" aria-hidden>
-                <span className="contact-platform-card__ring" />
-                <span className="contact-platform-card__sheen" />
-                <span className="contact-platform-card__core">
-                  <span className="contact-platform-icon">
-                    <Icon className="h-7 w-7" strokeWidth={1.85} />
-                  </span>
-                </span>
-              </span>
-              <span className="visually-hidden">{item.label}</span>
-            </a>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
+/**
+ * Страница контактов.
+ *
+ * Переписана начисто. Прежняя версия была памятником старому дизайну:
+ * canvas LightRays с двенадцатью параметрами, четыре вложенных слоя-обёртки,
+ * полупрозрачная карта поверх, и у каждой иконки мессенджера пять вложенных
+ * спанов (halo, orb, ring, sheen, core) ради свечения. На всё это уходило
+ * 84 правила CSS, а на экране это читалось как артефакты и полосы поверх
+ * контента.
+ *
+ * Теперь два экрана: контакты крупной антиквой и каналы строками. Фон —
+ * то же генеративное поле, что на главной, вместо отдельной анимации,
+ * которая жила только здесь.
+ */
 export function ContactStudioPage({ locale = "ru" }: ContactStudioPageProps) {
   const t = copy[locale];
   const briefHref = locale === "en" ? "/en/brief" : CONTACTS.briefUrl;
 
   return (
-    <div className="page-shell contact-page-shell">
-      <div className="contact-page-ambient" />
+    <div className="page-shell">
       <div className="page-content">
-        <section className="container relative pb-16 pt-header-safe md:pb-20">
-          <div className="contact-page-map" aria-hidden />
-          <h1 className="visually-hidden">{t.pageTitle}</h1>
+        {/* ЭКРАН 1 — как связаться. Телефон и почта набраны так же крупно,
+            как заголовки разделов: это и есть главное действие страницы. */}
+        <section className="relative overflow-hidden pt-header-safe">
+          <GenerativeField className="opacity-60" />
 
-          <div className="contact-first-screen">
-            <div className="contact-first-screen__primary reveal-up">
-              <section className="contact-quick-panel">
-                <div className="contact-quick-panel__rays" aria-hidden>
-                  <LightRays
-                    raysOrigin="top-center"
-                    raysColor="#f6efe6"
-                    raysSpeed={0.58}
-                    lightSpread={0.62}
-                    rayLength={3.6}
-                    followMouse={false}
-                    mouseInfluence={0.04}
-                    noiseAmount={0}
-                    distortion={0.04}
-                    pulsating={false}
-                    fadeDistance={1}
-                    saturation={1.06}
-                    className="contact-light-rays"
-                  />
-                </div>
+          <div className="container relative py-20 md:py-28">
+            <h1 className="visually-hidden">{t.pageTitle}</h1>
+            <p className="eyebrow reveal-up">{t.eyebrow}</p>
 
-                <div className="contact-quick-panel__overlay" aria-hidden />
-                <div className="contact-quick-panel__content">
-                  <div className="contact-quick-panel__main mx-auto w-full max-w-[1120px]">
-                    <div className="contact-quick-head">
-                      <p className="eyebrow">{t.eyebrow}</p>
-                    </div>
+            <dl className="contact-lines mt-12 md:mt-16">
+              <div className="contact-line reveal-up delay-1">
+                <dt>{t.phoneLabel}</dt>
+                <dd>
+                  <a href={CONTACTS.phoneHref} className="contact-line__link font-display">
+                    {CONTACTS.phoneDisplay}
+                  </a>
+                </dd>
+              </div>
+              <div className="contact-line reveal-up delay-2">
+                <dt>{t.emailLabel}</dt>
+                <dd>
+                  <a href={CONTACTS.emailHref} className="contact-line__link font-display">
+                    {CONTACTS.emailDisplay}
+                  </a>
+                </dd>
+              </div>
+            </dl>
 
-                    <div className="contact-quick-list mt-6">
-                      <div className="contact-quick-item">
-                        <div className="contact-quick-label">{t.phoneLabel}</div>
-                        <a href={CONTACTS.phoneHref} className="contact-primary-link" {...externalProps(CONTACTS.phoneHref)}>
-                          {CONTACTS.phoneDisplay}
-                        </a>
-                      </div>
+            <div className="mt-16 md:mt-20">
+              <p className="eyebrow">{t.channelsEyebrow}</p>
+              <ul className="contact-channels mt-6">
+                {t.channels.map((channel) => (
+                  <li key={channel.label}>
+                    <a
+                      href={channel.href}
+                      className="contact-channel"
+                      {...externalProps(channel.href)}
+                    >
+                      <span className="contact-channel__label">{channel.label}</span>
+                      <span className="contact-channel__hint">{channel.hint}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
 
-                      <div className="contact-quick-item">
-                        <div className="contact-quick-label">{t.emailLabel}</div>
-                        <a href={CONTACTS.emailHref} className="contact-primary-link" {...externalProps(CONTACTS.emailHref)}>
-                          {CONTACTS.emailDisplay}
-                        </a>
-                      </div>
-                    </div>
+        {/* ЭКРАН 2 — бриф. Три опорные точки: это лучший текст на сайте,
+            он и остаётся, только без панели вокруг. */}
+        <section className="container border-t border-hairline py-20 md:py-28">
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+            <div>
+              <p className="eyebrow">{t.briefEyebrow}</p>
+              <h2 className="contact-brief__title font-display mt-6 text-ink">{t.briefTitle}</h2>
+              <p className="mt-6 max-w-md text-ink-muted">{t.briefLead}</p>
+            </div>
 
-                    <div className="contact-platform-row">
-                      <ContactLinkGroup label={t.messengersLabel} items={MESSENGER_LINKS} />
-                      <ContactLinkGroup label={t.socialsLabel} items={SOCIAL_LINKS} />
-                    </div>
+            <div>
+              <ul className="contact-brief__points">
+                {t.briefPoints.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
 
-                    <div className="contact-brief-stage">
-                      <div className="contact-brief-stage__rail" aria-hidden />
-                      <div className="contact-platform-group contact-platform-group--brief">
-                        <div className="contact-quick-label">{t.briefLabel}</div>
-                        <div className="contact-brief-card mt-5">
-                          <p className="contact-brief-card__title">{t.briefTitle}</p>
-                          <p className="contact-brief-card__lead">{t.briefLead}</p>
-                          <ul className="contact-brief-list">
-                            {t.briefItems.map((item) => (
-                              <li key={item} className="contact-brief-list__item">
-                                <span className="contact-brief-list__dot" aria-hidden />
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                          <Link href={briefHref} className="contact-brief-link">
-                            {t.briefAction}
-                          </Link>
-                          <p className="contact-brief-card__meta">{t.briefMeta}</p>
-                        </div>
-                      </div>
-                      <div className="contact-brief-stage__rail" aria-hidden />
-                    </div>
-                  </div>
-                </div>
-              </section>
+              <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+                <Link href={briefHref} className="btn-primary">
+                  {t.briefAction}
+                </Link>
+                <p className="text-meta text-ink-faint">{t.briefMeta}</p>
+              </div>
             </div>
           </div>
         </section>

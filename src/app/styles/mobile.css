@@ -380,17 +380,6 @@
     padding: 1rem;
   }
 
-  .contact-page-map {
-    top: calc(var(--header-h) + 2.75rem);
-    width: 78vw;
-    height: 48vw;
-    opacity: 0.08;
-  }
-
-  .contact-primary-link {
-    font-size: clamp(1.7rem, 8vw, 2.35rem);
-  }
-
   .brief-page-frame {
     padding-inline: var(--page-gutter);
   }

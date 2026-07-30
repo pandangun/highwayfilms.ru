@@ -126,7 +126,6 @@ h3,
   --section-panel-padding-desktop: 1.5rem;
 }
 
-
 .section-card {
   padding: var(--section-card-padding-mobile, 1.25rem);
 }
@@ -953,7 +952,5 @@ h3,
 .status-pill--amber { background: rgba(214,183,138,.12); color: rgba(245,208,137,.95); }
 .status-pill--emerald { background: rgba(16,185,129,.12); color: rgba(110,231,183,.95); }
 .status-pill--slate { background: rgba(148,163,184,.12); color: rgba(203,213,225,.9); }
-
-
 
 }
