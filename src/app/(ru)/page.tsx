@@ -75,9 +75,9 @@ const faqItems = [
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   return (
-    <details className="home-faq-item group py-7 first:pt-0 last:pb-0">
+    <details className="faq-item group py-7 first:pt-0 last:pb-0">
       <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-left">
-        <h3 className="home-faq-question text-white">
+        <h3 className="faq-question text-white">
           {question}
         </h3>
         <span className="relative mt-2 flex h-5 w-5 shrink-0 items-center justify-center text-white/72">
@@ -85,9 +85,9 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
           <span className="absolute h-5 w-px bg-white/50 transition duration-200 group-open:scale-y-0" />
         </span>
       </summary>
-      <div className="home-faq-panel">
-        <div className="home-faq-panel__inner">
-          <p className="home-faq-answer max-w-3xl text-white/60">{answer}</p>
+      <div className="faq-panel">
+        <div className="faq-panel__inner">
+          <p className="faq-answer max-w-3xl text-white/60">{answer}</p>
         </div>
       </div>
     </details>
@@ -162,12 +162,12 @@ export default function HomePage() {
               <Link
                 key={service.title}
                 href={service.href}
-                className={`home-line-item reveal-up delay-${Math.min(index + 1, 5)}`}
+                className={`line-item reveal-up delay-${Math.min(index + 1, 5)}`}
               >
-                <span className="home-line-item__index">{String(index + 1).padStart(2, "0")}</span>
-                <span className="home-line-item__title font-display">{service.title}</span>
-                <span className="home-line-item__text">{service.text}</span>
-                <ArrowRight className="home-line-item__arrow h-6 w-6" aria-hidden />
+                <span className="line-item__index">{String(index + 1).padStart(2, "0")}</span>
+                <span className="line-item__title font-display">{service.title}</span>
+                <span className="line-item__text">{service.text}</span>
+                <ArrowRight className="line-item__arrow h-6 w-6" aria-hidden />
               </Link>
             ))}
           </div>
@@ -177,14 +177,14 @@ export default function HomePage() {
       {/* ЭКРАН 3 — РАЗГОВОР.
           Снова тёмный и плотный, после воздуха второго экрана. Одно
           действие, одна цифра, никаких карточек. */}
-      <section className="home-closing relative overflow-hidden py-24 md:py-32">
+      <section className="closing relative overflow-hidden py-24 md:py-32">
         <div className="container relative">
           <div className="max-w-4xl">
             <p className="eyebrow">Дальше</p>
-            <h2 className="home-closing__title font-display mt-6 text-ink">
+            <h2 className="closing__title font-display mt-6 text-ink">
               Посмотрели шоурил — напишите, что нужно снять.
             </h2>
-            <p className="home-closing__lead mt-8 max-w-2xl text-ink-muted">
+            <p className="closing__lead mt-8 max-w-2xl text-ink-muted">
               Опишите задачу в двух абзацах. В ответ пришлём вилку по бюджету с расшифровкой,
               что в неё входит, и срок до финальной версии. Отвечаем в течение рабочего дня.
             </p>
@@ -201,9 +201,9 @@ export default function HomePage() {
 
           {/* FAQ оставлен ради поисковой выдачи, но свёрнут: это справка,
               а не экран. Разметка FAQPage выше на нём и держится. */}
-          <details className="home-faq-fold mt-20 md:mt-28">
-            <summary className="home-faq-fold__summary">Частые вопросы</summary>
-            <div className="home-faq-wrap mt-8 max-w-4xl">
+          <details className="faq-fold mt-20 md:mt-28">
+            <summary className="faq-fold__summary">Частые вопросы</summary>
+            <div className="faq-wrap mt-8 max-w-4xl">
               {faqItems.map((item) => (
                 <FAQItem key={item.q} question={item.q} answer={item.a} />
               ))}

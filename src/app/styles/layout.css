@@ -130,21 +130,67 @@
 .tap-target { min-width: 44px; min-height: 44px; }
 
 /* ===== КОНТАКТЫ =====
-   Телефон и почта набраны так же крупно, как заголовки разделов: это и есть
-   главное действие страницы. Каналы — строками с волосяной линией, без
-   иконок в кружках. Прежняя версия строила каждую иконку из пяти вложенных
-   спанов ради свечения; на экране это читалось как артефакты. */
+   Один экран на десктопе. Раньше страница была вертикальным столбцом:
+   контакты, потом каналы, потом бриф — три блока подряд, каждый во всю
+   ширину и очень крупный. Это читалось как «дизайна нет», и справедливо:
+   последовательность блоков — не композиция.
+
+   Теперь сетка: слева контакты, справа бриф через вертикальную линию,
+   каналы — рельсом по низу. Кегль телефона и почты снижен почти вдвое:
+   на 4.4rem они работали как заголовок страницы, хотя заголовок здесь
+   не нужен — нужен контакт, который видно вместе со всем остальным. */
+.contact-screen {
+  display: flex;
+  align-items: center;
+  min-height: calc(100 * var(--vh));
+  padding-top: calc(var(--header-h) + env(safe-area-inset-top) + clamp(2rem, 5vh, 4rem));
+  padding-bottom: clamp(2.5rem, 6vh, 4.5rem);
+}
+
+.contact-screen__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 6vh, 5rem);
+  width: 100%;
+}
+
+.contact-screen__grid {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+@media (min-width: 900px) {
+  .contact-screen__grid {
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+    align-items: start;
+  }
+
+  /* Вертикальная линия вместо рамки: колонки разделены, но ничто не
+     обведено в прямоугольник. Тот же приём, что в шапке. */
+  .contact-screen__col--brief {
+    padding-left: clamp(2rem, 4vw, 4rem);
+    border-left: 1px solid var(--hairline);
+  }
+}
+
+.contact-screen__rail {
+  padding-top: clamp(1.4rem, 3vh, 2.25rem);
+  border-top: 1px solid var(--hairline);
+}
+
+/* Отступы сверху заданы здесь, а не утилитой mt-*: объявленный тут
+   margin лежит в слое проекта и перебивает утилиты Tailwind независимо
+   от специфичности. Ровно на этом уже дважды пропадал воздух. */
 .contact-lines {
   display: grid;
   gap: 0;
-  margin: 0;
-  max-width: 62rem;
+  margin: 2rem 0 0;
 }
 
 .contact-line {
   display: grid;
-  gap: .5rem;
-  padding: 1.75rem 0;
+  gap: .3rem;
+  padding: 1.1rem 0;
   border-top: 1px solid var(--hairline);
 }
 
@@ -165,9 +211,9 @@
 
 .contact-line__link {
   display: inline-block;
-  font-size: clamp(2rem, 1.2rem + 3.2vw, 4.4rem);
-  line-height: .96;
-  letter-spacing: -0.045em;
+  font-size: clamp(1.6rem, 1.05rem + 1.5vw, 2.7rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
   color: var(--ink);
   overflow-wrap: anywhere;
   font-variant-numeric: lining-nums;
@@ -182,7 +228,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0 2.5rem;
-  margin: 0;
+  margin: .75rem 0 0;
   padding: 0;
   list-style: none;
 }
@@ -191,7 +237,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: .7rem;
-  padding: .8rem 0;
+  padding: .75rem 0;
   transition: color var(--dur-fast) ease;
 }
 
@@ -215,7 +261,7 @@
 }
 
 .contact-brief__title {
-  font-size: var(--type-display-md);
+  font-size: clamp(1.5rem, 1.15rem + 1.1vw, 2.15rem);
   line-height: var(--leading-title);
   letter-spacing: var(--tracking-display);
 }
@@ -223,13 +269,13 @@
 .contact-brief__points {
   display: grid;
   gap: 0;
-  margin: 0;
+  margin: 2.25rem 0 0;
   padding: 0;
   list-style: none;
 }
 
 .contact-brief__points li {
-  padding: 1.15rem 0;
+  padding: .8rem 0;
   border-top: 1px solid var(--hairline);
   font-size: var(--type-body);
   line-height: var(--leading-body);
@@ -238,6 +284,15 @@
 
 .contact-brief__points li:last-child {
   border-bottom: 1px solid var(--hairline);
+}
+
+/* На телефоне экран не держим: одна колонка длиннее одного экрана,
+   и попытка ужать её приводит к вертикальному сжатию, а не к дизайну. */
+@media (max-width: 899px) {
+  .contact-screen {
+    display: block;
+    min-height: 0;
+  }
 }
 
 }

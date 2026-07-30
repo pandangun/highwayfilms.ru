@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import GenerativeField from "@/components/GenerativeField";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import DarkVeil from "@/components/DarkVeil";
 import { buildPageMetadata, SITE_URL } from "@/lib/metadata";
 
 type AboutAdvantage = {
@@ -568,20 +568,14 @@ export default function AboutPage() {
             <span className="h-px flex-1 bg-gradient-to-r from-white/14 via-white/8 to-transparent" />
           </div>
 
-          <div className="on-dark relative overflow-hidden rounded-none border border-white/10 bg-black shadow-[0_24px_70px_rgba(0,0,0,0.3)]">
-            <div className="absolute inset-0 opacity-90">
-              <DarkVeil
-                hueShift={16}
-                noiseIntensity={0}
-                scanlineIntensity={0}
-                speed={0.6}
-                scanlineFrequency={0.5}
-                warpAmount={2.8}
-              />
-            </div>
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,6,7,.2),rgba(6,6,7,.58)_30%,rgba(6,6,7,.82)_78%,rgba(6,6,7,.92)),radial-gradient(90rem_40rem_at_0%_0%,rgba(124,58,237,.12),transparent_52%)]" />
+          {/* Был DarkVeil: шейдер со сканлайнами, варпом и дрожанием поверх
+              чёрной панели в рамке. На экране это читалось как помеха в
+              телевизоре, а не как фактура. Теперь то же генеративное поле,
+              что на главной и в контактах, и никакой коробки вокруг. */}
+          <div className="relative overflow-hidden">
+            <GenerativeField className="opacity-60" />
 
-            <div className="relative z-[1] px-6 py-8 md:px-8 md:py-10">
+            <div className="relative z-[1] py-8 md:py-10">
               <div className="grid gap-6 xl:grid-cols-[1.18fr_0.82fr] xl:items-end">
                 <p className="font-display max-w-5xl text-[clamp(2rem,2vw+1.2rem,4.1rem)] leading-[1.02] tracking-[-0.045em] text-ink">
                   Мы не делаем видео ради жеста. Мы создаём ролики и фильмы, у которых есть конкретная задача.

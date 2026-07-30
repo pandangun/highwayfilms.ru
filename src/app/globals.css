@@ -87,6 +87,7 @@
 
 /* shared primitives */
 @import "./styles/shared.css";
+@import "./styles/section.css";
 
 /* feature modules */
 @import "./styles/header.css";

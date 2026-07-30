@@ -55,15 +55,11 @@
   gap: .9rem;
 }
 
+/* Такой же голый переключатель, как в шапке: два знака без панели. */
 .footer-theme-switch {
   display: inline-flex;
   align-items: center;
   gap: .3rem;
-  padding: 3px;
-  border-radius: 0;
-  background: var(--theme-switch-bg);
-  border: 1px solid var(--theme-switch-border);
-  box-shadow: var(--theme-switch-shadow);
 }
 
 .footer-theme-button {
@@ -79,16 +75,9 @@
   transition: color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
 }
 
-.footer-theme-button:hover {
-  color: var(--ink);
-  transform: translateY(-1px);
-  background: var(--theme-button-hover-bg);
-}
-
+.footer-theme-button:hover,
 .footer-theme-button.is-active {
-  background: var(--theme-button-active-bg);
   color: var(--ink);
-  box-shadow: var(--theme-button-active-shadow);
 }
 
 }

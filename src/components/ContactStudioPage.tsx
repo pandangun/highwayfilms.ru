@@ -45,16 +45,15 @@ const copy = {
     channelsEyebrow: "Каналы",
     channelsTitle: "Где ещё нас найти",
     briefEyebrow: "Бриф",
-    briefTitle: "Кратко о задаче",
-    briefLead:
-      "Достаточно трёх опорных точек, чтобы мы быстро собрали следующий шаг по проекту.",
+    briefTitle: "Расскажите, что нужно снять",
+    briefLead: "Три строчки — и мы уже понимаем, о чём разговор.",
     briefPoints: [
-      "Что нужно снять: ролик, клип, бренд-фильм, ивент или свадьба",
-      "Где и когда: город, дата или окно съёмки",
-      "Какой нужен результат: один мастер или пакет версий под площадки",
+      "Ролик, клип, бренд-фильм, ивент или свадьба",
+      "Город и дата — хотя бы примерно",
+      "Один мастер или пакет версий под площадки",
     ],
-    briefAction: "Открыть бриф",
-    briefMeta: "Можно начать коротко. Детали уточним уже после первого контакта.",
+    briefAction: "Заполнить бриф",
+    briefMeta: "Отвечаем в течение рабочего дня.",
     channels: CHANNELS_RU,
   },
   en: {
@@ -65,15 +64,15 @@ const copy = {
     channelsEyebrow: "Channels",
     channelsTitle: "Where else to find us",
     briefEyebrow: "Brief",
-    briefTitle: "A short outline is enough",
-    briefLead: "Three reference points are enough for us to prepare the next step.",
+    briefTitle: "Tell us what to shoot",
+    briefLead: "Three lines and we already know what the conversation is about.",
     briefPoints: [
-      "What to shoot: commercial, music video, brand film, event, or wedding",
-      "Where and when: city, date, or shooting window",
-      "What you need: a single master or a package of platform versions",
+      "Commercial, music video, brand film, event, or wedding",
+      "City and date — roughly is fine",
+      "A single master or a package of platform versions",
     ],
-    briefAction: "Open brief",
-    briefMeta: "A short note is enough to start. We can clarify the rest after the first contact.",
+    briefAction: "Fill in the brief",
+    briefMeta: "We reply within one business day.",
     channels: CHANNELS_EN,
   },
 } as const;
@@ -103,37 +102,63 @@ export function ContactStudioPage({ locale = "ru" }: ContactStudioPageProps) {
   return (
     <div className="page-shell">
       <div className="page-content">
-        {/* ЭКРАН 1 — как связаться. Телефон и почта набраны так же крупно,
-            как заголовки разделов: это и есть главное действие страницы. */}
-        <section className="relative overflow-hidden pt-header-safe">
+        {/* Один экран на десктопе: контакты слева, бриф справа, каналы
+            рельсом внизу. Вертикальный столбец из трёх блоков подряд
+            читался как «дизайна нет» — потому что его и не было, была
+            просто последовательность. Две колонки и рельс дают структуру. */}
+        <section className="contact-screen relative overflow-hidden">
           <GenerativeField className="opacity-60" />
 
-          <div className="container relative py-20 md:py-28">
+          <div className="container relative contact-screen__inner">
             <h1 className="visually-hidden">{t.pageTitle}</h1>
-            <p className="eyebrow reveal-up">{t.eyebrow}</p>
 
-            <dl className="contact-lines mt-12 md:mt-16">
-              <div className="contact-line reveal-up delay-1">
-                <dt>{t.phoneLabel}</dt>
-                <dd>
-                  <a href={CONTACTS.phoneHref} className="contact-line__link font-display">
-                    {CONTACTS.phoneDisplay}
-                  </a>
-                </dd>
-              </div>
-              <div className="contact-line reveal-up delay-2">
-                <dt>{t.emailLabel}</dt>
-                <dd>
-                  <a href={CONTACTS.emailHref} className="contact-line__link font-display">
-                    {CONTACTS.emailDisplay}
-                  </a>
-                </dd>
-              </div>
-            </dl>
+            <div className="contact-screen__grid">
+              <div className="contact-screen__col">
+                <p className="eyebrow reveal-up">{t.eyebrow}</p>
 
-            <div className="mt-16 md:mt-20">
+                <dl className="contact-lines">
+                  <div className="contact-line reveal-up delay-1">
+                    <dt>{t.phoneLabel}</dt>
+                    <dd>
+                      <a href={CONTACTS.phoneHref} className="contact-line__link font-display">
+                        {CONTACTS.phoneDisplay}
+                      </a>
+                    </dd>
+                  </div>
+                  <div className="contact-line reveal-up delay-2">
+                    <dt>{t.emailLabel}</dt>
+                    <dd>
+                      <a href={CONTACTS.emailHref} className="contact-line__link font-display">
+                        {CONTACTS.emailDisplay}
+                      </a>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div className="contact-screen__col contact-screen__col--brief reveal-up delay-3">
+                <p className="eyebrow">{t.briefEyebrow}</p>
+                <h2 className="contact-brief__title font-display mt-5 text-ink">{t.briefTitle}</h2>
+                <p className="mt-4 max-w-md text-ink-muted">{t.briefLead}</p>
+
+                <ul className="contact-brief__points">
+                  {t.briefPoints.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+
+                <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3">
+                  <Link href={briefHref} className="btn-primary">
+                    {t.briefAction}
+                  </Link>
+                  <p className="text-sm text-ink-faint">{t.briefMeta}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="contact-screen__rail">
               <p className="eyebrow">{t.channelsEyebrow}</p>
-              <ul className="contact-channels mt-6">
+              <ul className="contact-channels">
                 {t.channels.map((channel) => (
                   <li key={channel.label}>
                     <a
@@ -147,33 +172,6 @@ export function ContactStudioPage({ locale = "ru" }: ContactStudioPageProps) {
                   </li>
                 ))}
               </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* ЭКРАН 2 — бриф. Три опорные точки: это лучший текст на сайте,
-            он и остаётся, только без панели вокруг. */}
-        <section className="container border-t border-hairline py-20 md:py-28">
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-            <div>
-              <p className="eyebrow">{t.briefEyebrow}</p>
-              <h2 className="contact-brief__title font-display mt-6 text-ink">{t.briefTitle}</h2>
-              <p className="mt-6 max-w-md text-ink-muted">{t.briefLead}</p>
-            </div>
-
-            <div>
-              <ul className="contact-brief__points">
-                {t.briefPoints.map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
-              </ul>
-
-              <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-                <Link href={briefHref} className="btn-primary">
-                  {t.briefAction}
-                </Link>
-                <p className="text-meta text-ink-faint">{t.briefMeta}</p>
-              </div>
             </div>
           </div>
         </section>

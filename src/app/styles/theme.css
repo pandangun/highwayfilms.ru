@@ -39,30 +39,6 @@
     rgba(10,10,11,.74);
   --surface-shell-shadow: 0 24px 70px rgba(0,0,0,.28);
   --surface-shell-blur: blur(10px) saturate(115%);
-  --theme-switch-bg:
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.022)),
-    radial-gradient(120% 120% at 0% 0%, rgba(124,58,237,.18), transparent 60%),
-    rgba(255,255,255,.03);
-  --theme-switch-border: rgba(255,255,255,.08);
-  --theme-switch-shadow:
-    inset 0 1px 0 rgba(255,255,255,.06),
-    0 10px 22px rgba(0,0,0,.12);
-  --theme-button-hover-bg: rgba(255,255,255,.04);
-  --theme-button-active-bg:
-    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04)),
-    radial-gradient(140% 140% at 0% 0%, rgba(124,58,237,.28), transparent 60%);
-  --theme-button-active-shadow:
-    inset 0 1px 0 rgba(255,255,255,.1),
-    0 10px 20px rgba(0,0,0,.16);
-  --header-rail-border: rgba(255,255,255,.07);
-  --header-rail-bg:
-    linear-gradient(180deg, rgba(15,15,19,.82), rgba(8,8,11,.72)),
-    radial-gradient(120% 120% at 0% 0%, rgba(124,58,237,.13), transparent 52%),
-    radial-gradient(90% 120% at 100% 0%, rgba(214,183,138,.05), transparent 44%);
-  --header-rail-shadow:
-    0 18px 44px rgba(0,0,0,.24),
-    inset 0 1px 0 rgba(255,255,255,.05);
-  --header-rail-blur: blur(12px) saturate(120%);
   --header-toggle-bg:
     radial-gradient(120% 120% at 0% 0%, rgba(124,58,237,.16), transparent 58%),
     linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015)),
@@ -190,29 +166,6 @@ html[data-theme="light"] {
     rgba(248,240,232,.84);
   --surface-shell-shadow: 0 18px 46px rgba(111,84,53,.1);
   --surface-shell-blur: blur(8px) saturate(108%);
-  --theme-switch-bg:
-    linear-gradient(180deg, rgba(255,252,248,.94), rgba(244,236,228,.82)),
-    radial-gradient(140% 140% at 0% 0%, rgba(185,143,90,.18), transparent 60%);
-  --theme-switch-border: rgba(92,72,46,.12);
-  --theme-switch-shadow:
-    inset 0 1px 0 rgba(255,255,255,.72),
-    0 12px 28px rgba(111,84,53,.08);
-  --theme-button-hover-bg: rgba(92,72,46,.06);
-  --theme-button-active-bg:
-    linear-gradient(180deg, rgba(255,255,255,.96), rgba(244,236,228,.86)),
-    radial-gradient(140% 140% at 0% 0%, rgba(185,143,90,.2), transparent 62%);
-  --theme-button-active-shadow:
-    inset 0 1px 0 rgba(255,255,255,.78),
-    0 12px 28px rgba(111,84,53,.08);
-  --header-rail-border: rgba(92,72,46,.1);
-  --header-rail-bg:
-    linear-gradient(180deg, rgba(252,248,242,.92), rgba(245,238,230,.8)),
-    radial-gradient(120% 120% at 0% 0%, rgba(185,143,90,.14), transparent 52%),
-    radial-gradient(90% 120% at 100% 0%, rgba(111,63,224,.08), transparent 44%);
-  --header-rail-shadow:
-    0 18px 40px rgba(111,84,53,.08),
-    inset 0 1px 0 rgba(255,255,255,.72);
-  --header-rail-blur: blur(10px) saturate(108%);
   --header-toggle-bg:
     radial-gradient(120% 120% at 0% 0%, rgba(185,143,90,.16), transparent 58%),
     linear-gradient(180deg, rgba(255,252,248,.88), rgba(244,236,228,.74)),
@@ -314,10 +267,11 @@ html[data-theme="light"] .brief-section-panel,
 html[data-theme="light"] .brief-field,
 html[data-theme="light"] .brief-form-control,
 html[data-theme="light"] .client-access-submit,
-html[data-theme="light"] .header-rail,
-html[data-theme="light"] .drawer-panel,
-html[data-theme="light"] .header-theme-switch,
-html[data-theme="light"] .footer-theme-switch {
+/* .header-rail, .header-theme-switch и .footer-theme-switch убраны из
+   этого списка: шапка не панель. Рамка и тень отсюда перебивали
+   border:0 / box-shadow:none в header.css — слой hf-theme идёт
+   последним, а слои сильнее специфичности. */
+html[data-theme="light"] .drawer-panel {
   border-color: rgba(0,0,0,.12);
   box-shadow:
     0 18px 40px rgba(0,0,0,.08),
@@ -389,11 +343,11 @@ html[data-theme="light"] .footer-theme-button {
   color: rgba(29,27,24,.86);
 }
 
+/* Активная тема — насыщенность знака, а не белая плашка под ним. */
 html[data-theme="light"] .header-theme-button.is-active,
 html[data-theme="light"] .footer-theme-button.is-active {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.65)),
-    radial-gradient(140% 140% at 0% 0%, rgba(124,58,237,.22), transparent 60%);
+  background: none;
+  color: rgb(29 27 24);
 }
 
 html[data-theme="light"] .hero-video-fullscreen,
@@ -521,7 +475,7 @@ html[data-theme="light"] .footer-lang-sep,
 html[data-theme="light"] .footer-lang-link,
 html[data-theme="light"] .home-lead,
 html[data-theme="light"] .home-card-copy,
-html[data-theme="light"] .home-faq-answer,
+html[data-theme="light"] .faq-answer,
 html[data-theme="light"] .home-secondary-link,
 html[data-theme="light"] .service-faq-intro,
 html[data-theme="light"] .service-faq-answer,

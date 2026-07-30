@@ -141,16 +141,20 @@ export const sectionReels: Record<SectionKey, ReelItem[]> = {
       id: "wedding-banquet",
     },
   ],
+  // Названия слотов 02–04 — рабочие: файлов под ними ещё нет, а плеер на
+  // /ai теперь показывает их подписью на весь экран, и четыре одинаковых
+  // «AI-визуал» подряд читались как поломка. Подписи меняются вместе с
+  // приездом настоящих роликов.
   ai: [
     {
       id: "ai-01",
-      title: "AI-визуал",
+      title: "Предметный AI-визуал",
       tag: "AI",
       source: { mp4: "/video/ai/ai-01.mp4", poster: "/images/ai/ai-01.jpg" },
     },
-    { ...placeholderItem("ai", 2, "AI-визуал", "AI", "/images/ai/ai-02.jpg"), id: "ai-02" },
-    { ...placeholderItem("ai", 3, "AI-визуал", "AI", "/images/ai/ai-03.jpg"), id: "ai-03" },
-    { ...placeholderItem("ai", 4, "AI-визуал", "AI", "/images/ai/ai-04.jpg"), id: "ai-04" },
+    { ...placeholderItem("ai", 2, "Рекламный тест", "AI", "/images/ai/ai-02.jpg"), id: "ai-02" },
+    { ...placeholderItem("ai", 3, "Виртуальный ведущий", "AI", "/images/ai/ai-03.jpg"), id: "ai-03" },
+    { ...placeholderItem("ai", 4, "Гибрид со съёмкой", "AI", "/images/ai/ai-04.jpg"), id: "ai-04" },
   ],
 };
 

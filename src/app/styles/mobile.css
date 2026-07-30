@@ -23,14 +23,7 @@
     padding-inline: var(--page-gutter-tight);
   }
 
-  .header-rail {
-    gap: 0.5rem;
-    border-radius: 0;
-    border-color: var(--hairline);
-    box-shadow:
-      0 14px 32px rgba(0, 0, 0, 0.24),
-      inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  }
+  .header-rail { gap: 0.5rem; }
 
   .header-rail::after,
   .drawer-nav::before,
@@ -163,7 +156,7 @@
 
   .home-lead,
   .home-card-copy,
-  .home-faq-answer {
+  .faq-answer {
     font-size: 1rem;
     line-height: 1.72;
   }
@@ -175,7 +168,7 @@
     min-height: 0;
   }
 
-  .home-faq-question {
+  .faq-question {
     font-size: clamp(1.32rem, 6.4vw, 1.78rem);
     line-height: 1.08;
     letter-spacing: -0.018em;
