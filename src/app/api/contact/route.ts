@@ -192,16 +192,13 @@ export async function POST(request: Request) {
     );
   }
 
-  payload.set(
-    "_subject",
-    source === "weddings"
-      ? locale === "en"
-        ? "Wedding page request"
-        : "Заявка с сайта: свадьбы"
-      : locale === "en"
-        ? "Website brief request"
-        : "Заявка с сайта: бриф",
-  );
+  const subjects = {
+    weddings: locale === "en" ? "Wedding page request" : "Заявка с сайта: свадьбы",
+    contacts: locale === "en" ? "Website message" : "Сообщение с сайта: контакты",
+    brief: locale === "en" ? "Website brief request" : "Заявка с сайта: бриф",
+  } as const;
+
+  payload.set("_subject", subjects[source]);
 
   try {
     const response = await fetch(FORMSPREE_ENDPOINT, {

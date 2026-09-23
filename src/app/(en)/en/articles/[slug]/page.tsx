@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArticleDetailPage } from "@/components/articles/ArticleDetailPage";
 import { articles, getArticleBySlug, getRelatedArticles } from "@/data/articles";
 import { buildPageMetadata, SITE_URL } from "@/lib/metadata";
+import { articleStill } from "@/components/articles/articleStill";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     description: article.content.description,
     path: `/en/articles/${slug}`,
     locale: "en",
-    imagePath: "/video/derived/hero-poster.jpg",
+    imagePath: articleStill(article.serviceHref),
   });
 }
 

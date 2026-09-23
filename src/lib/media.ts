@@ -54,107 +54,101 @@ export type SectionKey =
   | "weddings"
   | "ai";
 
-/** Заглушка-постер, пока нет настоящих кадров. */
-const PLACEHOLDER_POSTER = "/video/derived/hero-poster.jpg";
+/**
+ * Где лежат ролики разделов. Пусто — берутся из public/video/ этого же
+ * сайта. Если перенести их в хранилище (как шоурил, который живёт в
+ * Vercel Blob), достаточно задать адрес папки в NEXT_PUBLIC_MEDIA_BASE_URL
+ * и повторить внутри неё ту же структуру: <раздел>/<файл>.mp4.
+ */
+const MEDIA_BASE = (process.env.NEXT_PUBLIC_MEDIA_BASE_URL ?? "").replace(/\/$/, "");
 
-function placeholderItem(
-  section: SectionKey,
-  index: number,
-  title: string,
-  tag: string,
-  poster: string = PLACEHOLDER_POSTER,
-): ReelItem {
-  const slug = `${section}-${String(index).padStart(2, "0")}`;
+function mediaPath(path: string) {
+  return MEDIA_BASE ? `${MEDIA_BASE}${path.replace(/^\/video/, "")}` : path;
+}
 
+/**
+ * Ролик раздела. Файлы кладутся в public/video/<раздел>/<slug>.mp4 и
+ * <slug>-mobile.mp4, постер — в public/images/stills/<slug>.jpg.
+ */
+function reelItem(section: SectionKey, slug: string, title: string, tag: string): ReelItem {
   return {
     id: slug,
     title,
     tag,
-    placeholder: true,
     source: {
-      mp4: `/video/${section}/${slug}.mp4`,
-      mp4Mobile: `/video/${section}/${slug}-mobile.mp4`,
-      poster,
+      mp4: mediaPath(`/video/${section}/${slug}.mp4`),
+      mp4Mobile: mediaPath(`/video/${section}/${slug}-mobile.mp4`),
+      poster: `/images/stills/${slug}.jpg`,
     },
   };
 }
 
-/** Главный ролик на первом экране. Единственный, где файл реальный. */
+/**
+ * Раздел без своего ролика. Плеер вместо файла играет общий шоурил
+ * (так устроен StudioPlayer), а постер берётся свой.
+ */
+function placeholderItem(section: SectionKey, slug: string, title: string, tag: string, poster: string): ReelItem {
+  return {
+    ...reelItem(section, slug, title, tag),
+    placeholder: true,
+    source: { ...reelItem(section, slug, title, tag).source, poster },
+  };
+}
+
+/**
+ * Границы шоурила без белых заставок студии в начале и в конце. На чёрном
+ * сайте белый кадр на весь экран читается как вспышка. Сам файл не
+ * тронут: начало задаётся фрагментом #t в адресе, конец отслеживает
+ * useLoopWindow. Чтобы вернуть заставки, достаточно убрать эти границы.
+ */
+export const heroWindow = { start: 2.52, end: 148.5 };
+
+const heroDesktop = process.env.NEXT_PUBLIC_HERO_VIDEO_DESKTOP_URL || "/video/derived/hero-desktop.mp4";
+const heroMobile = process.env.NEXT_PUBLIC_HERO_VIDEO_MOBILE_URL || "/video/derived/hero-mobile.mp4";
+
+/** Главный ролик — шоурил на первом экране. */
 export const heroMedia: MediaSource = {
-  mp4: process.env.NEXT_PUBLIC_HERO_VIDEO_DESKTOP_URL || "/video/derived/hero-desktop.mp4",
-  mp4Mobile: process.env.NEXT_PUBLIC_HERO_VIDEO_MOBILE_URL || "/video/derived/hero-mobile.mp4",
-  poster: "/video/derived/hero-poster.jpg",
+  mp4: `${heroDesktop}#t=${heroWindow.start}`,
+  mp4Mobile: `${heroMobile}#t=${heroWindow.start}`,
+  poster: "/images/stills/hero-open.jpg",
 };
 
 /**
- * Рилы разделов. Порядок — порядок показа.
+ * Ролики разделов. Порядок — порядок показа на первом экране раздела.
  *
- * ai-01 единственный живой; ai-02..04 сейчас битые огрызки (37–120 KB),
- * из-за них на проде три плитки из четырёх открывают пустоту. Помечены
- * плейсхолдерами, пока не приедут исходники.
+ * Сейчас это фрагменты шоурила, разрезанные по его же рубрикам
+ * (COMMERCIALS, VIDEO CLIPS, WEDDINGS) ровно по склейкам, без подписи
+ * рубрики в углу кадра. Когда приедут отдельные работы, файл кладётся
+ * поверх под тем же именем или сюда добавляется новая строка.
+ *
+ * ai-02..04 удалены из списка: файлы под ними битые (37–120 KB).
  */
 export const sectionReels: Record<SectionKey, ReelItem[]> = {
   commercials: [
-    placeholderItem("commercials", 1, "Продуктовый ролик", "Реклама"),
-    placeholderItem("commercials", 2, "Имиджевый ролик", "Реклама"),
-    placeholderItem("commercials", 3, "Короткий формат", "Соцсети"),
+    reelItem("commercials", "commercials-01", "Электроника и графика", "Реклама"),
+    reelItem("commercials", "commercials-02", "Экшн-сцены и VFX", "Реклама"),
+    reelItem("commercials", "commercials-03", "Ролик для квестов", "Реклама"),
   ],
   corporate: [
-    placeholderItem("corporate", 1, "Фильм о компании", "Корпоративное"),
-    placeholderItem("corporate", 2, "Презентация продукта", "Корпоративное"),
-    placeholderItem("corporate", 3, "Интервью", "Корпоративное"),
+    reelItem("corporate", "corporate-01", "Производство", "Корпоративное"),
+    reelItem("corporate", "corporate-02", "Люди на работе", "Корпоративное"),
   ],
   videoproduction: [
-    placeholderItem("videoproduction", 1, "Полный цикл", "Продакшн"),
-    placeholderItem("videoproduction", 2, "Постпродакшн", "Продакшн"),
+    placeholderItem("videoproduction", "videoproduction-01", "Шоурил", "Полный цикл", "/images/stills/videoproduction-01.jpg"),
   ],
   "music-videos": [
-    placeholderItem("music-videos", 1, "Клип", "Музыка"),
-    placeholderItem("music-videos", 2, "Лайв-сессия", "Музыка"),
-    placeholderItem("music-videos", 3, "Тизер", "Музыка"),
+    reelItem("music-videos", "music-videos-01", "Клипы", "Музыка"),
   ],
-  /**
-   * Разбивка по типу дня, а не по типу материала: клиент выбирает похожее
-   * на свою свадьбу. Названия и постеры взяты из weddingCases — раньше эти
-   * же кейсы показывала отдельная карусель на 433 строки и 19 KB CSS,
-   * и на странице их стало две штуки подряд.
-   */
   weddings: [
-    {
-      ...placeholderItem("weddings", 1, "Камерная свадьба", "Санкт-Петербург",
-        "/images/weddings/wedding-city-exit.png"),
-      id: "wedding-intimate",
-    },
-    {
-      ...placeholderItem("weddings", 2, "Городская свадьба", "Москва",
-        "/images/weddings/wedding-city-portrait.png"),
-      id: "wedding-city",
-    },
-    {
-      ...placeholderItem("weddings", 3, "Загородная церемония", "Ленобласть",
-        "/images/weddings/wedding-lakeside-portrait.png"),
-      id: "wedding-country",
-    },
-    {
-      ...placeholderItem("weddings", 4, "Большой вечерний банкет", "Москва",
-        "/images/weddings/wedding-evening-sparklers.png"),
-      id: "wedding-banquet",
-    },
+    reelItem("weddings", "weddings-01", "Свадьбы", "Свадьбы"),
   ],
-  // Названия слотов 02–04 — рабочие: файлов под ними ещё нет, а плеер на
-  // /ai теперь показывает их подписью на весь экран, и четыре одинаковых
-  // «AI-визуал» подряд читались как поломка. Подписи меняются вместе с
-  // приездом настоящих роликов.
   ai: [
     {
       id: "ai-01",
-      title: "Предметный AI-визуал",
+      title: "AI-ролик для наушников",
       tag: "AI",
-      source: { mp4: "/video/ai/ai-01.mp4", poster: "/images/ai/ai-01.jpg" },
+      source: { mp4: mediaPath("/video/ai/ai-01.mp4"), poster: "/images/stills/ai-01.jpg" },
     },
-    { ...placeholderItem("ai", 2, "Рекламный тест", "AI", "/images/ai/ai-02.jpg"), id: "ai-02" },
-    { ...placeholderItem("ai", 3, "Виртуальный ведущий", "AI", "/images/ai/ai-03.jpg"), id: "ai-03" },
-    { ...placeholderItem("ai", 4, "Гибрид со съёмкой", "AI", "/images/ai/ai-04.jpg"), id: "ai-04" },
   ],
 };
 

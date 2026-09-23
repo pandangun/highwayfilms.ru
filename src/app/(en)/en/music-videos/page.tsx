@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import MusicVideosStudioPage from "@/components/MusicVideosStudioPage";
+import ServiceTemplate from "@/components/pages/ServiceTemplate";
+import { servicePages } from "@/content/services";
 import { buildPageMetadata } from "@/lib/metadata";
 
+const page = servicePages["music-videos"].en;
+
 export const metadata: Metadata = buildPageMetadata({
-  title: "Music Videos — Highway Films",
-  description:
-    "Music videos with treatment, direction, filming, edit, and color. A featured case hero, editorial clip wall, cinematic production still, and no autoplay video on the page.",
-  path: "/en/music-videos",
+  ...page.meta,
+  path: page.path,
   locale: "en",
-  imagePath: "/images/frames/f022.jpg",
+  imagePath: "/images/stills/music-videos-01.jpg",
 });
 
-export default function MusicVideosEnPage() {
-  return <MusicVideosStudioPage locale="en" />;
+export default function Page() {
+  return <ServiceTemplate page={page} locale="en" />;
 }

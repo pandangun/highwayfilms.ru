@@ -13,8 +13,6 @@ export type LocalizedArticleContent = {
   category: string;
   readingTime: string;
   intro: string;
-  coverEyebrow: string;
-  coverDetail: string;
   sections: ArticleSection[];
 };
 
@@ -23,7 +21,7 @@ export type Article = {
   publishedAt: string;
   featured?: boolean;
   related: string[];
-  coverTone: "violet" | "amber" | "blue" | "crimson" | "forest";
+  /** Раздел сайта, к которому относится статья. По нему же выбирается обложка. */
   serviceHref: string;
   serviceLabel: { ru: string; en: string };
   ru: LocalizedArticleContent;
@@ -36,57 +34,62 @@ export const articles: Article[] = [
     publishedAt: "2026-03-12",
     featured: true,
     related: ["backstage-kommercheskogo-prodakshna", "kak-brendu-ispolzovat-korotkie-video-dlya-socsetey"],
-    coverTone: "violet",
     serviceHref: "/commercials",
-    serviceLabel: { ru: "Рекламные ролики", en: "Commercial production" },
+    serviceLabel: { ru: "Реклама", en: "Commercials" },
     ru: {
-      title: "Как заказать рекламный ролик для бизнеса без расплывчатого продакшна",
-      excerpt: "Что стоит подготовить до первого звонка, чтобы ролик работал на бренд, а не превращался в дорогую неопределённость.",
-      description: "Задача, референсы, KPI, deliverables и бюджетные рамки перед заказом рекламного ролика.",
+      title: "Как заказать рекламный ролик: что подготовить до первого звонка",
+      excerpt: "Пять вопросов, на которые стоит ответить заранее. С ними смета будет точной, а ролик — тем, который нужен.",
+      description: "Что подготовить перед заказом рекламного ролика: задача, площадки, бюджет, список версий и примеры.",
       category: "Реклама",
-      readingTime: "6 мин",
-      intro: "У рекламного ролика проблема редко начинается на съёмке. Чаще всего всё ломается раньше: когда задача сформулирована слишком общо, а продакшн отвечает красивыми, но пустыми обещаниями.",
-      coverEyebrow: "Editorial",
-      coverDetail: "Бриф · KPI · Продакшн",
+      readingTime: "4 мин",
+      intro: "Большинство проблем с рекламным роликом начинаются задолго до съёмки: в момент, когда задачу описали одной фразой. Вот что стоит решить до первого разговора со студией.",
       sections: [
         {
-          heading: "Что должно быть ясно до старта",
+          heading: "Где будут показывать ролик",
           paragraphs: [
-            "Полезно сразу понимать, где ролик будет жить: на сайте, в рекламе, в презентации продукта или в соцсетях. От этого зависит длина, драматургия, команда и пакет адаптаций.",
-            "Второй слой — ограничения: сроки, диапазон бюджета, площадка, нужен ли каст, графика и voice-over. Чем меньше тумана в начале, тем спокойнее препрод.",
+            "Сайт, реклама в соцсетях, карточка на маркетплейсе, экран на выставке — у каждой площадки свой хронометраж и формат кадра. Вертикальный ролик для рекламы и горизонтальный для сайта лучше снимать за одну смену, чем переснимать потом.",
+            "Составьте список площадок заранее. Студия заложит нужные кадры в список сцен, и одна съёмка даст все версии.",
           ],
-          bullets: ["Одна бизнес-задача на один ролик", "Реальный диапазон бюджета", "Список выходных материалов ещё до съёмки"],
         },
         {
-          heading: "Зачем нужны deliverables",
+          heading: "Что ещё решить до звонка",
           paragraphs: [
-            "Часто бренду нужен не один master, а пакет: короткие cutdowns, вертикальные версии, clean-версии и превью для публикации. Если это обсуждается заранее, съёмка начинает работать в несколько каналов сразу.",
+            "Ориентир по бюджету экономит время обеим сторонам: студия сразу предложит формат, который в него помещается. Дата запуска определяет, сколько времени останется на подготовку.",
+          ],
+          bullets: [
+            "Одна задача на один ролик: продать, познакомить или объяснить",
+            "Диапазон бюджета, пусть даже примерный",
+            "Список версий: длина, формат кадра, площадки",
+            "Два-три ролика, которые вам нравятся, и чем именно",
           ],
         },
       ],
     },
     en: {
-      title: "How to commission a commercial without drifting into vague production",
-      excerpt: "What to prepare before the first call so the video serves the brand instead of turning into expensive ambiguity.",
-      description: "Business task, references, KPIs, deliverables, and budget frame before commissioning a commercial.",
+      title: "How to commission a commercial: what to prepare before the first call",
+      excerpt: "Five questions worth answering in advance. With them the estimate is accurate and the spot is the one you need.",
+      description: "What to prepare before commissioning a commercial: the task, placements, budget, list of versions and examples.",
       category: "Commercials",
-      readingTime: "6 min",
-      intro: "Commercials rarely fail because of the camera package. They usually fail earlier, when the brief is vague and production answers with beautiful but unfocused promises.",
-      coverEyebrow: "Editorial",
-      coverDetail: "Brief · KPI · Production",
+      readingTime: "4 min",
+      intro: "Most problems with a commercial start long before the shoot, at the moment the task is described in a single sentence. Here is what to decide before your first talk with a studio.",
       sections: [
         {
-          heading: "What should be clear before the project starts",
+          heading: "Where the spot will run",
           paragraphs: [
-            "It helps to know where the film will live: website, paid ads, product launch, deck, or social. That single choice affects runtime, tone, crew size, and edit logic.",
-            "The second layer is constraints: timing, budget window, location, casting, graphics, and voice-over. The less fog at the start, the cleaner the prep becomes.",
+            "Website, social ads, a marketplace listing, a screen at a trade show: each placement has its own length and frame format. It is cheaper to shoot the vertical ad and the horizontal website version on one day than to reshoot later.",
+            "Make a list of placements in advance. The studio will put the right shots into the shot list, and one shoot will give you every version.",
           ],
-          bullets: ["One business task per film", "A real budget range", "A clear delivery list before the shoot"],
         },
         {
-          heading: "Why deliverables matter",
+          heading: "What else to decide before the call",
           paragraphs: [
-            "Brands rarely need just one master. They usually need cutdowns, vertical edits, clean versions, and publishing assets. If those are defined in advance, one shoot day can feed several channels at once.",
+            "A budget range saves time for both sides: the studio can suggest a format that fits it right away. The launch date sets how much time is left for preparation.",
+          ],
+          bullets: [
+            "One task per spot: sell, introduce or explain",
+            "A budget range, even a rough one",
+            "A list of versions: length, frame format, placements",
+            "Two or three videos you like, and what exactly you like about them",
           ],
         },
       ],
@@ -96,56 +99,56 @@ export const articles: Article[] = [
     slug: "skolko-stoit-videosemka-meropriyatiya",
     publishedAt: "2026-03-06",
     related: ["kak-zakazat-reklamnyy-rolik-dlya-biznesa", "backstage-kommercheskogo-prodakshna"],
-    coverTone: "blue",
     serviceHref: "/corporate",
-    serviceLabel: { ru: "Корпоративные и event-проекты", en: "Corporate and event coverage" },
+    serviceLabel: { ru: "Корпоративное видео", en: "Corporate video" },
     ru: {
-      title: "Сколько стоит видеосъёмка мероприятия и от чего реально зависит смета",
-      excerpt: "Почему стоимость event-видеосъёмки зависит не только от часов съёмки, но и от формата выдачи, команды и логистики.",
-      description: "Камеры, звук, монтаж, графика, адаптации и сроки в смете на видеосъёмку мероприятия.",
+      title: "Сколько стоит видеосъёмка мероприятия и из чего складывается смета",
+      excerpt: "Часы съёмки — только часть цены. Сильнее всего на неё влияет то, что вы хотите получить на выходе.",
+      description: "Из чего складывается смета на видеосъёмку мероприятия: камеры, звук, монтаж, короткие версии и сроки.",
       category: "Мероприятия",
-      readingTime: "7 мин",
-      intro: "Фраза «снять мероприятие» звучит просто, но внутри неё могут скрываться очень разные задачи: от компактного aftermovie до многокамерной записи с отдельным звуком и серией адаптаций.",
-      coverEyebrow: "Production Notes",
-      coverDetail: "Crew · Coverage · Delivery",
+      readingTime: "4 мин",
+      intro: "Просьба «снять мероприятие» может означать очень разное: короткий ролик-отчёт на минуту или полную запись каждого выступления с отдельным звуком. От этого и зависит смета.",
       sections: [
         {
           heading: "Цена начинается с результата",
           paragraphs: [
-            "Если нужен только aftermovie, акцент идёт на репортаж и ритм. Если клиенту нужны ещё полные записи, интервью, графика и короткие версии для диджитала, проект резко усложняется.",
+            "Ролик-отчёт на одну-две минуты снимает один оператор. Полные записи выступлений требуют нескольких камер, отдельного звука со сцены и дольше монтируются. Интервью со спикерами и графика с цифрами — ещё отдельные строки.",
           ],
         },
         {
-          heading: "Что чаще всего двигает бюджет вверх",
+          heading: "Что чаще всего увеличивает смету",
           paragraphs: [
-            "Многокамерная схема, отдельный звук, сложная площадка, выездная логистика и быстрый дедлайн на монтаж — самые частые факторы роста сметы.",
+            "Сама площадка на цену влияет мало. Дороже выходят сжатые сроки и параллельные события: ролик к утру следующего дня или съёмка в нескольких залах сразу.",
           ],
-          bullets: ["Несколько зон съёмки одновременно", "Отдача в 24–48 часов", "Дополнительные digital-версии"],
+          bullets: [
+            "Несколько залов одновременно",
+            "Монтаж за 24–48 часов",
+            "Короткие версии для соцсетей в тот же день",
+            "Выезд в другой город",
+          ],
         },
       ],
     },
     en: {
-      title: "How much event video production costs and what actually drives the estimate",
-      excerpt: "Why event video budgets depend on much more than the number of shooting hours.",
-      description: "Cameras, audio, editing, graphics, digital adaptations, and turnaround windows in event video budgets.",
+      title: "How much event filming costs and what goes into the estimate",
+      excerpt: "Hours of filming are only part of the price. What matters most is what you want to get in the end.",
+      description: "What goes into an event filming estimate: cameras, sound, editing, short versions and deadlines.",
       category: "Events",
-      readingTime: "7 min",
-      intro: "“Shoot the event” sounds simple, but it may describe very different scopes: from a concise aftermovie to full multi-camera coverage with isolated sound and several final versions.",
-      coverEyebrow: "Production Notes",
-      coverDetail: "Crew · Coverage · Delivery",
+      readingTime: "4 min",
+      intro: "“Film our event” can mean very different things: a one-minute recap or a full recording of every talk with separate sound. The estimate depends on which one you need.",
       sections: [
         {
-          heading: "The budget starts with the output",
+          heading: "The price starts with the result",
           paragraphs: [
-            "A compact aftermovie is one thing. A package with full recordings, interviews, graphics, and short digital edits is another. The delivery logic changes the whole estimate.",
+            "A one or two-minute recap needs one camera operator. Full recordings of the talks need several cameras, separate sound from the stage and a longer edit. Speaker interviews and graphics with figures are separate lines.",
           ],
         },
         {
-          heading: "What usually pushes the number up",
+          heading: "What usually raises the estimate",
           paragraphs: [
-            "Multi-camera setups, separate audio, difficult venues, travel logistics, and fast post-production are the most common factors that move event budgets upward.",
+            "The venue itself rarely makes it more expensive. Deadlines and parallel sessions do: a video needed by the next morning, or events running in several halls at once.",
           ],
-          bullets: ["Several capture zones", "24–48 hour turnaround", "Extra social edits"],
+          bullets: ["Several halls at once", "Editing within 24–48 hours", "Same-day social cuts", "Travel to another city"],
         },
       ],
     },
@@ -154,56 +157,59 @@ export const articles: Article[] = [
     slug: "kak-podgotovitsya-k-semke-svadebnogo-filma",
     publishedAt: "2026-02-27",
     related: ["skolko-stoit-videosemka-meropriyatiya", "backstage-kommercheskogo-prodakshna"],
-    coverTone: "amber",
     serviceHref: "/weddings",
     serviceLabel: { ru: "Свадебные фильмы", en: "Wedding films" },
     ru: {
-      title: "Как подготовиться к съёмке свадебного фильма без стресса и постановочной суеты",
-      excerpt: "Спокойный материал для пар: что обсудить заранее, как собрать тайминг и что реально помогает видео выглядеть живым.",
-      description: "Тайминг, свет, логистика и коммуникация перед съёмкой свадебного фильма.",
+      title: "Как подготовиться к съёмке свадебного фильма",
+      excerpt: "Что обсудить с видеографом заранее, как собрать план дня и почему запас времени важнее идеального сценария.",
+      description: "Подготовка к свадебной видеосъёмке: план дня, свет в комнате сборов, запас времени, связь с площадкой и фотографом.",
       category: "Свадьбы",
-      readingTime: "5 мин",
-      intro: "Подготовка к свадебной видеосъёмке не должна превращать день в production set. Хорошая схема работает наоборот: немного ясности до съёмки — и дальше команда двигается спокойно и почти незаметно.",
-      coverEyebrow: "Wedding Notes",
-      coverDetail: "Тайминг · Свет · Спокойствие",
+      readingTime: "4 мин",
+      intro: "Хорошему свадебному фильму не нужна постановка. Ему нужен понятный план дня и немного свободного времени между его частями.",
       sections: [
         {
-          heading: "Тайминг важнее длинного moodboard",
+          heading: "План дня важнее мудборда",
           paragraphs: [
-            "Полезнее всего заранее собрать живой ход дня: сборы, дорога, ceremony, банкет, first dance и ключевые паузы. Даже приблизительный тайминг лучше хаоса.",
+            "Самое полезное, что можно сделать заранее, — расписать день по часам: сборы, дорога, церемония, прогулка, банкет, первый танец. Даже примерный план помогает оператору быть в нужном месте вовремя.",
           ],
         },
         {
-          heading: "Что особенно влияет на картинку",
+          heading: "Что сильнее всего влияет на картинку",
           paragraphs: [
-            "Хороший свет, небольшой запас между блоками дня и заранее согласованная коммуникация с площадкой, координатором и фотографом дают видео гораздо больше, чем постоянная постановка.",
+            "Свет и время. Сборы у большого окна выглядят лучше, чем в тёмной комнате с верхним светом. Пятнадцать минут между блоками дня дают спокойные портреты вместо снятых на бегу.",
           ],
-          bullets: ["Буфер между крупными блоками", "Понятный свет в комнате сборов", "Спокойная координация команды"],
+          bullets: [
+            "Запас 10–15 минут между частями дня",
+            "Комната для сборов с окном",
+            "Контакты площадки, координатора и фотографа заранее",
+          ],
         },
       ],
     },
     en: {
-      title: "How to prepare for a wedding film without stress or staged chaos",
-      excerpt: "A practical guide for couples who want a calm wedding film and a crew that does not take over the day.",
-      description: "Timing, light, logistics, and calm communication before a wedding film.",
+      title: "How to prepare for a wedding film",
+      excerpt: "What to agree with the videographer in advance, how to plan the day and why spare time matters more than a perfect script.",
+      description: "Preparing for wedding filming: the plan of the day, light in the getting-ready room, spare time, coordination with the venue and photographer.",
       category: "Weddings",
-      readingTime: "5 min",
-      intro: "Preparing for a wedding film should not turn the day into a film set. A good setup works in the opposite direction: a little clarity in advance, then a calm and almost invisible crew on the day itself.",
-      coverEyebrow: "Wedding Notes",
-      coverDetail: "Timing · Light · Ease",
+      readingTime: "4 min",
+      intro: "A good wedding film doesn't need staging. It needs a clear plan of the day and a little free time between its parts.",
       sections: [
         {
-          heading: "A timeline matters more than a huge moodboard",
+          heading: "A plan of the day matters more than a moodboard",
           paragraphs: [
-            "The most useful thing is a living schedule: prep, transfer, ceremony, reception, first dance, and the natural pauses in between. Even a rough timeline is better than chaos.",
+            "The most useful thing to do in advance is to write the day down hour by hour: getting ready, travel, ceremony, walk, reception, first dance. Even a rough plan helps the camera operator be in the right place on time.",
           ],
         },
         {
-          heading: "What really shapes the footage",
+          heading: "What affects the image most",
           paragraphs: [
-            "Good light, small buffers between major parts of the day, and calm alignment with the venue, coordinator, and photographer matter more than constant staging.",
+            "Light and time. Getting ready by a large window looks better than in a dark room with ceiling lights. Fifteen minutes between parts of the day give calm portraits instead of rushed ones.",
           ],
-          bullets: ["Buffers between major blocks", "Clean light during prep", "Calm crew coordination"],
+          bullets: [
+            "10–15 spare minutes between parts of the day",
+            "A getting-ready room with a window",
+            "Contacts of the venue, coordinator and photographer in advance",
+          ],
         },
       ],
     },
@@ -212,53 +218,48 @@ export const articles: Article[] = [
     slug: "backstage-kommercheskogo-prodakshna",
     publishedAt: "2026-02-18",
     related: ["kak-zakazat-reklamnyy-rolik-dlya-biznesa", "skolko-stoit-videosemka-meropriyatiya"],
-    coverTone: "crimson",
     serviceHref: "/videoproduction",
-    serviceLabel: { ru: "Подход студии", en: "Studio approach" },
+    serviceLabel: { ru: "Полный цикл", en: "Full production" },
     ru: {
-      title: "Backstage коммерческого продакшна: что клиент обычно не видит, но за что платит",
-      excerpt: "Treatment, логистика, продюсерская сборка, сменный план и контроль финальной отдачи — невидимый слой, который делает проект зрелым.",
-      description: "Препрод, съёмка, пост и доставка материалов в коммерческом продакшне.",
-      category: "Процессы",
-      readingTime: "6 мин",
-      intro: "Со стороны коммерческий продакшн часто выглядит как один съёмочный день. На деле главное качество проекта рождается в подготовке, в логистике и в том, как команда собирает финальную выдачу.",
-      coverEyebrow: "Backstage",
-      coverDetail: "Prep · Shoot · Post",
+      title: "За что вы платите в смете на рекламный ролик",
+      excerpt: "Съёмочный день — самая заметная часть работы, но не самая большая. Разбираем, что происходит до и после него.",
+      description: "Из чего состоит производство рекламного ролика: подготовка, съёмочный день, монтаж, цвет, звук и выдача версий.",
+      category: "Производство",
+      readingTime: "4 мин",
+      intro: "Со стороны кажется, что ролик — это один съёмочный день. На деле половина работы делается до него, а ещё треть — после.",
       sections: [
         {
-          heading: "Препрод решает почти всё",
+          heading: "Подготовка",
           paragraphs: [
-            "Treatment, moodboard, список сцен, команда и продюсерская логика смены — это не формальности, а способ сделать съёмку управляемой ещё до выхода на площадку.",
+            "Сценарий, раскадровка, список сцен, подбор актёров и локаций, план смены по часам. Благодаря этому съёмочный день идёт без остановок и никто не решает на площадке, что снимать дальше. Лишняя смена стоит дороже, чем день подготовки.",
           ],
         },
         {
-          heading: "Пост — это не магическая кнопка",
+          heading: "Монтаж, цвет и звук",
           paragraphs: [
-            "Монтаж, звук, цвет и графика работают лучше всего тогда, когда они усиливают уже правильно собранный материал. Тогда финальная отдача ощущается дорогой не из-за эффекта, а из-за дисциплины.",
+            "Монтаж собирает историю, цветокоррекция приводит все кадры к одному виду, звук делает ролик дорогим на слух. Хорошая подготовка сокращает и эту часть: когда материал снят по плану, монтаж не превращается в поиск удачных дублей.",
           ],
         },
       ],
     },
     en: {
-      title: "Commercial production backstage: what clients rarely see but actually pay for",
-      excerpt: "Treatment, logistics, producer structure, schedule control, and delivery discipline are the hidden layer that makes production feel mature.",
-      description: "Prep, shoot, post, and delivery in commercial production.",
-      category: "Process",
-      readingTime: "6 min",
-      intro: "Commercial production often looks like a single shoot day from the outside. In reality, the deeper quality of the project is built in preparation, logistics, and the final delivery structure.",
-      coverEyebrow: "Backstage",
-      coverDetail: "Prep · Shoot · Post",
+      title: "What you pay for in a commercial's estimate",
+      excerpt: "The shoot day is the most visible part of the work, but not the largest. Here is what happens before and after it.",
+      description: "What producing a commercial involves: preparation, the shoot day, editing, grading, sound and delivery.",
+      category: "Production",
+      readingTime: "4 min",
+      intro: "From the outside a commercial looks like one shoot day. In fact half the work happens before it and another third after it.",
       sections: [
         {
-          heading: "Prep decides almost everything",
+          heading: "Preparation",
           paragraphs: [
-            "Treatment, moodboard, scene list, crew structure, and producer logic are not formalities. They are the reason a shoot feels controlled before the first frame is captured.",
+            "Script, storyboard, shot list, casting and locations, an hour-by-hour plan of the day. Thanks to this the shoot day runs without stops and nobody on set has to decide what to film next. An extra shoot day costs more than a day of preparation.",
           ],
         },
         {
-          heading: "Post is not a magic button",
+          heading: "Edit, grade and sound",
           paragraphs: [
-            "Edit, sound, grade, and graphics work best when they strengthen material that was already captured with intention. That is what makes the delivery feel premium.",
+            "The edit builds the story, the grade brings every shot to one look, and the sound makes the spot feel expensive. Good preparation shortens this part too: when the footage follows the plan, the edit stops being a hunt for lucky takes.",
           ],
         },
       ],
@@ -268,56 +269,51 @@ export const articles: Article[] = [
     slug: "kak-brendu-ispolzovat-korotkie-video-dlya-socsetey",
     publishedAt: "2026-02-05",
     related: ["kak-zakazat-reklamnyy-rolik-dlya-biznesa", "backstage-kommercheskogo-prodakshna"],
-    coverTone: "forest",
-    serviceHref: "/ai",
-    serviceLabel: { ru: "AI и short-form визуал", en: "AI and short-form visuals" },
+    serviceHref: "/commercials",
+    serviceLabel: { ru: "Реклама", en: "Commercials" },
     ru: {
-      title: "Как бренду использовать короткие видео для соцсетей без ощущения случайного контента",
-      excerpt: "Short-form работает лучше, когда у бренда есть визуальная система, а не поток разрозненных роликов.",
-      description: "Серийность, hooks, адаптации и единый визуальный язык коротких видео для бренда.",
-      category: "Short-form",
-      readingTime: "5 мин",
-      intro: "Короткие видео уже стали базовым языком digital-коммуникации. Из-за этого рынок заполнен случайным контентом. Чтобы short-form работал на бренд, ему нужна система.",
-      coverEyebrow: "Social Video",
-      coverDetail: "Hooks · Series · Adaptations",
+      title: "Короткие видео для соцсетей: почему серия работает лучше одного ролика",
+      excerpt: "Один удачный ролик даёт всплеск охвата. Серия с общим стилем приучает зрителя узнавать бренд.",
+      description: "Как бренду снимать короткие видео для соцсетей: серия вместо разовых роликов, первые секунды, вертикальные версии.",
+      category: "Соцсети",
+      readingTime: "3 мин",
+      intro: "Короткие вертикальные видео смотрят больше всего, поэтому в ленте их больше всего. Чтобы ролик бренда не потерялся среди остальных, его стоит снимать как часть серии.",
       sections: [
         {
-          heading: "Один ролик не заменяет серию",
+          heading: "Серия вместо разового ролика",
           paragraphs: [
-            "Разовый удачный клип может дать всплеск, но не строит визуальное присутствие. Бренду полезнее мыслить сериями и повторяемым ритмом публикаций.",
+            "Пять–десять роликов, снятых за одну смену в одном стиле, стоят немногим дороже одного. Зато их можно выкладывать месяц и проверять в рекламе, какая идея работает лучше.",
           ],
         },
         {
           heading: "Что делает короткий ролик рабочим",
           paragraphs: [
-            "Сильный вход, одна ясная мысль и понятный пакет вертикальных адаптаций дают short-form больше пользы, чем хаотичная гонка за вирусностью.",
+            "Первые две секунды решают, досмотрят ли ролик. В каждом ролике — одна мысль. Вертикальный кадр лучше сразу заложить в список сцен: вырезанный потом из горизонтального, он теряет половину картинки.",
           ],
-          bullets: ["Hook в первые секунды", "Одна идея на ролик", "Вертикальные версии сразу после съёмки"],
+          bullets: ["Главное — в первые две секунды", "Одна мысль на ролик", "Вертикальный кадр с самого начала"],
         },
       ],
     },
     en: {
-      title: "How brands can use short videos for social without looking random",
-      excerpt: "Short-form works better when the brand has a visual system instead of a stream of disconnected clips.",
-      description: "Series logic, hooks, adaptations, and a unified visual language for brand short-form video.",
-      category: "Short-form",
-      readingTime: "5 min",
-      intro: "Short video is already a core language of digital communication. That is exactly why the market is full of random-looking content. For short-form to work for a brand, it needs system.",
-      coverEyebrow: "Social Video",
-      coverDetail: "Hooks · Series · Adaptations",
+      title: "Short social videos: why a series works better than a single video",
+      excerpt: "One lucky video gives a spike in reach. A series with a shared style teaches viewers to recognise the brand.",
+      description: "How a brand should shoot short social videos: a series instead of one-offs, the first seconds, vertical versions.",
+      category: "Social",
+      readingTime: "3 min",
+      intro: "Short vertical videos get the most views, which is why feeds are full of them. For a brand's video not to get lost, it is worth shooting it as part of a series.",
       sections: [
         {
-          heading: "One clip is not a strategy",
+          heading: "A series instead of a one-off",
           paragraphs: [
-            "A single successful clip can spike reach, but it does not build a visual presence. Brands benefit more from thinking in series and recurring formats.",
+            "Five to ten videos shot in one day and in one style cost little more than a single one. You can post them for a month and test in ads which idea works best.",
           ],
         },
         {
-          heading: "What makes short-form effective",
+          heading: "What makes a short video work",
           paragraphs: [
-            "A strong hook, one clear idea, and vertical adaptations prepared in advance make short-form more useful than chasing randomness.",
+            "The first two seconds decide whether people keep watching. Each video should carry one thought, and the vertical frame is better planned in the shot list from the start than cropped later from a horizontal one.",
           ],
-          bullets: ["A fast hook", "One idea per video", "Vertical edits planned from the start"],
+          bullets: ["The key point in the first two seconds", "One thought per video", "Vertical framing from the start"],
         },
       ],
     },

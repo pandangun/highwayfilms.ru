@@ -5,10 +5,10 @@ import { buildPageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = buildPageMetadata({
   title: "Бриф на создание видеоролика — Highway Films",
   description:
-    "Заполните бриф, чтобы мы быстро поняли задачу и предложили оптимальное решение под ваш видеоролик.",
+    "Бриф на видеоролик: десять минут на ответы, смета и срок — в течение рабочего дня.",
   path: "/brief",
   locale: "ru",
-  imagePath: "/video/derived/hero-poster.jpg",
+  imagePath: "/images/stills/commercials-01.jpg",
   noIndex: true,
 });
 

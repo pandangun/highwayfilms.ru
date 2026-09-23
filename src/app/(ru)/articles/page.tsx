@@ -3,12 +3,12 @@ import { ArticlesHubPage } from "@/components/articles/ArticlesHubPage";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Статьи о видеопродакшне, рекламе и съёмке — Highway Films",
+  title: "Статьи о видеосъёмке и рекламе — Highway Films",
   description:
-    "Editorial-раздел Highway Films: статьи о коммерческом продакшне, рекламных роликах, event-съёмке, свадебных фильмах и short-form контенте.",
+    "Как заказать видео, из чего складывается смета и что подготовить до съёмки: статьи видеостудии Highway Films.",
   path: "/articles",
   locale: "ru",
-  imagePath: "/video/derived/hero-poster.jpg",
+  imagePath: "/images/stills/commercials-01.jpg",
 });
 
 export default function ArticlesPage() {

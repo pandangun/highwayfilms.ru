@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import { ContactStudioPage } from "@/components/ContactStudioPage";
+import ContactsPage from "@/components/pages/ContactsPage";
+import { contactsContent } from "@/content/studio";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Контакты Highway Films - Санкт-Петербург",
-  description:
-    "Контакты Highway Films: Санкт-Петербург, выездные съёмки по России, телефон, e-mail, Telegram, WhatsApp и переход к рабочему брифу.",
+  ...contactsContent.ru.meta,
   path: "/contacts",
   locale: "ru",
-  imagePath: "/video/derived/hero-poster.jpg",
+  imagePath: "/images/stills/commercials-02.jpg",
 });
 
-export default function ContactsPage() {
-  return <ContactStudioPage locale="ru" />;
+export default function Page() {
+  return <ContactsPage locale="ru" />;
 }

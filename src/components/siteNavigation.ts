@@ -1,37 +1,38 @@
+export type Locale = "ru" | "en";
+
 export type SiteNavItem = {
   href: string;
   ru: string;
   en: string;
 };
 
+/** Главное меню: сначала направления, потом студия и контакты. */
 export const headerNavItems: SiteNavItem[] = [
-  { href: "/about", ru: "О нас", en: "About" },
-  { href: "/commercials", ru: "Реклама", en: "Commercials" },
-  { href: "/corporate", ru: "Корпоративное", en: "Corporate" },
-  { href: "/music-videos", ru: "Клипы", en: "Music Videos" },
-  { href: "/ai", ru: "AI", en: "AI" },
-  { href: "/weddings", ru: "Свадьбы", en: "Weddings" },
-  { href: "/contacts", ru: "Контакты", en: "Contacts" },
-];
-
-export const footerMenuLinks: SiteNavItem[] = [
-  { href: "/about", ru: "О нас", en: "About" },
-  { href: "/contacts", ru: "Контакты", en: "Contacts" },
-  { href: "/brief", ru: "Бриф", en: "Brief" },
-  { href: "/articles", ru: "Статьи", en: "Articles" },
-  { href: "/client", ru: "Вход для клиентов", en: "Client access" },
-];
-
-export const footerServiceLinks: SiteNavItem[] = [
   { href: "/commercials", ru: "Реклама", en: "Commercials" },
   { href: "/corporate", ru: "Корпоративное", en: "Corporate" },
   { href: "/music-videos", ru: "Клипы", en: "Music videos" },
-  { href: "/ai", ru: "AI", en: "AI" },
   { href: "/weddings", ru: "Свадьбы", en: "Weddings" },
+  { href: "/ai", ru: "AI-ролики", en: "AI films" },
+  { href: "/about", ru: "О студии", en: "Studio" },
+  { href: "/contacts", ru: "Контакты", en: "Contacts" },
 ];
 
-export function getLocaleFromPath(pathname: string) {
-  return pathname.startsWith("/en") ? "en" : "ru";
+export const footerNavItems: SiteNavItem[] = [
+  { href: "/commercials", ru: "Реклама", en: "Commercials" },
+  { href: "/corporate", ru: "Корпоративное видео", en: "Corporate video" },
+  { href: "/music-videos", ru: "Клипы", en: "Music videos" },
+  { href: "/weddings", ru: "Свадьбы", en: "Weddings" },
+  { href: "/ai", ru: "AI-ролики", en: "AI films" },
+  { href: "/videoproduction", ru: "Полный цикл", en: "Full production" },
+  { href: "/about", ru: "О студии", en: "Studio" },
+  { href: "/articles", ru: "Статьи", en: "Articles" },
+  { href: "/brief", ru: "Бриф", en: "Brief" },
+  { href: "/client", ru: "Кабинет клиента", en: "Client room" },
+  { href: "/contacts", ru: "Контакты", en: "Contacts" },
+];
+
+export function getLocaleFromPath(pathname: string): Locale {
+  return pathname === "/en" || pathname.startsWith("/en/") ? "en" : "ru";
 }
 
 export function normalizeLocalePath(pathname: string) {
@@ -39,11 +40,13 @@ export function normalizeLocalePath(pathname: string) {
   return locale === "en" ? pathname.replace(/^\/en(?!\w)/, "") || "/" : pathname;
 }
 
-export function withLocalePath(href: string, locale: "ru" | "en") {
-  return locale === "en" ? (href === "/" ? "/en" : `/en${href}`) : href;
+export function withLocalePath(href: string, locale: Locale) {
+  if (locale !== "en") return href;
+  if (href === "/") return "/en";
+  return href.startsWith("/") ? `/en${href}` : href;
 }
 
-export function getAlternateLocaleHref(pathname: string, locale: "ru" | "en") {
+export function getAlternateLocaleHref(pathname: string, locale: Locale) {
   const normalizedPath = normalizeLocalePath(pathname);
   if (locale === "ru") return normalizedPath;
   return normalizedPath === "/" ? "/en" : `/en${normalizedPath}`;
@@ -51,5 +54,5 @@ export function getAlternateLocaleHref(pathname: string, locale: "ru" | "en") {
 
 export function isActivePath(itemHref: string, pathname: string) {
   if (itemHref === "/") return pathname === "/";
-  return pathname.startsWith(itemHref);
+  return pathname === itemHref || pathname.startsWith(`${itemHref}/`);
 }

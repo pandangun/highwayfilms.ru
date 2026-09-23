@@ -1,23 +1,27 @@
 import "@/app/globals.css";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Noto_Serif_Display, Onest } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import MotionObserver from "@/components/MotionObserver";
 
 /**
- * Имена переменных намеренно не совпадают с --font-display / --font-sans:
- * те объявлены в theme.css и ссылаются сюда. Если назвать одинаково, :root
- * в theme.css перезатрёт то, что подставил next/font.
+ * Заголовки — Noto Serif Display с осью ширины: узкое начертание держит
+ * форму афиши даже на телефоне. Текст — Onest.
+ *
+ * Имена переменных не совпадают с --ff-display / --ff-text из
+ * foundation.css: те ссылаются сюда. Если назвать одинаково, :root
+ * перезатрёт то, что подставил next/font.
  */
-const display = Cormorant_Garamond({
+const display = Noto_Serif_Display({
   subsets: ["cyrillic", "latin"],
-  variable: "--font-cormorant",
+  axes: ["wdth"],
+  style: ["normal"],
+  variable: "--font-serif-display",
   display: "swap",
 });
 
-const sans = Manrope({
+const text = Onest({
   subsets: ["cyrillic", "latin"],
-  variable: "--font-manrope",
+  variable: "--font-onest",
   display: "swap",
 });
 
@@ -29,7 +33,8 @@ const sans = Manrope({
  * рендер. Route groups дают по одному <html> на локаль без единой
  * динамической зависимости; URL от групп не меняются.
  *
- * Вся разметка живёт здесь, чтобы две обёртки не разъехались со временем.
+ * Тема одна — тёмная. Кинозал со светлой темой перестаёт быть кинозалом,
+ * а вторая палитра удваивала работу над каждым блоком.
  */
 export default function SiteShell({
   lang,
@@ -39,29 +44,11 @@ export default function SiteShell({
   children: React.ReactNode;
 }) {
   return (
-    <html lang={lang} className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
-      {/* eslint-disable-next-line @next/next/no-head-element --
-          Правило из эпохи Pages Router. В App Router <head> в корневом
-          layout — штатный способ, и он нужен здесь ради скрипта ниже. */}
-      <head>
-        {/* Ставит тему до первой отрисовки, иначе на светлой теме мигает
-            тёмный фон. Обычный инлайн-скрипт, а не next/script: в App Router
-            он и так выполняется синхронно до боди, а strategy=beforeInteractive
-            вне pages/_document не поддерживается. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{var t=localStorage.getItem('highway-theme');document.documentElement.dataset.theme=t==='light'||t==='dark'?t:'dark';}catch(_){document.documentElement.dataset.theme='dark';}",
-          }}
-        />
-      </head>
-      <body className="bg-bgc min-h-screen text-fgc">
-        <div id="site-root">
-          <MotionObserver />
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </div>
+    <html lang={lang} className={`${display.variable} ${text.variable}`}>
+      <body>
+        <Header />
+        <main id="main">{children}</main>
+        <Footer />
       </body>
     </html>
   );

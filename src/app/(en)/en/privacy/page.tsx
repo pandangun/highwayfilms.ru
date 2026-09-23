@@ -39,9 +39,8 @@ const SECTIONS = [
 
 export default function PrivacyPageEN() {
   return (
-    <div className="page-shell">
-      <div className="page-ambient" />
-      <div className="container page-content pt-header-safe pb-12 md:pb-16">
+    <div className="page-head">
+      <div className="wrap">
       {/* JSON-LD */}
       <Script id="ld-webpage" type="application/ld+json">
         {JSON.stringify({
@@ -64,35 +63,35 @@ export default function PrivacyPageEN() {
         })}
       </Script>
 
-      {/* Skip link for a11y (class exists in globals.css) */}
+      {/* Skip link for keyboard and screen reader users. */}
       <a href="#content" className="visually-hidden focus:not-sr-only">
         Skip to content
       </a>
 
       {/* Header */}
       <header className="max-w-3xl">
-        <h1 className="h1">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-muted">
+        <h1 className="display display--h1">Privacy Policy</h1>
+        <p className="mt-6 text-small text-silver">
           Last updated: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>
         </p>
-        <p className="lead measure mt-4">
+        <p className="lead">
           This policy explains what data we collect on the website, how we use it, and what rights
           you have. The document is drafted to comply with applicable data protection regulations.
         </p>
       </header>
 
       {/* Layout: sticky ToC + content */}
-      <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-[240px_1fr]">
+      <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-20">
         {/* ToC */}
-        <aside className="md:sticky md:top-24 h-max">
+        <aside className="h-max lg:sticky lg:top-28">
           <nav aria-label="Contents" className="text-sm">
-            <p className="mb-2 font-semibold text-fgc">Contents</p>
+            <p className="mb-4 text-ivory">Contents</p>
             <ol className="space-y-1">
               {SECTIONS.map((s) => (
                 <li key={s.id}>
                   <a
                     href={`#${s.id}`}
-                    className="text-muted hover:text-fgc underline-offset-2 hover:underline"
+                    className="text-silver transition-colors hover:text-ivory"
                   >
                     {s.title}
                   </a>
@@ -103,40 +102,40 @@ export default function PrivacyPageEN() {
         </aside>
 
         {/* Content */}
-        <article id="content" className="space-y-10">
-          <section id="operator" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">1. Terms and Data Controller</h2>
+        <article id="content" className="prose legal">
+          <section id="operator" className="legal-section">
+            <h2>1. Terms and Data Controller</h2>
             <p>
-              Data controller: <span className="text-fgc">Highway Films</span> (hereinafter — “we”).
+              Data controller: <span className="text-ivory">Highway Films</span> (hereinafter — “we”).
               Contact for personal data matters:{" "}
-              <a href="mailto:info@highwayfilms.ru" className="underline hover:no-underline">
-                info@highwayfilms.ru
+              <a href="mailto:info@highway-films.ru" >
+                info@highway-films.ru
               </a>
               .
             </p>
           </section>
 
-          <section id="scope" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">2. Scope</h2>
+          <section id="scope" className="legal-section">
+            <h2>2. Scope</h2>
             <p>
-              This Policy applies to visitors of <strong>highwayfilms.ru</strong> and our contact forms.
+              This Policy applies to visitors of <strong>highway-films.ru</strong> and our contact forms.
               The site primarily targets users in the Russian Federation. We do not purposefully process
               data of residents of other jurisdictions.
             </p>
           </section>
 
-          <section id="data" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">3. Data We Process</h2>
-            <ul className="list-disc pl-5 space-y-1">
+          <section id="data" className="legal-section">
+            <h2>3. Data We Process</h2>
+            <ul>
               <li>Contact details from forms: name, email, phone, message text.</li>
               <li>Technical data: IP address, cookies, browser/device info, referrer URL.</li>
               <li>Messages in messengers/email (if you initiate contact).</li>
             </ul>
           </section>
 
-          <section id="purposes" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">4. Purposes of Processing</h2>
-            <ul className="list-disc pl-5 space-y-1">
+          <section id="purposes" className="legal-section">
+            <h2>4. Purposes of Processing</h2>
+            <ul>
               <li>Handling inquiries and preparing proposals.</li>
               <li>Fulfilling agreements and providing production services.</li>
               <li>Website support, traffic analytics, and content improvement.</li>
@@ -144,9 +143,9 @@ export default function PrivacyPageEN() {
             </ul>
           </section>
 
-          <section id="legal" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">5. Legal Bases</h2>
-            <ul className="list-disc pl-5 space-y-1">
+          <section id="legal" className="legal-section">
+            <h2>5. Legal Bases</h2>
+            <ul>
               <li>Consent of the data subject.</li>
               <li>Performance of a contract or pre-contract steps at your request.</li>
               <li>Legitimate interests (site maintenance, security).</li>
@@ -154,62 +153,62 @@ export default function PrivacyPageEN() {
             </ul>
           </section>
 
-          <section id="sharing" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">6. Sharing with Third Parties</h2>
+          <section id="sharing" className="legal-section">
+            <h2>6. Sharing with Third Parties</h2>
             <p>We do not sell or publish your data. Sharing is possible only:</p>
-            <ul className="list-disc pl-5 space-y-1">
+            <ul>
               <li>with contractors/providers (hosting, email, analytics) — strictly as necessary;</li>
               <li>with public authorities — upon a lawful request;</li>
               <li>in case of reorganization/sale — to a successor, preserving obligations.</li>
             </ul>
           </section>
 
-          <section id="localization" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">7. Data Localization & Storage</h2>
+          <section id="localization" className="legal-section">
+            <h2>7. Data Localization & Storage</h2>
             <p>
               Personal data of RF citizens collected via the site is recorded, systematized, accumulated
               and stored on servers located within the Russian Federation.
             </p>
           </section>
 
-          <section id="security" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">8. Security Measures</h2>
-            <ul className="list-disc pl-5 space-y-1">
+          <section id="security" className="legal-section">
+            <h2>8. Security Measures</h2>
+            <ul>
               <li>Access is limited to authorized personnel on a need-to-know basis.</li>
               <li>Organizational and technical safeguards are applied.</li>
               <li>Retention: until purposes are achieved or consent is withdrawn unless other grounds apply.</li>
             </ul>
           </section>
 
-          <section id="cookies" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">9. Cookies & Analytics</h2>
+          <section id="cookies" className="legal-section">
+            <h2>9. Cookies & Analytics</h2>
             <p>
               Cookies are used for proper website operation, remembering preferences and anonymous statistics.
               You can manage cookies in your browser settings.
             </p>
 
             <div className="overflow-x-auto">
-              <table className="w-full border-base" role="table">
-                <caption className="text-sm text-muted text-left pb-2">
+              <table className="legal-table" role="table">
+                <caption className="legal-caption">
                   Cookie categories used on the site
                 </caption>
                 <thead>
                   <tr className="text-left">
-                    <th className="py-2 pr-4 border-base border-b">Category</th>
-                    <th className="py-2 pr-4 border-base border-b">Purpose</th>
-                    <th className="py-2 pr-0 border-base border-b">Typical duration</th>
+                    <th className="legal-cell">Category</th>
+                    <th className="legal-cell">Purpose</th>
+                    <th className="legal-cell">Typical duration</th>
                   </tr>
                 </thead>
-                <tbody className="text-muted">
+                <tbody className="text-silver">
                   <tr>
-                    <td className="py-2 pr-4 border-base border-b">Technical</td>
-                    <td className="py-2 pr-4 border-base border-b">Forms and session handling</td>
-                    <td className="py-2 pr-0 border-base border-b">up to 12 months</td>
+                    <td className="legal-cell">Technical</td>
+                    <td className="legal-cell">Forms and session handling</td>
+                    <td className="legal-cell">up to 12 months</td>
                   </tr>
                   <tr>
-                    <td className="py-2 pr-4 border-base border-b">Analytics</td>
-                    <td className="py-2 pr-4 border-base border-b">Anonymous traffic statistics</td>
-                    <td className="py-2 pr-0 border-base border-b">up to 14 months</td>
+                    <td className="legal-cell">Analytics</td>
+                    <td className="legal-cell">Anonymous traffic statistics</td>
+                    <td className="legal-cell">up to 14 months</td>
                   </tr>
                 </tbody>
               </table>
@@ -217,16 +216,16 @@ export default function PrivacyPageEN() {
 
             <p className="mt-2">
               Cookie settings:{" "}
-              <button type="button" data-cmp="open" className="underline hover:no-underline">
+              <button type="button" data-cmp="open" >
                 change consent
               </button>
               .
             </p>
           </section>
 
-          <section id="rights" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">10. Your Rights</h2>
-            <ul className="list-disc pl-5 space-y-1">
+          <section id="rights" className="legal-section">
+            <h2>10. Your Rights</h2>
+            <ul>
               <li>obtain information about processing and a copy of your data;</li>
               <li>request rectification (update, correction) of your data;</li>
               <li>request blocking or deletion where processing is unlawful;</li>
@@ -234,29 +233,29 @@ export default function PrivacyPageEN() {
             </ul>
           </section>
 
-          <section id="requests" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">11. How to Submit a Request</h2>
+          <section id="requests" className="legal-section">
+            <h2>11. How to Submit a Request</h2>
             <p>
               Send requests to{" "}
-              <a href="mailto:info@highwayfilms.ru" className="underline hover:no-underline">
-                info@highwayfilms.ru
+              <a href="mailto:info@highway-films.ru" >
+                info@highway-films.ru
               </a>
               . Please include your name, a reply contact and the substance of your request. We’ll
               respond within the time limits set by law.
             </p>
           </section>
 
-          <section id="updates" className="measure space-y-3">
-            <h2 className="text-xl font-semibold text-fgc">12. Policy Updates</h2>
+          <section id="updates" className="legal-section">
+            <h2>12. Policy Updates</h2>
             <p>
-              The current version is always available at <span className="text-fgc">/en/privacy</span>.
+              The current version is always available at <span className="text-ivory">/en/privacy</span>.
               Last updated: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>.
             </p>
           </section>
 
-          <p className="measure">
-            <a href="#top" className="text-sm underline hover:no-underline">
-              Back to top ↑
+          <p>
+            <a href="#main" className="text-small">
+              Back to top
             </a>
           </p>
         </article>

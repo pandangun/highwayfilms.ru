@@ -3,12 +3,12 @@ import { ArticlesHubPage } from "@/components/articles/ArticlesHubPage";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Articles on production, commercials, and filming — Highway Films",
+  title: "Articles on filming and commercials — Highway Films",
   description:
-    "Editorial section by Highway Films with practical notes on commercial production, event filming, wedding films, and short-form content.",
+    "How to commission a video, what drives the estimate and what to prepare before the shoot: articles by the Highway Films studio.",
   path: "/en/articles",
   locale: "en",
-  imagePath: "/video/derived/hero-poster.jpg",
+  imagePath: "/images/stills/commercials-01.jpg",
 });
 
 export default function ArticlesEnPage() {

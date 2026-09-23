@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import MusicVideosStudioPage from "@/components/MusicVideosStudioPage";
+import ServiceTemplate from "@/components/pages/ServiceTemplate";
+import { servicePages } from "@/content/services";
 import { buildPageMetadata } from "@/lib/metadata";
 
+const page = servicePages["music-videos"].ru;
+
 export const metadata: Metadata = buildPageMetadata({
-  title: "Музыкальные клипы — Highway Films",
-  description:
-    "Музыкальные клипы с treatment, режиссурой, съёмкой, монтажом и color. Строим визуальный мир артиста через editorial-верстку, production scale и лёгкую страницу без autoplay-видео.",
-  path: "/music-videos",
+  ...page.meta,
+  path: page.path,
   locale: "ru",
-  imagePath: "/images/frames/f022.jpg",
+  imagePath: "/images/stills/music-videos-01.jpg",
 });
 
-export default function MusicVideosPage() {
-  return <MusicVideosStudioPage locale="ru" />;
+export default function Page() {
+  return <ServiceTemplate page={page} locale="ru" />;
 }

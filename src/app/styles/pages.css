@@ -1,0 +1,401 @@
+/* =========================
+   ПОСТРАНИЧНОЕ
+   Всё, что встречается на одной-двух страницах. Лежит в общем файле,
+   чтобы холодная загрузка страницы и переход на неё с главной
+   выглядели одинаково.
+   ========================= */
+
+@layer components {
+  /* ── Свадебные пакеты: три колонки через волосяные линии, без коробок ── */
+  .packages {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+
+  .package {
+    display: grid;
+    align-content: start;
+    gap: .9rem;
+    padding-block: 2rem 2.4rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .package__price {
+    font-family: var(--ff-display);
+    font-weight: 340;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: var(--t-h3);
+    line-height: 1;
+  }
+
+  .package__fit {
+    color: var(--silver);
+  }
+
+  @media (min-width: 960px) {
+    .packages {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .package {
+      padding: 2.75rem 2.5rem 3.25rem;
+      border-bottom: 0;
+      border-left: 1px solid var(--line);
+    }
+
+    .package:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .package:last-child {
+      padding-right: 0;
+    }
+  }
+
+  /* ── Строка «опция — цена» ── */
+  .option {
+    display: grid;
+    gap: .5rem 3rem;
+    padding-block: 1.6rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .option__price {
+    font-family: var(--ff-display);
+    font-weight: 380;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: var(--t-h4);
+    line-height: 1.1;
+  }
+
+  @media (min-width: 900px) {
+    .option {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) auto;
+      align-items: baseline;
+    }
+  }
+
+  /* ── Формы: сетка полей ── */
+  .form-grid {
+    display: grid;
+    gap: 2.1rem 2.75rem;
+  }
+
+  @media (min-width: 900px) {
+    .form-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .form-grid .field--wide {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: .8rem;
+    font-size: var(--t-small);
+    color: rgb(var(--ivory-rgb) / .8);
+    cursor: pointer;
+  }
+
+  .consent input {
+    flex: none;
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-top: .2rem;
+    accent-color: var(--garnet);
+  }
+
+  .consent a {
+    text-decoration: underline;
+    text-decoration-color: rgb(var(--ivory-rgb) / .4);
+    text-underline-offset: .2em;
+  }
+
+  .form-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 2rem;
+  }
+
+  /* Форма на бархате: поля светлее обычного, чтобы линия читалась. */
+  .invite .input {
+    border-bottom-color: rgb(var(--ivory-rgb) / .38);
+  }
+
+  .invite .field__hint {
+    color: rgb(var(--ivory-rgb) / .45);
+  }
+
+  /* ── Бриф ── */
+  .brief-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem 2rem;
+    margin: clamp(2rem, 4vw, 3rem) 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--t-small);
+  }
+
+  .brief-index a {
+    display: inline-flex;
+    gap: .6rem;
+    padding-block: .35rem;
+    color: var(--silver);
+    transition: color .25s ease;
+  }
+
+  .brief-index a:hover {
+    color: var(--ivory);
+  }
+
+  .brief-form {
+    display: grid;
+    gap: 0;
+  }
+
+  .brief-section {
+    display: grid;
+    gap: 2rem;
+    padding-block: clamp(2.5rem, 5vw, 4.5rem);
+    border-top: 1px solid var(--line);
+  }
+
+  .brief-section__head {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  @media (min-width: 1100px) {
+    .brief-section {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      column-gap: 4rem;
+    }
+
+    .brief-section__head {
+      grid-template-columns: 3.5rem minmax(0, 1fr);
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+      align-self: start;
+    }
+  }
+
+  /* ── Кабинет клиента ── */
+  .client-login {
+    align-self: start;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    font-size: var(--t-small);
+    color: var(--ivory);
+  }
+
+  .status__dot {
+    width: .55rem;
+    height: .55rem;
+    border-radius: 50%;
+    background: var(--silver);
+  }
+
+  .status--amber .status__dot { background: var(--brass); box-shadow: 0 0 0 4px rgb(184 151 106 / .18); }
+  .status--emerald .status__dot { background: var(--ivory); }
+  .status--violet .status__dot { background: var(--garnet-hi); }
+
+  .doc-rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .doc-row {
+    display: grid;
+    gap: .6rem;
+    padding-block: 1.6rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .doc-row__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem 1.25rem;
+    font-size: var(--t-small);
+  }
+
+  @media (min-width: 960px) {
+    .doc-row {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 6fr) minmax(0, 3fr);
+      column-gap: 2.5rem;
+      align-items: baseline;
+    }
+
+    .doc-row__meta {
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+    }
+  }
+
+  .btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+  }
+
+  /* ── Статьи ── */
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1.4rem;
+    font-size: var(--t-small);
+    color: var(--silver);
+  }
+
+  .article-meta > :first-child {
+    color: var(--brass);
+  }
+
+  .article-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .article-row {
+    display: grid;
+    gap: 1.25rem;
+    padding-block: clamp(1.75rem, 3vw, 2.75rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .article-row h3 a,
+  .article-lead h2 a {
+    transition: color .25s ease;
+  }
+
+  .article-row h3 a:hover,
+  .article-lead h2 a:hover {
+    color: #fff;
+  }
+
+  @media (min-width: 960px) {
+    .article-row {
+      grid-template-columns: 360px minmax(0, 1fr);
+      column-gap: 3rem;
+      align-items: center;
+    }
+  }
+
+  /* ── Политика конфиденциальности ── */
+  .legal {
+    max-width: 46em;
+    font-size: 1.0625rem;
+  }
+
+  .legal-section {
+    scroll-margin-top: calc(var(--header-h) + 2rem);
+  }
+
+  .legal-section > h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-section + .legal-section {
+    margin-top: 3.5rem;
+  }
+
+  .legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--t-small);
+  }
+
+  .legal-caption {
+    padding-bottom: .75rem;
+    text-align: left;
+    color: var(--silver);
+  }
+
+  .legal-cell {
+    padding: .7rem 1rem .7rem 0;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  /* ── Длинный текст: статьи, политика ── */
+  .prose {
+    max-width: 40em;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: rgb(var(--ivory-rgb) / .86);
+  }
+
+  .prose > * + * {
+    margin-top: 1.15em;
+  }
+
+  .prose h2 {
+    margin-top: 2.4em;
+    font-family: var(--ff-display);
+    font-weight: 340;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: var(--t-h3);
+    line-height: 1.02;
+    color: var(--ivory);
+  }
+
+  .prose h3 {
+    margin-top: 2em;
+    font-family: var(--ff-display);
+    font-weight: 380;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: var(--t-h4);
+    line-height: 1.1;
+    color: var(--ivory);
+  }
+
+  .prose ul,
+  .prose ol {
+    padding-left: 1.2em;
+  }
+
+  .prose ul { list-style: disc; }
+  .prose ol { list-style: decimal; }
+
+  .prose li + li {
+    margin-top: .45em;
+  }
+
+  .prose li::marker {
+    color: var(--brass);
+  }
+
+  .prose a {
+    text-decoration: underline;
+    text-decoration-color: rgb(var(--ivory-rgb) / .35);
+    text-underline-offset: .2em;
+  }
+
+  .prose a:hover {
+    text-decoration-color: var(--ivory);
+  }
+
+  .prose strong {
+    font-weight: 500;
+    color: var(--ivory);
+  }
+}

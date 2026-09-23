@@ -3,12 +3,12 @@ import { ClientEntryPage } from "@/components/client/ClientEntryPage";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Client access — Highway Films",
+  title: "Client room — Highway Films",
   description:
-    "Highway Films client area: access to edit versions, feedback, project status, and delivery materials.",
+    "Highway Films client room: edit versions, timecoded notes and final project files.",
   path: "/en/client",
   locale: "en",
-  imagePath: "/video/derived/hero-poster.jpg",
+  imagePath: "/images/stills/commercials-01.jpg",
   noIndex: true,
 });
 

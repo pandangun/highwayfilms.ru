@@ -1,96 +1,28 @@
 /* =========================
-   GLOBAL ENTRYPOINT
-   ========================= */
+   HIGHWAY FILMS — «кинозал»
+   =========================
+   Один источник стилей на весь сайт. Раньше CSS был разложен по
+   постраничным файлам, и то, что подгружалось раньше, решало, кто кого
+   перебивает. Теперь всё глобальное и лежит в слоях Tailwind:
+   base — токены и сброс, components — блоки сайта. Утилиты Tailwind идут
+   последними и перебивают блоки, когда их явно ставят в разметке. */
 @import "tailwindcss";
 
-/* Порядок каскадных слоёв. Объявляется здесь один раз и решает всё:
-   кто кого перебивает, больше не зависит от того, какой CSS-чанк подгрузился
-   раньше. Именно эта недетерминированность порождала багу «на локале норм,
-   на проде поехало» и заставляла лепить !important.
-
-   Позже в списке — сильнее. Все слои идут после Tailwind (theme, base,
-   components, utilities), то есть проектный CSS перебивает утилиты — как
-   и было до слоёв.
-
-     hf-base        layout.css      — сетка, контейнеры, страничные каркасы
-     hf-components  shared/header/  — примитивы и блоки
-                    footer/motion
-     hf-page        home/weddings/  — постраничное, грузится вместе со страницей
-                    corporate/ai
-     hf-mobile      mobile.css      — мобильные правки поверх постраничного
-     hf-theme       theme.css       — токены и светлая тема, побеждают всё
-
-   theme.css идёт последним намеренно: его светлые переопределения обязаны
-   перебивать постраничный CSS. Токены (:root) от позиции не зависят —
-   custom properties разрешаются в месте использования. */
-@layer hf-base, hf-components, hf-page, hf-mobile, hf-theme;
-
-/* Токены дизайн-системы, поднятые в Tailwind, чтобы в JSX писали
-   text-display-md и text-ink-muted вместо произвольных значений.
-   Сами значения объявлены в styles/theme.css — здесь только проброс.
-
-   Зачем: на момент введения в разметке было 155 произвольных размеров
-   шрифта и 33 ступени прозрачности text-white. Утилиты дают короткий
-   правильный путь, иначе система остаётся на бумаге. */
+/* Токены, поднятые в Tailwind: font-display, text-ivory, bg-velvet и т.д. */
 @theme inline {
-  --text-eyebrow: var(--type-eyebrow);
-  --text-meta: var(--type-meta);
-  --text-body: var(--type-body);
-  --text-lead: var(--type-lead);
-  --text-display-sm: var(--type-display-sm);
-  --text-display-md: var(--type-display-md);
-  --text-display-lg: var(--type-display-lg);
-  --text-display-xl: var(--type-display-xl);
+  --font-display: var(--ff-display);
+  --font-text: var(--ff-text);
 
-  --color-accent: var(--accent);
-
-  --radius-sm: var(--r-sm);
-  --radius-md: var(--r-md);
-  --radius-lg: var(--r-lg);
-
-  --ease-film: var(--ease-film);
+  --color-screen: var(--screen);
+  --color-ivory: var(--ivory);
+  --color-silver: var(--silver);
+  --color-dim: var(--dim);
+  --color-velvet: var(--velvet);
+  --color-garnet: var(--garnet);
+  --color-brass: var(--brass);
+  --color-line: var(--line);
 }
 
-/* Цветовые утилиты написаны руками, а не через @theme.
-   Причина: @theme объявляет --color-ink: var(--ink) в :root, и подстановка
-   происходит ТАМ ЖЕ — потомки наследуют уже вычисленный цвет. Из-за этого
-   .on-dark, переопределяющий --ink, до утилиты не доставал, и текст поверх
-   тёмных областей в светлой теме темнел и исчезал.
-   Здесь var() стоит прямо в объявлении утилиты и разрешается на элементе,
-   поэтому ближайший .on-dark работает как надо. */
-@layer hf-components {
-  .text-ink { color: var(--ink); }
-  .text-ink-muted { color: var(--ink-muted); }
-  .text-ink-faint { color: var(--ink-faint); }
-  .text-ink-ghost { color: var(--ink-ghost); }
-  .border-hairline { border-color: var(--hairline); }
-  .bg-hairline { background-color: var(--hairline); }
-}
-
-/* Базовый сброс медиа — именно в слое base, до utilities.
-   Если положить его в проектный слой (все они идут после utilities),
-   height:auto начинает побеждать h-full: слои сильнее специфичности,
-   и :where() тут не помогает. Из-за этого видео в hero получало высоту
-   по своему соотношению сторон вместо высоты контейнера. */
-@layer base {
-  img,
-  video {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
-}
-
-/* foundations */
-@import "./styles/theme.css";
-@import "./styles/layout.css";
-
-/* shared primitives */
-@import "./styles/shared.css";
-@import "./styles/section.css";
-
-/* feature modules */
-@import "./styles/header.css";
-@import "./styles/motion.css";
-@import "./styles/footer.css";
-@import "./styles/mobile.css";
+@import "./styles/foundation.css";
+@import "./styles/components.css";
+@import "./styles/pages.css";

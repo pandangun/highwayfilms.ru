@@ -53,16 +53,16 @@ export type ClientProjectDemo = {
 export const clientProjectDemo: ClientProjectDemo = {
   code: "HF-274",
   title: {
-    ru: "Рекламный ролик для бренда · Demo Project",
-    en: "Brand Commercial · Demo Project",
+    ru: "Рекламный ролик для бренда",
+    en: "Brand commercial",
   },
   subtitle: {
-    ru: "Черновая модель будущей клиентской зоны: версии монтажа, комментарии, статус и материалы проекта.",
-    en: "A draft model of the future client area with edit versions, comments, project status, and deliverables.",
+    ru: "Пример проекта: так кабинет выглядит для клиента во время монтажа.",
+    en: "A sample project: this is what the client sees during the edit.",
   },
   summary: {
-    ru: "Это заготовка под закрытую проектную комнату, где клиент видит ход монтажа, текущую версию на согласовании и готовые материалы без лишней переписки по файлам.",
-    en: "This is a foundation for a private project room where the client can review edit status, comment on current versions, and access delivery files without scattered email threads.",
+    ru: "Здесь видно, на каком этапе проект, какая версия монтажа ждёт согласования и какие файлы уже готовы. Правки оставляют по таймкодам, чтобы не искать их в переписке.",
+    en: "It shows the project stage, which cut is waiting for approval and which files are ready. Notes are left by timecode, so nobody has to dig through email threads.",
   },
   status: {
     tone: "amber",
@@ -73,8 +73,8 @@ export const clientProjectDemo: ClientProjectDemo = {
   },
   updatedAt: "2026-03-29T18:40:00.000Z",
   accessNote: {
-    ru: "Доступ выдаётся по конкретному проекту. Если у вас ещё нет кода проекта, запросите его у менеджера Highway Films.",
-    en: "Access is issued per project. If you do not have a project code yet, request it from the Highway Films team.",
+    ru: "Доступ выдаём к конкретному проекту. Логин и пароль присылаем вместе с первой версией монтажа.",
+    en: "Access is issued per project. The login and password come with the first cut.",
   },
   versions: [
     {
@@ -85,7 +85,7 @@ export const clientProjectDemo: ClientProjectDemo = {
         en: "First assembly",
       },
       note: {
-        ru: "Базовый монтаж с ритмом, музыкой и опорной драматургией ролика.",
+        ru: "Первая сборка: порядок сцен, ритм и музыка.",
         en: "Base edit with initial pacing, music, and narrative structure.",
       },
     },

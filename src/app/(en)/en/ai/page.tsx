@@ -1,17 +1,17 @@
-import "@/app/styles/ai.css";
 import type { Metadata } from "next";
-import AiStudioPage from "@/components/AiStudioPage";
+import ServiceTemplate from "@/components/pages/ServiceTemplate";
+import { servicePages } from "@/content/services";
 import { buildPageMetadata } from "@/lib/metadata";
 
+const page = servicePages["ai"].en;
+
 export const metadata: Metadata = buildPageMetadata({
-  title: "AI video and generative production - Highway Films",
-  description:
-    "Highway Films uses AI as a production tool for fast ad tests, virtual presenters, hybrid films, personalised versions, and generative visuals where they genuinely improve the brief.",
-  path: "/en/ai",
+  ...page.meta,
+  path: page.path,
   locale: "en",
-  imagePath: "/images/ai/ai-01.jpg",
+  imagePath: "/images/stills/ai-01.jpg",
 });
 
-export default function AiPage() {
-  return <AiStudioPage locale="en" />;
+export default function Page() {
+  return <ServiceTemplate page={page} locale="en" />;
 }

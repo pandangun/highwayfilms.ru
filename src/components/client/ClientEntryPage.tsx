@@ -1,129 +1,62 @@
 import Link from "next/link";
-import { FolderLock, MessageSquareMore, MonitorPlay, Send } from "lucide-react";
-import type { Locale } from "@/data/articles";
+import Credits from "@/components/Credits";
+import PageHead from "@/components/PageHead";
 import { ClientAccessForm } from "@/components/client/ClientAccessForm";
-
-type ClientEntryPageProps = {
-  locale: Locale;
-};
+import type { Locale } from "@/components/siteNavigation";
 
 const copy = {
   ru: {
-    eyebrow: "Client area",
-    title: "Вход для клиентов",
-    lead: "Доступ к версии монтажа, комментариям по таймкодам, статусу проекта и финальным материалам.",
-    note: "Клиентская зона находится в ранней версии. Доступ выдаётся по конкретному проекту. Если у вас ещё нет доступа, свяжитесь с нами — подключим правильный маршрут.",
-    features: [
-      "Версии монтажа и текущий статус проекта",
-      "Комментарии по таймкодам в одной ленте",
-      "Финальные материалы и структура выдачи",
+    title: "Кабинет клиента",
+    lead: "Версии монтажа, правки по таймкодам и финальные файлы проекта в одном месте.",
+    formTitle: "Вход",
+    inside: [
+      { label: "Версии", value: "каждая сборка монтажа с датой и статусом" },
+      { label: "Правки", value: "комментарии по таймкодам в одной ленте" },
+      { label: "Файлы", value: "мастер-копия и нарезки после согласования" },
     ],
-    sideTitle: "Что здесь будет",
-    sideLead: "Это не большая SaaS-панель, а аккуратная проектная комната студии для согласования и выдачи материалов.",
-    support: "Если нет доступа — написать нам",
+    note: "Доступ выдаём к конкретному проекту. Если доступа ещё нет, ",
+    noteLink: "напишите нам",
   },
   en: {
-    eyebrow: "Client area",
-    title: "Client access",
-    lead: "Access to edit versions, timecoded comments, project status, and final delivery materials.",
-    note: "The client area is currently in an early version. Access is issued per project. If you do not have access yet, contact us and we will route you properly.",
-    features: [
-      "Edit versions and current project status",
-      "Timecoded feedback in one place",
-      "Final materials with a clean delivery structure",
+    title: "Client room",
+    lead: "Edit versions, timecoded notes and final project files in one place.",
+    formTitle: "Sign in",
+    inside: [
+      { label: "Versions", value: "every cut with its date and status" },
+      { label: "Notes", value: "timecoded comments in one thread" },
+      { label: "Files", value: "master and cut-downs after approval" },
     ],
-    sideTitle: "What this becomes",
-    sideLead: "Not a heavy SaaS dashboard, but a refined project room for approvals, review, and delivery.",
-    support: "Need access? Contact us",
+    note: "Access is issued per project. If you don't have it yet, ",
+    noteLink: "message us",
   },
 } as const;
 
-export function ClientEntryPage({ locale }: ClientEntryPageProps) {
+export function ClientEntryPage({ locale }: { locale: Locale }) {
   const t = copy[locale];
-  const contactsHref = locale === "en" ? "/en/contacts" : "/contacts";
 
   return (
-    <div className="page-shell">
-      <div className="page-ambient" />
-      <div className="page-content">
-        <section className="pt-header-safe relative overflow-hidden pb-16 pt-6 md:pb-20 md:pt-10">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(62rem_34rem_at_8%_0%,rgba(124,58,237,.18),transparent_58%),radial-gradient(40rem_20rem_at_100%_0%,rgba(214,183,138,.12),transparent_50%)]" />
-          <div className="container relative grid gap-8 xl:grid-cols-[0.92fr_1.08fr] xl:items-start">
-            <div className="max-w-3xl">
-              <span className="inline-flex rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-white/66">
-                {t.eyebrow}
-              </span>
-              <h1 className="font-display heading-balance mt-5 text-[clamp(2.8rem,5vw,5rem)] leading-[0.95] tracking-[-0.055em] text-white">
-                {t.title}
-              </h1>
-              <p className="mt-5 max-w-2xl text-[1.05rem] leading-8 text-white/66 md:text-[1.14rem]">{t.lead}</p>
-              <div className="mt-7 grid gap-3">
-                {t.features.map((item, index) => {
-                  const Icon = [MonitorPlay, MessageSquareMore, FolderLock][index] ?? MonitorPlay;
-                  return (
-                    <div key={item} className="section-card section-card--compact flex items-center gap-4">
-                      <div className="contact-node__icon h-12 w-12">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <div className="text-sm leading-7 text-white/72">{item}</div>
-                    </div>
-                  );
-                })}
-              </div>
-              <p className="mt-6 max-w-2xl text-sm leading-7 text-white/46">{t.note}</p>
-            </div>
+    <>
+      <PageHead title={t.title} lead={t.lead} />
 
-            <div className="project-room project-room--hero">
-              <div className="grid gap-5 lg:grid-cols-[1.02fr_0.98fr]">
-                <div className="section-card">
-                  <p className="eyebrow text-white/44">{locale === "en" ? "Access form" : "Форма входа"}</p>
-                  <h2 className="font-display mt-3 text-[clamp(1.8rem,1.45rem+1vw,2.6rem)] leading-[0.98] text-white">
-                    {locale === "en" ? "Log in to your project room" : "Войти в проектную комнату"}
-                  </h2>
-                  <p className="mt-3 text-sm leading-7 text-white/58">
-                    {locale === "en"
-                      ? "A clean entry point with only login and password. The real access routing can be connected later."
-                      : "Спокойный минималистичный вход: только логин и пароль. Реальную логику доступа можно подключить следующим шагом."}
-                  </p>
-                  <div className="mt-6">
-                    <ClientAccessForm locale={locale} />
-                  </div>
-                </div>
-
-                <div className="section-card">
-                  <p className="eyebrow text-white/44">{t.sideTitle}</p>
-                  <h2 className="font-display mt-3 text-[clamp(1.8rem,1.45rem+1vw,2.6rem)] leading-[0.98] text-white">
-                    {locale === "en" ? "A studio-side project interface" : "Спокойный студийный интерфейс проекта"}
-                  </h2>
-                  <p className="mt-4 text-sm leading-7 text-white/58">{t.sideLead}</p>
-                  <div className="section-frame mt-6">
-                    <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <div className="text-xs uppercase tracking-[0.18em] text-white/42">HF-274</div>
-                        <div className="mt-2 font-display text-[1.6rem] leading-[1] text-white">
-                          {locale === "en" ? "Demo project" : "Демо-проект"}
-                        </div>
-                      </div>
-                      <div className="status-pill status-pill--amber">
-                        {locale === "en" ? "Review" : "Согласование"}
-                      </div>
-                    </div>
-                    <div className="mt-5 space-y-3 text-sm leading-7 text-white/58">
-                      <div>Version 02 · {locale === "en" ? "current client cut" : "текущая версия для клиента"}</div>
-                      <div>00:14 · {locale === "en" ? "comment pending" : "комментарий на обсуждении"}</div>
-                      <div>Master 4K · {locale === "en" ? "delivery prepared after approval" : "выдача после финального согласования"}</div>
-                    </div>
-                  </div>
-                  <Link href={contactsHref} className="btn mt-6 inline-flex rounded-full px-5 text-sm">
-                    {t.support}
-                    <Send className="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
-            </div>
+      <section className="border-t border-line pb-[var(--band)]">
+        <div className="wrap grid gap-16 pt-[clamp(56px,6vw,96px)] lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-24">
+          <div>
+            <Credits items={[...t.inside]} size="lg" className="credits--start" />
+            <p className="mt-12 max-w-[34em] text-silver">
+              {t.note}
+              <Link href={locale === "en" ? "/en/contacts" : "/contacts"} className="link-line">
+                {t.noteLink}
+              </Link>
+              .
+            </p>
           </div>
-        </section>
-      </div>
-    </div>
+
+          <div className="client-login">
+            <h2 className="display display--h3 mb-10">{t.formTitle}</h2>
+            <ClientAccessForm locale={locale} />
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

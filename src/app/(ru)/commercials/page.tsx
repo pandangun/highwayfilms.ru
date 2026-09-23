@@ -1,168 +1,17 @@
 import type { Metadata } from "next";
-import StudioServicePage from "@/components/StudioServicePage";
-import { commercialsFaqItems, commercialsFaqSection } from "@/data/commercialsFaq";
+import ServiceTemplate from "@/components/pages/ServiceTemplate";
+import { servicePages } from "@/content/services";
 import { buildPageMetadata } from "@/lib/metadata";
 
+const page = servicePages["commercials"].ru;
+
 export const metadata: Metadata = buildPageMetadata({
-  title: "Рекламные ролики и продуктовые видео — Highway Films",
-  description:
-    "Рекламные ролики для брендов и маркетплейсов: предметная съёмка, lifestyle, UGC и графика. Собираем форматы под перформанс и бренд.",
-  path: "/commercials",
+  ...page.meta,
+  path: page.path,
   locale: "ru",
-  imagePath: "/images/ads/a01.jpg",
+  imagePath: "/images/stills/commercials-02.jpg",
 });
 
-export default function CommercialsPage() {
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: commercialsFaqItems.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <StudioServicePage
-        hero={{
-          eyebrow: "Реклама",
-          title: "Рекламные ролики и продуктовые видео",
-          lead:
-            "Предметная съёмка, lifestyle, UGC и графика для брендов и маркетплейсов. Работаем от задачи: что показать, кому и на какой площадке — от этого зависят свет, ритм и набор финальных версий.",
-          heroVariant: "commercials",
-          primaryHref: "/contacts",
-          primaryLabel: "Запросить предложение",
-          secondaryHref: "https://t.me/highwayfilms",
-          secondaryLabel: "Telegram",
-          chips: ["Предметная съёмка", "Lifestyle", "UGC", "Версии под запуск"],
-          metrics: [
-            { value: "4K / 10-bit", label: "съёмка и мастеринг" },
-            { value: "7–21 дней", label: "средний production-цикл" },
-            { value: "6 / 15 / 30 с", label: "версии в одном пакете" },
-          ],
-          panelEyebrow: "Креатив + результат",
-          panelTitle: "Продукт должен читаться с первого кадра.",
-          panelCopy:
-            "Один ролик отдаём сразу в нескольких версиях: горизонталь под сайт и YouTube, вертикаль под Reels и Shorts, короткий кат под карточку товара. Пересъёмки под каждую площадку не требуется.",
-          imageSrc: "/images/ads/a01.jpg",
-          imageAlt: "Рекламный кадр Highway Films",
-        }}
-        reel={{
-          section: "commercials",
-          eyebrow: "Примеры работ",
-          title: "Как это выглядит",
-          lead: "Посмотрите картинку и свет. Если нравится — остальное обсуждаемо: формат, длительность, бюджет.",
-          mode: "reel",
-        }}
-        statement="До съёмки мы согласуем список сцен: что именно окажется в кадре, в каком порядке и чем ролик заканчивается. Это скучный документ, но именно он отличает результат от набора красивых дублей."
-        offerings={{
-          eyebrow: "Форматы",
-          title: "Что запускаем в работу",
-          lead: "Под каждый тип продукта и площадки собираем отдельный ритм, свет и набор финальных версий.",
-          items: [
-            {
-              title: "Предметная съёмка и фокус на продукте",
-              text: "Чистые предметные ролики, текстуры, макро и аккуратная графика для карточек товара, лендингов и брендовых запусков.",
-            },
-            {
-              title: "Lifestyle-сюжеты",
-              text: "Продукт в руках и в деле: как им пользуются, что он решает, чем отличается. Нужен там, где одной предметки мало — например, когда цена выше средней по категории.",
-            },
-            {
-              title: "UGC и версии под перформанс",
-              text: "Нативные ролики и вариации под тестирование гипотез, ретаргет и короткие форматы для соцсетей.",
-            },
-            {
-              title: "Графика и 3D-акценты",
-              text: "Анимация характеристик, разрез устройства, схемы работы. Берём тогда, когда камерой это не показать — а не ради самой графики.",
-            },
-          ],
-        }}
-        gallery={{
-          eyebrow: "Визуальный язык",
-          title: "Как это может выглядеть",
-          lead: "От стерильной e-commerce-подачи до насыщенного lifestyle-визуала.",
-          items: [
-            {
-              src: "/images/ads/a01.jpg",
-              tag: "Предметка",
-              title: "Фактура и глубина для роликов с фокусом на продукте",
-            },
-            {
-              src: "/images/ads/a05.jpg",
-              tag: "Food",
-              title: "Микро-детали и аппетитные триггеры",
-            },
-            {
-              src: "/images/ads/a06.jpg",
-              tag: "Beauty",
-              title: "Премиальный свет и глянцевые текстуры",
-            },
-          ],
-        }}
-        workflow={{
-          eyebrow: "Процесс",
-          title: "Как двигаем проект",
-          lead: "Без разрыва между креативом и продакшном: одна логика от брифа до экспортов.",
-          items: [
-            {
-              title: "Бриф и вектор",
-              text: "Разбираем аудиторию, оффер, платформы и задачу. На этом этапе определяем, что продаём эмоцией, а что фактом.",
-            },
-            {
-              title: "Препрод и концепция",
-              text: "Собираем доску референсов, схему света, список сцен, реквизит и план версий под площадки.",
-            },
-            {
-              title: "Съёмка и контроль",
-              text: "Снимаем пакетами под разные сценарии, сразу закладывая горизонталь, вертикали и запасные кадры под адаптации.",
-            },
-            {
-              title: "Пост и финальные версии",
-              text: "Монтаж, цвет, графика, субтитры и мастер-пакет под e-commerce, соцсети, performance и брендовые размещения.",
-            },
-          ],
-        }}
-        deliverables={{
-          title: "Что получает бренд",
-          groups: [
-            {
-              title: "Контент-пакет",
-              items: [
-                "Главный ролик и короткие версии",
-                "Вертикальные и горизонтальные форматы",
-                "Стоп-кадры и обложки для карточек и соцсетей",
-              ],
-            },
-            {
-              title: "Продакшн-процесс",
-              items: [
-                "Понятная смета и календарь этапов",
-                "Команда и сетап под реальную задачу, а не перегретый overhead",
-                "2–3 варианта масштаба под бюджет и сроки",
-              ],
-            },
-          ],
-        }}
-        faq={commercialsFaqSection}
-        closing={{
-          title: "Нужен ролик, который будет работать и на бренд, и на метрики?",
-          description:
-            "Пришлите тезисы или ссылку на продукт. Вернёмся с направлением по концепции и рабочей сметой.",
-          ctaLabel: "Обсудить рекламу",
-          href: "/contacts",
-          note: "Можно сразу приложить ссылку на карточку товара или референсы",
-        }}
-      />
-    </>
-  );
+export default function Page() {
+  return <ServiceTemplate page={page} locale="ru" />;
 }

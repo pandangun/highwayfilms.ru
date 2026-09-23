@@ -1,186 +1,156 @@
 import Link from "next/link";
-import { Download, Mail, MessageCircleMore, PlayCircle } from "lucide-react";
-import type { Locale } from "@/data/articles";
-import { clientProjectDemo, formatProjectDate, getLocalizedText } from "@/data/clientProjectDemo";
+import { Download } from "lucide-react";
+import Credits from "@/components/Credits";
 import { ProjectStatusBadge } from "@/components/client/ProjectStatusBadge";
-
-type ClientProjectPageProps = {
-  locale: Locale;
-};
+import { clientProjectDemo, formatProjectDate, getLocalizedText } from "@/data/clientProjectDemo";
+import { contacts } from "@/content/site";
+import type { Locale } from "@/components/siteNavigation";
 
 const copy = {
   ru: {
-    eyebrow: "Project room",
-    back: "Вернуться ко входу",
-    versions: "Версии видео",
-    comments: "Комментарии по таймкодам",
-    assets: "Материалы проекта",
-    checkpoints: "Текущий контур проекта",
-    needChanges: "Нужны правки?",
-    support: "Можно написать в Telegram или на почту проекта — соберём следующий раунд комментариев аккуратно и без потери контекста.",
-    write: "Связаться",
+    code: "Проект",
+    updated: "Обновлён",
+    status: "Статус",
+    versions: "Версии монтажа",
+    comments: "Правки по таймкодам",
+    assets: "Файлы проекта",
     download: "Скачать",
+    back: "Выйти",
+    needChanges: "Нужны ещё правки?",
+    support: "Напишите в Telegram или на почту: соберём следующий круг правок и покажем новую версию.",
+    write: "Написать в Telegram",
+    mail: "Почта",
+    demo: "Это демо-проект. Скачивание отключено.",
   },
   en: {
-    eyebrow: "Project room",
-    back: "Back to access",
-    versions: "Video versions",
-    comments: "Timecoded comments",
-    assets: "Project assets",
-    checkpoints: "Current project outline",
-    needChanges: "Need revisions?",
-    support: "You can write on Telegram or by project email and we will collect the next feedback round without losing context.",
-    write: "Contact us",
+    code: "Project",
+    updated: "Updated",
+    status: "Status",
+    versions: "Edit versions",
+    comments: "Timecoded notes",
+    assets: "Project files",
     download: "Download",
+    back: "Sign out",
+    needChanges: "More notes?",
+    support: "Message us on Telegram or by email: we'll collect the next round and show you a new cut.",
+    write: "Message on Telegram",
+    mail: "Email",
+    demo: "This is a demo project. Downloads are disabled.",
   },
 } as const;
 
-export function ClientProjectPage({ locale }: ClientProjectPageProps) {
+/**
+ * Проект в кабинете клиента. Устроен как съёмочный документ: шапка с
+ * кодом и статусом, дальше версии, правки и файлы — строками, без коробок.
+ */
+export function ClientProjectPage({ locale }: { locale: Locale }) {
   const t = copy[locale];
+  const p = clientProjectDemo;
   const entryHref = locale === "en" ? "/en/client" : "/client";
-  const contactHref = locale === "en" ? "/en/contacts" : "/contacts";
 
   return (
-    <div className="page-shell">
-      <div className="page-ambient" />
-      <div className="page-content">
-        <section className="pt-header-safe relative overflow-hidden pb-10 pt-6 md:pb-14 md:pt-10">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_32rem_at_10%_0%,rgba(124,58,237,.16),transparent_58%),radial-gradient(36rem_18rem_at_100%_0%,rgba(214,183,138,.08),transparent_52%)]" />
-          <div className="container relative">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <p className="eyebrow text-white/46">{t.eyebrow}</p>
-                <h1 className="font-display heading-balance mt-3 text-[clamp(2.5rem,4.6vw,4.6rem)] leading-[0.95] tracking-[-0.05em] text-white">
-                  {getLocalizedText(clientProjectDemo.title, locale)}
-                </h1>
-                <p className="mt-4 max-w-3xl text-[1.02rem] leading-8 text-white/64">
-                  {getLocalizedText(clientProjectDemo.subtitle, locale)}
-                </p>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <ProjectStatusBadge
-                  label={getLocalizedText(clientProjectDemo.status.label, locale)}
-                  tone={clientProjectDemo.status.tone}
-                />
-                <Link href={entryHref} className="btn inline-flex rounded-full px-5 text-sm">
-                  {t.back}
-                </Link>
-              </div>
-            </div>
-
-            <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-white/54">
-              <span>{clientProjectDemo.code}</span>
-              <span className="h-1 w-1 rounded-full bg-white/18" />
-              <span>{formatProjectDate(clientProjectDemo.updatedAt, locale)}</span>
-            </div>
+    <>
+      <header className="page-head">
+        <div className="wrap">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <ProjectStatusBadge label={getLocalizedText(p.status.label, locale)} tone={p.status.tone} />
+            <Link href={entryHref} className="link-line text-small">
+              {t.back}
+            </Link>
           </div>
-        </section>
+          <h1 className="display display--h1 mt-10 max-w-[16ch]">{getLocalizedText(p.title, locale)}</h1>
+          <p className="lead">{getLocalizedText(p.subtitle, locale)}</p>
 
-        <section className="container pb-10 md:pb-14">
-          <div className="project-room project-room--content">
-            <p className="max-w-4xl text-[1rem] leading-8 text-white/66">{getLocalizedText(clientProjectDemo.summary, locale)}</p>
-            <div className="mt-7 grid gap-4 md:grid-cols-3">
-              {clientProjectDemo.checkpoints.map((item) => (
-                <div key={item.label.ru} className="section-card section-card--steady">
-                  <div className="text-xs uppercase tracking-[0.18em] text-white/42">{getLocalizedText(item.label, locale)}</div>
-                  <div className="mt-3 text-sm leading-7 text-white/74">{getLocalizedText(item.value, locale)}</div>
+          <Credits
+            className="credits--start mt-12 max-w-[760px]"
+            items={[
+              { label: t.code, value: <span className="num">{p.code}</span> },
+              { label: t.updated, value: formatProjectDate(p.updatedAt, locale) },
+              ...p.checkpoints.map((item) => ({
+                label: getLocalizedText(item.label, locale),
+                value: getLocalizedText(item.value, locale),
+              })),
+            ]}
+          />
+          <p className="mt-10 max-w-[44em] text-silver">{getLocalizedText(p.summary, locale)}</p>
+        </div>
+      </header>
+
+      <section className="band border-t border-line">
+        <div className="wrap">
+          <h2 className="display display--h2 mb-10">{t.versions}</h2>
+          <ol className="doc-rows">
+            {p.versions.map((version) => (
+              <li key={version.name} className="doc-row">
+                <p className="display display--h4">{version.name}</p>
+                <p className="text-silver">{getLocalizedText(version.note, locale)}</p>
+                <div className="doc-row__meta">
+                  <span>{getLocalizedText(version.state, locale)}</span>
+                  <span className="text-dim">{formatProjectDate(version.updatedAt, locale)}</span>
                 </div>
-              ))}
-            </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="band border-t border-line">
+        <div className="wrap">
+          <h2 className="display display--h2 mb-10">{t.comments}</h2>
+          <ul className="doc-rows">
+            {p.comments.map((comment) => (
+              <li key={`${comment.timecode}-${comment.author}`} className="doc-row">
+                <p className="display display--h4 num text-brass">{comment.timecode}</p>
+                <p>{getLocalizedText(comment.text, locale)}</p>
+                <div className="doc-row__meta">
+                  <span>{getLocalizedText(comment.state, locale)}</span>
+                  <span className="text-dim">{comment.author}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="band border-t border-line">
+        <div className="wrap">
+          <h2 className="display display--h2 mb-10">{t.assets}</h2>
+          <ul className="doc-rows">
+            {p.assets.map((asset) => (
+              <li key={asset.name} className="doc-row">
+                <p className="display display--h4">{asset.name}</p>
+                <p className="text-silver">{getLocalizedText(asset.note, locale)}</p>
+                <div className="doc-row__meta">
+                  <span className="num">
+                    {asset.format}, {asset.size}
+                  </span>
+                  <button type="button" className="btn btn--line btn--sm" disabled title={t.demo}>
+                    <Download className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+                    {t.download}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-micro text-dim">{t.demo}</p>
+        </div>
+      </section>
+
+      <section className="invite">
+        <div className="wrap">
+          <h2 className="display display--h1">{t.needChanges}</h2>
+          <p className="invite__text">{t.support}</p>
+          <div className="invite__actions">
+            <a href={contacts.telegramHref} target="_blank" rel="noopener noreferrer" className="btn btn--ivory">
+              {t.write}
+            </a>
+            <a href={contacts.emailHref} className="link-line">
+              {contacts.email}
+            </a>
           </div>
-        </section>
-
-        <section className="container pb-10 md:pb-14">
-          <div className="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
-            <div className="space-y-6">
-              <div className="section-panel section-panel--compact">
-                <p className="eyebrow text-white/44">{t.versions}</p>
-                <div className="mt-5 space-y-4">
-                  {clientProjectDemo.versions.map((version) => (
-                    <div key={version.name} className="section-card section-card--steady flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                      <div>
-                        <div className="flex items-center gap-3">
-                          <PlayCircle className="h-5 w-5 text-white/62" />
-                          <h2 className="font-display text-[1.55rem] leading-[1] text-white">{version.name}</h2>
-                        </div>
-                        <p className="mt-3 text-sm leading-7 text-white/62">{getLocalizedText(version.note, locale)}</p>
-                      </div>
-                      <div className="space-y-2 text-sm text-white/50 md:text-right">
-                        <div>{formatProjectDate(version.updatedAt, locale)}</div>
-                        <div>{getLocalizedText(version.state, locale)}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="section-panel section-panel--compact">
-                <p className="eyebrow text-white/44">{t.comments}</p>
-                <div className="mt-5 space-y-4">
-                  {clientProjectDemo.comments.map((comment) => (
-                    <div key={`${comment.timecode}-${comment.author}`} className="section-card section-card--steady">
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <div className="flex items-center gap-3">
-                          <span className="status-pill status-pill--slate">{comment.timecode}</span>
-                          <span className="text-sm text-white/48">{comment.author}</span>
-                        </div>
-                        <span className="text-xs uppercase tracking-[0.16em] text-white/44">
-                          {getLocalizedText(comment.state, locale)}
-                        </span>
-                      </div>
-                      <p className="mt-4 text-sm leading-7 text-white/68">{getLocalizedText(comment.text, locale)}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="section-panel section-panel--compact">
-                <p className="eyebrow text-white/44">{t.assets}</p>
-                <div className="mt-5 space-y-4">
-                  {clientProjectDemo.assets.map((asset) => (
-                    <div key={asset.name} className="section-card section-card--steady flex flex-col gap-3">
-                      <div className="flex items-center justify-between gap-4">
-                        <div>
-                          <h2 className="font-display text-[1.55rem] leading-[1] text-white">{asset.name}</h2>
-                          <p className="mt-2 text-xs uppercase tracking-[0.16em] text-white/42">
-                            {asset.format} · {asset.size}
-                          </p>
-                        </div>
-                        <button type="button" className="btn inline-flex rounded-full px-4 text-sm">
-                          {t.download}
-                          <Download className="h-4 w-4" />
-                        </button>
-                      </div>
-                      <p className="text-sm leading-7 text-white/62">{getLocalizedText(asset.note, locale)}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="section-panel section-panel--compact">
-                <p className="eyebrow text-white/44">{t.needChanges}</p>
-                <h2 className="font-display mt-3 text-[clamp(1.8rem,1.45rem+1vw,2.6rem)] leading-[0.98] text-white">
-                  {locale === "en" ? "Send the next feedback round calmly" : "Соберём следующий раунд правок спокойно"}
-                </h2>
-                <p className="mt-4 text-sm leading-7 text-white/62">{t.support}</p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link href={contactHref} className="btn-primary inline-flex rounded-full px-6 text-sm">
-                    {t.write}
-                    <Mail className="h-4 w-4" />
-                  </Link>
-                  <a href="https://t.me/highwayfilms" target="_blank" rel="noreferrer" className="btn inline-flex rounded-full px-6 text-sm">
-                    Telegram
-                    <MessageCircleMore className="h-4 w-4" />
-                  </a>
-                </div>
-                <p className="mt-5 text-xs leading-6 text-white/42">{getLocalizedText(clientProjectDemo.accessNote, locale)}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
+          <p className="mt-12 text-small text-silver">{getLocalizedText(p.accessNote, locale)}</p>
+        </div>
+      </section>
+    </>
   );
 }

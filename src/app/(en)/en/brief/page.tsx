@@ -5,10 +5,10 @@ import { buildPageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = buildPageMetadata({
   title: "Brief — Highway Films",
   description:
-    "Project brief for Highway Films: project type, script status, timing, platforms, budget range, and production inputs.",
+    "Video brief: ten minutes of answers, an estimate and a date within one working day.",
   path: "/en/brief",
   locale: "en",
-  imagePath: "/video/derived/hero-poster.jpg",
+  imagePath: "/images/stills/commercials-01.jpg",
   noIndex: true,
 });
 
