@@ -54,6 +54,16 @@ next-env.d.ts
 /public/video/derived/*
 !/public/video/derived/hero-poster.jpg
 
+# Section reels are small (1–6 MB each) and ship with the site.
+# The showreel itself stays in Vercel Blob (NEXT_PUBLIC_HERO_VIDEO_*_URL).
+!/public/video/commercials/
+!/public/video/corporate/
+!/public/video/music-videos/
+!/public/video/weddings/
+!/public/video/ai/
+/public/video/ai/*
+!/public/video/ai/ai-01.mp4
+
 # --- allow image frames & map preview in the repo ---
 !/public/images/frames/**
 !/public/map-preview.jpg
