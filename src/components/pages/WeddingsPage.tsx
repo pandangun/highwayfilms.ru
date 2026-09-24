@@ -51,7 +51,7 @@ export default function WeddingsPage({ locale }: { locale: Locale }) {
             {c.extras.items.map((item) => (
               <div key={item.title} className="option">
                 <p className="display display--h4">{item.title}</p>
-                <p className="text-silver">{item.text}</p>
+                <p className="text-steel">{item.text}</p>
                 <p className="option__price num">
                   {item.price === null ? c.packages.priceOnRequest : formatFrom(item.price, locale)}
                 </p>
@@ -148,13 +148,13 @@ export default function WeddingsPage({ locale }: { locale: Locale }) {
                   <Link href={withLocalePath("/privacy", locale)}>{c.form.consentLink}</Link>
                 </span>
               </label>
-              <button type="submit" className="btn btn--ivory">
+              <button type="submit" className="btn btn--primary">
                 {c.form.submit}
               </button>
             </div>
           </form>
 
-          <p className="mt-12 text-small text-silver">
+          <p className="mt-12 text-small text-steel">
             {locale === "en" ? "Prefer to talk? " : "Удобнее поговорить? "}
             <a href={contacts.telegramHref} target="_blank" rel="noopener noreferrer" className="link-line">
               {locale === "en" ? "Message us on Telegram" : "Напишите в Telegram"}

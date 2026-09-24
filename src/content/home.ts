@@ -21,6 +21,9 @@ export type HomeContent = {
     fullscreen: string;
   };
   intro: { title: string; text: string };
+  /** Титры, которые летят навстречу в сцене дороги. */
+  drive: { credits: string[] };
+  look: { alt: string };
   program: ProgramItem[];
   programLink: string;
   process: { title: string; lead: string; items: Step[] };
@@ -109,6 +112,10 @@ export const homeContent: Record<Locale, HomeContent> = {
       title: "Снимаем рекламу, фильмы о компаниях, клипы и свадьбы",
       text: "До съёмочного дня вы получаете смету и список сцен. После — мастер-копию и нарезки под площадки, включая вертикальные.",
     },
+    drive: {
+      credits: ["Реклама", "Корпоративное видео", "Музыкальные клипы", "Свадебные фильмы", "AI-ролики"],
+    },
+    look: { alt: "Ночная трасса с эстакады: световые следы машин уходят к городу" },
     program: [
       {
         key: "commercials",
@@ -220,6 +227,10 @@ export const homeContent: Record<Locale, HomeContent> = {
       title: "Commercials, company films, music videos and weddings",
       text: "Before the shoot you get an estimate and a shot list. After it, the master and cut-downs for every placement, vertical ones included.",
     },
+    drive: {
+      credits: ["Commercials", "Corporate video", "Music videos", "Wedding films", "AI films"],
+    },
+    look: { alt: "Night highway from an overpass: car light trails running toward the city" },
     program: [
       {
         key: "commercials",

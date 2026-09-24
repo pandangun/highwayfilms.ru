@@ -34,9 +34,30 @@ export default function HeaderDrawer({ locale, pathname, currentPath }: HeaderDr
   const close = () => setIsOpen(false);
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-
     if (!isOpen) return;
+
+    // Прокрутку под меню гасим перехватом колеса и свайпа, а не overflow:
+    // hidden. Смена overflow у корня заставляла браузер заново раскладывать
+    // всю длинную страницу ровно в первый кадр анимации — отсюда рывок.
+    // Внутри самого меню прокрутка остаётся.
+    const drawer = document.getElementById("site-drawer");
+    const blockScroll = (event: Event) => {
+      if (drawer && event.target instanceof Node && drawer.contains(event.target)) return;
+      event.preventDefault();
+    };
+    window.addEventListener("wheel", blockScroll, { passive: false });
+    window.addEventListener("touchmove", blockScroll, { passive: false });
+
+    // Под меню видео не видно, а декодирование 1080p и сцена трассы
+    // отнимали кадры у анимации. Ставим на паузу и возвращаем после.
+    const paused: HTMLVideoElement[] = [];
+    document.querySelectorAll("video").forEach((video) => {
+      if (!video.paused) {
+        video.pause();
+        paused.push(video);
+      }
+    });
+    window.dispatchEvent(new CustomEvent("hf:menu", { detail: true }));
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setIsOpen(false);
@@ -44,7 +65,14 @@ export default function HeaderDrawer({ locale, pathname, currentPath }: HeaderDr
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
-      document.body.style.overflow = "";
+      window.removeEventListener("wheel", blockScroll);
+      window.removeEventListener("touchmove", blockScroll);
+      paused.forEach((video) => {
+        void video.play().catch(() => {
+          /* браузер вправе отказать */
+        });
+      });
+      window.dispatchEvent(new CustomEvent("hf:menu", { detail: false }));
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [isOpen]);
@@ -102,7 +130,7 @@ export default function HeaderDrawer({ locale, pathname, currentPath }: HeaderDr
         </nav>
 
         <div className="drawer__foot">
-          <Link href={withLocalePath("/brief", locale)} onClick={close} className="btn btn--garnet btn--block">
+          <Link href={withLocalePath("/brief", locale)} onClick={close} className="btn btn--primary btn--block">
             {t.briefLong}
           </Link>
 

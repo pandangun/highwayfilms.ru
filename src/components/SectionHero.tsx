@@ -63,7 +63,7 @@ export default function SectionHero({
   const active = list[index];
 
   return (
-    <section className="screen">
+    <section className="screen" data-lane="off">
       {active ? (
         // key пересобирает плеер на смене ролика: иначе останется старый src.
         <StudioPlayer

@@ -75,7 +75,7 @@ export default function Header() {
           >
             {t.client}
           </Link>
-          <Link href={withLocalePath("/brief", locale)} className="btn btn--garnet btn--sm hdr__cta">
+          <Link href={withLocalePath("/brief", locale)} className="btn btn--primary btn--sm hdr__cta">
             {t.brief}
           </Link>
           <HeaderDrawer locale={locale} pathname={pathname} currentPath={currentPath} />

@@ -1,8 +1,8 @@
-import Image from "next/image";
 import SectionHero from "@/components/SectionHero";
+import ReelBand from "@/components/road/ReelBand";
+import KmPost from "@/components/road/KmPost";
 import Credits from "@/components/Credits";
 import Steps from "@/components/Steps";
-import Invitation from "@/components/Invitation";
 import FaqList from "@/components/FaqList";
 import type { ServicePage } from "@/content/types";
 import type { Locale } from "@/components/siteNavigation";
@@ -16,9 +16,9 @@ const labels = {
 
 /**
  * Страница направления. Порядок экранов один на все разделы:
- * ролики → что снимаем → сколько стоит и что входит → этапы →
- * приглашение → вопросы. Одинаковый порядок — чтобы человек, открывший
- * второй раздел, уже знал, где искать цену.
+ * ролики → что снимаем → кадры → сколько стоит и что входит → этапы →
+ * вопросы, а приглашение — в финале подвала. Одинаковый порядок — чтобы
+ * человек, открывший второй раздел, уже знал, где искать цену.
  */
 export default function ServiceTemplate({ page, locale }: { page: ServicePage; locale: Locale }) {
   const t = labels[locale];
@@ -40,9 +40,10 @@ export default function ServiceTemplate({ page, locale }: { page: ServicePage; l
         railLabel={t.rail}
       />
 
-      <section className="band">
+      <section className="band lit">
         <div className="wrap">
           <div className="section-head">
+            <KmPost lang={locale} />
             <h2 className="display display--h2">{page.formats.title}</h2>
             {page.formats.lead ? <p className="lead">{page.formats.lead}</p> : null}
           </div>
@@ -62,15 +63,13 @@ export default function ServiceTemplate({ page, locale }: { page: ServicePage; l
           <div className="wrap grid gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
             {frames.map((item) => (
               <figure key={item.id}>
-                <div className="frame">
-                  <Image
-                    src={item.source.poster}
-                    alt={item.title}
-                    fill
-                    sizes="(min-width: 1280px) 440px, (min-width: 768px) 50vw, 100vw"
-                    className="object-cover"
-                  />
-                </div>
+                {/* Кадры маленькие — им хватает лёгкой мобильной версии ролика. */}
+                <ReelBand
+                  className="frame"
+                  source={{ mp4: item.source.mp4Mobile ?? item.source.mp4, poster: item.source.poster }}
+                  poster={item.source.poster}
+                  alt={item.title}
+                />
                 <figcaption className="frame-caption">{item.title}</figcaption>
               </figure>
             ))}
@@ -79,8 +78,9 @@ export default function ServiceTemplate({ page, locale }: { page: ServicePage; l
       ) : null}
 
       {/* Цена — в центре, как главный титр; состав — парами у оси. */}
-      <section className="band title-card border-t border-line">
+      <section className="band title-card lit border-t border-line">
         <div className="wrap">
+          <KmPost lang={locale} />
           <h2 className="lead mx-auto">{page.included.title}</h2>
           <p className="display display--h1 num mt-6">{price}</p>
           <Credits items={page.included.items} size="lg" className="mx-auto mt-14 max-w-[920px]" />
@@ -88,18 +88,17 @@ export default function ServiceTemplate({ page, locale }: { page: ServicePage; l
         </div>
       </section>
 
-      <section className="band border-t border-line">
+      <section className="band lit border-t border-line">
         <div className="wrap">
           <div className="section-head">
+            <KmPost lang={locale} />
             <h2 className="display display--h2">{page.process.title}</h2>
           </div>
           <Steps items={page.process.items} />
         </div>
       </section>
 
-      <Invitation locale={locale} title={page.invite.title} text={page.invite.text} />
-
-      <FaqList title={page.faq.title} items={page.faq.items} />
+      <FaqList title={page.faq.title} items={page.faq.items} km={<KmPost lang={locale} />} />
     </>
   );
 }

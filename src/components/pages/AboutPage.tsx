@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import PageHead from "@/components/PageHead";
 import Credits from "@/components/Credits";
-import Invitation from "@/components/Invitation";
 import { aboutContent } from "@/content/studio";
 import { type Locale, withLocalePath } from "@/components/siteNavigation";
 
@@ -43,7 +42,7 @@ export default function AboutPage({ locale }: { locale: Locale }) {
               <Link
                 key={item.href}
                 href={withLocalePath(item.href, locale)}
-                className="display display--h3 block border-b border-line py-5 text-silver transition-colors duration-300 hover:text-ivory"
+                className="display display--h3 block border-b border-line py-5 text-steel transition-colors duration-300 hover:text-moon"
               >
                 {item.title}
               </Link>
@@ -67,8 +66,6 @@ export default function AboutPage({ locale }: { locale: Locale }) {
           </div>
         </section>
       ) : null}
-
-      <Invitation locale={locale} title={c.invite.title} text={c.invite.text} />
     </>
   );
 }

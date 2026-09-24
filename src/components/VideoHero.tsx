@@ -114,7 +114,7 @@ export default function VideoHero({
   };
 
   return (
-    <section ref={heroRef} className="screen">
+    <section ref={heroRef} className="screen" data-lane="off">
       <StudioPlayer
         source={heroMedia}
         label={title}

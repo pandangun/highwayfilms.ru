@@ -17,7 +17,7 @@ export default function ContactsPage({ locale }: { locale: Locale }) {
     <>
       <PageHead title={c.title} lead={c.lead}>
         <div className="mt-10">
-          <Link href={withLocalePath("/brief", locale)} className="btn btn--garnet">
+          <Link href={withLocalePath("/brief", locale)} className="btn btn--primary">
             {c.briefCta}
           </Link>
         </div>
@@ -96,7 +96,7 @@ export default function ContactsPage({ locale }: { locale: Locale }) {
                   <Link href={withLocalePath("/privacy", locale)}>{c.form.consentLink}</Link>
                 </span>
               </label>
-              <button type="submit" className="btn btn--garnet">
+              <button type="submit" className="btn btn--primary">
                 {c.form.submit}
               </button>
             </div>

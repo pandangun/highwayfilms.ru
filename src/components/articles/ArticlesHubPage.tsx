@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageHead from "@/components/PageHead";
-import Invitation from "@/components/Invitation";
 import { articleStill } from "@/components/articles/articleStill";
 import type { Locale } from "@/data/articles";
 import { formatArticleDate, getAllArticles, getArticleHref } from "@/data/articles";
@@ -11,15 +10,11 @@ const copy = {
     title: "Статьи",
     lead: "Как заказать видео, из чего складывается смета и что подготовить до съёмки.",
     read: "чтения",
-    inviteTitle: "Есть задача?",
-    inviteText: "Опишите её в брифе. В течение рабочего дня пришлём смету и план съёмки.",
   },
   en: {
     title: "Articles",
     lead: "How to commission a video, what drives the estimate and what to prepare before the shoot.",
     read: "read",
-    inviteTitle: "Have a task in mind?",
-    inviteText: "Describe it in the brief. Within one working day we send an estimate and a shoot plan.",
   },
 } as const;
 
@@ -78,15 +73,13 @@ export function ArticlesHubPage({ locale }: { locale: Locale }) {
                   <h3 className="display display--h3 mt-3">
                     <Link href={getArticleHref(article.slug, locale)}>{article.content.title}</Link>
                   </h3>
-                  <p className="mt-4 max-w-[40em] text-silver">{article.content.excerpt}</p>
+                  <p className="mt-4 max-w-[40em] text-steel">{article.content.excerpt}</p>
                 </div>
               </li>
             ))}
           </ul>
         </div>
       </section>
-
-      <Invitation locale={locale} title={t.inviteTitle} text={t.inviteText} />
     </>
   );
 }

@@ -1,0 +1,524 @@
+/* =========================
+   ТРАССА: разметка, фары, дорога, съезды, взгляд, финал
+   ========================= */
+
+@layer components {
+  /* ─────────────────────────────
+     Километровый столб раздела
+     ───────────────────────────── */
+  .km {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: 1.1rem;
+    font-size: var(--t-micro);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .02em;
+    color: var(--led);
+  }
+
+  .km::before {
+    content: "";
+    width: 1.6rem;
+    height: 1px;
+    background: currentColor;
+    opacity: .7;
+  }
+
+  /* ─────────────────────────────
+     Разметка через всю страницу
+     Пунктир у левого края бежит быстрее прокрутки, как разметка под
+     колёсами. Над сценами на весь экран гаснет, в финале обрывается.
+     ───────────────────────────── */
+  .lane {
+    position: fixed;
+    top: 0;
+    bottom: var(--lane-end, 0px);
+    left: max(10px, calc(var(--gutter) / 2 - 1px));
+    z-index: 5;
+    width: 2px;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      180deg,
+      rgb(var(--moon-rgb) / .5) 0 34px,
+      transparent 34px 96px
+    );
+    background-position: 0 var(--lane-offset, 0px);
+    opacity: 1;
+    transition: opacity .5s ease;
+  }
+
+  .lane[data-hidden="true"] {
+    opacity: 0;
+  }
+
+  .lane__km {
+    position: absolute;
+    left: 10px;
+    bottom: 22px;
+    font-size: var(--t-micro);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--led);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  /* На телефоне поля у края нет: линия ложилась бы на текст и дублировала
+     вертикальную разметку маршрута. */
+  @media (max-width: 767px) {
+    .lane {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lane { background-position: 0 0; }
+  }
+
+  /* ─────────────────────────────
+     Фары: курсор проявляет асфальт на чёрном
+     ───────────────────────────── */
+  .lit {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .lit::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle 360px at var(--lx, 50%) var(--ly, 50%), rgb(var(--led-rgb) / .10), rgb(var(--led-rgb) / 0) 70%),
+      url("/images/road/asphalt.jpg") 0 0 / 256px 256px repeat;
+    -webkit-mask-image: radial-gradient(circle 340px at var(--lx, 50%) var(--ly, 50%), #000 0%, rgb(0 0 0 / .45) 38%, transparent 72%);
+    mask-image: radial-gradient(circle 340px at var(--lx, 50%) var(--ly, 50%), #000 0%, rgb(0 0 0 / .45) 38%, transparent 72%);
+    opacity: 0;
+    transition: opacity .45s ease;
+  }
+
+  .lit.is-lit::before {
+    opacity: .9;
+  }
+
+  /* ─────────────────────────────
+     Дорога после шоурила
+     Секция в три экрана, сцена прилипает к окну, прокрутка ведёт машину.
+     ───────────────────────────── */
+  .drive {
+    position: relative;
+    height: 320vh;
+    background: var(--night);
+  }
+
+  .drive__stage {
+    position: sticky;
+    top: 0;
+    height: calc(100 * var(--vh));
+    min-height: 520px;
+    overflow: hidden;
+    background: var(--night);
+  }
+
+  /* Без WebGL под сценой остаётся кадр трассы. */
+  .drive__stage:has(.road-canvas[data-state="fallback"]) {
+    background: var(--night) url("/images/road/road-city.jpg") center / cover no-repeat;
+  }
+
+  .road-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .road-canvas[data-state="fallback"] {
+    display: none;
+  }
+
+  .drive__credits {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .drive__credit {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: 0 0;
+    font-family: var(--ff-display);
+    font-weight: 300;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: 200px;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--moon);
+    text-shadow: 0 0 42px rgb(var(--led-rgb) / .35);
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  .drive__title {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .drive__title > * {
+    pointer-events: auto;
+  }
+
+  .drive__title::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(70% 60% at 50% 50%, rgb(var(--night-rgb) / .72), rgb(var(--night-rgb) / .15) 70%);
+  }
+
+  @media (max-width: 767px) {
+    .drive { height: 260vh; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drive { height: auto; }
+    .drive__stage { position: relative; }
+    .drive__credits { display: none; }
+    .drive__title {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  /* ─────────────────────────────
+     Съезды: направления полосами во всю ширину
+     ───────────────────────────── */
+  .exits {
+    display: grid;
+    gap: clamp(8px, .8vw, 14px);
+    background: var(--night);
+  }
+
+  .exit {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(480px, 86svh, 900px);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .exit__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--deep);
+  }
+
+  .reel-band__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .8s ease;
+  }
+
+  .reel-band__video.is-playing {
+    opacity: 1;
+  }
+
+  .exit__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(0deg, rgb(var(--night-rgb) / .92) 0%, rgb(var(--night-rgb) / .45) 34%, rgb(var(--night-rgb) / 0) 62%),
+      linear-gradient(180deg, rgb(var(--night-rgb) / .4), rgb(var(--night-rgb) / 0) 22%);
+    pointer-events: none;
+  }
+
+  .exit__hit {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .exit__body {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-bottom: clamp(32px, 6vh, 72px);
+    pointer-events: none;
+    text-shadow: 0 1px 18px rgb(var(--night-rgb) / .55);
+  }
+
+  .exit__body a {
+    pointer-events: auto;
+  }
+
+  .exit__title {
+    font-size: var(--t-hero);
+    line-height: .86;
+    max-width: 14ch;
+  }
+
+  .exit__row {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: clamp(1.25rem, 2.4vw, 2rem);
+  }
+
+  .exit__text {
+    max-width: 32em;
+    font-size: var(--t-lead);
+    line-height: 1.45;
+    color: rgb(var(--moon-rgb) / .82);
+  }
+
+  .exit__side {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .5rem 2rem;
+  }
+
+  .exit__price {
+    font-family: var(--ff-display);
+    font-weight: 340;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: var(--t-h3);
+    line-height: 1;
+  }
+
+  @media (min-width: 900px) {
+    .exit__row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      column-gap: 4rem;
+    }
+
+    .exit__side {
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+    }
+  }
+
+  /* ─────────────────────────────
+     Взгляд с эстакады
+     ───────────────────────────── */
+  .look {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    min-height: clamp(520px, 100svh, 1000px);
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--night);
+  }
+
+  .look__layer {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    transform: scale(1.16);
+    will-change: transform;
+  }
+
+  .look__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(180deg, rgb(var(--night-rgb) / .92) 0%, rgb(var(--night-rgb) / .55) 30%, rgb(var(--night-rgb) / 0) 58%),
+      linear-gradient(90deg, rgb(var(--night-rgb) / .72) 0%, rgb(var(--night-rgb) / 0) 52%),
+      linear-gradient(0deg, var(--night) 0%, rgb(var(--night-rgb) / 0) 22%);
+  }
+
+  .look__caption {
+    padding-top: calc(var(--header-h) + clamp(40px, 10vh, 120px));
+  }
+
+  .look__caption .lead {
+    max-width: 24em;
+    color: rgb(var(--moon-rgb) / .8);
+    text-shadow: 0 1px 16px rgb(var(--night-rgb) / .8);
+  }
+
+  /* ─────────────────────────────
+     Финал: приглашение и подвал одной сценой
+     ───────────────────────────── */
+  .finale {
+    position: relative;
+    background: var(--night);
+    overflow: hidden;
+  }
+
+  .finale__scene {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(560px, 100svh, 1040px);
+    isolation: isolate;
+  }
+
+  .finale__scene--quiet {
+    min-height: clamp(420px, 70svh, 760px);
+  }
+
+  .finale__image {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+  }
+
+  .finale__layer {
+    position: absolute;
+    inset: 0;
+    transform: scale(1.18);
+    transform-origin: 50% 40%;
+    will-change: transform;
+  }
+
+  .finale__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(180deg, var(--night) 0%, rgb(var(--night-rgb) / 0) 26%),
+      linear-gradient(0deg, var(--night) 0%, rgb(var(--night-rgb) / .78) 32%, rgb(var(--night-rgb) / .15) 64%);
+  }
+
+  .finale__head {
+    padding-bottom: clamp(48px, 8vh, 110px);
+    text-align: center;
+    text-shadow: 0 1px 22px rgb(var(--night-rgb) / .6);
+  }
+
+  .finale__head .km {
+    justify-content: center;
+  }
+
+  .finale__title {
+    margin-inline: auto;
+    max-width: 16ch;
+  }
+
+  .finale__text {
+    max-width: 32em;
+    margin: 1.5rem auto 0;
+    font-size: var(--t-lead);
+    line-height: 1.5;
+    color: rgb(var(--moon-rgb) / .8);
+  }
+
+  .finale__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem 2.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .finale__body {
+    padding-top: clamp(40px, 6vw, 80px);
+  }
+
+  .finale__contacts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+    margin: 0;
+    padding-block: 2.25rem;
+    border-block: 1px solid var(--line);
+  }
+
+  .finale__contacts dt {
+    font-size: var(--t-micro);
+    color: var(--steel);
+  }
+
+  .finale__contacts dd {
+    margin: .45rem 0 0;
+    font-family: var(--ff-display);
+    font-weight: 340;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: var(--t-h4);
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
+  .finale__contacts a {
+    transition: color .25s ease;
+  }
+
+  .finale__contacts a:hover {
+    color: #fff;
+  }
+
+  @media (min-width: 900px) {
+    .finale__contacts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .finale__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem 1.75rem;
+    padding-top: 1.75rem;
+    font-size: var(--t-small);
+  }
+
+  .finale__nav a {
+    color: var(--steel);
+    transition: color .25s ease;
+  }
+
+  .finale__nav a:hover {
+    color: var(--moon);
+  }
+
+  /* Название студии во всю ширину — последний титр фильма. */
+  .finale__wordmark {
+    margin: clamp(2.5rem, 6vw, 5rem) 0 0;
+    padding-inline: 0;
+    font-family: var(--ff-display);
+    font-weight: 300;
+    font-variation-settings: "wdth" var(--display-wdth);
+    /* Ширина надписи — 5,29 кегля: 18,1vw дают 96% ширины окна. */
+    font-size: 18.1vw;
+    line-height: .78;
+    letter-spacing: -.01em;
+    text-align: center;
+    white-space: nowrap;
+    color: var(--moon);
+    user-select: none;
+  }
+
+  .finale__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem 1.5rem;
+    padding-block: 1.75rem 2rem;
+    font-size: var(--t-micro);
+    color: var(--steel);
+  }
+
+  .finale__meta a:hover {
+    color: var(--moon);
+  }
+}

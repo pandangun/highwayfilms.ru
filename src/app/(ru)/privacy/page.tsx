@@ -71,7 +71,7 @@ export default function PrivacyPage() {
       {/* Header */}
       <header className="max-w-3xl">
         <h1 className="display display--h1">Политика конфиденциальности</h1>
-        <p className="mt-6 text-small text-silver">
+        <p className="mt-6 text-small text-steel">
           Дата обновления: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>
         </p>
         <p className="lead">
@@ -86,13 +86,13 @@ export default function PrivacyPage() {
         {/* ToC */}
         <aside className="h-max lg:sticky lg:top-28">
           <nav aria-label="Содержание" className="text-sm">
-            <p className="mb-4 text-ivory">Содержание</p>
+            <p className="mb-4 text-moon">Содержание</p>
             <ol className="space-y-1">
               {SECTIONS.map((s) => (
                 <li key={s.id}>
                   <a
                     href={`#${s.id}`}
-                    className="text-silver transition-colors hover:text-ivory"
+                    className="text-steel transition-colors hover:text-moon"
                   >
                     {s.title}
                   </a>
@@ -107,7 +107,7 @@ export default function PrivacyPage() {
           <section id="operator" className="legal-section">
             <h2>1. Термины и оператор</h2>
             <p>
-              Оператор персональных данных: <span className="text-ivory">Highway Films</span> (далее — «мы»).
+              Оператор персональных данных: <span className="text-moon">Highway Films</span> (далее — «мы»).
               Контакт по вопросам персональных данных:{" "}
               <a href="mailto:info@highway-films.ru" >
                 info@highway-films.ru
@@ -199,7 +199,7 @@ export default function PrivacyPage() {
                     <th className="legal-cell">Пример срока</th>
                   </tr>
                 </thead>
-                <tbody className="text-silver">
+                <tbody className="text-steel">
                   <tr>
                     <td className="legal-cell">Технические</td>
                     <td className="legal-cell">Работа форм и сессий</td>
@@ -246,7 +246,7 @@ export default function PrivacyPage() {
           <section id="updates" className="legal-section">
             <h2>12. Обновления политики</h2>
             <p>
-              Актуальная версия всегда доступна по адресу <span className="text-ivory">/privacy</span>.
+              Актуальная версия всегда доступна по адресу <span className="text-moon">/privacy</span>.
               Дата обновления: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>.
             </p>
           </section>

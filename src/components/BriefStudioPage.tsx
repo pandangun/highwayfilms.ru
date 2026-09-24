@@ -28,7 +28,7 @@ function Section({
         <span className="step__num">{index}</span>
         <div>
           <h2 className="display display--h3">{title}</h2>
-          <p className="mt-3 text-silver">{description}</p>
+          <p className="mt-3 text-steel">{description}</p>
         </div>
       </div>
       <div className="brief-section__body">{children}</div>
@@ -126,7 +126,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
           {steps.map((step, index) => (
             <li key={step.key}>
               <a href={`#brief-${step.key}`}>
-                <span className="num text-brass">{index + 1}</span>
+                <span className="num text-led">{index + 1}</span>
                 <span>{step.title}</span>
               </a>
             </li>
@@ -391,7 +391,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
                   <Link href={privacyHref}>{t("политике конфиденциальности", "privacy policy")}</Link>
                 </span>
               </label>
-              <button type="submit" className="btn btn--garnet">
+              <button type="submit" className="btn btn--primary">
                 {t("Отправить бриф", "Send the brief")}
               </button>
             </div>

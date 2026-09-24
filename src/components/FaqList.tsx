@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export type FaqEntry = { q: string; a: string };
 
 /** Разметка FAQPage для поисковой выдачи. */
@@ -17,14 +19,17 @@ export function faqJsonLd(items: FaqEntry[]) {
  * Вопросы и ответы. Нативный details: работает без JS и с клавиатуры.
  * Разметку FAQPage кладём рядом, потому что ради неё блок и существует.
  */
-export default function FaqList({ title, items }: { title: string; items: FaqEntry[] }) {
+export default function FaqList({ title, items, km }: { title: string; items: FaqEntry[]; km?: ReactNode }) {
   if (items.length === 0) return null;
 
   return (
-    <section className="band">
+    <section className="band lit">
       <div className="wrap">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
-          <h2 className="display display--h2">{title}</h2>
+          <div>
+            {km}
+            <h2 className="display display--h2">{title}</h2>
+          </div>
           <div className="faq">
             {items.map((item) => (
               <details key={item.q} className="faq-item">

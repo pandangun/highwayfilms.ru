@@ -2,6 +2,8 @@ import "@/app/globals.css";
 import { Noto_Serif_Display, Onest } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import LaneLine from "@/components/road/LaneLine";
+import Headlights from "@/components/road/Headlights";
 
 /**
  * Заголовки — Noto Serif Display с осью ширины: узкое начертание держит
@@ -33,8 +35,11 @@ const text = Onest({
  * рендер. Route groups дают по одному <html> на локаль без единой
  * динамической зависимости; URL от групп не меняются.
  *
- * Тема одна — тёмная. Кинозал со светлой темой перестаёт быть кинозалом,
- * а вторая палитра удваивала работу над каждым блоком.
+ * Тема одна — синяя ночь. Ночная трасса со светлой темой перестаёт быть
+ * ночной, а вторая палитра удваивала работу над каждым блоком.
+ *
+ * Разметка и фары — общие для всех страниц: страница читается как одна
+ * поездка по трассе, от шапки до финала в подвале.
  */
 export default function SiteShell({
   lang,
@@ -47,6 +52,8 @@ export default function SiteShell({
     <html lang={lang} className={`${display.variable} ${text.variable}`}>
       <body>
         <Header />
+        <LaneLine lang={lang} />
+        <Headlights />
         <main id="main">{children}</main>
         <Footer />
       </body>

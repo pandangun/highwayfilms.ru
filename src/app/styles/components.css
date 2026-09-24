@@ -5,8 +5,8 @@
 @layer components {
   /* ─────────────────────────────
      Кнопки и ссылки
-     Главное действие на странице всегда гранатовое и одно. Второе —
-     ссылка с линией, а не вторая кнопка того же веса.
+     Главное действие на странице одно и светится, как фары в ночи.
+     Второе — ссылка с линией, а не вторая кнопка того же веса.
      ───────────────────────────── */
   .btn {
     display: inline-flex;
@@ -27,33 +27,23 @@
       color .25s var(--ease);
   }
 
-  .btn--garnet {
-    background: var(--garnet);
-    color: var(--ivory);
+  .btn--primary {
+    background: var(--cta);
+    color: var(--cta-ink);
   }
 
-  .btn--garnet:hover {
-    background: var(--garnet-hi);
-  }
-
-  /* На бархате гранатовая кнопка сливается с фоном — там главное действие
-     светлое, как луч проектора. */
-  .btn--ivory {
-    background: var(--ivory);
-    color: #16070a;
-  }
-
-  .btn--ivory:hover {
-    background: #fff8ea;
+  .btn--primary:hover {
+    background: var(--cta-hi);
+    box-shadow: 0 0 32px rgb(var(--led-rgb) / .35);
   }
 
   .btn--line {
     border: 1px solid var(--line-strong);
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .btn--line:hover {
-    border-color: var(--ivory);
+    border-color: var(--moon);
   }
 
   .btn--sm {
@@ -72,7 +62,7 @@
     align-items: center;
     gap: .5rem;
     padding-block: .4rem;
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .link-line::after {
@@ -112,7 +102,7 @@
     position: absolute;
     inset: 0 0 auto;
     height: calc(100% + 56px);
-    background: linear-gradient(180deg, rgb(0 0 0 / .72), rgb(0 0 0 / .3) 55%, rgb(0 0 0 / 0));
+    background: linear-gradient(180deg, rgb(var(--night-rgb) / .72), rgb(var(--night-rgb) / .3) 55%, rgb(var(--night-rgb) / 0));
     pointer-events: none;
     z-index: -1;
     transition: opacity .35s ease;
@@ -124,21 +114,21 @@
   .hdr[data-scrolled="false"] .brand,
   .hdr[data-scrolled="false"] .nav-link {
     text-shadow:
-      0 0 18px rgb(0 0 0 / .6),
-      0 1px 3px rgb(0 0 0 / .45);
+      0 0 18px rgb(var(--night-rgb) / .6),
+      0 1px 3px rgb(var(--night-rgb) / .45);
   }
 
   .hdr[data-scrolled="false"] .nav-link {
-    color: rgb(var(--ivory-rgb) / .84);
+    color: rgb(var(--moon-rgb) / .84);
   }
 
   .hdr[data-scrolled="false"] .nav-link:hover,
   .hdr[data-scrolled="false"] .nav-link.is-active {
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .hdr[data-scrolled="true"] {
-    background: rgb(0 0 0 / .94);
+    background: rgb(var(--night-rgb) / .94);
     border-bottom-color: var(--line);
   }
 
@@ -161,7 +151,7 @@
     line-height: 1;
     letter-spacing: .005em;
     white-space: nowrap;
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .hdr__nav {
@@ -189,7 +179,7 @@
     width: 44px;
     height: 44px;
     margin-right: -10px;
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   @media (min-width: 1280px) {
@@ -214,14 +204,14 @@
     padding: 0 .8rem;
     font-size: .9rem;
     letter-spacing: .01em;
-    color: var(--silver);
+    color: var(--steel);
     white-space: nowrap;
     transition: color .26s ease;
   }
 
   .nav-link:hover,
   .nav-link.is-active {
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .nav-link::after {
@@ -233,7 +223,7 @@
     height: 1px;
     transform: scaleX(0);
     transform-origin: center;
-    background: linear-gradient(90deg, rgb(184 151 106 / .12), var(--brass), rgb(var(--ivory-rgb) / .9));
+    background: linear-gradient(90deg, rgb(var(--led-rgb) / .12), var(--led), rgb(var(--moon-rgb) / .9));
     transition: transform .28s var(--ease);
   }
 
@@ -252,7 +242,7 @@
     position: fixed;
     inset: 0;
     z-index: calc(var(--z-drawer) - 1);
-    background: rgb(0 0 0 / .66);
+    background: rgb(var(--night-rgb) / .66);
     opacity: 0;
     pointer-events: none;
     transition: opacity .26s ease;
@@ -276,12 +266,15 @@
       env(safe-area-inset-top)
       var(--gutter)
       calc(env(safe-area-inset-bottom) + 28px);
-    background: var(--screen);
+    background: var(--night);
     border-left: 1px solid var(--line);
     overflow-y: auto;
+    overscroll-behavior: contain;
     opacity: 0;
     visibility: hidden;
     transform: translateX(24px);
+    /* Слой готов заранее: первый кадр открытия не ждёт его создания. */
+    will-change: transform, opacity;
     transition:
       transform .34s var(--ease),
       opacity .26s ease,
@@ -321,7 +314,7 @@
     font-variation-settings: "wdth" var(--display-wdth);
     font-size: clamp(2.5rem, 1.6rem + 3.6vw, 3.4rem);
     line-height: 1.02;
-    color: var(--silver);
+    color: var(--steel);
     opacity: 0;
     transform: translateX(14px) translateY(8px);
     transition: color .25s ease;
@@ -329,7 +322,7 @@
 
   .drawer-link:hover,
   .drawer-link.is-active {
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .drawer-link::after {
@@ -341,7 +334,7 @@
     height: 1px;
     transform: scaleX(0);
     transform-origin: left center;
-    background: linear-gradient(90deg, rgb(var(--ivory-rgb) / .85), var(--brass), rgb(184 151 106 / 0));
+    background: linear-gradient(90deg, rgb(var(--moon-rgb) / .85), var(--led), rgb(var(--led-rgb) / 0));
     transition: transform .3s var(--ease);
   }
 
@@ -375,7 +368,7 @@
     justify-content: space-between;
     gap: .75rem 1.5rem;
     font-size: var(--t-small);
-    color: var(--silver);
+    color: var(--steel);
   }
 
   @keyframes drawer-link-in {
@@ -405,7 +398,7 @@
     height: calc(100 * var(--vh));
     min-height: 560px;
     overflow: hidden;
-    background: #000;
+    background: var(--night);
   }
 
   .screen__media {
@@ -421,7 +414,7 @@
     z-index: 1;
     pointer-events: none;
     background:
-      linear-gradient(0deg, rgb(0 0 0 / .82) 0%, rgb(0 0 0 / .35) 30%, rgb(0 0 0 / 0) 56%);
+      linear-gradient(0deg, rgb(var(--night-rgb) / .82) 0%, rgb(var(--night-rgb) / .35) 30%, rgb(var(--night-rgb) / 0) 56%);
   }
 
   .screen__caption {
@@ -430,7 +423,7 @@
     z-index: 2;
     padding-bottom: clamp(28px, 6vh, 72px);
     /* Та же страховка от светлого кадра, что и у шапки. */
-    text-shadow: 0 1px 18px rgb(0 0 0 / .5);
+    text-shadow: 0 1px 18px rgb(var(--night-rgb) / .5);
     transition: opacity .8s ease;
   }
 
@@ -458,7 +451,7 @@
     max-width: 32em;
     font-size: var(--t-lead);
     line-height: 1.45;
-    color: rgb(var(--ivory-rgb) / .78);
+    color: rgb(var(--moon-rgb) / .78);
   }
 
   .screen__foot {
@@ -480,13 +473,13 @@
 
   .billing dt {
     font-size: var(--t-micro);
-    color: rgb(var(--ivory-rgb) / .62);
+    color: rgb(var(--moon-rgb) / .62);
   }
 
   .billing dd {
     margin: .2rem 0 0;
     font-size: var(--t-small);
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .screen__controls {
@@ -500,9 +493,9 @@
     gap: .6rem;
     min-height: 44px;
     padding: 0 1rem;
-    border: 1px solid rgb(var(--ivory-rgb) / .38);
-    background: rgb(0 0 0 / .28);
-    color: var(--ivory);
+    border: 1px solid rgb(var(--moon-rgb) / .38);
+    background: rgb(var(--night-rgb) / .28);
+    color: var(--moon);
     font-size: var(--t-micro);
     white-space: nowrap;
     transition:
@@ -511,8 +504,8 @@
   }
 
   .screen-control:hover {
-    border-color: var(--ivory);
-    background: rgb(0 0 0 / .5);
+    border-color: var(--moon);
+    background: rgb(var(--night-rgb) / .5);
   }
 
   /* Маскировка экрана. В кинозале перед сеансом шторки выставляют кадр
@@ -534,7 +527,7 @@
     left: 0;
     right: 0;
     height: max(0px, calc((100% - 100vw / 2.39) / 2 + 1px));
-    background: #000;
+    background: var(--night);
     animation: screen-open 1.6s var(--ease-curtain) .45s both;
   }
 
@@ -574,7 +567,7 @@
     text-align: left;
     font-size: var(--t-micro);
     font-variant-numeric: tabular-nums;
-    color: rgb(var(--ivory-rgb) / .55);
+    color: rgb(var(--moon-rgb) / .55);
     transition: color .25s ease;
   }
 
@@ -589,17 +582,17 @@
   }
 
   .reel-chip::before {
-    background: rgb(var(--ivory-rgb) / .22);
+    background: rgb(var(--moon-rgb) / .22);
   }
 
   .reel-chip::after {
-    background: var(--ivory);
+    background: var(--moon);
     transform: scaleX(0);
     transform-origin: left center;
   }
 
   .reel-chip[aria-current="true"] {
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .reel-chip[aria-current="true"]::after {
@@ -627,12 +620,12 @@
 
   .credits dt {
     text-align: right;
-    color: var(--silver);
+    color: var(--steel);
   }
 
   .credits dd {
     margin: 0;
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .credits--lg {
@@ -686,7 +679,7 @@
     position: relative;
     aspect-ratio: 2.39 / 1;
     overflow: hidden;
-    background: #0b0b0b;
+    background: var(--deep);
   }
 
   .frame--wide {
@@ -713,7 +706,7 @@
   .frame-caption {
     margin-top: .9rem;
     font-size: var(--t-micro);
-    color: var(--silver);
+    color: var(--steel);
   }
 
   /* ─────────────────────────────
@@ -752,7 +745,7 @@
 
   .program-item__text {
     max-width: 30em;
-    color: var(--silver);
+    color: var(--steel);
   }
 
   .program-item__side {
@@ -785,62 +778,109 @@
   }
 
   /* ─────────────────────────────
-     Шаги — настоящая последовательность, поэтому с номерами
+     Этапы — маршрут. Настоящая последовательность, поэтому с номерами.
+     На телефоне разметка идёт вниз, на компьютере — поперёк экрана, и
+     пунктир едет, пока маршрут проезжает экран.
      ───────────────────────────── */
   .steps {
+    position: relative;
+    display: grid;
     margin: 0;
     padding: 0;
     list-style: none;
-    border-top: 1px solid var(--line);
+  }
+
+  .steps::before {
+    content: "";
+    position: absolute;
+    left: .55rem;
+    top: .7rem;
+    bottom: .7rem;
+    width: 2px;
+    background-image: repeating-linear-gradient(180deg, rgb(var(--moon-rgb) / .45) 0 18px, transparent 18px 46px);
   }
 
   .step {
+    position: relative;
     display: grid;
-    grid-template-columns: 2.75rem minmax(0, 1fr);
-    gap: .5rem 1rem;
-    padding-block: clamp(1.4rem, 2.4vw, 2.1rem);
-    border-bottom: 1px solid var(--line);
+    align-content: start;
+    gap: .5rem;
+    padding: 0 0 2.5rem 2.75rem;
+  }
+
+  .step::before {
+    content: "";
+    position: absolute;
+    left: .05rem;
+    top: .35rem;
+    width: 1.05rem;
+    height: 1.05rem;
+    border: 2px solid var(--led);
+    border-radius: 50%;
+    background: var(--night);
+    box-shadow: 0 0 18px rgb(var(--led-rgb) / .45);
   }
 
   .step__num {
-    font-family: var(--ff-display);
-    font-weight: 380;
-    font-variation-settings: "wdth" var(--display-wdth);
-    font-size: var(--t-h4);
-    line-height: 1.08;
-    color: var(--brass);
-    font-variant-numeric: lining-nums;
+    font-size: var(--t-micro);
+    font-variant-numeric: tabular-nums;
+    color: var(--led);
   }
 
   .step__title {
     font-family: var(--ff-display);
-    font-weight: 380;
+    font-weight: 340;
     font-variation-settings: "wdth" var(--display-wdth);
-    font-size: var(--t-h4);
-    line-height: 1.08;
+    font-size: var(--t-h3);
+    line-height: 1;
   }
 
   .step__text {
-    grid-column: 2;
-    color: var(--silver);
-    max-width: 38em;
+    max-width: 30em;
+    color: var(--steel);
   }
 
   .step__time {
-    grid-column: 2;
     font-size: var(--t-micro);
-    color: var(--ivory);
+    color: var(--moon);
   }
 
-  @media (min-width: 900px) {
-    .step {
-      grid-template-columns: 4.5rem minmax(0, 20rem) minmax(0, 1fr) auto;
+  @media (min-width: 1100px) {
+    .steps {
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
       column-gap: 2rem;
-      align-items: baseline;
+      padding-top: 3.25rem;
     }
 
-    .step__text { grid-column: 3; }
-    .step__time { grid-column: 4; text-align: right; }
+    .steps::before {
+      left: 0;
+      right: 0;
+      top: .5rem;
+      bottom: auto;
+      width: auto;
+      height: 2px;
+      background-image: repeating-linear-gradient(90deg, rgb(var(--moon-rgb) / .45) 0 28px, transparent 28px 70px);
+      animation: route-run linear both;
+      animation-timeline: view();
+    }
+
+    .step {
+      padding: 0;
+    }
+
+    .step::before {
+      left: 0;
+      top: calc(-3.25rem + .5rem - .5rem);
+    }
+  }
+
+  @keyframes route-run {
+    from { background-position: 0 0; }
+    to { background-position: -700px 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .steps::before { animation: none; }
   }
 
   /* ─────────────────────────────
@@ -863,7 +903,7 @@
   }
 
   .format__text {
-    color: var(--silver);
+    color: var(--steel);
     max-width: 36em;
   }
 
@@ -882,8 +922,8 @@
     position: relative;
     padding-block: clamp(104px, 7rem + 5vw, 208px);
     background:
-      radial-gradient(90% 70% at 50% 0%, rgb(58 13 19 / .55), rgb(58 13 19 / 0) 70%),
-      var(--velvet);
+      radial-gradient(90% 70% at 50% 0%, rgb(var(--led-rgb) / .10), rgb(var(--led-rgb) / 0) 70%),
+      var(--deep);
     text-align: center;
     isolation: isolate;
   }
@@ -893,7 +933,7 @@
     max-width: 32em;
     font-size: var(--t-lead);
     line-height: 1.5;
-    color: rgb(var(--ivory-rgb) / .72);
+    color: rgb(var(--moon-rgb) / .72);
   }
 
   .invite__actions {
@@ -911,7 +951,7 @@
   }
 
   .invite .credits dt {
-    color: rgb(var(--ivory-rgb) / .55);
+    color: rgb(var(--moon-rgb) / .55);
   }
 
   /* ─────────────────────────────
@@ -958,7 +998,7 @@
     position: absolute;
     inset: 50% 0 auto;
     height: 1px;
-    background: var(--ivory);
+    background: var(--moon);
     transition: transform .3s var(--ease);
   }
 
@@ -973,7 +1013,7 @@
   .faq-item__answer {
     max-width: 44em;
     padding-bottom: 1.75rem;
-    color: var(--silver);
+    color: var(--steel);
   }
 
   /* ─────────────────────────────
@@ -1001,80 +1041,18 @@
     max-width: 34em;
   }
 
-  /* ─────────────────────────────
-     Подвал — титры в конце фильма
-     ───────────────────────────── */
-  .ftr {
-    padding-block: clamp(88px, 9vw, 150px) 28px;
-    border-top: 1px solid var(--line);
-    text-align: center;
-  }
-
-  .ftr__brand {
-    font-family: var(--ff-display);
-    font-weight: 300;
-    font-variation-settings: "wdth" var(--display-wdth);
-    font-size: var(--t-h2);
-    line-height: .95;
-  }
-
-  .ftr__line {
-    margin-top: 1rem;
-    color: var(--silver);
-  }
-
-  .ftr .credits {
-    max-width: 760px;
-    margin: clamp(2.5rem, 5vw, 3.75rem) auto 0;
-  }
-
-  .ftr__nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: .25rem 1.75rem;
-    margin-top: clamp(3rem, 6vw, 4.5rem);
-    font-size: var(--t-small);
-  }
-
-  .ftr__nav a {
-    color: var(--silver);
-    transition: color .25s ease;
-  }
-
-  .ftr__nav a:hover {
-    color: var(--ivory);
-  }
-
-  .ftr__meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: .75rem 1.5rem;
-    margin-top: clamp(3.5rem, 7vw, 5.5rem);
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
-    font-size: var(--t-micro);
-    color: var(--silver);
-  }
-
-  .ftr__meta a:hover {
-    color: var(--ivory);
-  }
-
   .lang-switch {
     display: inline-flex;
     gap: .75rem;
   }
 
   .lang-switch a {
-    color: var(--dim);
+    color: var(--haze);
   }
 
   .lang-switch a.is-active,
   .lang-switch a:hover {
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   /* ─────────────────────────────
@@ -1095,12 +1073,12 @@
 
   .field__label {
     font-size: var(--t-small);
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .field__hint {
     font-size: var(--t-micro);
-    color: var(--dim);
+    color: var(--haze);
   }
 
   .input {
@@ -1111,7 +1089,7 @@
     border-bottom: 1px solid var(--line-strong);
     border-radius: 0;
     background: transparent;
-    color: var(--ivory);
+    color: var(--moon);
     font: inherit;
     font-size: var(--t-body);
     line-height: 1.5;
@@ -1119,16 +1097,16 @@
   }
 
   .input::placeholder {
-    color: var(--dim);
+    color: var(--haze);
   }
 
   .input:hover {
-    border-bottom-color: rgb(var(--ivory-rgb) / .5);
+    border-bottom-color: rgb(var(--moon-rgb) / .5);
   }
 
   .input:focus {
     outline: none;
-    border-bottom-color: var(--brass);
+    border-bottom-color: var(--led);
   }
 
   textarea.input {
@@ -1139,14 +1117,14 @@
   select.input {
     appearance: none;
     padding-right: 2rem;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%23928d83' stroke-width='1.2'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%238d9bb3' stroke-width='1.2'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right .25rem center;
   }
 
   select.input option {
-    background: #0b0b0b;
-    color: var(--ivory);
+    background: var(--deep);
+    color: var(--moon);
   }
 
   .choices {
@@ -1165,7 +1143,7 @@
     gap: .8rem;
     padding: .95rem 1.1rem;
     border: 1px solid var(--line);
-    color: rgb(var(--ivory-rgb) / .82);
+    color: rgb(var(--moon-rgb) / .82);
     cursor: pointer;
     transition:
       border-color .2s ease,
@@ -1177,14 +1155,14 @@
   }
 
   .choice:has(input:checked) {
-    border-color: var(--brass);
-    color: var(--ivory);
+    border-color: var(--led);
+    color: var(--moon);
   }
 
   .choice input {
     flex: none;
     margin-top: .3rem;
-    accent-color: var(--garnet);
+    accent-color: var(--cta);
   }
 
   .notice {
@@ -1194,12 +1172,12 @@
   }
 
   .notice--ok {
-    border-color: rgb(184 151 106 / .6);
-    color: var(--ivory);
+    border-color: rgb(var(--led-rgb) / .6);
+    color: var(--moon);
   }
 
   .notice--error {
-    border-color: var(--garnet-hi);
-    color: var(--ivory);
+    border-color: var(--cta-hi);
+    color: var(--moon);
   }
 }

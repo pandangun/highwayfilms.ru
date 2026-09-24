@@ -1,14 +1,36 @@
-import Image from "next/image";
 import Link from "next/link";
 import VideoHero from "@/components/VideoHero";
 import Steps from "@/components/Steps";
-import Invitation from "@/components/Invitation";
 import FaqList from "@/components/FaqList";
+import TitleSequence from "@/components/road/TitleSequence";
+import ReelBand from "@/components/road/ReelBand";
+import LookSection from "@/components/road/LookSection";
+import KmPost from "@/components/road/KmPost";
 import { homeContent } from "@/content/home";
 import { type Locale, withLocalePath } from "@/components/siteNavigation";
+import { sectionReels, type SectionKey } from "@/lib/media";
 import { formatFrom, priceFrom } from "@/lib/pricing";
 import { SITE_URL } from "@/lib/metadata";
 
+/** Какой ролик раздела играет в полосе съезда на главной. */
+const EXIT_REEL: Partial<Record<SectionKey, string>> = {
+  commercials: "commercials-02",
+  corporate: "corporate-01",
+  "music-videos": "music-videos-01",
+  weddings: "weddings-01",
+  ai: "ai-01",
+};
+
+function exitReel(key: SectionKey) {
+  const id = EXIT_REEL[key];
+  return sectionReels[key].find((item) => item.id === id && !item.placeholder);
+}
+
+/**
+ * Главная — поездка по трассе: шоурил, ночная дорога с летящими титрами,
+ * съезды к направлениям, взгляд с эстакады на маршрут работы, вопросы и
+ * финал с огнями города в подвале.
+ */
 export default function HomePage({ locale }: { locale: Locale }) {
   const c = homeContent[locale];
 
@@ -33,59 +55,55 @@ export default function HomePage({ locale }: { locale: Locale }) {
         fullscreenLabel={c.hero.fullscreen}
       />
 
-      {/* Межтитр после шоурила: что это за студия, одной фразой. */}
-      <section className="band title-card">
-        <div className="wrap">
-          <h2 className="display display--h2 mx-auto max-w-[18ch]">{c.intro.title}</h2>
-          <p className="lead mt-8">{c.intro.text}</p>
-        </div>
-      </section>
+      <TitleSequence credits={c.drive.credits} title={c.intro.title} lead={c.intro.text} />
 
-      {/* Программа: направления как сеансы в зале — кадр, название, цена. */}
-      <section className="pb-[var(--band)]">
-        <div className="wrap program">
-          {c.program.map((item) => {
-            const href = withLocalePath(item.href, locale);
+      {/* Съезды: каждое направление — полоса во всю ширину с роликом. */}
+      <section className="exits" aria-label={locale === "en" ? "What we shoot" : "Что снимаем"}>
+        {c.program.map((item) => {
+          const href = withLocalePath(item.href, locale);
+          const reel = item.key === "videoproduction" ? undefined : exitReel(item.key as SectionKey);
 
-            return (
-              <article key={item.key} className="program-item">
-                <Link href={href} className="program-item__frame frame" tabIndex={-1} aria-hidden>
-                  <Image src={item.still} alt="" fill sizes="(min-width: 1488px) 1360px, 100vw" className="object-cover" />
-                </Link>
-                <div className="program-item__body">
-                  <div>
-                    <h3 className="display display--h2 program-item__title">
-                      <Link href={href}>{item.title}</Link>
-                    </h3>
-                    <p className="program-item__text mt-5">{item.text}</p>
-                  </div>
-                  <div className="program-item__side">
-                    <p className="program-item__price num">{formatFrom(priceFrom[item.key], locale)}</p>
+          return (
+            <article key={item.key} className="exit">
+              <ReelBand className="exit__media" source={reel?.source} poster={item.still} alt={item.alt} />
+              <div className="exit__shade" aria-hidden />
+              <Link href={href} className="exit__hit" tabIndex={-1} aria-hidden />
+              <div className="exit__body wrap">
+                <KmPost lang={locale} />
+                <h3 className="display exit__title">
+                  <Link href={href}>{item.title}</Link>
+                </h3>
+                <div className="exit__row">
+                  <p className="exit__text">{item.text}</p>
+                  <div className="exit__side">
+                    <p className="exit__price num">{formatFrom(priceFrom[item.key], locale)}</p>
                     <Link href={href} className="link-line text-small">
                       {c.programLink}
                       <span className="visually-hidden">: {item.title}</span>
                     </Link>
                   </div>
                 </div>
-              </article>
-            );
-          })}
-        </div>
+              </div>
+            </article>
+          );
+        })}
       </section>
 
-      <section className="band border-t border-line">
+      <LookSection
+        image="/images/road/overpass.jpg"
+        alt={c.look.alt}
+        title={c.process.title}
+        lead={c.process.lead}
+        km={<KmPost lang={locale} />}
+      />
+
+      <section className="band lit">
         <div className="wrap">
-          <div className="section-head">
-            <h2 className="display display--h2">{c.process.title}</h2>
-            <p className="lead">{c.process.lead}</p>
-          </div>
           <Steps items={c.process.items} />
         </div>
       </section>
 
-      <Invitation locale={locale} title={c.invite.title} text={c.invite.text} />
-
-      <FaqList title={c.faq.title} items={c.faq.items} />
+      <FaqList title={c.faq.title} items={c.faq.items} km={<KmPost lang={locale} />} />
     </>
   );
 }

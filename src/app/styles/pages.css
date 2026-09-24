@@ -29,7 +29,7 @@
   }
 
   .package__fit {
-    color: var(--silver);
+    color: var(--steel);
   }
 
   @media (min-width: 960px) {
@@ -98,7 +98,7 @@
     align-items: flex-start;
     gap: .8rem;
     font-size: var(--t-small);
-    color: rgb(var(--ivory-rgb) / .8);
+    color: rgb(var(--moon-rgb) / .8);
     cursor: pointer;
   }
 
@@ -107,12 +107,12 @@
     width: 1.05rem;
     height: 1.05rem;
     margin-top: .2rem;
-    accent-color: var(--garnet);
+    accent-color: var(--cta);
   }
 
   .consent a {
     text-decoration: underline;
-    text-decoration-color: rgb(var(--ivory-rgb) / .4);
+    text-decoration-color: rgb(var(--moon-rgb) / .4);
     text-underline-offset: .2em;
   }
 
@@ -126,11 +126,11 @@
 
   /* Форма на бархате: поля светлее обычного, чтобы линия читалась. */
   .invite .input {
-    border-bottom-color: rgb(var(--ivory-rgb) / .38);
+    border-bottom-color: rgb(var(--moon-rgb) / .38);
   }
 
   .invite .field__hint {
-    color: rgb(var(--ivory-rgb) / .45);
+    color: rgb(var(--moon-rgb) / .45);
   }
 
   /* ── Бриф ── */
@@ -148,12 +148,12 @@
     display: inline-flex;
     gap: .6rem;
     padding-block: .35rem;
-    color: var(--silver);
+    color: var(--steel);
     transition: color .25s ease;
   }
 
   .brief-index a:hover {
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .brief-form {
@@ -199,19 +199,19 @@
     align-items: center;
     gap: .6rem;
     font-size: var(--t-small);
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .status__dot {
     width: .55rem;
     height: .55rem;
     border-radius: 50%;
-    background: var(--silver);
+    background: var(--steel);
   }
 
-  .status--amber .status__dot { background: var(--brass); box-shadow: 0 0 0 4px rgb(184 151 106 / .18); }
-  .status--emerald .status__dot { background: var(--ivory); }
-  .status--violet .status__dot { background: var(--garnet-hi); }
+  .status--amber .status__dot { background: var(--led); box-shadow: 0 0 0 4px rgb(var(--led-rgb) / .18); }
+  .status--emerald .status__dot { background: var(--moon); }
+  .status--violet .status__dot { background: var(--cta-hi); }
 
   .doc-rows {
     margin: 0;
@@ -260,11 +260,11 @@
     flex-wrap: wrap;
     gap: .25rem 1.4rem;
     font-size: var(--t-small);
-    color: var(--silver);
+    color: var(--steel);
   }
 
   .article-meta > :first-child {
-    color: var(--brass);
+    color: var(--led);
   }
 
   .article-list {
@@ -326,7 +326,7 @@
   .legal-caption {
     padding-bottom: .75rem;
     text-align: left;
-    color: var(--silver);
+    color: var(--steel);
   }
 
   .legal-cell {
@@ -341,7 +341,7 @@
     max-width: 40em;
     font-size: 1.125rem;
     line-height: 1.7;
-    color: rgb(var(--ivory-rgb) / .86);
+    color: rgb(var(--moon-rgb) / .86);
   }
 
   .prose > * + * {
@@ -355,7 +355,7 @@
     font-variation-settings: "wdth" var(--display-wdth);
     font-size: var(--t-h3);
     line-height: 1.02;
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .prose h3 {
@@ -365,7 +365,7 @@
     font-variation-settings: "wdth" var(--display-wdth);
     font-size: var(--t-h4);
     line-height: 1.1;
-    color: var(--ivory);
+    color: var(--moon);
   }
 
   .prose ul,
@@ -381,21 +381,21 @@
   }
 
   .prose li::marker {
-    color: var(--brass);
+    color: var(--led);
   }
 
   .prose a {
     text-decoration: underline;
-    text-decoration-color: rgb(var(--ivory-rgb) / .35);
+    text-decoration-color: rgb(var(--moon-rgb) / .35);
     text-underline-offset: .2em;
   }
 
   .prose a:hover {
-    text-decoration-color: var(--ivory);
+    text-decoration-color: var(--moon);
   }
 
   .prose strong {
     font-weight: 500;
-    color: var(--ivory);
+    color: var(--moon);
   }
 }

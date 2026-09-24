@@ -68,11 +68,11 @@ export function ClientAccessForm({ locale }: { locale: Locale }) {
         />
       </Field>
 
-      <button type="submit" className="btn btn--garnet btn--block">
+      <button type="submit" className="btn btn--primary btn--block">
         {t.submit}
       </button>
 
-      <p className="text-micro text-dim">{t.note}</p>
+      <p className="text-micro text-haze">{t.note}</p>
     </form>
   );
 }

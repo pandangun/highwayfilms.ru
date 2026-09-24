@@ -1,5 +1,5 @@
 /* =========================
-   HIGHWAY FILMS — «кинозал»
+   HIGHWAY FILMS — «Трасса»
    =========================
    Один источник стилей на весь сайт. Раньше CSS был разложен по
    постраничным файлам, и то, что подгружалось раньше, решало, кто кого
@@ -8,21 +8,21 @@
    последними и перебивают блоки, когда их явно ставят в разметке. */
 @import "tailwindcss";
 
-/* Токены, поднятые в Tailwind: font-display, text-ivory, bg-velvet и т.д. */
+/* Токены, поднятые в Tailwind: font-display, text-moon, bg-deep и т.д. */
 @theme inline {
   --font-display: var(--ff-display);
   --font-text: var(--ff-text);
 
-  --color-screen: var(--screen);
-  --color-ivory: var(--ivory);
-  --color-silver: var(--silver);
-  --color-dim: var(--dim);
-  --color-velvet: var(--velvet);
-  --color-garnet: var(--garnet);
-  --color-brass: var(--brass);
+  --color-night: var(--night);
+  --color-deep: var(--deep);
+  --color-moon: var(--moon);
+  --color-steel: var(--steel);
+  --color-haze: var(--haze);
+  --color-led: var(--led);
   --color-line: var(--line);
 }
 
 @import "./styles/foundation.css";
 @import "./styles/components.css";
 @import "./styles/pages.css";
+@import "./styles/road.css";

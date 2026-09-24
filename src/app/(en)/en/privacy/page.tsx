@@ -71,7 +71,7 @@ export default function PrivacyPageEN() {
       {/* Header */}
       <header className="max-w-3xl">
         <h1 className="display display--h1">Privacy Policy</h1>
-        <p className="mt-6 text-small text-silver">
+        <p className="mt-6 text-small text-steel">
           Last updated: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>
         </p>
         <p className="lead">
@@ -85,13 +85,13 @@ export default function PrivacyPageEN() {
         {/* ToC */}
         <aside className="h-max lg:sticky lg:top-28">
           <nav aria-label="Contents" className="text-sm">
-            <p className="mb-4 text-ivory">Contents</p>
+            <p className="mb-4 text-moon">Contents</p>
             <ol className="space-y-1">
               {SECTIONS.map((s) => (
                 <li key={s.id}>
                   <a
                     href={`#${s.id}`}
-                    className="text-silver transition-colors hover:text-ivory"
+                    className="text-steel transition-colors hover:text-moon"
                   >
                     {s.title}
                   </a>
@@ -106,7 +106,7 @@ export default function PrivacyPageEN() {
           <section id="operator" className="legal-section">
             <h2>1. Terms and Data Controller</h2>
             <p>
-              Data controller: <span className="text-ivory">Highway Films</span> (hereinafter — “we”).
+              Data controller: <span className="text-moon">Highway Films</span> (hereinafter — “we”).
               Contact for personal data matters:{" "}
               <a href="mailto:info@highway-films.ru" >
                 info@highway-films.ru
@@ -199,7 +199,7 @@ export default function PrivacyPageEN() {
                     <th className="legal-cell">Typical duration</th>
                   </tr>
                 </thead>
-                <tbody className="text-silver">
+                <tbody className="text-steel">
                   <tr>
                     <td className="legal-cell">Technical</td>
                     <td className="legal-cell">Forms and session handling</td>
@@ -248,7 +248,7 @@ export default function PrivacyPageEN() {
           <section id="updates" className="legal-section">
             <h2>12. Policy Updates</h2>
             <p>
-              The current version is always available at <span className="text-ivory">/en/privacy</span>.
+              The current version is always available at <span className="text-moon">/en/privacy</span>.
               Last updated: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>.
             </p>
           </section>

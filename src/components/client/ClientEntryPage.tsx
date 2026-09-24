@@ -42,7 +42,7 @@ export function ClientEntryPage({ locale }: { locale: Locale }) {
         <div className="wrap grid gap-16 pt-[clamp(56px,6vw,96px)] lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-24">
           <div>
             <Credits items={[...t.inside]} size="lg" className="credits--start" />
-            <p className="mt-12 max-w-[34em] text-silver">
+            <p className="mt-12 max-w-[34em] text-steel">
               {t.note}
               <Link href={locale === "en" ? "/en/contacts" : "/contacts"} className="link-line">
                 {t.noteLink}

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import Invitation from "@/components/Invitation";
 import { articleStill } from "@/components/articles/articleStill";
 import type { Locale, ResolvedArticle } from "@/data/articles";
 import { formatArticleDate, getArticleHref } from "@/data/articles";
@@ -18,16 +17,12 @@ const copy = {
     more: "Ещё статьи",
     read: "чтения",
     service: "Раздел",
-    inviteTitle: "Обсудим вашу задачу",
-    inviteText: "Опишите её в брифе. В течение рабочего дня пришлём смету и план съёмки.",
   },
   en: {
     back: "All articles",
     more: "More articles",
     read: "read",
     service: "Section",
-    inviteTitle: "Let's discuss your task",
-    inviteText: "Describe it in the brief. Within one working day we send an estimate and a shoot plan.",
   },
 } as const;
 
@@ -63,7 +58,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
       <article className="band">
         <div className="wrap wrap--text">
           <div className="prose">
-            <p className="text-ivory">{c.intro}</p>
+            <p className="text-moon">{c.intro}</p>
             {c.sections.map((section) => (
               <section key={section.heading}>
                 <h2>{section.heading}</h2>
@@ -81,7 +76,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
             ))}
           </div>
 
-          <p className="mt-16 border-t border-line pt-8 text-small text-silver">
+          <p className="mt-16 border-t border-line pt-8 text-small text-steel">
             {t.service}:{" "}
             <Link href={withLocalePath(article.serviceHref, locale)} className="link-line">
               {article.serviceLabel[locale]}
@@ -115,8 +110,6 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
           </div>
         </section>
       ) : null}
-
-      <Invitation locale={locale} title={t.inviteTitle} text={t.inviteText} />
     </>
   );
 }
