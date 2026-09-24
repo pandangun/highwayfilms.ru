@@ -17,13 +17,18 @@ export const headerNavItems: SiteNavItem[] = [
   { href: "/contacts", ru: "Контакты", en: "Contacts" },
 ];
 
-export const footerNavItems: SiteNavItem[] = [
+/** Подвал, полоса над двойной сплошной: что снимает студия. */
+export const footerServiceItems: SiteNavItem[] = [
   { href: "/commercials", ru: "Реклама", en: "Commercials" },
   { href: "/corporate", ru: "Корпоративное видео", en: "Corporate video" },
   { href: "/music-videos", ru: "Клипы", en: "Music videos" },
   { href: "/weddings", ru: "Свадьбы", en: "Weddings" },
   { href: "/ai", ru: "AI-ролики", en: "AI films" },
   { href: "/videoproduction", ru: "Полный цикл", en: "Full production" },
+];
+
+/** Подвал, полоса под двойной сплошной: остальные страницы. */
+export const footerStudioItems: SiteNavItem[] = [
   { href: "/about", ru: "О студии", en: "Studio" },
   { href: "/articles", ru: "Статьи", en: "Articles" },
   { href: "/brief", ru: "Бриф", en: "Brief" },

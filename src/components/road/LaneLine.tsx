@@ -44,6 +44,9 @@ export default function LaneLine({ lang }: { lang: "ru" | "en" }) {
       const finale = document.querySelector<HTMLElement>(".finale");
       const top = finale ? finale.getBoundingClientRect().top : vh;
       line.style.setProperty("--lane-end", `${Math.max(0, vh - top)}px`);
+      // Разметка подвала едет, пока подвал на экране, и встаёт вместе
+      // с прокруткой. 72 px — шаг штриха в road.css.
+      if (finale && top < vh) finale.style.setProperty("--road-shift", `${(y * 0.8) % 72}px`);
     };
     const schedule = () => {
       if (!raf) raf = requestAnimationFrame(update);

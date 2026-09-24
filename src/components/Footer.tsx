@@ -8,18 +8,42 @@ import { ROUTE_KM } from "@/components/road/LaneLine";
 import { getInvite } from "@/content/invites";
 import { contacts, siteStrings } from "@/content/site";
 import {
-  footerNavItems,
+  type Locale,
+  type SiteNavItem,
+  footerServiceItems,
+  footerStudioItems,
   getAlternateLocaleHref,
   getLocaleFromPath,
   normalizeLocalePath,
   withLocalePath,
 } from "@/components/siteNavigation";
 
+function LaneLinks({ items, locale, main }: { items: SiteNavItem[]; locale: Locale; main?: boolean }) {
+  return (
+    <div className="finale__lane">
+      <div className="wrap">
+        <ul className={clsx("finale__links", main && "finale__links--main")}>
+          {items.map((item) => (
+            <li key={item.href}>
+              <Link href={withLocalePath(item.href, locale)}>{locale === "en" ? item.en : item.ru}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 /**
  * Финал страницы — конец поездки. Приглашение и подвал стали одной сценой:
- * дорога уходит к огням города, над ней приглашение этой страницы, ниже
- * контакты сеткой и название студии во всю ширину, как последний титр.
- * Разметка, которая шла через страницу, заканчивается здесь.
+ * дорога уходит к огням города, над ней приглашение этой страницы.
+ *
+ * Ниже — трасса сверху, в разрезе. Строки подвала — полосы движения,
+ * линии между ними — настоящая разметка: сплошные по краям, прерывистые
+ * между полосами, двойная сплошная посередине. Прерывистые едут при
+ * прокрутке, по разные стороны от двойной — навстречу друг другу
+ * (сдвиг задаёт LaneLine), и встают, когда страница кончилась.
+ * Название студии нанесено на последнюю полосу, как надпись на асфальте.
  */
 export default function Footer() {
   const currentPath = usePathname() ?? "/";
@@ -81,28 +105,36 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="finale__body wrap">
-        <dl className="finale__contacts">
-          {cells.map((cell) => (
-            <div key={cell.label}>
-              <dt>{cell.label}</dt>
-              <dd>{cell.value}</dd>
-            </div>
-          ))}
-        </dl>
+      <div className="finale__road lit">
+        <div className="finale__lane">
+          <div className="wrap">
+            <dl className="finale__contacts">
+              {cells.map((cell) => (
+                <div key={cell.label}>
+                  <dt>{cell.label}</dt>
+                  <dd>{cell.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
 
-        <nav className="finale__nav" aria-label={locale === "en" ? "Site map" : "Разделы сайта"}>
-          {footerNavItems.map((item) => (
-            <Link key={item.href} href={withLocalePath(item.href, locale)}>
-              {locale === "en" ? item.en : item.ru}
-            </Link>
-          ))}
+        <span className="finale__mark finale__mark--dash" aria-hidden />
+
+        <nav aria-label={locale === "en" ? "Site map" : "Разделы сайта"}>
+          <LaneLinks items={footerServiceItems} locale={locale} main />
+          <span className="finale__mark finale__mark--double" aria-hidden />
+          <LaneLinks items={footerStudioItems} locale={locale} />
         </nav>
-      </div>
 
-      <p className="finale__wordmark" aria-hidden>
-        Highway Films
-      </p>
+        <span className="finale__mark finale__mark--dash finale__mark--oncoming" aria-hidden />
+
+        <div className="finale__lane finale__lane--name">
+          <p className="finale__wordmark" aria-hidden>
+            Highway Films
+          </p>
+        </div>
+      </div>
 
       <div className="finale__meta wrap">
         <span>

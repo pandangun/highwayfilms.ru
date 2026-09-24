@@ -431,17 +431,58 @@
     margin-top: 2.5rem;
   }
 
-  .finale__body {
-    padding-top: clamp(40px, 6vw, 80px);
+  /* ─────────────────────────────
+     Подвал: трасса сверху, в разрезе
+     Строки — полосы движения, линии — разметка: 1.2 сплошная по краю
+     проезжей части, 1.5 прерывистая между полосами, 1.3 двойная
+     сплошная по оси. --road-shift двигает прерывистые при прокрутке
+     (его ставит LaneLine); по разные стороны от оси — навстречу.
+     ───────────────────────────── */
+  .finale__road {
+    --paint: rgb(var(--moon-rgb) / .5);
+    --edge: rgb(var(--moon-rgb) / .4);
+    margin-top: clamp(40px, 6vw, 80px);
+    border-block: 2px solid var(--edge);
+  }
+
+  .finale__lane {
+    padding-block: clamp(1.15rem, 2.2vw, 1.75rem);
+  }
+
+  .finale__lane:first-child {
+    padding-block: clamp(1.75rem, 3.2vw, 2.75rem);
+  }
+
+  .finale__mark {
+    display: block;
+    height: 2px;
+  }
+
+  .finale__mark--dash {
+    background-image: repeating-linear-gradient(90deg, var(--paint) 0 28px, transparent 28px 72px);
+    background-position: calc(var(--road-shift, 0px) * -1) 0;
+  }
+
+  .finale__mark--oncoming {
+    background-position: var(--road-shift, 0px) 0;
+  }
+
+  .finale__mark--double {
+    height: 8px;
+    border-block: 2px solid var(--paint);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .finale__mark--dash {
+      background-position: 0 0;
+    }
   }
 
   .finale__contacts {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2rem 1.5rem;
+    gap: 1.75rem 1.5rem;
     margin: 0;
-    padding-block: 2.25rem;
-    border-block: 1px solid var(--line);
   }
 
   .finale__contacts dt {
@@ -467,38 +508,84 @@
     color: #fff;
   }
 
-  @media (min-width: 900px) {
+  /* Четыре колонки — только когда почта помещается в строку. */
+  @media (min-width: 1240px) {
     .finale__contacts {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
-  .finale__nav {
+  .finale__links {
     display: flex;
     flex-wrap: wrap;
-    gap: .35rem 1.75rem;
-    padding-top: 1.75rem;
-    font-size: var(--t-small);
+    gap: .25rem clamp(1.4rem, 2.8vw, 2.6rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  .finale__nav a {
+  /* Две полосы по сторонам двойной сплошной — одной ширины, как на
+     настоящей дороге: что снимаем и всё остальное о студии. */
+  .finale__road nav .finale__lane {
+    display: flex;
+    align-items: center;
+    min-height: clamp(84px, 8.4vw, 124px);
+  }
+
+  .finale__links a {
+    position: relative;
+    display: inline-block;
+    padding-block: .3rem;
+    font-family: var(--ff-display);
+    font-weight: 340;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: clamp(1.3rem, 1.05rem + .9vw, 1.85rem);
+    line-height: 1.15;
     color: var(--steel);
     transition: color .25s ease;
   }
 
-  .finale__nav a:hover {
+  .finale__links--main a {
     color: var(--moon);
   }
 
-  /* Название студии во всю ширину — последний титр фильма. */
+  .finale__links a::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: linear-gradient(90deg, var(--led), rgb(var(--moon-rgb) / .9));
+    transition: transform .28s var(--ease);
+  }
+
+  .finale__links a:hover {
+    color: var(--moon);
+  }
+
+  .finale__links a:hover::after,
+  .finale__links a:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* Название студии нанесено на последнюю полосу, как надпись на асфальте.
+     При line-height .78 верх букв ниже края строки на .06 кегля, а хвосты
+     g и y выходят за низ на .24 — поправки держат равный зазор --gap
+     от разметки до букв сверху и снизу. */
+  .finale__lane--name {
+    --gap: max(.12em, 18px);
+    padding-block: calc(var(--gap) - .06em) calc(var(--gap) + .24em);
+    font-size: 18.1vw;
+  }
+
   .finale__wordmark {
-    margin: clamp(2.5rem, 6vw, 5rem) 0 0;
-    padding-inline: 0;
+    margin: 0;
     font-family: var(--ff-display);
     font-weight: 300;
     font-variation-settings: "wdth" var(--display-wdth);
     /* Ширина надписи — 5,29 кегля: 18,1vw дают 96% ширины окна. */
-    font-size: 18.1vw;
+    font-size: 1em;
     line-height: .78;
     letter-spacing: -.01em;
     text-align: center;
@@ -513,7 +600,7 @@
     align-items: center;
     justify-content: space-between;
     gap: .75rem 1.5rem;
-    padding-block: 1.75rem 2rem;
+    padding-block: 1.5rem 2rem;
     font-size: var(--t-micro);
     color: var(--steel);
   }
