@@ -60,6 +60,8 @@ next-env.d.ts
 !/public/video/corporate/
 !/public/video/music-videos/
 !/public/video/weddings/
+!/public/video/videoproduction/
+!/public/video/about/
 !/public/video/ai/
 /public/video/ai/*
 !/public/video/ai/ai-01.mp4

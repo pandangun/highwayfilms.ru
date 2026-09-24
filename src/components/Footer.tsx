@@ -18,19 +18,15 @@ import {
   withLocalePath,
 } from "@/components/siteNavigation";
 
-function LaneLinks({ items, locale, main }: { items: SiteNavItem[]; locale: Locale; main?: boolean }) {
+function FooterLinks({ items, locale }: { items: SiteNavItem[]; locale: Locale }) {
   return (
-    <div className="finale__lane">
-      <div className="wrap">
-        <ul className={clsx("finale__links", main && "finale__links--main")}>
-          {items.map((item) => (
-            <li key={item.href}>
-              <Link href={withLocalePath(item.href, locale)}>{locale === "en" ? item.en : item.ru}</Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <ul className="finale__list">
+      {items.map((item) => (
+        <li key={item.href}>
+          <Link href={withLocalePath(item.href, locale)}>{locale === "en" ? item.en : item.ru}</Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -38,12 +34,10 @@ function LaneLinks({ items, locale, main }: { items: SiteNavItem[]; locale: Loca
  * Финал страницы — конец поездки. Приглашение и подвал стали одной сценой:
  * дорога уходит к огням города, над ней приглашение этой страницы.
  *
- * Ниже — трасса сверху, в разрезе. Строки подвала — полосы движения,
- * линии между ними — настоящая разметка: сплошные по краям, прерывистые
- * между полосами, двойная сплошная посередине. Прерывистые едут при
- * прокрутке, по разные стороны от двойной — навстречу друг другу
- * (сдвиг задаёт LaneLine), и встают, когда страница кончилась.
- * Название студии нанесено на последнюю полосу, как надпись на асфальте.
+ * Ниже — подвал в обычной сетке: кто мы, направления, страницы студии,
+ * контакты. Под ним прерывистая разметка и название студии в темноте:
+ * свет фар проявляет буквы под курсором (Headlights), на телефоне луч
+ * сам проходит по надписи, как фары встречной машины.
  */
 export default function Footer() {
   const currentPath = usePathname() ?? "/";
@@ -52,27 +46,6 @@ export default function Footer() {
   const t = siteStrings[locale];
   const invite = getInvite(path, locale);
   const year = new Date().getFullYear();
-
-  const cells = [
-    {
-      label: t.labels.phone,
-      value: (
-        <a href={contacts.phoneHref} className="num">
-          {contacts.phone}
-        </a>
-      ),
-    },
-    {
-      label: t.labels.telegram,
-      value: (
-        <a href={contacts.telegramHref} target="_blank" rel="noopener noreferrer">
-          {contacts.telegram}
-        </a>
-      ),
-    },
-    { label: t.labels.email, value: <a href={contacts.emailHref}>{contacts.email}</a> },
-    { label: t.labels.city, value: t.city },
-  ];
 
   return (
     <footer className="finale">
@@ -105,31 +78,43 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="finale__road lit">
-        <div className="finale__lane">
-          <div className="wrap">
-            <dl className="finale__contacts">
-              {cells.map((cell) => (
-                <div key={cell.label}>
-                  <dt>{cell.label}</dt>
-                  <dd>{cell.value}</dd>
-                </div>
-              ))}
-            </dl>
+      <div className="finale__body">
+        <div className="wrap finale__grid">
+          <p className="finale__about">{t.footer.about}</p>
+
+          <nav className="finale__col" aria-label={t.footer.services}>
+            <p className="finale__heading">{t.footer.services}</p>
+            <FooterLinks items={footerServiceItems} locale={locale} />
+          </nav>
+
+          <nav className="finale__col" aria-label={t.footer.studio}>
+            <p className="finale__heading">{t.footer.studio}</p>
+            <FooterLinks items={footerStudioItems} locale={locale} />
+          </nav>
+
+          <div className="finale__col finale__col--contact">
+            <p className="finale__heading">{t.footer.contact}</p>
+            <ul className="finale__list finale__list--contact">
+              <li>
+                <a href={contacts.phoneHref} className="num">
+                  {contacts.phone}
+                </a>
+              </li>
+              <li>
+                <a href={contacts.emailHref}>{contacts.email}</a>
+              </li>
+              <li>
+                <a href={contacts.telegramHref} target="_blank" rel="noopener noreferrer">
+                  Telegram {contacts.telegram}
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <span className="finale__mark finale__mark--dash" aria-hidden />
+        <span className="finale__mark" aria-hidden />
 
-        <nav aria-label={locale === "en" ? "Site map" : "Разделы сайта"}>
-          <LaneLinks items={footerServiceItems} locale={locale} main />
-          <span className="finale__mark finale__mark--double" aria-hidden />
-          <LaneLinks items={footerStudioItems} locale={locale} />
-        </nav>
-
-        <span className="finale__mark finale__mark--dash finale__mark--oncoming" aria-hidden />
-
-        <div className="finale__lane finale__lane--name">
+        <div className="finale__name lit">
           <p className="finale__wordmark" aria-hidden>
             Highway Films
           </p>

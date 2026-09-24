@@ -6,7 +6,7 @@ import Steps from "@/components/Steps";
 import FaqList from "@/components/FaqList";
 import type { ServicePage } from "@/content/types";
 import type { Locale } from "@/components/siteNavigation";
-import { sectionReels } from "@/lib/media";
+import { reelTitle, sectionReels } from "@/lib/media";
 import { formatFrom, priceFrom } from "@/lib/pricing";
 
 const labels = {
@@ -38,6 +38,7 @@ export default function ServiceTemplate({ page, locale }: { page: ServicePage; l
         lead={page.hero.lead}
         facts={facts}
         railLabel={t.rail}
+        locale={locale}
       />
 
       <section className="band lit">
@@ -68,9 +69,9 @@ export default function ServiceTemplate({ page, locale }: { page: ServicePage; l
                   className="frame"
                   source={{ mp4: item.source.mp4Mobile ?? item.source.mp4, poster: item.source.poster }}
                   poster={item.source.poster}
-                  alt={item.title}
+                  alt={reelTitle(item, locale)}
                 />
-                <figcaption className="frame-caption">{item.title}</figcaption>
+                <figcaption className="frame-caption">{reelTitle(item, locale)}</figcaption>
               </figure>
             ))}
           </div>

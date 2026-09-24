@@ -26,6 +26,7 @@ export default function WeddingsPage({ locale }: { locale: Locale }) {
         lead={c.hero.lead}
         facts={facts}
         railLabel={locale === "en" ? "Wedding films" : "Свадебные ролики"}
+        locale={locale}
       />
 
       <section className="band">

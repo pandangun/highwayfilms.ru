@@ -432,124 +432,86 @@
   }
 
   /* ─────────────────────────────
-     Подвал: трасса сверху, в разрезе
-     Строки — полосы движения, линии — разметка: 1.2 сплошная по краю
-     проезжей части, 1.5 прерывистая между полосами, 1.3 двойная
-     сплошная по оси. --road-shift двигает прерывистые при прокрутке
-     (его ставит LaneLine); по разные стороны от оси — навстречу.
+     Подвал в обычной сетке: кто мы, направления, страницы студии,
+     контакты. Под ним прерывистая разметка (едет от прокрутки, сдвиг
+     --road-shift ставит LaneLine) и название студии в темноте.
      ───────────────────────────── */
-  .finale__road {
-    --paint: rgb(var(--moon-rgb) / .5);
-    --edge: rgb(var(--moon-rgb) / .4);
+  .finale__body {
     margin-top: clamp(40px, 6vw, 80px);
-    border-block: 2px solid var(--edge);
+    border-top: 1px solid var(--line-strong);
   }
 
-  .finale__lane {
-    padding-block: clamp(1.15rem, 2.2vw, 1.75rem);
-  }
-
-  .finale__lane:first-child {
-    padding-block: clamp(1.75rem, 3.2vw, 2.75rem);
-  }
-
-  .finale__mark {
-    display: block;
-    height: 2px;
-  }
-
-  .finale__mark--dash {
-    background-image: repeating-linear-gradient(90deg, var(--paint) 0 28px, transparent 28px 72px);
-    background-position: calc(var(--road-shift, 0px) * -1) 0;
-  }
-
-  .finale__mark--oncoming {
-    background-position: var(--road-shift, 0px) 0;
-  }
-
-  .finale__mark--double {
-    height: 8px;
-    border-block: 2px solid var(--paint);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .finale__mark--dash {
-      background-position: 0 0;
-    }
-  }
-
-  .finale__contacts {
+  .finale__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.75rem 1.5rem;
+    gap: 2.75rem 1.5rem;
+    padding-block: clamp(2.75rem, 5vw, 4.75rem);
+  }
+
+  .finale__about {
+    grid-column: 1 / -1;
+    max-width: 12em;
     margin: 0;
-  }
-
-  .finale__contacts dt {
-    font-size: var(--t-micro);
-    color: var(--steel);
-  }
-
-  .finale__contacts dd {
-    margin: .45rem 0 0;
     font-family: var(--ff-display);
     font-weight: 340;
     font-variation-settings: "wdth" var(--display-wdth);
-    font-size: var(--t-h4);
-    line-height: 1.1;
-    overflow-wrap: anywhere;
+    font-size: var(--t-h3);
+    line-height: 1.04;
+    color: var(--moon);
   }
 
-  .finale__contacts a {
-    transition: color .25s ease;
+  .finale__col--contact {
+    grid-column: 1 / -1;
   }
 
-  .finale__contacts a:hover {
-    color: #fff;
-  }
+  @media (min-width: 768px) {
+    .finale__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 
-  /* Четыре колонки — только когда почта помещается в строку. */
-  @media (min-width: 1240px) {
-    .finale__contacts {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .finale__col--contact {
+      grid-column: auto;
     }
   }
 
-  .finale__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .25rem clamp(1.4rem, 2.8vw, 2.6rem);
+  @media (min-width: 1100px) {
+    .finale__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 3fr);
+    }
+
+    .finale__about {
+      grid-column: auto;
+    }
+  }
+
+  .finale__heading {
+    margin: 0 0 1.15rem;
+    font-size: var(--t-micro);
+    color: var(--haze);
+  }
+
+  .finale__list {
+    display: grid;
+    gap: .55rem;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  /* Две полосы по сторонам двойной сплошной — одной ширины, как на
-     настоящей дороге: что снимаем и всё остальное о студии. */
-  .finale__road nav .finale__lane {
-    display: flex;
-    align-items: center;
-    min-height: clamp(84px, 8.4vw, 124px);
-  }
-
-  .finale__links a {
+  .finale__list a {
     position: relative;
     display: inline-block;
-    padding-block: .3rem;
-    font-family: var(--ff-display);
-    font-weight: 340;
-    font-variation-settings: "wdth" var(--display-wdth);
-    font-size: clamp(1.3rem, 1.05rem + .9vw, 1.85rem);
-    line-height: 1.15;
+    padding-block: .15rem;
+    font-size: var(--t-small);
     color: var(--steel);
     transition: color .25s ease;
   }
 
-  .finale__links--main a {
+  .finale__list--contact a {
     color: var(--moon);
   }
 
-  .finale__links a::after {
+  .finale__list a::after {
     content: "";
     position: absolute;
     inset: auto 0 0;
@@ -560,27 +522,39 @@
     transition: transform .28s var(--ease);
   }
 
-  .finale__links a:hover {
+  .finale__list a:hover {
     color: var(--moon);
   }
 
-  .finale__links a:hover::after,
-  .finale__links a:focus-visible::after {
+  .finale__list a:hover::after,
+  .finale__list a:focus-visible::after {
     transform: scaleX(1);
   }
 
-  /* Название студии нанесено на последнюю полосу, как надпись на асфальте.
-     При line-height .78 верх букв ниже края строки на .06 кегля, а хвосты
-     g и y выходят за низ на .24 — поправки держат равный зазор --gap
-     от разметки до букв сверху и снизу. */
-  .finale__lane--name {
-    --gap: max(.12em, 18px);
-    padding-block: calc(var(--gap) - .06em) calc(var(--gap) + .24em);
+  .finale__mark {
+    display: block;
+    height: 2px;
+    background-image: repeating-linear-gradient(90deg, rgb(var(--moon-rgb) / .45) 0 28px, transparent 28px 72px);
+    background-position: calc(var(--road-shift, 0px) * -1) 0;
+  }
+
+  /* Название студии в темноте. Буквы залиты радиальным светом с центром
+     в --lx/--ly — это координаты курсора, их ставит Headlights на .lit:
+     под фарой буквы белые, дальше голубеют и гаснут почти до черноты.
+     Надпись заполняет блок целиком, поэтому координаты блока и надписи
+     совпадают. На устройствах без мыши луч сам ходит по надписи. */
+  .finale__name {
     font-size: 18.1vw;
+    border-bottom: 1px solid var(--line-strong);
   }
 
   .finale__wordmark {
+    /* При line-height .78 верх букв ниже края строки на .06 кегля, а
+       хвосты g и y выходят за низ на .24 — поправки держат равный зазор. */
+    --gap: max(.12em, 18px);
+    --beam: clamp(150px, 24vw, 460px);
     margin: 0;
+    padding-block: calc(var(--gap) - .06em) calc(var(--gap) + .24em);
     font-family: var(--ff-display);
     font-weight: 300;
     font-variation-settings: "wdth" var(--display-wdth);
@@ -590,8 +564,41 @@
     letter-spacing: -.01em;
     text-align: center;
     white-space: nowrap;
-    color: var(--moon);
+    color: transparent;
+    background-image: radial-gradient(
+      circle var(--beam) at var(--lx, 50%) var(--ly, 50%),
+      #fff 0%,
+      rgb(var(--moon-rgb) / .94) 24%,
+      rgb(var(--led-rgb) / .4) 58%,
+      rgb(var(--moon-rgb) / .1) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
     user-select: none;
+  }
+
+  @media (hover: none) {
+    .finale__wordmark {
+      background-size: 200% 100%;
+      animation: beam-sweep 8s ease-in-out infinite alternate;
+    }
+  }
+
+  @keyframes beam-sweep {
+    from { background-position: 0% 0; }
+    to { background-position: 100% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .finale__mark {
+      background-position: 0 0;
+    }
+
+    .finale__wordmark {
+      --beam: 70vw;
+      animation: none;
+      background-size: 100% 100%;
+    }
   }
 
   .finale__meta {

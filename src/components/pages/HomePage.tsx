@@ -19,6 +19,7 @@ const EXIT_REEL: Partial<Record<SectionKey, string>> = {
   "music-videos": "music-videos-01",
   weddings: "weddings-01",
   ai: "ai-01",
+  videoproduction: "videoproduction-01",
 };
 
 function exitReel(key: SectionKey) {
@@ -61,7 +62,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
       <section className="exits" aria-label={locale === "en" ? "What we shoot" : "Что снимаем"}>
         {c.program.map((item) => {
           const href = withLocalePath(item.href, locale);
-          const reel = item.key === "videoproduction" ? undefined : exitReel(item.key as SectionKey);
+          const reel = exitReel(item.key as SectionKey);
 
           return (
             <article key={item.key} className="exit">

@@ -398,4 +398,303 @@
     font-weight: 500;
     color: var(--moon);
   }
+
+  /* ─────────────────────────────
+     О студии
+     ───────────────────────────── */
+
+  /* Первый экран: нарезка из шоурила на весь экран, заголовок внизу слева. */
+  .about-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(560px, 92svh, 1000px);
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--night);
+  }
+
+  .about-hero__reel {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: var(--deep);
+  }
+
+  .about-hero__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(0deg, var(--night) 0%, rgb(var(--night-rgb) / .72) 28%, rgb(var(--night-rgb) / .08) 62%),
+      linear-gradient(90deg, rgb(var(--night-rgb) / .55), rgb(var(--night-rgb) / 0) 58%),
+      linear-gradient(180deg, rgb(var(--night-rgb) / .5), rgb(var(--night-rgb) / 0) 24%);
+  }
+
+  .about-hero__body {
+    padding-block: calc(var(--header-h) + 4rem) clamp(48px, 9vh, 112px);
+    text-shadow: 0 1px 24px rgb(var(--night-rgb) / .5);
+  }
+
+  .about-hero__lead {
+    max-width: 30em;
+    margin-top: 1.5rem;
+    font-size: var(--t-lead);
+    line-height: 1.5;
+    color: rgb(var(--moon-rgb) / .84);
+  }
+
+  /* Картинка: кадры из шоурила в две колонки, в пропорции самого шоурила. */
+  .about-frames {
+    display: grid;
+    gap: 2.25rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 700px) {
+    .about-frames {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Как мы работаем: три колонки через волосяные линии. */
+  .principles {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .principle {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    padding-block: clamp(1.75rem, 3vw, 2.5rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .principle__text {
+    max-width: 26em;
+    font-size: 1.125rem;
+    line-height: 1.55;
+    color: rgb(var(--moon-rgb) / .8);
+  }
+
+  @media (min-width: 900px) {
+    .principles {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .principle {
+      padding-inline: clamp(1.25rem, 2.4vw, 2.25rem);
+      border-bottom: 0;
+      border-left: 1px solid var(--line);
+    }
+
+    .principle:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+
+  /* Что снимаем: карточка — кадр, название и цена «от» над линией. */
+  .dir-grid {
+    display: grid;
+    gap: 2.5rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .dir-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .dir-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .dir-tile {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .dir-tile__media {
+    display: block;
+  }
+
+  .dir-tile__media img {
+    filter: saturate(.85) brightness(.9);
+    transition: transform .8s var(--ease), filter .5s ease;
+  }
+
+  .dir-tile:hover .dir-tile__media img,
+  .dir-tile:focus-visible .dir-tile__media img {
+    filter: none;
+    transform: scale(1.04);
+  }
+
+  .dir-tile__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .25rem 1rem;
+    padding-top: .9rem;
+    border-top: 1px solid var(--line);
+    transition: border-color .3s ease;
+  }
+
+  .dir-tile__title {
+    font-family: var(--ff-display);
+    font-weight: 340;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: var(--t-h4);
+    line-height: 1.1;
+    color: var(--moon);
+    transition: color .25s ease;
+  }
+
+  .dir-tile__price {
+    font-size: var(--t-small);
+    color: var(--steel);
+  }
+
+  .dir-tile:hover .dir-tile__title,
+  .dir-tile:focus-visible .dir-tile__title {
+    color: #fff;
+  }
+
+  .dir-tile:hover .dir-tile__row,
+  .dir-tile:focus-visible .dir-tile__row {
+    border-top-color: rgb(var(--led-rgb) / .7);
+  }
+
+  /* Где снимаем: два города на концах одной трассы. Дорога между ними —
+     та же разметка, что идёт через всю страницу: пунктир и светящиеся
+     точки городов. На телефоне трасса идёт сверху вниз. */
+  .route {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+  }
+
+  .route__city {
+    font-family: var(--ff-display);
+    font-weight: 340;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: var(--t-h2);
+    line-height: 1;
+    color: var(--moon);
+  }
+
+  .route__road {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 104px;
+    margin-left: 6px;
+    padding-left: 1.5rem;
+    background: repeating-linear-gradient(180deg, rgb(var(--moon-rgb) / .5) 0 14px, transparent 14px 30px) 0 0 / 2px 100% no-repeat;
+  }
+
+  .route__road::before,
+  .route__road::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--led);
+    box-shadow: 0 0 14px rgb(var(--led-rgb) / .8);
+  }
+
+  .route__road::before {
+    top: -5px;
+  }
+
+  .route__road::after {
+    bottom: -5px;
+  }
+
+  .route__label {
+    font-size: var(--t-small);
+    color: var(--led);
+  }
+
+  @media (min-width: 900px) {
+    .route {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: clamp(1.25rem, 2.5vw, 2.5rem);
+    }
+
+    .route__road {
+      justify-content: center;
+      height: 2px;
+      min-height: 0;
+      margin-left: 0;
+      padding-left: 0;
+      background: repeating-linear-gradient(90deg, rgb(var(--moon-rgb) / .5) 0 28px, transparent 28px 72px) 0 0 / 100% 2px no-repeat;
+    }
+
+    .route__road::before,
+    .route__road::after {
+      top: -4px;
+      bottom: auto;
+    }
+
+    .route__road::before {
+      left: -5px;
+    }
+
+    .route__road::after {
+      left: auto;
+      right: -5px;
+    }
+
+    .route__label {
+      position: absolute;
+      bottom: calc(100% + 1rem);
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+  }
+
+  .route__facts {
+    display: grid;
+    gap: 1.75rem 1.5rem;
+    margin: clamp(2.75rem, 5vw, 4.5rem) 0 0;
+    padding-top: clamp(1.5rem, 3vw, 2rem);
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 700px) {
+    .route__facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .route__facts dt {
+    font-size: var(--t-micro);
+    color: var(--steel);
+  }
+
+  .route__facts dd {
+    max-width: 24em;
+    margin: .5rem 0 0;
+    font-size: var(--t-lead);
+    line-height: 1.45;
+    color: var(--moon);
+  }
 }

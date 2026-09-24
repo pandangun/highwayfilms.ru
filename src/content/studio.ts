@@ -1,14 +1,19 @@
 import type { Locale } from "@/components/siteNavigation";
 import type { Format, Meta, Pair } from "@/content/types";
+import type { PricedKey } from "@/lib/pricing";
 
 export type AboutContent = {
   meta: Meta;
   title: string;
   lead: string;
-  still: { src: string; alt: string };
+  /** Описание постера первого экрана — нарезки из шоурила. */
+  heroAlt: string;
+  /** Главное, чем сильна студия, — картинка: показываем кадры, а не хвалим. */
+  picture: { title: string; lead: string; frames: { src: string; alt: string; caption: string }[] };
   rules: { title: string; items: Format[] };
-  directions: { title: string; items: { href: string; title: string }[] };
-  geography: { title: string; items: Pair[] };
+  directions: { title: string; items: { key: PricedKey; href: string; title: string; still: string }[] };
+  /** Два города на концах одной трассы — отсюда и название студии. */
+  geography: { title: string; from: string; to: string; road: string; items: Pair[] };
   /**
    * Команда. Пустой список — блок не выводится. Заполнить именами и
    * ролями, как в титрах: { label: "Режиссёр", value: "Имя Фамилия" }.
@@ -48,14 +53,24 @@ export const aboutContent: Record<Locale, AboutContent> = {
     },
     title: "О студии",
     lead: "Highway Films — видеостудия из Петербурга. Снимаем рекламу, фильмы о компаниях, клипы и свадьбы, делаем AI-ролики.",
-    still: { src: "/images/stills/commercials-01.jpg", alt: "Кадр из рекламного ролика: лазерный прибор в темноте" },
+    heroAlt: "Девушка на ночном мосту — первый кадр нарезки из работ студии",
+    picture: {
+      title: "Картинка",
+      lead: "Свет ставим под каждую сцену, цветокоррекцию делаем сами. Ниже — кадры из шоурила.",
+      frames: [
+        { src: "/images/stills/music-videos-02.jpg", alt: "Кадр из клипа: горящая лодка в море", caption: "Клип" },
+        { src: "/images/stills/weddings-02.jpg", alt: "Кадр со свадьбы: жених и невеста", caption: "Свадьба" },
+        { src: "/images/stills/commercials-02.jpg", alt: "Кадр из рекламы: самолёт в ангаре", caption: "Реклама" },
+        {
+          src: "/images/stills/corporate-03.jpg",
+          alt: "Кадр из фильма о медицине: хирурги в операционной",
+          caption: "Фильм о компании",
+        },
+      ],
+    },
     rules: {
       title: "Как мы работаем",
       items: [
-        {
-          title: "Картинка",
-          text: "Свет ставим под каждую сцену, цветокоррекцию делаем сами. Как это выглядит, видно в шоуриле на главной.",
-        },
         {
           title: "Подготовка",
           text: "До съёмки вы видите сценарий, список сцен и раскадровку. Съёмочный день идёт по этому плану.",
@@ -73,18 +88,20 @@ export const aboutContent: Record<Locale, AboutContent> = {
     directions: {
       title: "Что снимаем",
       items: [
-        { href: "/commercials", title: "Реклама" },
-        { href: "/corporate", title: "Корпоративное видео" },
-        { href: "/music-videos", title: "Музыкальные клипы" },
-        { href: "/weddings", title: "Свадебные фильмы" },
-        { href: "/ai", title: "AI-ролики" },
-        { href: "/videoproduction", title: "Полный цикл" },
+        { key: "commercials", href: "/commercials", title: "Реклама", still: "/images/stills/commercials-01.jpg" },
+        { key: "corporate", href: "/corporate", title: "Корпоративное видео", still: "/images/stills/corporate-01.jpg" },
+        { key: "music-videos", href: "/music-videos", title: "Музыкальные клипы", still: "/images/stills/music-videos-01.jpg" },
+        { key: "weddings", href: "/weddings", title: "Свадебные фильмы", still: "/images/stills/weddings-01.jpg" },
+        { key: "ai", href: "/ai", title: "AI-ролики", still: "/images/stills/ai-01.jpg" },
+        { key: "videoproduction", href: "/videoproduction", title: "Полный цикл", still: "/images/stills/videoproduction-02.jpg" },
       ],
     },
     geography: {
       title: "Где снимаем",
+      from: "Санкт-Петербург",
+      to: "Москва",
+      road: "684 км по трассе М-11",
       items: [
-        { label: "Основные города", value: "Санкт-Петербург и Москва" },
         { label: "Выезды", value: "по России, дорога — строкой в смете" },
         { label: "Съёмка", value: "в студии, на производстве, на площадке клиента" },
       ],
@@ -103,14 +120,24 @@ export const aboutContent: Record<Locale, AboutContent> = {
     },
     title: "Studio",
     lead: "Highway Films is a video studio from Saint Petersburg. We shoot commercials, company films, music videos and weddings, and make AI films.",
-    still: { src: "/images/stills/commercials-01.jpg", alt: "Still from a commercial: a laser device in the dark" },
+    heroAlt: "A woman on a bridge at night, the first shot of a cut from the studio's work",
+    picture: {
+      title: "Picture",
+      lead: "Light is set for every scene and we grade colour ourselves. The frames below are from the showreel.",
+      frames: [
+        { src: "/images/stills/music-videos-02.jpg", alt: "Music video still: a burning boat at sea", caption: "Music video" },
+        { src: "/images/stills/weddings-02.jpg", alt: "Wedding still: bride and groom", caption: "Wedding" },
+        { src: "/images/stills/commercials-02.jpg", alt: "Commercial still: a plane in a hangar", caption: "Commercial" },
+        {
+          src: "/images/stills/corporate-03.jpg",
+          alt: "Still from a medical film: surgeons in an operating room",
+          caption: "Company film",
+        },
+      ],
+    },
     rules: {
       title: "How we work",
       items: [
-        {
-          title: "Image",
-          text: "Light is set for every scene and we grade colour ourselves. The showreel on the home page shows what that looks like.",
-        },
         {
           title: "Preparation",
           text: "Before the shoot you see the script, shot list and storyboard. The shoot day follows the plan.",
@@ -128,18 +155,20 @@ export const aboutContent: Record<Locale, AboutContent> = {
     directions: {
       title: "What we shoot",
       items: [
-        { href: "/commercials", title: "Commercials" },
-        { href: "/corporate", title: "Corporate video" },
-        { href: "/music-videos", title: "Music videos" },
-        { href: "/weddings", title: "Wedding films" },
-        { href: "/ai", title: "AI films" },
-        { href: "/videoproduction", title: "Full production" },
+        { key: "commercials", href: "/commercials", title: "Commercials", still: "/images/stills/commercials-01.jpg" },
+        { key: "corporate", href: "/corporate", title: "Corporate video", still: "/images/stills/corporate-01.jpg" },
+        { key: "music-videos", href: "/music-videos", title: "Music videos", still: "/images/stills/music-videos-01.jpg" },
+        { key: "weddings", href: "/weddings", title: "Wedding films", still: "/images/stills/weddings-01.jpg" },
+        { key: "ai", href: "/ai", title: "AI films", still: "/images/stills/ai-01.jpg" },
+        { key: "videoproduction", href: "/videoproduction", title: "Full production", still: "/images/stills/videoproduction-02.jpg" },
       ],
     },
     geography: {
       title: "Where we shoot",
+      from: "Saint Petersburg",
+      to: "Moscow",
+      road: "684 km along the M-11",
       items: [
-        { label: "Base cities", value: "Saint Petersburg and Moscow" },
         { label: "Travel", value: "across Russia, travel is a line in the estimate" },
         { label: "Settings", value: "studio, factory floor, client location" },
       ],

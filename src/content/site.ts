@@ -29,6 +29,12 @@ type SiteStrings = {
     email: string;
     city: string;
   };
+  footer: {
+    about: string;
+    services: string;
+    studio: string;
+    contact: string;
+  };
 };
 
 export const siteStrings: Record<Locale, SiteStrings> = {
@@ -51,6 +57,12 @@ export const siteStrings: Record<Locale, SiteStrings> = {
       email: "Почта",
       city: "Города",
     },
+    footer: {
+      about: "Видеостудия в Санкт‑Петербурге и Москве",
+      services: "Направления",
+      studio: "Студия",
+      contact: "Связаться",
+    },
   },
   en: {
     brief: "Brief",
@@ -70,6 +82,12 @@ export const siteStrings: Record<Locale, SiteStrings> = {
       telegram: "Telegram",
       email: "Email",
       city: "Cities",
+    },
+    footer: {
+      about: "Video studio in Saint Petersburg and Moscow",
+      services: "Services",
+      studio: "Studio",
+      contact: "Contact",
     },
   },
 };

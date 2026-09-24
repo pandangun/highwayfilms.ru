@@ -34,6 +34,8 @@ export type ReelItem = {
   id: string;
   /** Подпись на плитке. */
   title: string;
+  /** Подпись для английской версии; без неё берётся русская. */
+  titleEn?: string;
   /** Короткий тег над заголовком: формат, клиент, год. */
   tag: string;
   /** Хронометраж для подписи, например «0:42». Необязательно. */
@@ -70,10 +72,11 @@ function mediaPath(path: string) {
  * Ролик раздела. Файлы кладутся в public/video/<раздел>/<slug>.mp4 и
  * <slug>-mobile.mp4, постер — в public/images/stills/<slug>.jpg.
  */
-function reelItem(section: SectionKey, slug: string, title: string, tag: string): ReelItem {
+function reelItem(section: SectionKey, slug: string, title: string, titleEn: string, tag: string): ReelItem {
   return {
     id: slug,
     title,
+    titleEn,
     tag,
     source: {
       mp4: mediaPath(`/video/${section}/${slug}.mp4`),
@@ -83,16 +86,9 @@ function reelItem(section: SectionKey, slug: string, title: string, tag: string)
   };
 }
 
-/**
- * Раздел без своего ролика. Плеер вместо файла играет общий шоурил
- * (так устроен StudioPlayer), а постер берётся свой.
- */
-function placeholderItem(section: SectionKey, slug: string, title: string, tag: string, poster: string): ReelItem {
-  return {
-    ...reelItem(section, slug, title, tag),
-    placeholder: true,
-    source: { ...reelItem(section, slug, title, tag).source, poster },
-  };
+/** Подпись ролика на языке страницы. */
+export function reelTitle(item: ReelItem, locale: "ru" | "en") {
+  return locale === "en" ? (item.titleEn ?? item.title) : item.title;
 }
 
 /**
@@ -116,39 +112,53 @@ export const heroMedia: MediaSource = {
 /**
  * Ролики разделов. Порядок — порядок показа на первом экране раздела.
  *
- * Сейчас это фрагменты шоурила, разрезанные по его же рубрикам
- * (COMMERCIALS, VIDEO CLIPS, WEDDINGS) ровно по склейкам, без подписи
- * рубрики в углу кадра. Когда приедут отдельные работы, файл кладётся
- * поверх под тем же именем или сюда добавляется новая строка.
+ * Сейчас это фрагменты шоурила, разрезанные ровно по склейкам и без
+ * подписи рубрики в углу кадра (COMMERCIALS, VIDEO CLIPS, WEDDINGS,
+ * STOCK FOOTAGES). Из стоковых съёмок студии взяты кофе и шахматы
+ * (предметка), лайфстайл, медицина и наука. Когда приедут отдельные
+ * работы, файл кладётся поверх под тем же именем или сюда добавляется
+ * новая строка.
  *
  * ai-02..04 удалены из списка: файлы под ними битые (37–120 KB).
  */
 export const sectionReels: Record<SectionKey, ReelItem[]> = {
   commercials: [
-    reelItem("commercials", "commercials-01", "Электроника и графика", "Реклама"),
-    reelItem("commercials", "commercials-02", "Экшн-сцены и VFX", "Реклама"),
-    reelItem("commercials", "commercials-03", "Ролик для квестов", "Реклама"),
+    reelItem("commercials", "commercials-01", "Электроника и графика", "Electronics and graphics", "Реклама"),
+    reelItem("commercials", "commercials-02", "Экшн-сцены и VFX", "Action and VFX", "Реклама"),
+    reelItem("commercials", "commercials-03", "Ролик для квестов", "Escape room ad", "Реклама"),
+    reelItem("commercials", "commercials-04", "Кофе: предметная съёмка", "Coffee: product shoot", "Реклама"),
   ],
   corporate: [
-    reelItem("corporate", "corporate-01", "Производство", "Корпоративное"),
-    reelItem("corporate", "corporate-02", "Люди на работе", "Корпоративное"),
+    reelItem("corporate", "corporate-01", "Производство", "Manufacturing", "Корпоративное"),
+    reelItem("corporate", "corporate-02", "Люди на работе", "People at work", "Корпоративное"),
+    reelItem("corporate", "corporate-03", "Медицина и наука", "Medicine and science", "Корпоративное"),
   ],
   videoproduction: [
-    placeholderItem("videoproduction", "videoproduction-01", "Шоурил", "Полный цикл", "/images/stills/videoproduction-01.jpg"),
+    reelItem("videoproduction", "videoproduction-01", "Лайфстайл", "Lifestyle", "Полный цикл"),
+    reelItem("videoproduction", "videoproduction-02", "Предметная съёмка: шахматы", "Product shoot: chess", "Полный цикл"),
   ],
   "music-videos": [
-    reelItem("music-videos", "music-videos-01", "Клипы", "Музыка"),
+    reelItem("music-videos", "music-videos-01", "Ночной мост", "Night bridge", "Музыка"),
+    reelItem("music-videos", "music-videos-02", "Огонь и море", "Fire and sea", "Музыка"),
   ],
   weddings: [
-    reelItem("weddings", "weddings-01", "Свадьбы", "Свадьбы"),
+    reelItem("weddings", "weddings-01", "День и вечер", "Day and evening", "Свадьбы"),
+    reelItem("weddings", "weddings-02", "Детали", "Details", "Свадьбы"),
   ],
   ai: [
     {
       id: "ai-01",
       title: "AI-ролик для наушников",
+      titleEn: "AI ad for headphones",
       tag: "AI",
       source: { mp4: mediaPath("/video/ai/ai-01.mp4"), poster: "/images/stills/ai-01.jpg" },
     },
   ],
 };
 
+/** Первый экран «О студии»: нарезка из шоурила по всем направлениям. */
+export const aboutReel: MediaSource = {
+  mp4: mediaPath("/video/about/about-01.mp4"),
+  mp4Mobile: mediaPath("/video/about/about-01-mobile.mp4"),
+  poster: "/images/stills/about-01.jpg",
+};

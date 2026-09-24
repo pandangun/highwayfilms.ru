@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import StudioPlayer from "@/components/StudioPlayer";
 import { useLoopWindow } from "@/components/useLoopWindow";
-import { heroMedia, heroWindow, sectionReels, type SectionKey } from "@/lib/media";
+import { heroMedia, heroWindow, reelTitle, sectionReels, type SectionKey } from "@/lib/media";
 
 type Fact = { label: string; value: string };
 
@@ -15,6 +15,7 @@ type SectionHeroProps = {
   /** Сколько секунд держим один ролик, прежде чем перейти к следующему. */
   hold?: number;
   railLabel?: string;
+  locale?: "ru" | "en";
 };
 
 /**
@@ -34,6 +35,7 @@ export default function SectionHero({
   facts,
   hold = 11,
   railLabel = "Ролики раздела",
+  locale = "ru",
 }: SectionHeroProps) {
   const items = sectionReels[section];
   const playable = items.filter((item) => !item.placeholder);
@@ -114,7 +116,7 @@ export default function SectionHero({
                       type="button"
                       className="reel-chip"
                       aria-current={itemIndex === index}
-                      aria-label={item.title}
+                      aria-label={reelTitle(item, locale)}
                       onClick={() => {
                         setIsAuto(false);
                         setIndex(itemIndex);
