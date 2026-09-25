@@ -1,15 +1,16 @@
 import type { Locale } from "@/components/siteNavigation";
 import type { PricedKey } from "@/lib/pricing";
-import type { Meta, Pair, Qa, Step } from "@/content/types";
+import type { Meta, Pair, Step } from "@/content/types";
 
 export type ProgramItem = {
   key: PricedKey;
   href: string;
   title: string;
   text: string;
-  still: string;
-  alt: string;
 };
+
+/** Дорожный щит над трассой: крупная строка и пояснение под ней. */
+export type RoadSign = { title: string; text: string };
 
 export type HomeContent = {
   meta: Meta;
@@ -21,14 +22,11 @@ export type HomeContent = {
     fullscreen: string;
   };
   intro: { title: string; text: string };
-  /** Титры, которые летят навстречу в сцене дороги. */
-  drive: { credits: string[] };
-  look: { alt: string };
-  program: ProgramItem[];
-  programLink: string;
+  /** Щиты с преимуществами, которые пролетают над трассой. */
+  drive: { signs: RoadSign[] };
+  program: { title: string; items: ProgramItem[] };
   process: { title: string; lead: string; items: Step[] };
   invite: { title: string; text: string };
-  faq: { title: string; items: Qa[] };
 };
 
 /**
@@ -113,60 +111,56 @@ export const homeContent: Record<Locale, HomeContent> = {
       text: "До съёмочного дня вы получаете смету и список сцен. После — мастер-копию и нарезки под площадки, включая вертикальные.",
     },
     drive: {
-      credits: ["Реклама", "Корпоративное видео", "Музыкальные клипы", "Свадебные фильмы", "AI-ролики"],
+      signs: [
+        { title: "Смета за один день", text: "с расшифровкой по строкам" },
+        { title: "Раскадровка до съёмки", text: "каждую сцену видно заранее" },
+        { title: "Свой свет и цвет", text: "свет под каждую сцену, цветокоррекция в студии" },
+        { title: "Все форматы с одной съёмки", text: "16:9, 9:16 и 1:1" },
+        { title: "Правки по таймкодам", text: "в кабинете клиента, одной лентой" },
+        { title: "Срок сдачи в смете", text: "называем заранее и держим" },
+      ],
     },
-    look: { alt: "Ночная трасса с эстакады: световые следы машин уходят к городу" },
-    program: [
-      {
-        key: "commercials",
-        href: "/commercials",
-        title: "Реклама",
-        text: "Ролики для ТВ, интернета и маркетплейсов. Из одной съёмки монтируем версии на 6, 15 и 30 секунд.",
-        still: "/images/stills/commercials-02.jpg",
-        alt: "Кадр из рекламного ролика: пилот у самолёта в ангаре",
-      },
-      {
-        key: "corporate",
-        href: "/corporate",
-        title: "Корпоративное видео",
-        text: "Фильмы о компании и производстве, интервью с руководителями, ролики для найма и мероприятий.",
-        still: "/images/stills/corporate-01.jpg",
-        alt: "Кадр со съёмки на производстве: руки мастера над тканью",
-      },
-      {
-        key: "music-videos",
-        href: "/music-videos",
-        title: "Музыкальные клипы",
-        text: "Придумываем визуальную историю под трек, снимаем её за один-два дня, монтируем и делаем цвет.",
-        still: "/images/stills/music-videos-01.jpg",
-        alt: "Кадр из клипа: девушка на ночном мосту",
-      },
-      {
-        key: "weddings",
-        href: "/weddings",
-        title: "Свадебные фильмы",
-        text: "Снимаем день как он идёт, без долгих постановок. Тизер через несколько дней, фильм через 3–4 недели.",
-        still: "/images/stills/weddings-01.jpg",
-        alt: "Кадр из свадебного фильма: молодожёны и гости с бенгальскими огнями",
-      },
-      {
-        key: "ai",
-        href: "/ai",
-        title: "AI-ролики",
-        text: "Реклама на генеративных моделях — для идей, которые дорого или невозможно снимать камерой.",
-        still: "/images/stills/ai-01.jpg",
-        alt: "Кадр из AI-ролика: девушка у окна с беспроводным наушником",
-      },
-      {
-        key: "videoproduction",
-        href: "/videoproduction",
-        title: "Полный цикл",
-        text: "Проект целиком: сценарий, съёмка, графика, звук и выдача всех версий. Этапы можно заказать и по отдельности.",
-        still: "/images/stills/videoproduction-01.jpg",
-        alt: "Кадр из шоурила: шахматные фигуры на доске",
-      },
-    ],
-    programLink: "Открыть раздел",
+    program: {
+      title: "Что снимаем",
+      items: [
+        {
+          key: "commercials",
+          href: "/commercials",
+          title: "Реклама",
+          text: "Ролики для ТВ, интернета и маркетплейсов. Из одной съёмки монтируем версии на 6, 15 и 30 секунд.",
+        },
+        {
+          key: "corporate",
+          href: "/corporate",
+          title: "Корпоративное видео",
+          text: "Фильмы о компании и производстве, интервью с руководителями, ролики для найма и мероприятий.",
+        },
+        {
+          key: "music-videos",
+          href: "/music-videos",
+          title: "Музыкальные клипы",
+          text: "Придумываем визуальную историю под трек, снимаем её за один-два дня, монтируем и делаем цвет.",
+        },
+        {
+          key: "weddings",
+          href: "/weddings",
+          title: "Свадебные фильмы",
+          text: "Снимаем день как он идёт, без долгих постановок. Тизер через несколько дней, фильм через 3–4 недели.",
+        },
+        {
+          key: "ai",
+          href: "/ai",
+          title: "AI-ролики",
+          text: "Реклама на генеративных моделях — для идей, которые дорого или невозможно снимать камерой.",
+        },
+        {
+          key: "videoproduction",
+          href: "/videoproduction",
+          title: "Полный цикл",
+          text: "Проект целиком: сценарий, съёмка, графика, звук и выдача всех версий. Этапы можно заказать и по отдельности.",
+        },
+      ],
+    },
     process: {
       title: "Как идёт работа",
       lead: "У каждого этапа есть результат, который вы видите и согласуете до следующего.",
@@ -175,35 +169,6 @@ export const homeContent: Record<Locale, HomeContent> = {
     invite: {
       title: "Расскажите, что нужно снять",
       text: "Бриф занимает десять минут. В течение рабочего дня пришлём смету с расшифровкой и срок до готового ролика.",
-    },
-    faq: {
-      title: "Частые вопросы",
-      items: [
-        {
-          q: "Сколько стоит рекламный ролик?",
-          a: "От 150 000 ₽ за ролик с одной съёмочной сменой и небольшой командой. Цена растёт с числом смен, актёров и локаций и с объёмом графики. Точную смету присылаем после брифа, каждая строка в ней расписана.",
-        },
-        {
-          q: "Можно прийти без сценария?",
-          a: "Да, так начинается большинство проектов. Достаточно задачи и пары роликов, которые вам нравятся. Сценарий и список сцен напишем сами и согласуем с вами до съёмки.",
-        },
-        {
-          q: "Сколько времени занимает производство?",
-          a: "Рекламный ролик — от двух недель от брифа до мастер-копии, корпоративный фильм — от трёх. Срок зависит от числа смен и объёма монтажа, точную дату называем в смете.",
-        },
-        {
-          q: "Вы работаете только в Петербурге?",
-          a: "Основные города — Петербург и Москва. По России выезжаем, дорогу и проживание команды ставим в смету отдельной строкой.",
-        },
-        {
-          q: "Можно заказать только монтаж или цветокоррекцию?",
-          a: "Да. Берём ваш материал на монтаж, цвет, звук, графику или адаптацию под площадки.",
-        },
-        {
-          q: "Как проходит согласование?",
-          a: "Показываем версию монтажа, вы присылаете правки списком по таймкодам, мы вносим их за один заход. Два круга правок входят в смету.",
-        },
-      ],
     },
   },
   en: {
@@ -228,60 +193,56 @@ export const homeContent: Record<Locale, HomeContent> = {
       text: "Before the shoot you get an estimate and a shot list. After it, the master and cut-downs for every placement, vertical ones included.",
     },
     drive: {
-      credits: ["Commercials", "Corporate video", "Music videos", "Wedding films", "AI films"],
+      signs: [
+        { title: "Estimate in one day", text: "itemised line by line" },
+        { title: "Storyboard before the shoot", text: "every scene agreed in advance" },
+        { title: "Our own light and grade", text: "lit for each scene, graded in-house" },
+        { title: "Every format from one shoot", text: "16:9, 9:16 and 1:1" },
+        { title: "Notes by timecode", text: "in the client room, in one thread" },
+        { title: "Delivery date in the estimate", text: "set upfront and kept" },
+      ],
     },
-    look: { alt: "Night highway from an overpass: car light trails running toward the city" },
-    program: [
-      {
-        key: "commercials",
-        href: "/commercials",
-        title: "Commercials",
-        text: "Spots for TV, online and marketplaces. One shoot gives you 6, 15 and 30-second versions.",
-        still: "/images/stills/commercials-02.jpg",
-        alt: "Still from a commercial: a pilot next to a jet in a hangar",
-      },
-      {
-        key: "corporate",
-        href: "/corporate",
-        title: "Corporate video",
-        text: "Films about a company and its production, executive interviews, hiring and event videos.",
-        still: "/images/stills/corporate-01.jpg",
-        alt: "Still from a production shoot: a tailor's hands over fabric",
-      },
-      {
-        key: "music-videos",
-        href: "/music-videos",
-        title: "Music videos",
-        text: "We come up with a visual story for the track, shoot it in one or two days, edit and grade it.",
-        still: "/images/stills/music-videos-01.jpg",
-        alt: "Still from a music video: a woman on a bridge at night",
-      },
-      {
-        key: "weddings",
-        href: "/weddings",
-        title: "Wedding films",
-        text: "We film the day as it happens, without long staging. A teaser in a few days, the film in 3–4 weeks.",
-        still: "/images/stills/weddings-01.jpg",
-        alt: "Still from a wedding film: the couple and guests with sparklers",
-      },
-      {
-        key: "ai",
-        href: "/ai",
-        title: "AI films",
-        text: "Advertising made with generative models, for ideas that are too costly or impossible to film.",
-        still: "/images/stills/ai-01.jpg",
-        alt: "Still from an AI film: a woman by the window with a wireless earbud",
-      },
-      {
-        key: "videoproduction",
-        href: "/videoproduction",
-        title: "Full production",
-        text: "The whole project: script, shoot, graphics, sound and every delivery version. Stages can be booked separately.",
-        still: "/images/stills/videoproduction-01.jpg",
-        alt: "Still from the showreel: chess pieces on a board",
-      },
-    ],
-    programLink: "Open section",
+    program: {
+      title: "What we shoot",
+      items: [
+        {
+          key: "commercials",
+          href: "/commercials",
+          title: "Commercials",
+          text: "Spots for TV, online and marketplaces. One shoot gives you 6, 15 and 30-second versions.",
+        },
+        {
+          key: "corporate",
+          href: "/corporate",
+          title: "Corporate video",
+          text: "Films about a company and its production, executive interviews, hiring and event videos.",
+        },
+        {
+          key: "music-videos",
+          href: "/music-videos",
+          title: "Music videos",
+          text: "We come up with a visual story for the track, shoot it in one or two days, edit and grade it.",
+        },
+        {
+          key: "weddings",
+          href: "/weddings",
+          title: "Wedding films",
+          text: "We film the day as it happens, without long staging. A teaser in a few days, the film in 3–4 weeks.",
+        },
+        {
+          key: "ai",
+          href: "/ai",
+          title: "AI films",
+          text: "Advertising made with generative models, for ideas that are too costly or impossible to film.",
+        },
+        {
+          key: "videoproduction",
+          href: "/videoproduction",
+          title: "Full production",
+          text: "The whole project: script, shoot, graphics, sound and every delivery version. Stages can be booked separately.",
+        },
+      ],
+    },
     process: {
       title: "How the work goes",
       lead: "Every stage ends with something you see and approve before the next one starts.",
@@ -290,35 +251,6 @@ export const homeContent: Record<Locale, HomeContent> = {
     invite: {
       title: "Tell us what you need filmed",
       text: "The brief takes ten minutes. Within one working day we send an itemised estimate and a delivery date.",
-    },
-    faq: {
-      title: "Questions",
-      items: [
-        {
-          q: "How much does a commercial cost?",
-          a: "From RUB 150,000 for a spot with one shoot day and a small crew. The price grows with shoot days, cast, locations and the amount of graphics. After the brief we send an itemised estimate.",
-        },
-        {
-          q: "Can we start without a script?",
-          a: "Yes, most projects start that way. A task and a couple of videos you like are enough. We write the script and shot list and agree them with you before the shoot.",
-        },
-        {
-          q: "How long does production take?",
-          a: "A commercial takes two weeks or more from brief to master, a corporate film three or more. It depends on shoot days and the amount of editing; the exact date is in the estimate.",
-        },
-        {
-          q: "Do you only work in Saint Petersburg?",
-          a: "Our base cities are Saint Petersburg and Moscow. We travel across Russia; travel and accommodation are a separate line in the estimate.",
-        },
-        {
-          q: "Can we order only editing or colour grading?",
-          a: "Yes. We take your footage for editing, grading, sound, graphics or platform adaptations.",
-        },
-        {
-          q: "How do approvals work?",
-          a: "We show a cut, you send notes as a timecoded list, and we apply them in one pass. Two rounds of notes are included in the estimate.",
-        },
-      ],
     },
   },
 };

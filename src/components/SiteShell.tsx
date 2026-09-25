@@ -1,23 +1,22 @@
 import "@/app/globals.css";
-import { Noto_Serif_Display, Onest } from "next/font/google";
+import { Onest, Unbounded } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LaneLine from "@/components/road/LaneLine";
 import Headlights from "@/components/road/Headlights";
 
 /**
- * Заголовки — Noto Serif Display с осью ширины: узкое начертание держит
- * форму афиши даже на телефоне. Текст — Onest.
+ * Заголовки — Unbounded: широкий гротеск, в тонком начертании читается
+ * как марка дорогой машины, а жирный — как дорожный щит. Это трасса.
+ * Текст — Onest.
  *
  * Имена переменных не совпадают с --ff-display / --ff-text из
  * foundation.css: те ссылаются сюда. Если назвать одинаково, :root
  * перезатрёт то, что подставил next/font.
  */
-const display = Noto_Serif_Display({
+const display = Unbounded({
   subsets: ["cyrillic", "latin"],
-  axes: ["wdth"],
-  style: ["normal"],
-  variable: "--font-serif-display",
+  variable: "--font-display",
   display: "swap",
 });
 

@@ -105,11 +105,12 @@
 
   /* ─────────────────────────────
      Дорога после шоурила
-     Секция в три экрана, сцена прилипает к окну, прокрутка ведёт машину.
+     Секция в несколько экранов, сцена прилипает к окну, прокрутка ведёт
+     машину. Над дорогой пролетают щиты на порталах — преимущества.
      ───────────────────────────── */
   .drive {
     position: relative;
-    height: 320vh;
+    height: 440vh;
     background: var(--night);
   }
 
@@ -139,27 +140,114 @@
     display: none;
   }
 
-  .drive__credits {
+  .drive__signs {
     position: absolute;
     inset: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
     pointer-events: none;
   }
 
-  .drive__credit {
+  /* Щит в «метрах»: 12 м = 1000 px базы, --m — пикселей на метр. Центр
+     щита на 6,4 м над дорогой, стойки портала — в 9 м от оси. */
+  .drive__sign {
+    --m: 83.34px;
+    --lit: 0;
     position: absolute;
     left: 0;
     top: 0;
+    width: 1000px;
     transform-origin: 0 0;
-    font-family: var(--ff-display);
-    font-weight: 300;
-    font-variation-settings: "wdth" var(--display-wdth);
-    font-size: 200px;
-    line-height: 1;
-    white-space: nowrap;
-    color: var(--moon);
-    text-shadow: 0 0 42px rgb(var(--led-rgb) / .35);
     opacity: 0;
     will-change: transform, opacity;
+  }
+
+  .drive__gantry {
+    position: absolute;
+    top: calc(-.55 * var(--m));
+    bottom: calc(50% - 6.4 * var(--m));
+    left: calc(50% - 9 * var(--m));
+    right: calc(50% - 9 * var(--m));
+    z-index: -1;
+  }
+
+  /* Ригель портала: ферма из двух поясов с раскосами. */
+  .drive__gantry::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(.5 * var(--m));
+    border-block: calc(.08 * var(--m)) solid #1c2638;
+    background: repeating-linear-gradient(60deg, transparent 0 calc(.28 * var(--m)), #1c2638 calc(.28 * var(--m)) calc(.34 * var(--m)));
+  }
+
+  /* Стойки портала по краям дороги. */
+  .drive__gantry::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background:
+      linear-gradient(90deg, #0d1422, #243049 45%, #0d1422) left top / calc(.36 * var(--m)) 100% no-repeat,
+      linear-gradient(90deg, #0d1422, #243049 45%, #0d1422) right top / calc(.36 * var(--m)) 100% no-repeat;
+  }
+
+  /* Сам щит — синий, с белой каймой отступом от края, как на трассе.
+     Свет фар (--lit) поднимает яркость и даёт отблеск. */
+  .drive__panel {
+    position: relative;
+    display: grid;
+    gap: 18px;
+    padding: 52px 64px 58px;
+    border-radius: 16px;
+    color: #fff;
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgb(255 255 255 / calc(.07 + .1 * var(--lit))), rgb(255 255 255 / 0) 60%),
+      linear-gradient(180deg, #1a55c9 0%, #1244a8 55%, #0e398f 100%);
+    box-shadow:
+      inset 0 0 0 7px #1244a8,
+      inset 0 0 0 12px rgb(255 255 255 / .94),
+      0 0 calc(40px + 60px * var(--lit)) rgb(var(--led-rgb) / calc(.1 + .25 * var(--lit)));
+    filter: brightness(calc(.62 + .5 * var(--lit)));
+  }
+
+  .drive__sign-title {
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 1.08;
+    letter-spacing: -.015em;
+  }
+
+  .drive__sign-text {
+    font-size: 34px;
+    line-height: 1.3;
+    color: rgb(255 255 255 / .86);
+  }
+
+  /* На телефоне щит уже (9 м = 700 px), текст крупнее относительно щита. */
+  @media (max-width: 699px) {
+    .drive__sign {
+      --m: 77.78px;
+      width: 700px;
+    }
+
+    .drive__panel {
+      padding: 44px 50px 50px;
+    }
+
+    .drive__sign-title {
+      font-size: 60px;
+    }
+
+    .drive__sign-text {
+      font-size: 36px;
+    }
   }
 
   .drive__title {
@@ -184,44 +272,40 @@
   }
 
   @media (max-width: 767px) {
-    .drive { height: 260vh; }
+    .drive { height: 380vh; }
   }
 
+  /* Без движения — щиты списком, фраза сразу видна. */
   @media (prefers-reduced-motion: reduce) {
     .drive { height: auto; }
-    .drive__stage { position: relative; }
-    .drive__credits { display: none; }
-    .drive__title {
+    .drive__stage { position: relative; height: auto; min-height: 100svh; }
+    .drive__signs {
+      position: relative;
+      display: grid;
+      gap: 1.25rem;
+      width: min(100% - 2 * var(--gutter), 760px);
+      margin: 0 auto;
+      padding-block: calc(var(--header-h) + 3rem) 3rem;
+    }
+    .drive__sign {
+      position: relative;
+      width: auto;
       opacity: 1 !important;
       transform: none !important;
     }
+    .drive__gantry { display: none; }
+    .drive__sign-title { font-size: var(--t-h4); }
+    .drive__sign-text { font-size: var(--t-body); }
+    .drive__panel { padding: 1.5rem 1.75rem; filter: none; }
+    .drive__title {
+      position: relative;
+      opacity: 1 !important;
+      transform: none !important;
+      padding-bottom: 4rem;
+    }
   }
 
-  /* ─────────────────────────────
-     Съезды: направления полосами во всю ширину
-     ───────────────────────────── */
-  .exits {
-    display: grid;
-    gap: clamp(8px, .8vw, 14px);
-    background: var(--night);
-  }
-
-  .exit {
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    min-height: clamp(480px, 86svh, 900px);
-    overflow: hidden;
-    isolation: isolate;
-  }
-
-  .exit__media {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    background: var(--deep);
-  }
-
+  /* Ролик полосы (ReelBand): проявляется поверх постера, когда пошёл. */
   .reel-band__video {
     position: absolute;
     inset: 0;
@@ -234,125 +318,6 @@
 
   .reel-band__video.is-playing {
     opacity: 1;
-  }
-
-  .exit__shade {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      linear-gradient(0deg, rgb(var(--night-rgb) / .92) 0%, rgb(var(--night-rgb) / .45) 34%, rgb(var(--night-rgb) / 0) 62%),
-      linear-gradient(180deg, rgb(var(--night-rgb) / .4), rgb(var(--night-rgb) / 0) 22%);
-    pointer-events: none;
-  }
-
-  .exit__hit {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-
-  .exit__body {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    padding-bottom: clamp(32px, 6vh, 72px);
-    pointer-events: none;
-    text-shadow: 0 1px 18px rgb(var(--night-rgb) / .55);
-  }
-
-  .exit__body a {
-    pointer-events: auto;
-  }
-
-  .exit__title {
-    /* 14,5vw — чтобы «Корпоративное» помещалось в строку на телефоне. */
-    font-size: min(var(--t-hero), 14.5vw);
-    line-height: .86;
-    max-width: 14ch;
-  }
-
-  .exit__row {
-    display: grid;
-    gap: 1.25rem;
-    margin-top: clamp(1.25rem, 2.4vw, 2rem);
-  }
-
-  .exit__text {
-    max-width: 32em;
-    font-size: var(--t-lead);
-    line-height: 1.45;
-    color: rgb(var(--moon-rgb) / .82);
-  }
-
-  .exit__side {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: .5rem 2rem;
-  }
-
-  .exit__price {
-    font-family: var(--ff-display);
-    font-weight: 340;
-    font-variation-settings: "wdth" var(--display-wdth);
-    font-size: var(--t-h3);
-    line-height: 1;
-  }
-
-  @media (min-width: 900px) {
-    .exit__row {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: end;
-      column-gap: 4rem;
-    }
-
-    .exit__side {
-      flex-direction: column;
-      align-items: flex-end;
-      text-align: right;
-    }
-  }
-
-  /* ─────────────────────────────
-     Взгляд с эстакады
-     ───────────────────────────── */
-  .look {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    min-height: clamp(520px, 100svh, 1000px);
-    overflow: hidden;
-    isolation: isolate;
-    background: var(--night);
-  }
-
-  .look__layer {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    transform: scale(1.16);
-    will-change: transform;
-  }
-
-  .look__shade {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      linear-gradient(180deg, rgb(var(--night-rgb) / .92) 0%, rgb(var(--night-rgb) / .55) 30%, rgb(var(--night-rgb) / 0) 58%),
-      linear-gradient(90deg, rgb(var(--night-rgb) / .72) 0%, rgb(var(--night-rgb) / 0) 52%),
-      linear-gradient(0deg, var(--night) 0%, rgb(var(--night-rgb) / 0) 22%);
-  }
-
-  .look__caption {
-    padding-top: calc(var(--header-h) + clamp(40px, 10vh, 120px));
-  }
-
-  .look__caption .lead {
-    max-width: 24em;
-    color: rgb(var(--moon-rgb) / .8);
-    text-shadow: 0 1px 16px rgb(var(--night-rgb) / .8);
   }
 
   /* ─────────────────────────────
@@ -455,7 +420,6 @@
     margin: 0;
     font-family: var(--ff-display);
     font-weight: 340;
-    font-variation-settings: "wdth" var(--display-wdth);
     font-size: var(--t-h3);
     line-height: 1.04;
     color: var(--moon);
@@ -545,29 +509,29 @@
      Надпись заполняет блок целиком, поэтому координаты блока и надписи
      совпадают. На устройствах без мыши луч сам ходит по надписи. */
   /* Подвал целиком — колонки, название и строка копирайта — должен
-     помещаться в экран под шапкой. Название во всю ширину (18,1vw), но
+     помещаться в экран под шапкой. Название во всю ширину (11,7vw), но
      на невысоких экранах кегль ограничен высотой окна: из неё вычтены
      шапка, колонки (~310 px с запасом) и отступы сетки; 1,1 кегля —
-     высота полосы с названием. Нижняя граница 9vw — чтобы на лежащем
+     высота полосы с названием. Нижняя граница 6vw — чтобы на лежащем
      телефоне надпись не исчезла. */
   .finale__name {
-    font-size: clamp(9vw, calc((100svh - var(--header-h) - 2 * clamp(1.75rem, 3vw, 2.75rem) - 310px) / 1.1), 18.1vw);
+    font-size: clamp(6vw, calc((100svh - var(--header-h) - 2 * clamp(1.75rem, 3vw, 2.75rem) - 310px) / 1.1), 11.7vw);
     border-bottom: 1px solid var(--line-strong);
   }
 
   .finale__wordmark {
-    /* При line-height .78 верх букв ниже края строки на .06 кегля, а
-       хвосты g и y выходят за низ на .24 — поправки держат равный зазор. */
+    /* Unbounded: при line-height .95 верх букв ниже края строки на .08
+       кегля, хвосты g и y выходят за низ на столько же — поправки держат
+       равный зазор от разметки до букв сверху и снизу. */
     --gap: max(.07em, 14px);
     --beam: clamp(150px, 24vw, 460px);
     margin: 0;
-    padding-block: calc(var(--gap) - .06em) calc(var(--gap) + .24em);
+    padding-block: calc(var(--gap) - .08em) calc(var(--gap) + .08em);
     font-family: var(--ff-display);
     font-weight: 300;
-    font-variation-settings: "wdth" var(--display-wdth);
-    /* Ширина надписи — 5,29 кегля: 18,1vw дают 96% ширины окна. */
+    /* Ширина надписи — 8,2 кегля: 11,7vw дают 96% ширины окна. */
     font-size: 1em;
-    line-height: .78;
+    line-height: .95;
     letter-spacing: -.01em;
     text-align: center;
     white-space: nowrap;

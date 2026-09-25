@@ -2,18 +2,20 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import RoadScene, { type RoadFrame } from "@/components/road/RoadScene";
+import type { RoadSign } from "@/content/home";
 
 type Vec3 = [number, number, number];
 
-const LENGTH = 480;
-/** Расстояние между титрами на дороге, метры. */
-const SPACING = 84;
-/** Базовый кегль титров в CSS. Экранный размер задаёт scale. */
-const BASE_PX = 200;
-/** Высота букв титра в «метрах» мира. */
-const LETTER_M = 1.6;
+/** Сколько метров трассы приходится на всю прокрутку секции. */
+const LENGTH = 560;
+/** Где стоит первый портал и шаг между порталами, метры. */
+const FIRST = 70;
+const SPACING = 74;
 const EYE_Y = 1.3;
-const CREDIT_Y = 1.5;
+/** Центр щита над дорогой, метры: порталы высокие, как на М-11. */
+const SIGN_Y = 6.4;
+/** С какой дистанции щит начинает проступать из темноты. */
+const FAR = 170;
 
 const dot = (a: Vec3, b: Vec3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const cross = (a: Vec3, b: Vec3): Vec3 => [
@@ -30,24 +32,29 @@ const ramp = (from: number, to: number, x: number) => {
 /**
  * Вступление после шоурила — поездка по ночной трассе.
  *
- * Секция в три экрана высотой, сцена внутри прилипает к окну. Прокрутка
- * ведёт машину вперёд, и названия направлений летят навстречу из глубины
- * дороги, как титры «Шоссе в никуда» Линча. В конце проявляется главная
- * фраза. Титры стоят в мире сцены, поэтому поворот взгляда мышью сдвигает
- * их вместе с дорогой.
+ * Секция в несколько экранов высотой, сцена внутри прилипает к окну.
+ * Прокрутка ведёт машину вперёд, над дорогой один за другим подлетают
+ * синие щиты на порталах — преимущества студии. Щит проступает из
+ * темноты, растёт, его высвечивают фары, и он уходит над головой.
+ * Щиты стоят в мире сцены, поэтому поворот взгляда мышью сдвигает их
+ * вместе с дорогой. В конце проявляется главная фраза.
+ *
+ * Размеры щита — в «метрах»: ширина 12 м (на телефоне 9 м, текст
+ * крупнее), базовая ширина в CSS 1000 и 700 px. Порталы — по краям
+ * дороги, в CSS их считают через --m (пикселей на метр).
  */
 export default function TitleSequence({
-  credits,
+  signs,
   title,
   lead,
 }: {
-  credits: string[];
+  signs: RoadSign[];
   title: string;
   lead: string;
 }) {
   const sectionRef = useRef<HTMLElement>(null);
   const progressRef = useRef(0);
-  const creditRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const signRefs = useRef<Array<HTMLLIElement | null>>([]);
   const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -77,54 +84,61 @@ export default function TitleSequence({
       const rt: Vec3 = [cy, 0, -sy];
       const up = cross(fw, rt);
 
-      credits.forEach((_, index) => {
-        const el = creditRefs.current[index];
+      const narrow = f.width < 700;
+      const signM = narrow ? 9 : 12;
+      const baseW = narrow ? 700 : 1000;
+
+      signs.forEach((_, index) => {
+        const el = signRefs.current[index];
         if (!el) return;
-        const worldZ = 50 + index * SPACING;
-        // Титр висит над средней полосой чуть выше глаз водителя.
-        const d: Vec3 = [-f.sway, CREDIT_Y - EYE_Y, worldZ - f.z];
+        const worldZ = FIRST + index * SPACING;
+        const d: Vec3 = [-f.sway, SIGN_Y - EYE_Y, worldZ - f.z];
         const zc = dot(d, fw);
-        if (zc < 2.2 || zc > SPACING + 2.2) {
+        if (zc < 2.5 || zc > FAR) {
           el.style.opacity = "0";
           return;
         }
         const x = f.width / 2 + (dot(d, rt) / zc) * f.focal;
         const y = f.height / 2 - (dot(d, up) / zc) * f.focal;
-        const scale = ((LETTER_M / zc) * f.focal) / BASE_PX;
-        // Титры идут по одному: следующий проявляется, только когда
-        // предыдущий уже пролетел мимо камеры.
-        const opacity = ramp(SPACING + 2.2, SPACING - 30, zc) * ramp(2.2, 11, zc);
+        const scale = ((signM / zc) * f.focal) / baseW;
+        const opacity = ramp(FAR, FAR - 50, zc) * ramp(3, 12, zc);
         el.style.opacity = opacity.toFixed(3);
+        // Фары: чем ближе щит, тем ярче отражает.
+        el.style.setProperty("--lit", ramp(90, 22, zc).toFixed(3));
         el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scale(${scale.toFixed(4)}) translate(-50%, -50%)`;
       });
 
       const card = titleRef.current;
       if (card) {
-        const shown = ramp(0.8, 0.94, progressRef.current);
+        const shown = ramp(0.84, 0.96, progressRef.current);
         card.style.opacity = shown.toFixed(3);
         card.style.transform = `translate3d(0, ${((1 - shown) * 28).toFixed(1)}px, 0)`;
       }
     },
-    [credits],
+    [signs],
   );
 
   return (
     <section ref={sectionRef} className="drive" data-lane="off">
       <div className="drive__stage">
         <RoadScene mode="drive" progressRef={progressRef} length={LENGTH} onFrame={onFrame} />
-        <div className="drive__credits" aria-hidden>
-          {credits.map((credit, index) => (
-            <span
-              key={credit}
+        <ul className="drive__signs">
+          {signs.map((sign, index) => (
+            <li
+              key={sign.title}
               ref={(node) => {
-                creditRefs.current[index] = node;
+                signRefs.current[index] = node;
               }}
-              className="drive__credit"
+              className="drive__sign"
             >
-              {credit}
-            </span>
+              <span className="drive__gantry" aria-hidden />
+              <span className="drive__panel">
+                <span className="drive__sign-title">{sign.title}</span>
+                <span className="drive__sign-text">{sign.text}</span>
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
         <div ref={titleRef} className="drive__title">
           <div className="wrap title-card">
             <h2 className="display display--h2 mx-auto max-w-[18ch]">{title}</h2>

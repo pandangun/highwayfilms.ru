@@ -23,7 +23,6 @@
   .package__price {
     font-family: var(--ff-display);
     font-weight: 340;
-    font-variation-settings: "wdth" var(--display-wdth);
     font-size: var(--t-h3);
     line-height: 1;
   }
@@ -65,7 +64,6 @@
   .option__price {
     font-family: var(--ff-display);
     font-weight: 380;
-    font-variation-settings: "wdth" var(--display-wdth);
     font-size: var(--t-h4);
     line-height: 1.1;
   }
@@ -300,10 +298,10 @@
   }
 
   /* ── Политика конфиденциальности ── */
-  /* Заголовок политики: «конфиденциальности» — 8,9 кегля в ширину,
+  /* Заголовок политики: «конфиденциальности» — 13,2 кегля в ширину,
      на телефоне кегль ограничен шириной экрана. */
   .legal-title {
-    font-size: min(var(--t-h1), 9.6vw);
+    font-size: min(var(--t-h1), 6.6vw);
   }
 
   /* Разделы политики — не заголовки глав: кегль скромнее, чем в статьях. */
@@ -312,9 +310,10 @@
     line-height: 1.15;
   }
 
-  /* Цена «от» крупным кеглем: на телефоне 360 не шире экрана. */
+  /* Цена «от» крупным кеглем: на телефоне 360 не шире экрана
+     («from RUB 180,000» — 10,5 кегля). */
   .price-title {
-    font-size: min(var(--t-h1), 12vw);
+    font-size: min(var(--t-h1), 8.2vw);
   }
 
   .legal {
@@ -379,7 +378,6 @@
     margin-top: 2.4em;
     font-family: var(--ff-display);
     font-weight: 340;
-    font-variation-settings: "wdth" var(--display-wdth);
     font-size: var(--t-h3);
     line-height: 1.02;
     color: var(--moon);
@@ -389,7 +387,6 @@
     margin-top: 2em;
     font-family: var(--ff-display);
     font-weight: 380;
-    font-variation-settings: "wdth" var(--display-wdth);
     font-size: var(--t-h4);
     line-height: 1.1;
     color: var(--moon);
@@ -583,7 +580,6 @@
   .dir-tile__title {
     font-family: var(--ff-display);
     font-weight: 340;
-    font-variation-settings: "wdth" var(--display-wdth);
     font-size: var(--t-h4);
     line-height: 1.1;
     color: var(--moon);
@@ -617,7 +613,6 @@
   .route__city {
     font-family: var(--ff-display);
     font-weight: 340;
-    font-variation-settings: "wdth" var(--display-wdth);
     font-size: var(--t-h2);
     line-height: 1;
     color: var(--moon);
@@ -748,7 +743,6 @@
     margin: .6rem 0 0;
     font-family: var(--ff-display);
     font-weight: 340;
-    font-variation-settings: "wdth" var(--display-wdth);
     font-size: var(--t-h3);
     line-height: 1.05;
     color: var(--moon);
@@ -775,6 +769,82 @@
     .contact-grid > div:nth-child(even) {
       padding-left: clamp(1.5rem, 4vw, 4rem);
       border-left: 1px solid var(--line);
+    }
+  }
+
+  /* ─────────────────────────────
+     Главная, «Что снимаем»: направления строками через линии, без роликов
+     ───────────────────────────── */
+  .dir-index {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .dir-index__row {
+    position: relative;
+    display: grid;
+    gap: .6rem 2rem;
+    padding-block: clamp(1.4rem, 2.6vw, 2.1rem);
+    border-bottom: 1px solid var(--line);
+    isolation: isolate;
+  }
+
+  /* При наведении строку слева освещает голубой отсвет, как фары. */
+  .dir-index__row::before {
+    content: "";
+    position: absolute;
+    inset: 0 calc(-1 * var(--gutter));
+    z-index: -1;
+    background: linear-gradient(90deg, rgb(var(--led-rgb) / .12), rgb(var(--led-rgb) / 0) 70%);
+    opacity: 0;
+    transition: opacity .35s ease;
+  }
+
+  .dir-index__row:hover::before,
+  .dir-index__row:focus-visible::before {
+    opacity: 1;
+  }
+
+  .dir-index__title {
+    font-family: var(--ff-display);
+    font-weight: 300;
+    font-size: var(--t-h3);
+    line-height: 1.1;
+    letter-spacing: -.015em;
+    color: var(--moon);
+    transition: transform .45s var(--ease), color .25s ease;
+  }
+
+  .dir-index__row:hover .dir-index__title,
+  .dir-index__row:focus-visible .dir-index__title {
+    color: #fff;
+    transform: translateX(.6rem);
+  }
+
+  .dir-index__text {
+    max-width: 34em;
+    line-height: 1.5;
+    color: var(--steel);
+  }
+
+  .dir-index__price {
+    font-family: var(--ff-display);
+    font-weight: 300;
+    font-size: var(--t-h4);
+    white-space: nowrap;
+    color: var(--moon);
+  }
+
+  @media (min-width: 1000px) {
+    .dir-index__row {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 5fr) minmax(0, 2.2fr);
+      align-items: baseline;
+    }
+
+    .dir-index__price {
+      text-align: right;
     }
   }
 }
