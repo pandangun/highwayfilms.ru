@@ -445,7 +445,7 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2.75rem 1.5rem;
-    padding-block: clamp(2.75rem, 5vw, 4.75rem);
+    padding-block: clamp(1.75rem, 3vw, 2.75rem);
   }
 
   .finale__about {
@@ -485,14 +485,14 @@
   }
 
   .finale__heading {
-    margin: 0 0 1.15rem;
+    margin: 0 0 .9rem;
     font-size: var(--t-micro);
     color: var(--haze);
   }
 
   .finale__list {
     display: grid;
-    gap: .55rem;
+    gap: .45rem;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -501,7 +501,7 @@
   .finale__list a {
     position: relative;
     display: inline-block;
-    padding-block: .15rem;
+    padding-block: .1rem;
     font-size: var(--t-small);
     color: var(--steel);
     transition: color .25s ease;
@@ -543,15 +543,21 @@
      под фарой буквы белые, дальше голубеют и гаснут почти до черноты.
      Надпись заполняет блок целиком, поэтому координаты блока и надписи
      совпадают. На устройствах без мыши луч сам ходит по надписи. */
+  /* Подвал целиком — колонки, название и строка копирайта — должен
+     помещаться в экран под шапкой. Название во всю ширину (18,1vw), но
+     на невысоких экранах кегль ограничен высотой окна: из неё вычтены
+     шапка, колонки (~310 px с запасом) и отступы сетки; 1,1 кегля —
+     высота полосы с названием. Нижняя граница 9vw — чтобы на лежащем
+     телефоне надпись не исчезла. */
   .finale__name {
-    font-size: 18.1vw;
+    font-size: clamp(9vw, calc((100svh - var(--header-h) - 2 * clamp(1.75rem, 3vw, 2.75rem) - 310px) / 1.1), 18.1vw);
     border-bottom: 1px solid var(--line-strong);
   }
 
   .finale__wordmark {
     /* При line-height .78 верх букв ниже края строки на .06 кегля, а
        хвосты g и y выходят за низ на .24 — поправки держат равный зазор. */
-    --gap: max(.12em, 18px);
+    --gap: max(.07em, 14px);
     --beam: clamp(150px, 24vw, 460px);
     margin: 0;
     padding-block: calc(var(--gap) - .06em) calc(var(--gap) + .24em);
@@ -607,7 +613,7 @@
     align-items: center;
     justify-content: space-between;
     gap: .75rem 1.5rem;
-    padding-block: 1.5rem 2rem;
+    padding-block: 1.1rem 1.4rem;
     font-size: var(--t-micro);
     color: var(--steel);
   }
