@@ -74,11 +74,16 @@ export default function ReelBand({
 
   return (
     <div className={className}>
+      {/* Постер грузится сразу с открытием страницы, с низким приоритетом:
+          он маленький, а когда до полосы долистают, по тому же соединению
+          уже могут идти ролики — тогда ленивая загрузка ждала бы их. */}
       <Image
         src={poster}
         alt={alt}
         fill
         sizes="100vw"
+        loading="eager"
+        fetchPriority="low"
         className="object-cover"
         onLoad={() => setPosterReady(true)}
         onError={() => setPosterReady(true)}

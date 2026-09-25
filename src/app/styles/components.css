@@ -143,6 +143,14 @@
     height: var(--header-h);
   }
 
+  /* Шапка — органы управления, а не текст: не выделяется, и в Firefox
+     с навигацией курсором (F7) мигающий курсор не встаёт в логотип. */
+  .hdr,
+  .drawer {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   .brand {
     font-family: var(--ff-display);
     font-weight: 400;

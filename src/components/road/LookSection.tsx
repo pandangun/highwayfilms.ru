@@ -86,7 +86,8 @@ export default function LookSection({
   return (
     <section ref={sectionRef} className="look" data-lane="off">
       <div ref={layerRef} className="look__layer">
-        <Image src={image} alt={alt} fill sizes="120vw" className="object-cover" />
+        {/* Сразу, но без спешки: см. постеры в ReelBand. */}
+        <Image src={image} alt={alt} fill sizes="120vw" loading="eager" fetchPriority="low" className="object-cover" />
       </div>
       <div className="look__shade" aria-hidden />
       <div className="look__caption wrap">

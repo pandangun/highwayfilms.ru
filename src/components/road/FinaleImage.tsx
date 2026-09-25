@@ -67,7 +67,8 @@ export default function FinaleImage({ src, alt }: { src: string; alt: string }) 
   return (
     <div ref={boxRef} className="finale__image">
       <div ref={layerRef} className="finale__layer">
-        <Image src={src} alt={alt} fill sizes="100vw" className="object-cover" />
+        {/* Сразу, но без спешки: см. постеры в ReelBand. */}
+        <Image src={src} alt={alt} fill sizes="100vw" loading="eager" fetchPriority="low" className="object-cover" />
       </div>
     </div>
   );
