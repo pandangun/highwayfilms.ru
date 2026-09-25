@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     description: article.content.description,
     path: `/en/articles/${slug}`,
     locale: "en",
-    imagePath: articleStill(article.serviceHref),
+    imagePath: articleStill(article.serviceHref, article.slug),
   });
 }
 

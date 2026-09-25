@@ -12,6 +12,15 @@ const stills: Record<string, string> = {
   "/videoproduction": "/images/stills/videoproduction-01.jpg",
 };
 
-export function articleStill(serviceHref: string) {
-  return stills[serviceHref] ?? "/images/stills/commercials-02.jpg";
+/**
+ * Свой кадр у статей, которые делят один раздел: иначе в списке две
+ * статьи подряд с одной и той же картинкой.
+ */
+const bySlug: Record<string, string> = {
+  "kak-brendu-ispolzovat-korotkie-video-dlya-socsetey": "/images/stills/commercials-04.jpg",
+  "backstage-kommercheskogo-prodakshna": "/images/stills/commercials-02.jpg",
+};
+
+export function articleStill(serviceHref: string, slug?: string) {
+  return (slug && bySlug[slug]) ?? stills[serviceHref] ?? "/images/stills/commercials-02.jpg";
 }

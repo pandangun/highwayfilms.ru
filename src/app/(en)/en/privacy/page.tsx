@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 // Injected at build (e.g., from CI). Fallback — today’s date.
-const UPDATED_AT = process.env.NEXT_PUBLIC_BUILD_DATE ?? new Date().toISOString().slice(0, 10);
+const UPDATED_AT = "2026-09-23"; // день последней правки текста
 
 const SECTIONS = [
   { id: "operator", title: "1. Terms and Data Controller" },
@@ -70,7 +70,7 @@ export default function PrivacyPageEN() {
 
       {/* Header */}
       <header className="max-w-3xl">
-        <h1 className="display display--h1">Privacy Policy</h1>
+        <h1 className="display display--h1 legal-title">Privacy Policy</h1>
         <p className="mt-6 text-small text-steel">
           Last updated: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>
         </p>

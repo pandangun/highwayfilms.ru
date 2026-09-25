@@ -65,6 +65,7 @@ next-env.d.ts
 !/public/video/ai/
 /public/video/ai/*
 !/public/video/ai/ai-01.mp4
+!/public/video/ai/ai-01-mobile.mp4
 
 # --- allow image frames & map preview in the repo ---
 !/public/images/frames/**

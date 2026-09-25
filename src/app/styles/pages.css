@@ -300,6 +300,23 @@
   }
 
   /* ── Политика конфиденциальности ── */
+  /* Заголовок политики: «конфиденциальности» — 8,9 кегля в ширину,
+     на телефоне кегль ограничен шириной экрана. */
+  .legal-title {
+    font-size: min(var(--t-h1), 9.6vw);
+  }
+
+  /* Разделы политики — не заголовки глав: кегль скромнее, чем в статьях. */
+  .prose.legal h2 {
+    font-size: var(--t-h4);
+    line-height: 1.15;
+  }
+
+  /* Цена «от» крупным кеглем: на телефоне 360 не шире экрана. */
+  .price-title {
+    font-size: min(var(--t-h1), 12vw);
+  }
+
   .legal {
     max-width: 46em;
     font-size: 1.0625rem;
@@ -346,6 +363,16 @@
 
   .prose > * + * {
     margin-top: 1.15em;
+  }
+
+  /* Статьи и политика собраны из <section>: интервалы нужны и внутри —
+     иначе заголовок слипается с текстом, а абзацы друг с другом. */
+  .prose section > * + * {
+    margin-top: 1.15em;
+  }
+
+  .prose section > :is(h2, h3) + * {
+    margin-top: .7em;
   }
 
   .prose h2 {
@@ -696,5 +723,58 @@
     font-size: var(--t-lead);
     line-height: 1.45;
     color: var(--moon);
+  }
+
+  /* ─────────────────────────────
+     Контакты: четыре крупных значения в сетке через волосяные линии
+     ───────────────────────────── */
+  .contact-grid {
+    display: grid;
+    margin: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .contact-grid > div {
+    padding-block: clamp(1.5rem, 3vw, 2.5rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .contact-grid dt {
+    font-size: var(--t-micro);
+    color: var(--steel);
+  }
+
+  .contact-grid dd {
+    margin: .6rem 0 0;
+    font-family: var(--ff-display);
+    font-weight: 340;
+    font-variation-settings: "wdth" var(--display-wdth);
+    font-size: var(--t-h3);
+    line-height: 1.05;
+    color: var(--moon);
+    overflow-wrap: anywhere;
+  }
+
+  .contact-grid a {
+    transition: color .25s ease;
+  }
+
+  .contact-grid a:hover {
+    color: #fff;
+  }
+
+  @media (min-width: 900px) {
+    .contact-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .contact-grid > div:nth-child(odd) {
+      padding-right: clamp(1.5rem, 4vw, 4rem);
+    }
+
+    .contact-grid > div:nth-child(even) {
+      padding-left: clamp(1.5rem, 4vw, 4rem);
+      border-left: 1px solid var(--line);
+    }
   }
 }

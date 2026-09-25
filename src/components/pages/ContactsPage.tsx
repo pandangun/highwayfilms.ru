@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import PageHead from "@/components/PageHead";
-import Credits from "@/components/Credits";
 import Field from "@/components/Field";
 import FormStatus from "@/components/FormStatus";
 import { contactsContent } from "@/content/studio";
@@ -23,32 +22,37 @@ export default function ContactsPage({ locale }: { locale: Locale }) {
         </div>
       </PageHead>
 
-      <section className="band title-card border-t border-line">
+      {/* Контакты — главное на странице: крупно, сеткой через линии. */}
+      <section className="band lit border-t border-line">
         <div className="wrap">
-          <Credits
-            size="lg"
-            className="mx-auto max-w-[920px]"
-            items={[
-              {
-                label: s.labels.phone,
-                value: (
-                  <a href={contacts.phoneHref} className="num">
-                    {contacts.phone}
-                  </a>
-                ),
-              },
-              {
-                label: s.labels.telegram,
-                value: (
-                  <a href={contacts.telegramHref} target="_blank" rel="noopener noreferrer">
-                    {contacts.telegram}
-                  </a>
-                ),
-              },
-              { label: s.labels.email, value: <a href={contacts.emailHref}>{contacts.email}</a> },
-              { label: s.labels.city, value: s.city },
-            ]}
-          />
+          <dl className="contact-grid">
+            <div>
+              <dt>{s.labels.phone}</dt>
+              <dd>
+                <a href={contacts.phoneHref} className="num">
+                  {contacts.phone}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt>{s.labels.telegram}</dt>
+              <dd>
+                <a href={contacts.telegramHref} target="_blank" rel="noopener noreferrer">
+                  {contacts.telegram}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt>{s.labels.email}</dt>
+              <dd>
+                <a href={contacts.emailHref}>{contacts.email}</a>
+              </dd>
+            </div>
+            <div>
+              <dt>{s.labels.city}</dt>
+              <dd>{s.city}</dd>
+            </div>
+          </dl>
         </div>
       </section>
 

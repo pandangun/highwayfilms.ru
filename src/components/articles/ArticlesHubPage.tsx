@@ -32,7 +32,7 @@ export function ArticlesHubPage({ locale }: { locale: Locale }) {
             <article className="article-lead">
               <Link href={getArticleHref(first.slug, locale)} className="frame block" tabIndex={-1} aria-hidden>
                 <Image
-                  src={articleStill(first.serviceHref)}
+                  src={articleStill(first.serviceHref, first.slug)}
                   alt=""
                   fill
                   sizes="(min-width: 1488px) 1360px, 100vw"
@@ -58,7 +58,7 @@ export function ArticlesHubPage({ locale }: { locale: Locale }) {
               <li key={article.slug} className="article-row">
                 <Link href={getArticleHref(article.slug, locale)} className="article-row__frame frame" tabIndex={-1} aria-hidden>
                   <Image
-                    src={articleStill(article.serviceHref)}
+                    src={articleStill(article.serviceHref, article.slug)}
                     alt=""
                     fill
                     sizes="(min-width: 960px) 360px, 100vw"

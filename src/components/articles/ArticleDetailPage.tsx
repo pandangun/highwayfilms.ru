@@ -51,7 +51,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
 
       <div className="wrap">
         <div className="frame">
-          <Image src={articleStill(article.serviceHref)} alt="" fill priority sizes="(min-width: 1488px) 1360px, 100vw" className="object-cover" />
+          <Image src={articleStill(article.serviceHref, article.slug)} alt="" fill priority sizes="(min-width: 1488px) 1360px, 100vw" className="object-cover" />
         </div>
       </div>
 
@@ -93,7 +93,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
               {related.map((item) => (
                 <li key={item.slug} className="article-row">
                   <Link href={getArticleHref(item.slug, locale)} className="article-row__frame frame" tabIndex={-1} aria-hidden>
-                    <Image src={articleStill(item.serviceHref)} alt="" fill sizes="(min-width: 960px) 360px, 100vw" className="object-cover" />
+                    <Image src={articleStill(item.serviceHref, item.slug)} alt="" fill sizes="(min-width: 960px) 360px, 100vw" className="object-cover" />
                   </Link>
                   <div>
                     <p className="article-meta">

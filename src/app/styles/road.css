@@ -266,7 +266,8 @@
   }
 
   .exit__title {
-    font-size: var(--t-hero);
+    /* 14,5vw — чтобы «Корпоративное» помещалось в строку на телефоне. */
+    font-size: min(var(--t-hero), 14.5vw);
     line-height: .86;
     max-width: 14ch;
   }
@@ -620,5 +621,18 @@
 
   .finale__meta a:hover {
     color: var(--moon);
+  }
+
+  @media (pointer: coarse) {
+    .finale__meta a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
+
+    .finale__meta .lang-switch a {
+      justify-content: center;
+      min-width: 44px;
+    }
   }
 }

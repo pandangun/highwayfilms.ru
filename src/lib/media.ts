@@ -151,7 +151,11 @@ export const sectionReels: Record<SectionKey, ReelItem[]> = {
       title: "AI-ролик для наушников",
       titleEn: "AI ad for headphones",
       tag: "AI",
-      source: { mp4: mediaPath("/video/ai/ai-01.mp4"), poster: "/images/stills/ai-01.jpg" },
+      source: {
+        mp4: mediaPath("/video/ai/ai-01.mp4"),
+        mp4Mobile: mediaPath("/video/ai/ai-01-mobile.mp4"),
+        poster: "/images/stills/ai-01.jpg",
+      },
     },
   ],
 };

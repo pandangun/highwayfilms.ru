@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 // Подставляется на билде (например, из CI). Фолбэк — сегодняшняя дата.
-const UPDATED_AT = process.env.NEXT_PUBLIC_BUILD_DATE ?? new Date().toISOString().slice(0, 10);
+const UPDATED_AT = "2026-09-23"; // день последней правки текста
 
 const SECTIONS = [
   { id: "operator", title: "1. Термины и оператор" },
@@ -70,7 +70,7 @@ export default function PrivacyPage() {
 
       {/* Header */}
       <header className="max-w-3xl">
-        <h1 className="display display--h1">Политика конфиденциальности</h1>
+        <h1 className="display display--h1 legal-title">Политика конфиденциальности</h1>
         <p className="mt-6 text-small text-steel">
           Дата обновления: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>
         </p>
