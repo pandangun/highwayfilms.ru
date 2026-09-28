@@ -5,9 +5,7 @@ import clsx from "clsx";
 import { Play } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { heroMedia, type MediaSource } from "@/lib/media";
-
-type NetworkInformationLike = { effectiveType?: string; saveData?: boolean };
-type NavigatorWithConnection = Navigator & { connection?: NetworkInformationLike };
+import { allowsVideo, chooseVideo, isNarrowScreen, releaseVideo } from "@/lib/videoSource";
 
 type StudioPlayerProps = {
   source: MediaSource;
@@ -30,57 +28,15 @@ type StudioPlayerProps = {
   videoRef?: React.RefObject<HTMLVideoElement | null>;
 };
 
-/**
- * Выбор источника делает JS, а не атрибут media у <source>.
+/*
+ * Выбор файла — src/lib/videoSource.ts. Там же откат с AV1 на H.264 и
+ * правила, когда видео не тянем вовсе (Save-Data, медленная сеть,
+ * prefers-reduced-motion для фона).
  *
- * Это была настоящая бага: media на <source> внутри <video> выпилен из
- * спецификации и игнорируется Chrome. Из-за этого правило
- * media="(min-width: 960px)" не работало, и мобильные тянули десктопный
- * файл на 70 MB. Здесь ширина проверяется через matchMedia, то есть
- * по-настоящему.
- *
- * HLS предпочитается, когда браузер тянет его нативно (Safari, iOS).
- * В Chrome нативного HLS нет, поэтому там остаётся mp4 — до тех пор, пока
- * не подключим hls.js. Это осознанный компромисс: лишняя зависимость
- * добавляется вместе со стримингом, а не заранее.
+ * Выбор делает JS, а не атрибут media у <source>: когда-то media на
+ * <source> внутри <video> игнорировался Chrome, и мобильные тянули
+ * десктопный файл на 70 MB. matchMedia проверяет ширину по-настоящему.
  */
-function pickSource(source: MediaSource): string | null {
-  if (typeof window === "undefined") return source.mp4 ?? null;
-
-  if (source.hls) {
-    const probe = document.createElement("video");
-    if (probe.canPlayType("application/vnd.apple.mpegurl")) return source.hls;
-  }
-
-  const isNarrow = !window.matchMedia("(min-width: 960px)").matches;
-  if (isNarrow && source.mp4Mobile) return source.mp4Mobile;
-
-  return source.mp4 ?? source.mp4Mobile ?? null;
-}
-
-/**
- * Тянуть ли видео вообще. Уважаем Save-Data, медленную сеть и
- * prefers-reduced-motion: у фонового зацикленного видео нет содержательной
- * ценности для того, кому движение мешает.
- */
-function shouldLoadVideo(mode: "ambient" | "interactive") {
-  if (typeof window === "undefined") return false;
-
-  if (mode === "ambient" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return false;
-  }
-
-  const connection = (navigator as NavigatorWithConnection).connection;
-  if (connection?.saveData) return false;
-
-  const effectiveType = connection?.effectiveType;
-  if (effectiveType === "slow-2g" || effectiveType === "2g") return false;
-
-  const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-  if (!isDesktop && effectiveType === "3g") return false;
-
-  return true;
-}
 
 export default function StudioPlayer({
   source,
@@ -98,6 +54,8 @@ export default function StudioPlayer({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [src, setSrc] = useState<string | null>(null);
+  /** H.264 того же ролика, если сейчас стоит AV1: на него откатываемся при ошибке. */
+  const fallbackRef = useRef<string | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [hasFailed, setHasFailed] = useState(false);
   /** Автозапуск отклонён (iOS Low Power Mode и подобное) — нужна кнопка. */
@@ -123,13 +81,31 @@ export default function StudioPlayer({
   useEffect(() => {
     if (mode === "interactive") return; // interactive грузится по клику
 
+    let cancelled = false;
     const frame = requestAnimationFrame(() => {
-      if (!shouldLoadVideo(mode)) return;
-      setSrc(pickSource(effectiveSource));
+      if (!allowsVideo({ ambient: true })) return;
+      void chooseVideo(effectiveSource, isNarrowScreen()).then((choice) => {
+        if (cancelled || !choice) return;
+        fallbackRef.current = choice.fallback;
+        setSrc(choice.src);
+      });
     });
 
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+    };
   }, [mode, effectiveSource]);
+
+  // Плеер убрали со страницы (переход в другой раздел, смена ролика в
+  // первом экране) — обрываем загрузку. Без этого шоурил главной качался
+  // в фоне ещё полминуты и отнимал канал у ролика следующей страницы.
+  const hasVideo = src !== null;
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!hasVideo || !video) return;
+    return () => releaseVideo(video);
+  }, [hasVideo, videoRef]);
 
   // React исторически не проставляет свойство muted при первом рендере
   // <video>, а без него браузер блокирует автозапуск. Ставим руками.
@@ -172,7 +148,11 @@ export default function StudioPlayer({
     setNeedsGesture(false);
 
     if (!src) {
-      setSrc(pickSource(effectiveSource));
+      void chooseVideo(effectiveSource, isNarrowScreen()).then((choice) => {
+        if (!choice) return;
+        fallbackRef.current = choice.fallback;
+        setSrc(choice.src);
+      });
       return;
     }
 
@@ -189,11 +169,14 @@ export default function StudioPlayer({
 
   return (
     <div ref={containerRef} className={clsx("relative overflow-hidden", className)}>
+      {/* Постер первого экрана — самый важный кадр страницы: preload и
+          высокий приоритет, иначе Chrome грузит его наравне со скриптами. */}
       <Image
         src={source.poster}
         alt={label}
         fill
-        priority={priority}
+        preload={priority}
+        fetchPriority={priority ? "high" : undefined}
         sizes="100vw"
         className={clsx(
           objectFit === "cover" ? "object-cover" : "object-contain",
@@ -216,6 +199,13 @@ export default function StudioPlayer({
           disablePictureInPicture={mode === "ambient"}
           onLoadedData={() => setIsReady(true)}
           onError={() => {
+            // AV1-копии нет или браузер её не завёл — ставим H.264.
+            const fallback = fallbackRef.current;
+            if (fallback) {
+              fallbackRef.current = null;
+              setSrc(fallback);
+              return;
+            }
             // Битый или отсутствующий файл не должен превращаться в чёрный
             // прямоугольник — откатываемся на постер.
             setHasFailed(true);

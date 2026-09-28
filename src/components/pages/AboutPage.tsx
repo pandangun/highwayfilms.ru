@@ -20,7 +20,7 @@ export default function AboutPage({ locale }: { locale: Locale }) {
   return (
     <>
       <section className="about-hero" data-lane="off">
-        <ReelBand className="about-hero__reel" source={aboutReel} poster={aboutReel.poster} alt={c.heroAlt} />
+        <ReelBand className="about-hero__reel" source={aboutReel} poster={aboutReel.poster} alt={c.heroAlt} priority />
         <div className="about-hero__shade" aria-hidden />
         <div className="about-hero__body wrap">
           <h1 className="display display--hero">{c.title}</h1>

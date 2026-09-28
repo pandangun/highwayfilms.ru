@@ -67,8 +67,10 @@ export default function FinaleImage({ src, alt }: { src: string; alt: string }) 
   return (
     <div ref={boxRef} className="finale__image">
       <div ref={layerRef} className="finale__layer">
-        {/* Сразу, но без спешки: см. постеры в ReelBand. */}
-        <Image src={src} alt={alt} fill sizes="100vw" loading="eager" fetchPriority="low" className="object-cover" />
+        {/* Лениво: финал в самом низу страницы, браузер начнёт грузить
+            кадр за пару экранов до него. Раньше он шёл сразу вместе с
+            первым экраном и отнимал у него канал. */}
+        <Image src={src} alt={alt} fill sizes="100vw" loading="lazy" className="object-cover" />
       </div>
     </div>
   );

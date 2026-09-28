@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { preconnect } from "react-dom";
 import VideoHero from "@/components/VideoHero";
 import Steps from "@/components/Steps";
 import TitleSequence from "@/components/road/TitleSequence";
@@ -6,6 +7,7 @@ import KmPost from "@/components/road/KmPost";
 import { homeContent } from "@/content/home";
 import { type Locale, withLocalePath } from "@/components/siteNavigation";
 import { formatFrom, priceFrom } from "@/lib/pricing";
+import { heroOrigin } from "@/lib/media";
 import { SITE_URL } from "@/lib/metadata";
 
 /**
@@ -16,6 +18,10 @@ import { SITE_URL } from "@/lib/metadata";
  */
 export default function HomePage({ locale }: { locale: Locale }) {
   const c = homeContent[locale];
+
+  // Шоурил лежит в Blob, на другом домене: соединение открываем сразу,
+  // пока грузятся скрипты, а не после них.
+  if (heroOrigin) preconnect(heroOrigin);
 
   const organizationJsonLd = {
     "@context": "https://schema.org",

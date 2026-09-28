@@ -51,7 +51,7 @@ export function ArticleDetailPage({ article, related, locale }: ArticleDetailPag
 
       <div className="wrap">
         <div className="frame">
-          <Image src={articleStill(article.serviceHref, article.slug)} alt="" fill priority sizes="(min-width: 1488px) 1360px, 100vw" className="object-cover" />
+          <Image src={articleStill(article.serviceHref, article.slug)} alt="" fill preload fetchPriority="high" sizes="(min-width: 1488px) 1360px, 100vw" className="object-cover" />
         </div>
       </div>
 

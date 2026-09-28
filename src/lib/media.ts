@@ -26,6 +26,13 @@ export type MediaSource = {
   mp4?: string;
   /** Отдельный лёгкий mp4 для узких экранов. Выбор делает JS, не <source>. */
   mp4Mobile?: string;
+  /**
+   * Те же ролики в AV1: при том же качестве на 40–65% легче H.264. Их
+   * берёт браузер, который декодирует AV1 (Chrome, Firefox, Edge, новые
+   * iPhone и Mac); остальные получают mp4. См. src/lib/videoSource.ts.
+   */
+  av1?: string;
+  av1Mobile?: string;
   /** Постер обязателен: он же первый кадр, он же фолбэк при любой ошибке. */
   poster: string;
 };
@@ -69,6 +76,14 @@ function mediaPath(path: string) {
 }
 
 /**
+ * AV1-копия лежит рядом с mp4 под тем же именем: ролик.mp4 → ролик.av1.mp4.
+ * Так же и в Blob у шоурила. Нет файла — плеер откатится на mp4.
+ */
+function av1Of(url: string) {
+  return url.replace(/\.mp4(?=$|[?#])/, ".av1.mp4");
+}
+
+/**
  * Ролик раздела. Файлы кладутся в public/video/<раздел>/<slug>.mp4 и
  * <slug>-mobile.mp4, постер — в public/images/stills/<slug>.jpg.
  */
@@ -81,6 +96,8 @@ function reelItem(section: SectionKey, slug: string, title: string, titleEn: str
     source: {
       mp4: mediaPath(`/video/${section}/${slug}.mp4`),
       mp4Mobile: mediaPath(`/video/${section}/${slug}-mobile.mp4`),
+      av1: mediaPath(`/video/${section}/${slug}.av1.mp4`),
+      av1Mobile: mediaPath(`/video/${section}/${slug}-mobile.av1.mp4`),
       poster: `/images/stills/${slug}.jpg`,
     },
   };
@@ -106,8 +123,23 @@ const heroMobile = process.env.NEXT_PUBLIC_HERO_VIDEO_MOBILE_URL || "/video/deri
 export const heroMedia: MediaSource = {
   mp4: `${heroDesktop}#t=${heroWindow.start}`,
   mp4Mobile: `${heroMobile}#t=${heroWindow.start}`,
+  av1: `${av1Of(heroDesktop)}#t=${heroWindow.start}`,
+  av1Mobile: `${av1Of(heroMobile)}#t=${heroWindow.start}`,
   poster: "/images/stills/hero-open.jpg",
 };
+
+/**
+ * Откуда идёт шоурил, если не с этого же сайта (Vercel Blob). Главная
+ * заранее открывает туда соединение: иначе рукопожатие TLS начинается
+ * только после загрузки скриптов и задерживает первый кадр.
+ */
+export const heroOrigin = (() => {
+  try {
+    return /^https?:/.test(heroDesktop) ? new URL(heroDesktop).origin : null;
+  } catch {
+    return null;
+  }
+})();
 
 /**
  * Ролики разделов. Порядок — порядок показа на первом экране раздела.
@@ -154,6 +186,8 @@ export const sectionReels: Record<SectionKey, ReelItem[]> = {
       source: {
         mp4: mediaPath("/video/ai/ai-01.mp4"),
         mp4Mobile: mediaPath("/video/ai/ai-01-mobile.mp4"),
+        av1: mediaPath("/video/ai/ai-01.av1.mp4"),
+        av1Mobile: mediaPath("/video/ai/ai-01-mobile.av1.mp4"),
         poster: "/images/stills/ai-01.jpg",
       },
     },
@@ -164,5 +198,7 @@ export const sectionReels: Record<SectionKey, ReelItem[]> = {
 export const aboutReel: MediaSource = {
   mp4: mediaPath("/video/about/about-01.mp4"),
   mp4Mobile: mediaPath("/video/about/about-01-mobile.mp4"),
+  av1: mediaPath("/video/about/about-01.av1.mp4"),
+  av1Mobile: mediaPath("/video/about/about-01-mobile.av1.mp4"),
   poster: "/images/stills/about-01.jpg",
 };

@@ -26,12 +26,13 @@ export default function LaneLine({ lang }: { lang: "ru" | "en" }) {
     let raf = 0;
     const update = () => {
       raf = 0;
+      // Сначала все замеры, потом все записи. Вперемешку каждая запись
+      // заставляла браузер заново раскладывать страницу перед следующим
+      // замером — на телефоне это несколько раскладок на каждый кадр
+      // прокрутки.
       const vh = window.innerHeight;
       const max = Math.max(1, document.documentElement.scrollHeight - vh);
       const y = window.scrollY;
-
-      line.style.setProperty("--lane-offset", `${(y * 1.6) % 96}px`);
-      km.textContent = String(Math.round((y / max) * ROUTE_KM));
 
       let cover = 0;
       document.querySelectorAll<HTMLElement>("[data-lane='off']").forEach((el) => {
@@ -39,10 +40,13 @@ export default function LaneLine({ lang }: { lang: "ru" | "en" }) {
         const overlap = Math.min(r.bottom, vh) - Math.max(r.top, 0);
         if (overlap > 0) cover = Math.max(cover, overlap / vh);
       });
-      line.dataset.hidden = cover > 0.55 ? "true" : "false";
-
       const finale = document.querySelector<HTMLElement>(".finale");
       const top = finale ? finale.getBoundingClientRect().top : vh;
+
+      line.style.setProperty("--lane-offset", `${(y * 1.6) % 96}px`);
+      const kmText = String(Math.round((y / max) * ROUTE_KM));
+      if (km.textContent !== kmText) km.textContent = kmText;
+      line.dataset.hidden = cover > 0.55 ? "true" : "false";
       line.style.setProperty("--lane-end", `${Math.max(0, vh - top)}px`);
       // Разметка подвала едет, пока подвал на экране, и встаёт вместе
       // с прокруткой. 72 px — шаг штриха в road.css.

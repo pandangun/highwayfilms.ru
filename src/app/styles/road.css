@@ -90,9 +90,7 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background:
-      radial-gradient(circle 360px at var(--lx, 50%) var(--ly, 50%), rgb(var(--led-rgb) / .10), rgb(var(--led-rgb) / 0) 70%),
-      url("/images/road/asphalt.jpg") 0 0 / 256px 256px repeat;
+    background: radial-gradient(circle 360px at var(--lx, 50%) var(--ly, 50%), rgb(var(--led-rgb) / .10), rgb(var(--led-rgb) / 0) 70%);
     -webkit-mask-image: radial-gradient(circle 340px at var(--lx, 50%) var(--ly, 50%), #000 0%, rgb(0 0 0 / .45) 38%, transparent 72%);
     mask-image: radial-gradient(circle 340px at var(--lx, 50%) var(--ly, 50%), #000 0%, rgb(0 0 0 / .45) 38%, transparent 72%);
     opacity: 0;
@@ -101,6 +99,16 @@
 
   .lit.is-lit::before {
     opacity: .9;
+  }
+
+  /* Асфальт проявляют только фары под мышью (Headlights). На сенсорных
+     экранах фар нет — и текстуру им не грузим. */
+  @media (hover: hover) and (pointer: fine) {
+    .lit::before {
+      background:
+        radial-gradient(circle 360px at var(--lx, 50%) var(--ly, 50%), rgb(var(--led-rgb) / .10), rgb(var(--led-rgb) / 0) 70%),
+        image-set(url("/images/road/asphalt.webp") type("image/webp"), url("/images/road/asphalt.jpg") type("image/jpeg")) 0 0 / 256px 256px repeat;
+    }
   }
 
   /* ─────────────────────────────

@@ -36,6 +36,11 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    // Постеры — кадры из роликов шириной 1920 px, шире исходников нет.
+    // Варианты крупнее 1920 не добавляли резкости, но каждый заново
+    // пережимался оптимизатором при первом запросе — это лишняя секунда.
+    deviceSizes: [640, 828, 1080, 1280, 1600, 1920],
+    imageSizes: [256, 384],
     localPatterns: [
       {
         pathname: "/**",
@@ -47,7 +52,19 @@ const nextConfig: NextConfig = {
       return [];
     }
 
+    // Картинки и ролики из public/: браузер день берёт их из кэша без
+    // запроса, потом ещё месяц показывает сохранённое и тихо сверяет с
+    // сервером. Без этого каждый переход между страницами заново
+    // спрашивал сервер про каждый постер и ролик. Файл заменили под тем
+    // же именем — посетители увидят новый не позже чем через день.
+    const mediaCache = {
+      key: "Cache-Control",
+      value: "public, max-age=86400, stale-while-revalidate=2592000",
+    };
+
     return [
+      { source: "/images/:path*", headers: [mediaCache] },
+      { source: "/video/:path*", headers: [mediaCache] },
       {
         source: "/(.*)",
         headers: [

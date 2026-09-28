@@ -17,6 +17,13 @@ const FRAME_COLUMNS: Record<number, string> = {
   4: "md:grid-cols-2",
 };
 
+/** Ширина кадра в тех же колонках — по ней браузер берёт постер нужного размера. */
+const FRAME_SIZES: Record<number, string> = {
+  2: "(min-width: 768px) 50vw, 100vw",
+  3: "(min-width: 768px) 33vw, 100vw",
+  4: "(min-width: 768px) 50vw, 100vw",
+};
+
 const labels = {
   ru: { price: "Стоимость", rail: "Ролики раздела", frames: "Кадры из работ" },
   en: { price: "Price", rail: "Section films", frames: "Frames from our work" },
@@ -75,9 +82,14 @@ export default function ServiceTemplate({ page, locale }: { page: ServicePage; l
                 {/* Кадры маленькие — им хватает лёгкой мобильной версии ролика. */}
                 <ReelBand
                   className="frame"
-                  source={{ mp4: item.source.mp4Mobile ?? item.source.mp4, poster: item.source.poster }}
+                  source={{
+                    mp4: item.source.mp4Mobile ?? item.source.mp4,
+                    av1: item.source.av1Mobile ?? item.source.av1,
+                    poster: item.source.poster,
+                  }}
                   poster={item.source.poster}
                   alt={reelTitle(item, locale)}
+                  sizes={FRAME_SIZES[frames.length] ?? "(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"}
                 />
                 <figcaption className="frame-caption">{reelTitle(item, locale)}</figcaption>
               </figure>

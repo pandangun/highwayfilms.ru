@@ -601,9 +601,20 @@
     color: var(--moon);
   }
 
+  /* Линия — часы показа: SectionHero переключает ролик по концу
+     анимации и ставит её на паузу, пока ролик не играет или экран не
+     виден. */
   .reel-chip[aria-current="true"]::after {
-    transform: scaleX(1);
-    transition: transform var(--chip-dur, .25s) linear;
+    animation: chip-fill var(--chip-dur, .25s) linear forwards;
+  }
+
+  .reel-rail[data-running="false"] .reel-chip::after {
+    animation-play-state: paused;
+  }
+
+  @keyframes chip-fill {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
   }
 
   /* ─────────────────────────────

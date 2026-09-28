@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type AnimationEvent, type CSSProperties } from "react";
 import StudioPlayer from "@/components/StudioPlayer";
 import { useLoopWindow } from "@/components/useLoopWindow";
 import { heroMedia, heroWindow, reelTitle, sectionReels, type SectionKey } from "@/lib/media";
@@ -27,6 +27,12 @@ type SectionHeroProps = {
  * StudioPlayer для элементов с placeholder). Перелистывать заглушки
  * бессмысленно: каждая смена перезапускала бы шоурил с начала. Поэтому
  * переключатель появляется, только когда настоящих роликов два и больше.
+ *
+ * Часы смены — сама линия под номером: CSS-анимация длиной в показ.
+ * Она стоит, пока ролик не заиграл, пока первый экран прокручен или
+ * вкладка свёрнута, и смена наступает по её концу. Так на медленной
+ * сети ролик не сменяется раньше, чем его успели увидеть, а за экраном
+ * не качаются следующие файлы.
  */
 export default function SectionHero({
   section,
@@ -47,6 +53,9 @@ export default function SectionHero({
   // увозить его через десять секунд — грубость.
   const [isAuto, setIsAuto] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [inView, setInView] = useState(true);
+  const [pageShown, setPageShown] = useState(true);
+  const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Своего ролика нет — играет шоурил, и ему нужны те же границы без
@@ -55,17 +64,32 @@ export default function SectionHero({
   useLoopWindow(videoRef, isPlaying && playsShowreel, heroWindow);
 
   useEffect(() => {
-    if (!canCycle || !isAuto) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const section = sectionRef.current;
+    if (!section || !canCycle) return;
 
-    const timer = window.setTimeout(() => setIndex((current) => (current + 1) % list.length), hold * 1000);
-    return () => window.clearTimeout(timer);
-  }, [index, isAuto, hold, canCycle, list.length]);
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.2 });
+    observer.observe(section);
+    const onVisibility = () => setPageShown(document.visibilityState === "visible");
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [canCycle]);
+
+  // Ручной выбор — линия просто дорастает за четверть секунды.
+  const isRunning = !isAuto || (isPlaying && inView && pageShown);
+
+  const handleShown = (event: AnimationEvent<HTMLButtonElement>, itemIndex: number) => {
+    if (event.animationName !== "chip-fill" || !isAuto || itemIndex !== index) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setIndex((current) => (current + 1) % list.length);
+  };
 
   const active = list[index];
 
   return (
-    <section className="screen" data-lane="off">
+    <section ref={sectionRef} className="screen" data-lane="off">
       {active ? (
         // key пересобирает плеер на смене ролика: иначе останется старый src.
         <StudioPlayer
@@ -109,7 +133,7 @@ export default function SectionHero({
             </dl>
 
             {canCycle ? (
-              <ul className="reel-rail" aria-label={railLabel}>
+              <ul className="reel-rail" aria-label={railLabel} data-running={isRunning}>
                 {list.map((item, itemIndex) => (
                   <li key={item.id}>
                     <button
@@ -121,6 +145,7 @@ export default function SectionHero({
                         setIsAuto(false);
                         setIndex(itemIndex);
                       }}
+                      onAnimationEnd={(event) => handleShown(event, itemIndex)}
                       style={
                         {
                           // Линия едет ровно столько, сколько идёт ролик.
