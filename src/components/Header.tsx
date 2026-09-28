@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import IntentLink from "@/components/IntentLink";
 import { usePathname } from "next/navigation";
 import { useSyncExternalStore, type CSSProperties } from "react";
 import clsx from "clsx";
@@ -46,16 +46,16 @@ export default function Header() {
   return (
     <header className="hdr" data-scrolled={isScrolled} role="banner">
       <div className="wrap hdr__bar">
-        <Link href={withLocalePath("/", locale)} className="brand" aria-label={t.home}>
+        <IntentLink href={withLocalePath("/", locale)} className="brand" aria-label={t.home}>
           Highway Films
-        </Link>
+        </IntentLink>
 
         <nav className="hdr__nav" aria-label={t.menuLabel}>
           {headerNavItems.map((item, index) => {
             const active = isActivePath(item.href, pathname);
 
             return (
-              <Link
+              <IntentLink
                 key={item.href}
                 href={withLocalePath(item.href, locale)}
                 className={clsx("nav-link", active && "is-active")}
@@ -63,21 +63,21 @@ export default function Header() {
                 style={{ "--nav-index": index } as CSSProperties}
               >
                 {locale === "en" ? item.en : item.ru}
-              </Link>
+              </IntentLink>
             );
           })}
         </nav>
 
         <div className="hdr__actions">
-          <Link
+          <IntentLink
             href={withLocalePath("/client", locale)}
             className={clsx("nav-link hdr__client", isActivePath("/client", pathname) && "is-active")}
           >
             {t.client}
-          </Link>
-          <Link href={withLocalePath("/brief", locale)} className="btn btn--primary btn--sm hdr__cta">
+          </IntentLink>
+          <IntentLink href={withLocalePath("/brief", locale)} className="btn btn--primary btn--sm hdr__cta">
             {t.brief}
-          </Link>
+          </IntentLink>
           <HeaderDrawer locale={locale} pathname={pathname} currentPath={currentPath} />
         </div>
       </div>

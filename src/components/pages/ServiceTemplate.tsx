@@ -5,6 +5,7 @@ import KmPost from "@/components/road/KmPost";
 import Credits from "@/components/Credits";
 import Steps from "@/components/Steps";
 import FaqList from "@/components/FaqList";
+import CaseList from "@/components/CaseList";
 import type { ServicePage } from "@/content/types";
 import type { Locale } from "@/components/siteNavigation";
 import { reelTitle, sectionReels } from "@/lib/media";
@@ -97,6 +98,8 @@ export default function ServiceTemplate({ page, locale }: { page: ServicePage; l
           </div>
         </section>
       ) : null}
+
+      <CaseList locale={locale} section={page.section} />
 
       {/* Цена — в центре, как главный титр; состав — парами у оси. */}
       <section className="band title-card lit border-t border-line">

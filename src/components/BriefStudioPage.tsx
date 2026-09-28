@@ -5,6 +5,7 @@ import { Suspense, useState } from "react";
 import Field from "@/components/Field";
 import FormStatus from "@/components/FormStatus";
 import PageHead from "@/components/PageHead";
+import SubmitButton from "@/components/SubmitButton";
 
 type Locale = "ru" | "en";
 type StepKey = "project" | "audience" | "creative" | "production" | "contact";
@@ -391,9 +392,9 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
                   <Link href={privacyHref}>{t("политике конфиденциальности", "privacy policy")}</Link>
                 </span>
               </label>
-              <button type="submit" className="btn btn--primary">
+              <SubmitButton className="btn btn--primary" pendingLabel={t("Отправляем…", "Sending…")}>
                 {t("Отправить бриф", "Send the brief")}
-              </button>
+              </SubmitButton>
             </div>
           </Section>
         </form>

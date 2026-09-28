@@ -5,6 +5,8 @@ import KmPost from "@/components/road/KmPost";
 import ReelBand from "@/components/road/ReelBand";
 import { aboutContent } from "@/content/studio";
 import { aboutReel, directionStill } from "@/lib/media";
+import RouteMap from "@/components/RouteMap";
+import ClientStrip from "@/components/ClientStrip";
 import { formatFrom, priceFrom } from "@/lib/pricing";
 import { type Locale, withLocalePath } from "@/components/siteNavigation";
 
@@ -91,27 +93,15 @@ export default function AboutPage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
+      <ClientStrip locale={locale} />
+
       <section className="band lit border-t border-line">
         <div className="wrap">
           <div className="section-head">
             <KmPost lang={locale} />
             <h2 className="display display--h2">{c.geography.title}</h2>
           </div>
-          <p className="route">
-            <span className="route__city">{c.geography.from}</span>
-            <span className="route__road">
-              <span className="route__label">{c.geography.road}</span>
-            </span>
-            <span className="route__city">{c.geography.to}</span>
-          </p>
-          <dl className="route__facts">
-            {c.geography.items.map((item) => (
-              <div key={item.label}>
-                <dt>{item.label}</dt>
-                <dd>{item.value}</dd>
-              </div>
-            ))}
-          </dl>
+          <RouteMap geography={c.geography} />
         </div>
       </section>
 

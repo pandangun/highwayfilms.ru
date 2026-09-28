@@ -628,6 +628,12 @@
     .finale__meta > :nth-child(3) { grid-area: lang; }
   }
 
+  .finale__meta a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+  }
+
   .finale__meta a:hover {
     color: var(--moon);
   }

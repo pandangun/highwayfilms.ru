@@ -1,6 +1,8 @@
 import { preconnect } from "react-dom";
 import VideoHero from "@/components/VideoHero";
 import DirIndex from "@/components/DirIndex";
+import CaseList from "@/components/CaseList";
+import ClientStrip from "@/components/ClientStrip";
 import Steps from "@/components/Steps";
 import TitleSequence from "@/components/road/TitleSequence";
 import KmPost from "@/components/road/KmPost";
@@ -42,9 +44,14 @@ export default function HomePage({ locale }: { locale: Locale }) {
         muteLabel={c.hero.mute}
         unmuteLabel={c.hero.unmute}
         fullscreenLabel={c.hero.fullscreen}
+        pauseLabel={c.hero.pause}
+        playLabel={c.hero.play}
       />
 
       <TitleSequence signs={c.drive.signs} title={c.intro.title} lead={c.intro.text} />
+
+      <CaseList locale={locale} featured />
+      <ClientStrip locale={locale} />
 
       {/* Что снимаем: оглавление без роликов — ролики ждут в разделах,
           здесь только кадр направления у курсора. */}

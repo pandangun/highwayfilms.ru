@@ -27,6 +27,9 @@ type HeaderDrawerProps = {
  * Анимация пунктов — та же, что была: они выезжают по очереди, задержка
  * считается от --nav-index. Изменилась только сцена: вместо узкой панели
  * с подложкой — чёрный зал и пункты антиквой.
+ *
+ * Закрытое меню невидимо, но стоит на экране, и Next.js подгружал все его
+ * ссылки сразу при загрузке страницы. Теперь — только когда меню открыто.
  */
 export default function HeaderDrawer({ locale, pathname, currentPath }: HeaderDrawerProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -102,7 +105,7 @@ export default function HeaderDrawer({ locale, pathname, currentPath }: HeaderDr
         inert={!isOpen}
       >
         <div className="drawer__top">
-          <Link href={withLocalePath("/", locale)} onClick={close} className="brand">
+          <Link href={withLocalePath("/", locale)} prefetch={isOpen ? undefined : false} onClick={close} className="brand">
             Highway Films
           </Link>
           <button type="button" onClick={close} className="hdr__burger" aria-label={t.menuClose}>
@@ -116,6 +119,7 @@ export default function HeaderDrawer({ locale, pathname, currentPath }: HeaderDr
 
             return (
               <Link
+                prefetch={isOpen ? undefined : false}
                 key={item.href}
                 href={withLocalePath(item.href, locale)}
                 onClick={close}
@@ -130,16 +134,27 @@ export default function HeaderDrawer({ locale, pathname, currentPath }: HeaderDr
         </nav>
 
         <div className="drawer__foot">
-          <Link href={withLocalePath("/brief", locale)} onClick={close} className="btn btn--primary btn--block">
+          <Link
+            href={withLocalePath("/brief", locale)}
+            prefetch={isOpen ? undefined : false}
+            onClick={close}
+            className="btn btn--primary btn--block"
+          >
             {t.briefLong}
           </Link>
 
           <div className="drawer__row">
-            <Link href={withLocalePath("/client", locale)} onClick={close} className="link-line">
+            <Link
+              href={withLocalePath("/client", locale)}
+              prefetch={isOpen ? undefined : false}
+              onClick={close}
+              className="link-line"
+            >
               {locale === "en" ? "Client room" : "Кабинет клиента"}
             </Link>
             <div className="lang-switch">
               <Link
+                prefetch={isOpen ? undefined : false}
                 href={getAlternateLocaleHref(currentPath, "ru")}
                 onClick={close}
                 className={clsx(locale === "ru" && "is-active")}
@@ -147,6 +162,7 @@ export default function HeaderDrawer({ locale, pathname, currentPath }: HeaderDr
                 RU
               </Link>
               <Link
+                prefetch={isOpen ? undefined : false}
                 href={getAlternateLocaleHref(currentPath, "en")}
                 onClick={close}
                 className={clsx(locale === "en" && "is-active")}

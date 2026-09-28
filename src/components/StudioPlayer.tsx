@@ -26,6 +26,11 @@ type StudioPlayerProps = {
   onPlayingChange?: (playing: boolean) => void;
   /** Наружу — чтобы hero мог повесить свои кнопки звука и фуллскрина. */
   videoRef?: React.RefObject<HTMLVideoElement | null>;
+  /**
+   * Пауза, которую поставил человек кнопкой. Пока она стоит, ролик не
+   * запускается сам — ни по прокрутке, ни по возвращению на экран.
+   */
+  paused?: boolean;
 };
 
 /*
@@ -48,6 +53,7 @@ export default function StudioPlayer({
   objectFit = "cover",
   onPlayingChange,
   videoRef: externalVideoRef,
+  paused = false,
 }: StudioPlayerProps) {
   const internalRef = useRef<HTMLVideoElement>(null);
   const videoRef = externalVideoRef ?? internalRef;
@@ -117,11 +123,17 @@ export default function StudioPlayer({
   }, [mode, src, videoRef]);
 
   // Зацикленное видео за пределами экрана продолжает декодироваться и жрёт
-  // батарею. Останавливаем, когда уехало из вида, и возвращаем обратно.
+  // батарею. Останавливаем, когда уехало из вида, и возвращаем обратно —
+  // если человек не поставил паузу сам.
   useEffect(() => {
     const container = containerRef.current;
     const video = videoRef.current;
     if (!container || !video || mode !== "ambient" || !src) return;
+
+    if (paused) {
+      video.pause();
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -136,7 +148,7 @@ export default function StudioPlayer({
 
     observer.observe(container);
     return () => observer.disconnect();
-  }, [mode, src, videoRef]);
+  }, [mode, src, videoRef, paused]);
 
   useEffect(() => {
     onPlayingChange?.(isReady && !hasFailed);

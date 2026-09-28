@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import IntentLink from "@/components/IntentLink";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import FinaleImage from "@/components/road/FinaleImage";
@@ -23,7 +23,7 @@ function FooterLinks({ items, locale }: { items: SiteNavItem[]; locale: Locale }
     <ul className="finale__list">
       {items.map((item) => (
         <li key={item.href}>
-          <Link href={withLocalePath(item.href, locale)}>{locale === "en" ? item.en : item.ru}</Link>
+          <IntentLink href={withLocalePath(item.href, locale)}>{locale === "en" ? item.en : item.ru}</IntentLink>
         </li>
       ))}
     </ul>
@@ -64,9 +64,9 @@ export default function Footer() {
               <h2 className="display display--h1 finale__title">{invite.title}</h2>
               <p className="finale__text">{invite.text}</p>
               <div className="finale__actions">
-                <Link href={withLocalePath("/brief", locale)} className="btn btn--primary">
+                <IntentLink href={withLocalePath("/brief", locale)} className="btn btn--primary">
                   {t.briefLong}
-                </Link>
+                </IntentLink>
                 <a href={contacts.telegramHref} target="_blank" rel="noopener noreferrer" className="link-line">
                   {t.telegram}
                 </a>
@@ -125,22 +125,22 @@ export default function Footer() {
         <span>
           © {year} {t.rights}
         </span>
-        <Link href={withLocalePath("/privacy", locale)}>{t.privacy}</Link>
+        <IntentLink href={withLocalePath("/privacy", locale)}>{t.privacy}</IntentLink>
         <div className="lang-switch" aria-label={locale === "en" ? "Language" : "Язык"}>
-          <Link
+          <IntentLink
             href={getAlternateLocaleHref(currentPath, "ru")}
             className={clsx(locale === "ru" && "is-active")}
             hrefLang="ru"
           >
             RU
-          </Link>
-          <Link
+          </IntentLink>
+          <IntentLink
             href={getAlternateLocaleHref(currentPath, "en")}
             className={clsx(locale === "en" && "is-active")}
             hrefLang="en"
           >
             EN
-          </Link>
+          </IntentLink>
         </div>
       </div>
     </footer>

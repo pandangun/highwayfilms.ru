@@ -3,8 +3,10 @@ import Link from "next/link";
 import SectionHero from "@/components/SectionHero";
 import Steps from "@/components/Steps";
 import FaqList from "@/components/FaqList";
+import CaseList from "@/components/CaseList";
 import Field from "@/components/Field";
 import FormStatus from "@/components/FormStatus";
+import SubmitButton from "@/components/SubmitButton";
 import { weddingsContent } from "@/content/weddings";
 import { contacts } from "@/content/site";
 import { type Locale, withLocalePath } from "@/components/siteNavigation";
@@ -61,6 +63,8 @@ export default function WeddingsPage({ locale }: { locale: Locale }) {
           </div>
         </div>
       </section>
+
+      <CaseList locale={locale} section="weddings" />
 
       <section className="band border-t border-line">
         <div className="wrap">
@@ -149,9 +153,9 @@ export default function WeddingsPage({ locale }: { locale: Locale }) {
                   <Link href={withLocalePath("/privacy", locale)}>{c.form.consentLink}</Link>
                 </span>
               </label>
-              <button type="submit" className="btn btn--primary">
+              <SubmitButton className="btn btn--primary" pendingLabel={locale === "en" ? "Sending…" : "Отправляем…"}>
                 {c.form.submit}
-              </button>
+              </SubmitButton>
             </div>
           </form>
 

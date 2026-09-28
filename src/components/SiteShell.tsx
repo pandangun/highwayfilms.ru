@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LaneLine from "@/components/road/LaneLine";
 import Headlights from "@/components/road/Headlights";
+import NavProgress from "@/components/NavProgress";
 
 /**
  * Заголовки — Unbounded: широкий гротеск, в тонком начертании читается
@@ -63,10 +64,17 @@ export default function SiteShell({
   return (
     <html lang={lang} className={`${display.variable} ${text.variable}`}>
       <body>
+        {/* Первая остановка табом: сразу к содержанию, мимо шапки и меню. */}
+        <a href="#main" className="skip-link">
+          {lang === "en" ? "Skip to content" : "Перейти к содержанию"}
+        </a>
+        <NavProgress />
         <Header />
         <LaneLine lang={lang} />
         <Headlights />
-        <main id="main">{children}</main>
+        <main id="main" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

@@ -20,6 +20,8 @@ export type HomeContent = {
     mute: string;
     unmute: string;
     fullscreen: string;
+    pause: string;
+    play: string;
   };
   intro: { title: string; text: string };
   /** Щиты с преимуществами, которые пролетают над трассой. */
@@ -105,6 +107,8 @@ export const homeContent: Record<Locale, HomeContent> = {
       mute: "Включить звук",
       unmute: "Выключить звук",
       fullscreen: "На весь экран",
+      pause: "Пауза",
+      play: "Смотреть",
     },
     intro: {
       title: "Снимаем рекламу, фильмы о компаниях, клипы и свадьбы",
@@ -187,6 +191,8 @@ export const homeContent: Record<Locale, HomeContent> = {
       mute: "Sound on",
       unmute: "Sound off",
       fullscreen: "Full screen",
+      pause: "Pause",
+      play: "Play",
     },
     intro: {
       title: "Commercials, company films, music videos and weddings",

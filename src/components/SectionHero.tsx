@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type AnimationEvent, type CSSProperties } from "react";
+import { Pause, Play } from "lucide-react";
 import StudioPlayer from "@/components/StudioPlayer";
 import { useLoopWindow } from "@/components/useLoopWindow";
 import { heroMedia, heroWindow, reelTitle, sectionReels, type SectionKey } from "@/lib/media";
@@ -55,6 +56,8 @@ export default function SectionHero({
   const [isPlaying, setIsPlaying] = useState(false);
   const [inView, setInView] = useState(true);
   const [pageShown, setPageShown] = useState(true);
+  /** Пауза кнопкой: и ролик стоит, и смена роликов. */
+  const [isPaused, setIsPaused] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -78,7 +81,7 @@ export default function SectionHero({
   }, [canCycle]);
 
   // Ручной выбор — линия просто дорастает за четверть секунды.
-  const isRunning = !isAuto || (isPlaying && inView && pageShown);
+  const isRunning = !isAuto || (isPlaying && inView && pageShown && !isPaused);
 
   const handleShown = (event: AnimationEvent<HTMLButtonElement>, itemIndex: number) => {
     if (event.animationName !== "chip-fill" || !isAuto || itemIndex !== index) return;
@@ -102,6 +105,7 @@ export default function SectionHero({
           className="h-full w-full"
           videoRef={videoRef}
           onPlayingChange={setIsPlaying}
+          paused={isPaused}
         />
       ) : (
         <StudioPlayer
@@ -112,6 +116,7 @@ export default function SectionHero({
           className="h-full w-full"
           videoRef={videoRef}
           onPlayingChange={setIsPlaying}
+          paused={isPaused}
         />
       )}
 
@@ -132,33 +137,51 @@ export default function SectionHero({
               ))}
             </dl>
 
-            {canCycle ? (
-              <ul className="reel-rail" aria-label={railLabel} data-running={isRunning}>
-                {list.map((item, itemIndex) => (
-                  <li key={item.id}>
-                    <button
-                      type="button"
-                      className="reel-chip"
-                      aria-current={itemIndex === index}
-                      aria-label={reelTitle(item, locale)}
-                      onClick={() => {
-                        setIsAuto(false);
-                        setIndex(itemIndex);
-                      }}
-                      onAnimationEnd={(event) => handleShown(event, itemIndex)}
-                      style={
-                        {
-                          // Линия едет ровно столько, сколько идёт ролик.
-                          "--chip-dur": itemIndex === index && isAuto ? `${hold}s` : "0.25s",
-                        } as CSSProperties
-                      }
-                    >
-                      {String(itemIndex + 1).padStart(2, "0")}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+            <div className="screen__reels">
+              {canCycle ? (
+                <ul className="reel-rail" aria-label={railLabel} data-running={isRunning}>
+                  {list.map((item, itemIndex) => (
+                    <li key={item.id}>
+                      <button
+                        type="button"
+                        className="reel-chip"
+                        aria-current={itemIndex === index}
+                        aria-label={reelTitle(item, locale)}
+                        onClick={() => {
+                          // Выбрали ролик — значит, хотят смотреть: пауза снимается.
+                          setIsAuto(false);
+                          setIsPaused(false);
+                          setIndex(itemIndex);
+                        }}
+                        onAnimationEnd={(event) => handleShown(event, itemIndex)}
+                        style={
+                          {
+                            // Линия едет ровно столько, сколько идёт ролик.
+                            "--chip-dur": itemIndex === index && isAuto ? `${hold}s` : "0.25s",
+                          } as CSSProperties
+                        }
+                      >
+                        {String(itemIndex + 1).padStart(2, "0")}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+
+              {/* Ролик играет сам — остановить его должно быть можно. */}
+              <button
+                type="button"
+                className="screen-control screen-control--icon"
+                onClick={() => setIsPaused((value) => !value)}
+                aria-label={isPaused ? (locale === "en" ? "Play" : "Смотреть") : locale === "en" ? "Pause" : "Пауза"}
+              >
+                {isPaused ? (
+                  <Play className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+                ) : (
+                  <Pause className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -32,6 +32,12 @@
     color: var(--cta-ink);
   }
 
+  /* Форма ушла (SubmitButton): кнопка приглушена и не нажимается снова. */
+  .btn.is-pending {
+    opacity: .7;
+    cursor: progress;
+  }
+
   .btn--primary:hover {
     background: var(--cta-hi);
     box-shadow: 0 0 32px rgb(var(--led-rgb) / .35);
@@ -151,7 +157,56 @@
     user-select: none;
   }
 
+  /* «Перейти к содержанию»: спрятана, пока не придёт фокус с клавиатуры. */
+  .skip-link {
+    position: fixed;
+    top: .75rem;
+    left: .75rem;
+    z-index: calc(var(--z-drawer) + 1);
+    padding: .7rem 1rem;
+    background: var(--cta);
+    color: var(--cta-ink);
+    font-size: var(--t-small);
+    transform: translateY(-150%);
+    transition: transform .2s var(--ease);
+  }
+
+  .skip-link:focus-visible {
+    transform: none;
+  }
+
+  /* Линия перехода (NavProgress): бежит, пока грузится новая страница,
+     на месте дотягивается до конца и гаснет. */
+  .nav-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: calc(var(--z-drawer) + 1);
+    height: 2px;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgb(var(--led-rgb) / .2), var(--led) 60%, #fff);
+    box-shadow: 0 0 12px rgb(var(--led-rgb) / .6);
+    transform: scaleX(1);
+    transform-origin: left center;
+    opacity: 0;
+    transition: transform .2s ease-out, opacity .35s ease .15s;
+  }
+
+  .nav-progress[data-loading="true"] {
+    opacity: 1;
+    transition: opacity .15s ease;
+    animation: nav-load 8s cubic-bezier(.1, .8, .2, 1) forwards;
+  }
+
+  @keyframes nav-load {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(.9); }
+  }
+
+  /* Ссылка «на главную»: зона клика выше надписи, не меньше 24 px. */
   .brand {
+    padding-block: .45rem;
     font-family: var(--ff-display);
     font-weight: 500;
     font-size: 1.2rem;
@@ -531,6 +586,20 @@
     background: rgb(var(--night-rgb) / .5);
   }
 
+  /* Кнопка только со значком — квадрат той же высоты. */
+  .screen-control--icon {
+    justify-content: center;
+    width: 44px;
+    padding: 0;
+  }
+
+  /* Номера роликов раздела и пауза — одной строкой справа. */
+  .screen__reels {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
   /* Маскировка экрана. В кинозале перед сеансом шторки выставляют кадр
      под формат фильма. Здесь то же самое один раз при загрузке: картинка
      появляется широкоэкранной полосой 2.39:1 и раскрывается на весь экран.
@@ -625,7 +694,9 @@
     animation: chip-fill var(--chip-dur, .25s) linear forwards;
   }
 
-  .reel-rail[data-running="false"] .reel-chip::after {
+  .reel-rail[data-running="false"] .reel-chip::after,
+  .reel-rail:hover .reel-chip::after,
+  .reel-rail:focus-within .reel-chip::after {
     animation-play-state: paused;
   }
 
@@ -1111,6 +1182,10 @@
   }
 
   .lang-switch a {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.75rem;
+    min-height: 1.75rem;
     color: var(--haze);
   }
 
@@ -1225,7 +1300,9 @@
 
   .choice input {
     flex: none;
-    margin-top: .3rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-top: .2rem;
     accent-color: var(--cta);
   }
 

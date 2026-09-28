@@ -2,7 +2,7 @@
 
 import type { ElementType } from "react";
 import { useEffect, useRef, useState } from "react";
-import { Maximize2, Volume2, VolumeX } from "lucide-react";
+import { Maximize2, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import clsx from "clsx";
 import StudioPlayer from "@/components/StudioPlayer";
 import { useLoopWindow } from "@/components/useLoopWindow";
@@ -17,6 +17,8 @@ interface VideoHeroProps {
   muteLabel?: string;
   unmuteLabel?: string;
   fullscreenLabel?: string;
+  pauseLabel?: string;
+  playLabel?: string;
   headingAs?: ElementType;
 }
 
@@ -43,6 +45,8 @@ export default function VideoHero({
   muteLabel = "Включить звук",
   unmuteLabel = "Выключить звук",
   fullscreenLabel = "На весь экран",
+  pauseLabel = "Пауза",
+  playLabel = "Смотреть",
   headingAs: HeadingTag = "h1",
 }: VideoHeroProps) {
   const heroRef = useRef<HTMLElement>(null);
@@ -50,6 +54,8 @@ export default function VideoHero({
 
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
+  /** Пауза кнопкой: шоурил играет сам, и остановить его должно быть можно. */
+  const [isPaused, setIsPaused] = useState(false);
   const [isCaptionVisible, setIsCaptionVisible] = useState(true);
 
   useLoopWindow(videoRef, isPlaying, heroWindow);
@@ -72,6 +78,7 @@ export default function VideoHero({
 
     video.muted = nextMuted;
     if (video.paused) {
+      setIsPaused(false);
       void video.play().catch(() => {
         /* браузер вправе отказать */
       });
@@ -85,6 +92,7 @@ export default function VideoHero({
     if (!video) return;
 
     if (video.paused) {
+      setIsPaused(false);
       try {
         await video.play();
       } catch {
@@ -127,6 +135,7 @@ export default function VideoHero({
         className="screen__media h-full w-full"
         videoRef={videoRef}
         onPlayingChange={setIsPlaying}
+        paused={isPaused}
       />
 
       <div className="screen__shade" aria-hidden />
@@ -154,6 +163,19 @@ export default function VideoHero({
 
             {isPlaying ? (
               <div className="screen__controls">
+                <button
+                  type="button"
+                  onClick={() => setIsPaused((value) => !value)}
+                  className="screen-control"
+                  aria-label={isPaused ? playLabel : pauseLabel}
+                >
+                  {isPaused ? (
+                    <Play className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+                  ) : (
+                    <Pause className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+                  )}
+                  <span className="hidden sm:inline">{isPaused ? playLabel : pauseLabel}</span>
+                </button>
                 <button
                   type="button"
                   onClick={handleToggleMute}
