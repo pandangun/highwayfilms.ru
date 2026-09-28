@@ -11,7 +11,8 @@ export type AboutContent = {
   /** Главное, чем сильна студия, — картинка: показываем кадры, а не хвалим. */
   picture: { title: string; lead: string; frames: { src: string; alt: string; caption: string }[] };
   rules: { title: string; items: Format[] };
-  directions: { title: string; items: { key: PricedKey; href: string; title: string; still: string }[] };
+  /** Кадры направлений — directionStill в src/lib/media.ts. */
+  directions: { title: string; items: { key: PricedKey; href: string; title: string }[] };
   /** Два города на концах одной трассы — отсюда и название студии. */
   geography: { title: string; from: string; to: string; road: string; items: Pair[] };
   /**
@@ -88,12 +89,12 @@ export const aboutContent: Record<Locale, AboutContent> = {
     directions: {
       title: "Что снимаем",
       items: [
-        { key: "commercials", href: "/commercials", title: "Реклама", still: "/images/stills/commercials-01.jpg" },
-        { key: "corporate", href: "/corporate", title: "Корпоративное видео", still: "/images/stills/corporate-01.jpg" },
-        { key: "music-videos", href: "/music-videos", title: "Музыкальные клипы", still: "/images/stills/music-videos-01.jpg" },
-        { key: "weddings", href: "/weddings", title: "Свадебные фильмы", still: "/images/stills/weddings-01.jpg" },
-        { key: "ai", href: "/ai", title: "AI-ролики", still: "/images/stills/ai-01.jpg" },
-        { key: "videoproduction", href: "/videoproduction", title: "Полный цикл", still: "/images/stills/videoproduction-02.jpg" },
+        { key: "commercials", href: "/commercials", title: "Реклама" },
+        { key: "corporate", href: "/corporate", title: "Корпоративное видео" },
+        { key: "music-videos", href: "/music-videos", title: "Музыкальные клипы" },
+        { key: "weddings", href: "/weddings", title: "Свадебные фильмы" },
+        { key: "ai", href: "/ai", title: "AI-ролики" },
+        { key: "videoproduction", href: "/videoproduction", title: "Полный цикл" },
       ],
     },
     geography: {
@@ -155,12 +156,12 @@ export const aboutContent: Record<Locale, AboutContent> = {
     directions: {
       title: "What we shoot",
       items: [
-        { key: "commercials", href: "/commercials", title: "Commercials", still: "/images/stills/commercials-01.jpg" },
-        { key: "corporate", href: "/corporate", title: "Corporate video", still: "/images/stills/corporate-01.jpg" },
-        { key: "music-videos", href: "/music-videos", title: "Music videos", still: "/images/stills/music-videos-01.jpg" },
-        { key: "weddings", href: "/weddings", title: "Wedding films", still: "/images/stills/weddings-01.jpg" },
-        { key: "ai", href: "/ai", title: "AI films", still: "/images/stills/ai-01.jpg" },
-        { key: "videoproduction", href: "/videoproduction", title: "Full production", still: "/images/stills/videoproduction-02.jpg" },
+        { key: "commercials", href: "/commercials", title: "Commercials" },
+        { key: "corporate", href: "/corporate", title: "Corporate video" },
+        { key: "music-videos", href: "/music-videos", title: "Music videos" },
+        { key: "weddings", href: "/weddings", title: "Wedding films" },
+        { key: "ai", href: "/ai", title: "AI films" },
+        { key: "videoproduction", href: "/videoproduction", title: "Full production" },
       ],
     },
     geography: {

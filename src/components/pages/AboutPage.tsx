@@ -4,7 +4,7 @@ import Credits from "@/components/Credits";
 import KmPost from "@/components/road/KmPost";
 import ReelBand from "@/components/road/ReelBand";
 import { aboutContent } from "@/content/studio";
-import { aboutReel } from "@/lib/media";
+import { aboutReel, directionStill } from "@/lib/media";
 import { formatFrom, priceFrom } from "@/lib/pricing";
 import { type Locale, withLocalePath } from "@/components/siteNavigation";
 
@@ -78,7 +78,7 @@ export default function AboutPage({ locale }: { locale: Locale }) {
               <li key={item.href}>
                 <Link href={withLocalePath(item.href, locale)} className="dir-tile">
                   <span className="dir-tile__media frame">
-                    <Image src={item.still} alt="" fill sizes="(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
+                    <Image src={directionStill[item.key]} alt="" fill sizes="(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
                   </span>
                   <span className="dir-tile__row">
                     <span className="dir-tile__title">{item.title}</span>

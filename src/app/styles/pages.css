@@ -775,6 +775,10 @@
   /* ─────────────────────────────
      Главная, «Что снимаем»: направления строками через линии, без роликов
      ───────────────────────────── */
+  .dir-index-box {
+    position: relative;
+  }
+
   .dir-index {
     margin: 0;
     padding: 0;
@@ -845,6 +849,72 @@
 
     .dir-index__price {
       text-align: right;
+    }
+  }
+
+  /* Кадр направления у курсора (DirIndex). Показывается только там, где
+     есть мышь; сдвиг ставит скрипт через transform, появление — scale и
+     прозрачность, чтобы они не спорили с transform. */
+  .dir-index__peek {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    display: none;
+    width: clamp(300px, 29vw, 500px);
+    aspect-ratio: 2.39;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    scale: .94;
+    outline: 1px solid rgb(var(--moon-rgb) / .12);
+    transition: opacity .3s ease, scale .45s var(--ease);
+    will-change: transform;
+  }
+
+  .dir-index__peek[data-on="true"] {
+    opacity: 1;
+    scale: 1;
+  }
+
+  .dir-index__shot {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .35s ease;
+  }
+
+  .dir-index__shot[data-on="true"] {
+    opacity: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .dir-index__peek {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dir-index__peek {
+      scale: 1;
+      transition: opacity .2s ease;
+    }
+  }
+
+  /* Без мыши кадр — узкой полосой над строкой. */
+  .dir-index__strip {
+    position: relative;
+    display: none;
+    grid-column: 1 / -1;
+    aspect-ratio: 4;
+    overflow: hidden;
+    margin-bottom: .35rem;
+    background: var(--deep);
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .dir-index__strip {
+      display: block;
     }
   }
 }

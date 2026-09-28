@@ -423,6 +423,23 @@
       linear-gradient(0deg, rgb(var(--night-rgb) / .82) 0%, rgb(var(--night-rgb) / .35) 30%, rgb(var(--night-rgb) / 0) 56%);
   }
 
+  /* В разделах подпись длиннее — заголовок, описание, факты, номера
+     роликов, а в кадрах бывают надписи и яркие детали. Низ кадра под
+     подписью темнее, верх остаётся открытым; на широком экране ещё и
+     левый край, где стоит текст. */
+  .screen__shade--caption {
+    background:
+      linear-gradient(0deg, rgb(var(--night-rgb) / .9) 0%, rgb(var(--night-rgb) / .66) 28%, rgb(var(--night-rgb) / .3) 52%, rgb(var(--night-rgb) / 0) 74%);
+  }
+
+  @media (min-width: 768px) {
+    .screen__shade--caption {
+      background:
+        linear-gradient(0deg, rgb(var(--night-rgb) / .9) 0%, rgb(var(--night-rgb) / .66) 28%, rgb(var(--night-rgb) / .3) 52%, rgb(var(--night-rgb) / 0) 74%),
+        linear-gradient(90deg, rgb(var(--night-rgb) / .5) 0%, rgb(var(--night-rgb) / .16) 45%, rgb(var(--night-rgb) / 0) 68%);
+    }
+  }
+
   .screen__caption {
     position: absolute;
     inset: auto 0 0;
@@ -794,11 +811,14 @@
   }
 
   /* ─────────────────────────────
-     Этапы — маршрут. Настоящая последовательность, поэтому с номерами.
-     На телефоне разметка идёт вниз, на компьютере — поперёк экрана, и
-     пунктир едет, пока маршрут проезжает экран.
+     Этапы — маршрут. Настоящая последовательность, поэтому с номерами:
+     номер стоит в узле на линии разметки. Срок этапа — маленький синий
+     щит с белой каймой, как щиты на трассе главной. На телефоне разметка
+     идёт вниз, на компьютере — поперёк экрана, и пунктир едет, пока
+     маршрут проезжает экран.
      ───────────────────────────── */
   .steps {
+    --node: 1.85rem;
     position: relative;
     display: grid;
     margin: 0;
@@ -809,7 +829,7 @@
   .steps::before {
     content: "";
     position: absolute;
-    left: .55rem;
+    left: calc(var(--node) / 2 - 1px);
     top: .7rem;
     bottom: .7rem;
     width: 2px;
@@ -820,34 +840,61 @@
     position: relative;
     display: grid;
     align-content: start;
-    gap: .5rem;
-    padding: 0 0 2.5rem 2.75rem;
+    justify-items: start;
+    gap: .55rem;
+    padding: 0 0 2.75rem calc(var(--node) + 1.25rem);
   }
 
-  .step::before {
-    content: "";
+  .step__num {
     position: absolute;
-    left: .05rem;
-    top: .35rem;
-    width: 1.05rem;
-    height: 1.05rem;
+    left: 0;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: var(--node);
+    height: var(--node);
     border: 2px solid var(--led);
     border-radius: 50%;
     background: var(--night);
     box-shadow: 0 0 18px rgb(var(--led-rgb) / .45);
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: .75rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--moon);
   }
 
-  .step__num {
-    font-size: var(--t-micro);
-    font-variant-numeric: tabular-nums;
-    color: var(--led);
+  /* Щит срока стоит первым, у самой разметки, — как указатель на съезде.
+     В разметке он после описания: так его читают экранные читалки. */
+  .step__time {
+    order: -1;
+    margin-bottom: .2rem;
+    padding: .66em .95em .7em;
+    border-radius: 5px;
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: .78rem;
+    line-height: 1;
+    letter-spacing: .01em;
+    color: #fff;
+    background: linear-gradient(180deg, #1a55c9 0%, #1244a8 55%, #0e398f 100%);
+    box-shadow:
+      inset 0 0 0 2px #1244a8,
+      inset 0 0 0 3.5px rgb(255 255 255 / .92),
+      0 0 22px rgb(var(--led-rgb) / .22);
+  }
+
+  /* У этапа без срока место щита пустое — заголовки в ряду на одной линии. */
+  .step__time--empty {
+    visibility: hidden;
   }
 
   .step__title {
     font-family: var(--ff-display);
     font-weight: 400;
-    font-size: var(--t-h4);
-    line-height: 1;
+    font-size: clamp(1.25rem, 1.02rem + .75vw, 1.7rem);
+    line-height: 1.08;
   }
 
   .step__text {
@@ -855,22 +902,17 @@
     color: var(--steel);
   }
 
-  .step__time {
-    font-size: var(--t-micro);
-    color: var(--moon);
-  }
-
   @media (min-width: 1100px) {
     .steps {
       grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
       column-gap: 2rem;
-      padding-top: 3.25rem;
+      padding-top: 3.5rem;
     }
 
     .steps::before {
       left: 0;
       right: 0;
-      top: .5rem;
+      top: calc(var(--node) / 2 - 1px);
       bottom: auto;
       width: auto;
       height: 2px;
@@ -883,9 +925,8 @@
       padding: 0;
     }
 
-    .step::before {
-      left: 0;
-      top: calc(-3.25rem + .5rem - .5rem);
+    .step__num {
+      top: -3.5rem;
     }
   }
 

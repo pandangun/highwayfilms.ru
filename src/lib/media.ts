@@ -55,6 +55,8 @@ export type ReelItem = {
   placeholder?: boolean;
 };
 
+import type { PricedKey } from "@/lib/pricing";
+
 export type SectionKey =
   | "commercials"
   | "corporate"
@@ -192,6 +194,19 @@ export const sectionReels: Record<SectionKey, ReelItem[]> = {
       },
     },
   ],
+};
+
+/**
+ * Кадр-обложка направления — один на весь сайт: в «Что снимаем» на
+ * главной и на странице «О студии».
+ */
+export const directionStill: Record<PricedKey, string> = {
+  commercials: "/images/stills/commercials-01.jpg",
+  corporate: "/images/stills/corporate-01.jpg",
+  "music-videos": "/images/stills/music-videos-01.jpg",
+  weddings: "/images/stills/weddings-01.jpg",
+  ai: "/images/stills/ai-01.jpg",
+  videoproduction: "/images/stills/videoproduction-02.jpg",
 };
 
 /** Первый экран «О студии»: нарезка из шоурила по всем направлениям. */

@@ -1,13 +1,13 @@
-import Link from "next/link";
 import { preconnect } from "react-dom";
 import VideoHero from "@/components/VideoHero";
+import DirIndex from "@/components/DirIndex";
 import Steps from "@/components/Steps";
 import TitleSequence from "@/components/road/TitleSequence";
 import KmPost from "@/components/road/KmPost";
 import { homeContent } from "@/content/home";
 import { type Locale, withLocalePath } from "@/components/siteNavigation";
 import { formatFrom, priceFrom } from "@/lib/pricing";
-import { heroOrigin } from "@/lib/media";
+import { directionStill, heroOrigin } from "@/lib/media";
 import { SITE_URL } from "@/lib/metadata";
 
 /**
@@ -46,24 +46,24 @@ export default function HomePage({ locale }: { locale: Locale }) {
 
       <TitleSequence signs={c.drive.signs} title={c.intro.title} lead={c.intro.text} />
 
-      {/* Что снимаем: оглавление без роликов — ролики ждут в разделах. */}
+      {/* Что снимаем: оглавление без роликов — ролики ждут в разделах,
+          здесь только кадр направления у курсора. */}
       <section className="band lit">
         <div className="wrap">
           <div className="section-head">
             <KmPost lang={locale} />
             <h2 className="display display--h2">{c.program.title}</h2>
           </div>
-          <ul className="dir-index">
-            {c.program.items.map((item) => (
-              <li key={item.key}>
-                <Link href={withLocalePath(item.href, locale)} className="dir-index__row">
-                  <span className="dir-index__title">{item.title}</span>
-                  <span className="dir-index__text">{item.text}</span>
-                  <span className="dir-index__price num">{formatFrom(priceFrom[item.key], locale)}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <DirIndex
+            items={c.program.items.map((item) => ({
+              key: item.key,
+              href: withLocalePath(item.href, locale),
+              title: item.title,
+              text: item.text,
+              price: formatFrom(priceFrom[item.key], locale),
+              still: directionStill[item.key],
+            }))}
+          />
         </div>
       </section>
 

@@ -115,7 +115,7 @@ export default function SectionHero({
         />
       )}
 
-      <div className="screen__shade" aria-hidden />
+      <div className="screen__shade screen__shade--caption" aria-hidden />
 
       <div className="screen__caption">
         <div className="wrap">
