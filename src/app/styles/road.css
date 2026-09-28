@@ -415,11 +415,13 @@
     border-top: 1px solid var(--line-strong);
   }
 
+  /* Отступы подвала растут с высотой окна: на невысоком ноутбуке и на
+     телефоне подвал не должен занимать весь экран. */
   .finale__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2.75rem 1.5rem;
-    padding-block: clamp(1.75rem, 3vw, 2.75rem);
+    gap: clamp(1.5rem, 3.5svh, 2.5rem) 1.5rem;
+    padding-block: clamp(1.5rem, 4svh, 2.75rem) clamp(1.25rem, 3svh, 2.25rem);
   }
 
   .finale__about {
@@ -428,13 +430,21 @@
     margin: 0;
     font-family: var(--ff-display);
     font-weight: 340;
-    font-size: var(--t-h3);
+    font-size: clamp(1.2rem, .9rem + 1.25vw, 2.1rem);
     line-height: 1.04;
     color: var(--moon);
   }
 
   .finale__col--contact {
     grid-column: 1 / -1;
+  }
+
+  /* На телефоне первая колонка шире: «Корпоративное видео» — в одну
+     строку, «Кабинет клиента» во второй колонке тоже помещается. */
+  @media (max-width: 639px) {
+    .finale__grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+    }
   }
 
   @media (min-width: 768px) {
@@ -458,14 +468,14 @@
   }
 
   .finale__heading {
-    margin: 0 0 .9rem;
+    margin: 0 0 .6rem;
     font-size: var(--t-micro);
     color: var(--haze);
   }
 
   .finale__list {
     display: grid;
-    gap: .45rem;
+    gap: .1rem;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -474,7 +484,7 @@
   .finale__list a {
     position: relative;
     display: inline-block;
-    padding-block: .1rem;
+    padding-block: .2rem;
     font-size: var(--t-small);
     color: var(--steel);
     transition: color .25s ease;
@@ -482,6 +492,16 @@
 
   .finale__list--contact a {
     color: var(--moon);
+  }
+
+  /* Контакты в узкой колонке — строкой с переносом: телефон и почта
+     рядом, Telegram ниже. */
+  @media (max-width: 767px) {
+    .finale__list--contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .1rem 1.5rem;
+    }
   }
 
   .finale__list a::after {
@@ -516,14 +536,14 @@
      под фарой буквы белые, дальше голубеют и гаснут почти до черноты.
      Надпись заполняет блок целиком, поэтому координаты блока и надписи
      совпадают. На устройствах без мыши луч сам ходит по надписи. */
-  /* Подвал целиком — колонки, название и строка копирайта — должен
-     помещаться в экран под шапкой. Название во всю ширину (11,7vw), но
-     на невысоких экранах кегль ограничен высотой окна: из неё вычтены
-     шапка, колонки (~310 px с запасом) и отступы сетки; 1,1 кегля —
-     высота полосы с названием. Нижняя граница 6vw — чтобы на лежащем
-     телефоне надпись не исчезла. */
+  /* Подвал целиком — колонки, название и строка копирайта — меньше
+     экрана под шапкой: на мониторах 50–65% высоты, на ноутбуках и
+     телефонах до 80–98%. Кегль названия — 17% высоты окна, но не шире
+     окна (11,7vw дают 96% ширины) и не мельче 6vw. Так на широком
+     мониторе название не давит на колонки, а на телефоне и планшете
+     идёт во всю ширину. */
   .finale__name {
-    font-size: clamp(6vw, calc((100svh - var(--header-h) - 2 * clamp(1.75rem, 3vw, 2.75rem) - 310px) / 1.1), 11.7vw);
+    font-size: clamp(6vw, 17svh, 11.7vw);
     border-bottom: 1px solid var(--line-strong);
   }
 
@@ -532,7 +552,9 @@
        кегля, хвосты g и y выходят за низ на столько же — поправки держат
        равный зазор от разметки до букв сверху и снизу. */
     --gap: max(.07em, 14px);
-    --beam: clamp(150px, 24vw, 460px);
+    /* Пятно фары — около двух кеглей: сколько букв высвечивает свет,
+       не зависит от размера надписи. */
+    --beam: clamp(150px, 2.05em, 460px);
     margin: 0;
     padding-block: calc(var(--gap) - .08em) calc(var(--gap) + .08em);
     font-family: var(--ff-display);
@@ -589,6 +611,21 @@
     padding-block: 1.1rem 1.4rem;
     font-size: var(--t-micro);
     color: var(--steel);
+  }
+
+  /* На телефоне — две строки: копирайт и язык, под ними политика. */
+  @media (max-width: 639px) {
+    .finale__meta {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: "copy lang" "privacy privacy";
+      gap: 0 1rem;
+      padding-block: .25rem .6rem;
+    }
+
+    .finale__meta > :nth-child(1) { grid-area: copy; }
+    .finale__meta > :nth-child(2) { grid-area: privacy; }
+    .finale__meta > :nth-child(3) { grid-area: lang; }
   }
 
   .finale__meta a:hover {
