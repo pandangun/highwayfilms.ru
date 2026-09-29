@@ -27,7 +27,9 @@ export type ContactsContent = {
   meta: Meta;
   title: string;
   lead: string;
-  briefCta: string;
+  socials: string;
+  /** Брифы — отдельные документы; на странице только ссылки на них. */
+  briefs: { text: string; project: string; wedding: string };
   form: {
     title: string;
     text: string;
@@ -189,10 +191,15 @@ export const contactsContent: Record<Locale, ContactsContent> = {
       description: "Телефон, Telegram и почта Highway Films. Отвечаем в течение рабочего дня. Для сметы заполните бриф.",
     },
     title: "Контакты",
-    lead: "Отвечаем в течение рабочего дня. Если нужна смета, быстрее всего через бриф.",
-    briefCta: "Заполнить бриф",
+    lead: "Отвечаем в течение рабочего дня.",
+    socials: "Соцсети",
+    briefs: {
+      text: "Для сметы на проект или свадьбу есть подробные брифы:",
+      project: "Бриф на проект",
+      wedding: "Свадебный бриф",
+    },
     form: {
-      title: "Написать сообщение",
+      title: "Оставить заявку",
       text: "Коротко о задаче и как с вами связаться.",
       submit: "Отправить",
       consentBefore: "Даю согласие на обработку данных по ",
@@ -213,10 +220,15 @@ export const contactsContent: Record<Locale, ContactsContent> = {
       description: "Phone, Telegram and email of Highway Films. We reply within one working day. For an estimate, fill in the brief.",
     },
     title: "Contacts",
-    lead: "We reply within one working day. For an estimate, the brief is the fastest way.",
-    briefCta: "Fill in the brief",
+    lead: "We reply within one working day.",
+    socials: "Social",
+    briefs: {
+      text: "For an estimate on a project or a wedding, there are detailed briefs:",
+      project: "Project brief",
+      wedding: "Wedding brief",
+    },
     form: {
-      title: "Send a message",
+      title: "Send a request",
       text: "A few words about the task and how to reach you.",
       submit: "Send",
       consentBefore: "I agree to data processing under the ",

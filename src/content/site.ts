@@ -10,6 +10,9 @@ export const contacts = {
   telegramHref: "https://t.me/highwayfilms",
 } as const;
 
+/** Соцсети на странице «Контакты». Новая ссылка — ещё одна строка. */
+export const socials: { name: string; href: string }[] = [{ name: "Telegram", href: contacts.telegramHref }];
+
 type SiteStrings = {
   brief: string;
   briefLong: string;

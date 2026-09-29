@@ -1,50 +1,38 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import PageHead from "@/components/PageHead";
 import Field from "@/components/Field";
 import FormStatus from "@/components/FormStatus";
 import SubmitButton from "@/components/SubmitButton";
 import KmPost from "@/components/road/KmPost";
-import RouteMap from "@/components/RouteMap";
 import ProducerCard from "@/components/ProducerCard";
-import { aboutContent, contactsContent } from "@/content/studio";
-import { contacts, siteStrings } from "@/content/site";
+import { contactsContent } from "@/content/studio";
+import { contacts, siteStrings, socials } from "@/content/site";
 import { type Locale, withLocalePath } from "@/components/siteNavigation";
 
+/**
+ * «Контакты» — одним экраном: слева телефон, почта, соцсети и города,
+ * справа короткая заявка. Брифы — отдельные большие документы, сюда
+ * только ссылки на них.
+ */
 export default function ContactsPage({ locale }: { locale: Locale }) {
   const c = contactsContent[locale];
   const s = siteStrings[locale];
   const f = c.form.fields;
-  const geography = aboutContent[locale].geography;
 
   return (
-    <>
-      <PageHead title={c.title} lead={c.lead}>
-        <div className="mt-10">
-          <Link href={withLocalePath("/brief", locale)} className="btn btn--primary">
-            {c.briefCta}
-          </Link>
-        </div>
-      </PageHead>
+    <section className="contacts-screen">
+      <div className="wrap contacts-screen__grid">
+        <div>
+          <KmPost lang={locale} />
+          <h1 className="display display--h2">{c.title}</h1>
+          <p className="lead mt-4">{c.lead}</p>
 
-      {/* Контакты — главное на странице: крупно, сеткой через линии. */}
-      <section className="band lit border-t border-line">
-        <div className="wrap">
-          <dl className="contact-grid">
+          <dl className="contact-list">
             <div>
               <dt>{s.labels.phone}</dt>
               <dd>
                 <a href={contacts.phoneHref} className="num">
                   {contacts.phone}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt>{s.labels.telegram}</dt>
-              <dd>
-                <a href={contacts.telegramHref} target="_blank" rel="noopener noreferrer">
-                  {contacts.telegram}
                 </a>
               </dd>
             </div>
@@ -55,43 +43,41 @@ export default function ContactsPage({ locale }: { locale: Locale }) {
               </dd>
             </div>
             <div>
+              <dt>{c.socials}</dt>
+              <dd>
+                {socials.map((item) => (
+                  <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer">
+                    {item.name}
+                  </a>
+                ))}
+              </dd>
+            </div>
+            <div>
               <dt>{s.labels.city}</dt>
               <dd>{s.city}</dd>
             </div>
           </dl>
-          {/* Линия над карточкой уже есть — нижняя граница сетки. */}
-          <ProducerCard locale={locale} className="mt-10 border-t-0 pt-0" />
-        </div>
-      </section>
 
-      {/* Кадр и маршрут: студия на двух концах М-11, выезды по России. */}
-      <section className="band lit border-t border-line">
-        <div className="wrap">
-          <figure className="contacts-frame">
-            <Image
-              src="/images/road/night-bridge.jpg"
-              alt={locale === "en" ? "Night bridge over the river, a frame from our showreel" : "Ночной мост над рекой, кадр из шоурила студии"}
-              fill
-              sizes="(min-width: 1488px) 1360px, 100vw"
-              className="object-cover"
-            />
-          </figure>
-          <div className="section-head mt-[var(--band)]">
-            <KmPost lang={locale} />
-            <h2 className="display display--h2">{geography.title}</h2>
+          <ProducerCard locale={locale} className="mt-8 border-t-0 pt-0" />
+
+          <div className="contacts-briefs">
+            <p>{c.briefs.text}</p>
+            <div className="contacts-briefs__links">
+              <Link href={withLocalePath("/brief", locale)} className="btn btn--line btn--sm">
+                {c.briefs.project}
+              </Link>
+              <Link href={`${withLocalePath("/weddings", locale)}#wedding-brief`} className="btn btn--line btn--sm">
+                {c.briefs.wedding}
+              </Link>
+            </div>
           </div>
-          <RouteMap geography={geography} />
         </div>
-      </section>
 
-      <section className="band border-t border-line" id="contact-form">
-        <div className="wrap grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
-          <div>
-            <h2 className="display display--h2">{c.form.title}</h2>
-            <p className="lead mt-6">{c.form.text}</p>
-          </div>
+        <div id="contact-form">
+          <h2 className="display display--h4">{c.form.title}</h2>
+          <p className="mt-2 text-small text-steel">{c.form.text}</p>
 
-          <form action="/api/contact" method="POST">
+          <form action="/api/contact" method="POST" className="mt-8">
             <input type="hidden" name="locale" value={locale} />
             <input type="hidden" name="source" value="contacts" />
             <div className="visually-hidden" aria-hidden="true">
@@ -99,13 +85,11 @@ export default function ContactsPage({ locale }: { locale: Locale }) {
               <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
             </div>
 
-            <div className="mb-8">
-              <Suspense fallback={null}>
-                <FormStatus locale={locale} kind="contacts" />
-              </Suspense>
-            </div>
+            <Suspense fallback={null}>
+              <FormStatus locale={locale} kind="contacts" />
+            </Suspense>
 
-            <div className="form-grid">
+            <div className="form-grid form-grid--compact">
               <Field label={f.name.label} htmlFor="name" hint={c.form.optional} wide>
                 <input id="name" name="name" autoComplete="name" className="input" placeholder={f.name.placeholder} />
               </Field>
@@ -116,11 +100,11 @@ export default function ContactsPage({ locale }: { locale: Locale }) {
                 <input id="email" name="email" type="email" autoComplete="email" className="input" placeholder={f.email.placeholder} />
               </Field>
               <Field label={f.message.label} htmlFor="message" hint={c.form.optional} wide>
-                <textarea id="message" name="message" rows={5} className="input" placeholder={f.message.placeholder} />
+                <textarea id="message" name="message" rows={3} className="input" placeholder={f.message.placeholder} />
               </Field>
             </div>
 
-            <div className="form-foot mt-12">
+            <div className="form-foot mt-8">
               <label className="consent">
                 <input type="checkbox" name="agree" value="yes" required />
                 <span>
@@ -134,7 +118,7 @@ export default function ContactsPage({ locale }: { locale: Locale }) {
             </div>
           </form>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

@@ -957,61 +957,122 @@
     letter-spacing: .2em;
   }
 
-  /* Кадр на странице «Контакты» — широкая полоса во всю колонку. */
-  .contacts-frame {
-    position: relative;
-    margin: 0;
-    aspect-ratio: 2.39;
-    overflow: hidden;
-    background: var(--deep);
+  /* ─────────────────────────────
+     «Контакты» — одним экраном: слева телефон, почта, соцсети и города,
+     справа короткая заявка. На широком экране блок встаёт по центру
+     экрана, подвал начинается сразу под ним.
+     ───────────────────────────── */
+  .contacts-screen {
+    padding-top: calc(var(--header-h) + env(safe-area-inset-top) + clamp(1.75rem, 6vh, 4.5rem));
+    padding-bottom: clamp(2.5rem, 7vh, 5rem);
   }
 
-  .contact-grid {
+  @media (min-width: 1100px) and (min-height: 700px) {
+    .contacts-screen {
+      display: grid;
+      align-content: center;
+      min-height: 100svh;
+    }
+  }
+
+  .contacts-screen__grid {
     display: grid;
-    margin: 0;
+    gap: clamp(3rem, 6vw, 4rem);
+  }
+
+  @media (min-width: 1100px) {
+    .contacts-screen__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      column-gap: clamp(3rem, 6vw, 7rem);
+      align-items: start;
+    }
+  }
+
+  /* Строки «подпись — значение» через волосяные линии. */
+  .contact-list {
+    display: grid;
+    margin: clamp(1.75rem, 4.5vh, 2.75rem) 0 0;
     border-top: 1px solid var(--line-strong);
   }
 
-  .contact-grid > div {
-    padding-block: clamp(1.5rem, 3vw, 2.5rem);
+  .contact-list > div {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: clamp(.8rem, 1.9vh, 1.15rem);
     border-bottom: 1px solid var(--line);
   }
 
-  .contact-grid dt {
+  /* На телефоне подпись над значением: почта помещается в строку. */
+  @media (max-width: 639px) {
+    .contact-list > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: .35rem;
+    }
+  }
+
+  .contact-list dt {
     font-size: var(--t-micro);
     color: var(--steel);
   }
 
-  .contact-grid dd {
-    margin: .6rem 0 0;
+  .contact-list dd {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1.4rem;
+    margin: 0;
     font-family: var(--ff-display);
     font-weight: 340;
-    font-size: var(--t-h3);
-    line-height: 1.05;
+    font-size: var(--t-h4);
+    line-height: 1.2;
     color: var(--moon);
     overflow-wrap: anywhere;
   }
 
-  .contact-grid a {
+  .contact-list a {
     transition: color .25s ease;
   }
 
-  .contact-grid a:hover {
+  .contact-list a:hover {
     color: #fff;
   }
 
-  @media (min-width: 900px) {
-    .contact-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  .contacts-briefs {
+    margin-top: clamp(1.75rem, 4.5vh, 2.75rem);
+    font-size: var(--t-small);
+    color: var(--steel);
+  }
+
+  .contacts-briefs__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-top: .9rem;
+  }
+
+  /* Заявка короче брифа — и поля плотнее. */
+  .form-grid--compact {
+    row-gap: 1.6rem;
+  }
+
+  .form-grid--compact textarea.input {
+    min-height: 5.5rem;
+  }
+
+  .contacts-screen .notice {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Невысокий экран ноутбука: отступы и поля плотнее, кнопка на экране. */
+  @media (min-width: 1100px) and (max-height: 699px) {
+    .contacts-screen {
+      padding-top: calc(var(--header-h) + 1.25rem);
+      padding-bottom: 1.5rem;
     }
 
-    .contact-grid > div:nth-child(odd) {
-      padding-right: clamp(1.5rem, 4vw, 4rem);
-    }
-
-    .contact-grid > div:nth-child(even) {
-      padding-left: clamp(1.5rem, 4vw, 4rem);
-      border-left: 1px solid var(--line);
+    .form-grid--compact {
+      row-gap: 1.1rem;
     }
   }
 
