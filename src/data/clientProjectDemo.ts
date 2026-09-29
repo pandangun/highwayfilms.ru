@@ -73,8 +73,8 @@ export const clientProjectDemo: ClientProjectDemo = {
   },
   updatedAt: "2026-03-29T18:40:00.000Z",
   accessNote: {
-    ru: "Доступ выдаём к конкретному проекту. Логин и пароль присылаем вместе с первой версией монтажа.",
-    en: "Access is issued per project. The login and password come with the first cut.",
+    ru: "Доступ открываем к конкретному проекту по личной ссылке, без пароля.",
+    en: "Access is opened per project with a personal link, no password.",
   },
   versions: [
     {
