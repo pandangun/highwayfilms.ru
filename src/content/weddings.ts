@@ -1,6 +1,6 @@
 import type { Locale } from "@/components/siteNavigation";
 import type { Meta, Pair, Qa, Step } from "@/content/types";
-import { weddingPrices } from "@/lib/pricing";
+import { formatRub, weddingPrices } from "@/lib/pricing";
 
 type Package = {
   id: keyof typeof weddingPrices;
@@ -49,7 +49,7 @@ export const weddingsContent: Record<Locale, WeddingsContent> = {
     meta: {
       title: "Свадебная видеосъёмка в Санкт-Петербурге и Москве | Highway Films",
       description:
-        "Свадебные фильмы и тизеры. Три пакета: от 60 000, 95 000 и 140 000 ₽. Тизер через несколько дней, фильм через 3–4 недели.",
+        `Свадебные фильмы и тизеры. Три пакета: от ${formatRub(weddingPrices.episode, "ru")}, ${formatRub(weddingPrices.film, "ru")} и ${formatRub(weddingPrices.saga, "ru")}. Тизер через несколько дней, фильм через 3–4 недели.`,
     },
     hero: {
       title: "Свадебные фильмы",
@@ -172,7 +172,7 @@ export const weddingsContent: Record<Locale, WeddingsContent> = {
     meta: {
       title: "Wedding videography in Saint Petersburg and Moscow | Highway Films",
       description:
-        "Wedding films and teasers. Three packages from RUB 60,000, 95,000 and 140,000. A teaser in a few days, the film in 3–4 weeks.",
+        `Wedding films and teasers. Three packages from ${formatRub(weddingPrices.episode, "en")}, ${formatRub(weddingPrices.film, "en")} and ${formatRub(weddingPrices.saga, "en")}. A teaser in a few days, the film in 3–4 weeks.`,
     },
     hero: {
       title: "Wedding films",

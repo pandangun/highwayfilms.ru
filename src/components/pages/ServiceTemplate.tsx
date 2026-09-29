@@ -7,9 +7,10 @@ import Steps from "@/components/Steps";
 import FaqList from "@/components/FaqList";
 import CaseList from "@/components/CaseList";
 import type { ServicePage } from "@/content/types";
-import type { Locale } from "@/components/siteNavigation";
+import Link from "next/link";
+import { type Locale, withLocalePath } from "@/components/siteNavigation";
 import { reelTitle, sectionReels } from "@/lib/media";
-import { formatFrom, priceFrom } from "@/lib/pricing";
+import { formatFrom, priceFrom, priceTiers } from "@/lib/pricing";
 
 /** Колонки ленты кадров по их числу — чтобы не оставался один кадр в ряду. */
 const FRAME_COLUMNS: Record<number, string> = {
@@ -39,6 +40,7 @@ const labels = {
 export default function ServiceTemplate({ page, locale }: { page: ServicePage; locale: Locale }) {
   const t = labels[locale];
   const price = formatFrom(priceFrom[page.priceKey], locale);
+  const tierPrices = page.priceKey === "weddings" ? null : priceTiers[page.priceKey];
   const facts = [...page.hero.facts, { label: t.price, value: price }];
 
   // Лента кадров — только когда у раздела больше одного своего ролика:
@@ -109,6 +111,35 @@ export default function ServiceTemplate({ page, locale }: { page: ServicePage; l
           <p className="display display--h1 num price-title mt-6">{price}</p>
           <Credits items={page.included.items} size="lg" className="mx-auto mt-14 max-w-[920px]" />
           <p className="lead mt-14 text-small">{page.included.note}</p>
+
+          {/* Уровни проекта: что можно получить за какой бюджет. Подсмотрено
+              у студий рынка — клиенту проще понять, куда он попадает. */}
+          {page.tiers && tierPrices ? (
+            <div className="tiers">
+              <h3 className="tiers__title">{page.tiers.title}</h3>
+              <ol className="tiers__list">
+                {page.tiers.items.map((item, index) => (
+                  <li key={item.name} className="tier">
+                    <p className="tier__name">{item.name}</p>
+                    <p className="tier__price num">{formatFrom(tierPrices[index], locale)}</p>
+                    <dl className="tier__facts">
+                      {item.facts.map((fact) => (
+                        <div key={fact.label}>
+                          <dt>{fact.label}</dt>
+                          <dd>{fact.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </li>
+                ))}
+              </ol>
+              <p className="mt-12 text-center">
+                <Link href={withLocalePath(`/estimate?service=${page.priceKey}`, locale)} className="btn btn--line">
+                  {locale === "en" ? "Estimate your project" : "Посчитать свой проект"}
+                </Link>
+              </p>
+            </div>
+          ) : null}
         </div>
       </section>
 

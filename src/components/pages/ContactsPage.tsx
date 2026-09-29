@@ -7,6 +7,7 @@ import FormStatus from "@/components/FormStatus";
 import SubmitButton from "@/components/SubmitButton";
 import KmPost from "@/components/road/KmPost";
 import RouteMap from "@/components/RouteMap";
+import ProducerCard from "@/components/ProducerCard";
 import { aboutContent, contactsContent } from "@/content/studio";
 import { contacts, siteStrings } from "@/content/site";
 import { type Locale, withLocalePath } from "@/components/siteNavigation";
@@ -58,6 +59,8 @@ export default function ContactsPage({ locale }: { locale: Locale }) {
               <dd>{s.city}</dd>
             </div>
           </dl>
+          {/* Линия над карточкой уже есть — нижняя граница сетки. */}
+          <ProducerCard locale={locale} className="mt-10 border-t-0 pt-0" />
         </div>
       </section>
 

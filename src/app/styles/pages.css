@@ -1160,4 +1160,591 @@
       display: block;
     }
   }
+
+  /* ─────────────────────────────
+     Калькулятор сметы (/estimate). Выбор — плитки с лампой индикатора,
+     итог — синий дорожный щит, как указатели на трассе главной, под ним
+     строки сметы с отточием. На телефоне итог едет полосой у нижнего
+     края, пока сам расчёт не на экране.
+     ───────────────────────────── */
+  .estimator {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  @media (min-width: 1100px) {
+    .estimator {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    }
+  }
+
+  /* Сетки плиток зависят от ширины колонки с формой, а не экрана. */
+  .estimator__form {
+    display: grid;
+    gap: clamp(2.25rem, 4vw, 3.25rem);
+    container-type: inline-size;
+  }
+
+  .est-step {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .est-step__title {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: 1.1rem;
+    padding: 0;
+    font-family: var(--ff-display);
+    font-weight: 400;
+    font-size: var(--t-h4);
+    color: var(--moon);
+  }
+
+  .est-options {
+    display: grid;
+    gap: .6rem;
+  }
+
+  .est-options--timing {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .est-option {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: .35rem;
+    padding: 1rem 1.1rem 1.05rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    background: rgb(var(--moon-rgb) / .015);
+    cursor: pointer;
+    transition:
+      border-color .25s ease,
+      background-color .25s ease,
+      box-shadow .3s ease;
+  }
+
+  /* Лампа индикатора: тусклая, у выбранной плитки горит. */
+  .est-option::after {
+    content: "";
+    position: absolute;
+    top: 1.1rem;
+    right: 1rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgb(var(--moon-rgb) / .18);
+    transition: background-color .25s ease, box-shadow .25s ease;
+  }
+
+  .est-option:hover {
+    border-color: rgb(var(--moon-rgb) / .45);
+  }
+
+  .est-option:has(input:checked) {
+    border-color: var(--led);
+    background: rgb(var(--led-rgb) / .08);
+    box-shadow: inset 0 0 0 1px var(--led), 0 0 28px rgb(var(--led-rgb) / .16);
+  }
+
+  .est-option:has(input:checked)::after {
+    background: var(--led);
+    box-shadow: 0 0 10px var(--led), 0 0 22px rgb(var(--led-rgb) / .6);
+  }
+
+  .est-option:has(input:focus-visible) {
+    outline: 2px solid var(--led);
+    outline-offset: 3px;
+  }
+
+  /* Справа от названия — место под лампу. */
+  .est-option__name {
+    padding-right: .75rem;
+    font-family: var(--ff-display);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.2;
+    color: var(--moon);
+  }
+
+  /* «от 1 000 000 ₽» помещается в плитку при любой ширине колонки. */
+  .est-option__price {
+    font-family: var(--ff-display);
+    font-weight: 300;
+    font-size: clamp(1.05rem, 2.4cqi, 1.4rem);
+    line-height: 1.15;
+    color: var(--moon);
+  }
+
+  .est-option__from {
+    font-family: var(--ff-text);
+    font-weight: 400;
+    font-size: var(--t-small);
+    color: var(--steel);
+  }
+
+  .est-option__meta {
+    font-size: var(--t-micro);
+    line-height: 1.45;
+    color: var(--steel);
+  }
+
+  .est-option--level .est-option__meta {
+    margin-top: .2rem;
+  }
+
+  /* В узкой колонке направления идут списком: название, цена, лампа;
+     не хватит строки — цена уходит под название. Плитками 3×2 — когда
+     «Корпоративное» помещается в плитку целиком. */
+  .est-options--services .est-option {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .15rem 1rem;
+    padding-right: 2.5rem;
+  }
+
+  .est-options--services .est-option__name {
+    padding-right: 0;
+  }
+
+  .est-options--services .est-option::after {
+    top: 50%;
+    translate: 0 -50%;
+  }
+
+  @container (min-width: 640px) {
+    .est-options--services,
+    .est-options--levels {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    /* Строки плиток в ряду на одной высоте: цена к цене, даже когда
+       название в две строки. */
+    .est-options--services .est-option {
+      display: grid;
+      grid-row: span 2;
+      grid-template-rows: subgrid;
+      row-gap: .35rem;
+      padding-right: 1.1rem;
+    }
+
+    .est-option--level {
+      grid-row: span 3;
+      grid-template-rows: subgrid;
+      row-gap: .35rem;
+    }
+
+    .est-options--services .est-option__name {
+      padding-right: .75rem;
+    }
+
+    .est-options--services .est-option::after {
+      top: 1.1rem;
+      translate: none;
+    }
+  }
+
+  .est-extras {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Две колонки — когда строке со счётчиком хватает места. */
+  @container (min-width: 720px) {
+    .est-extras {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2.25rem;
+    }
+  }
+
+  .est-extra {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: .5rem 1rem;
+    min-height: 4.4rem;
+    padding: .7rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .est-extra__toggle {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: .9rem;
+    cursor: pointer;
+  }
+
+  /* Флажок — тоже лампа: квадрат загорается изнутри. */
+  .est-extra__toggle input {
+    flex: none;
+    width: 1.3rem;
+    height: 1.3rem;
+    margin: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color .2s ease, box-shadow .2s ease, background-size .2s var(--ease);
+    background: linear-gradient(var(--led), var(--led)) center / 0 0 no-repeat;
+  }
+
+  .est-extra__toggle:hover input {
+    border-color: rgb(var(--moon-rgb) / .5);
+  }
+
+  .est-extra__toggle input:checked {
+    border-color: var(--led);
+    background-size: 55% 55%;
+    box-shadow: 0 0 14px rgb(var(--led-rgb) / .45);
+  }
+
+  .est-extra__text {
+    display: grid;
+    gap: .15rem;
+  }
+
+  .est-extra__label {
+    font-size: var(--t-small);
+    color: var(--moon);
+  }
+
+  .est-extra__hint {
+    font-size: var(--t-micro);
+    color: var(--haze);
+  }
+
+  .est-extra__price {
+    font-size: var(--t-small);
+    color: var(--steel);
+    white-space: nowrap;
+    transition: color .25s ease;
+  }
+
+  .est-extra[data-on="true"] .est-extra__price {
+    color: var(--led);
+  }
+
+  .est-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+  }
+
+  .est-extra[data-on="true"] .est-stepper {
+    border-color: rgb(var(--led-rgb) / .7);
+  }
+
+  .est-stepper button {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--moon);
+    transition: background-color .2s ease;
+  }
+
+  .est-stepper button:hover:not(:disabled) {
+    background: rgb(var(--moon-rgb) / .08);
+  }
+
+  .est-stepper button:disabled {
+    opacity: .3;
+    cursor: default;
+  }
+
+  .est-stepper output {
+    min-width: 1.6rem;
+    font-size: var(--t-small);
+    text-align: center;
+  }
+
+  /* Цифра на щите подстраивается под ширину колонки с расчётом. */
+  .estimator__result {
+    container-type: inline-size;
+  }
+
+  @media (min-width: 1100px) {
+    .estimator__result {
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+    }
+  }
+
+  .est-sign {
+    display: grid;
+    gap: .55rem;
+    padding: 1.7rem 1.9rem 1.9rem;
+    border-radius: 10px;
+    color: #fff;
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgb(255 255 255 / .12), rgb(255 255 255 / 0) 60%),
+      linear-gradient(180deg, #1a55c9 0%, #1244a8 55%, #0e398f 100%);
+    box-shadow:
+      inset 0 0 0 5px #1244a8,
+      inset 0 0 0 8px rgb(255 255 255 / .94),
+      0 0 60px rgb(var(--led-rgb) / .22);
+  }
+
+  .est-sign__label {
+    font-size: var(--t-small);
+    color: rgb(255 255 255 / .85);
+  }
+
+  .est-sign__value {
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: clamp(1.3rem, 5.6cqi, 2.1rem);
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    white-space: normal;
+    animation: sign-flash .7s ease-out;
+  }
+
+  /* Цифра сменилась — щит вспыхивает, как в свете фар. */
+  @keyframes sign-flash {
+    from {
+      text-shadow: 0 0 24px rgb(255 255 255 / .9);
+    }
+
+    to {
+      text-shadow: 0 0 0 rgb(255 255 255 / 0);
+    }
+  }
+
+  .est-lines {
+    display: grid;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .est-lines li {
+    display: flex;
+    align-items: baseline;
+    gap: .75rem;
+    padding: .45rem 0;
+    font-size: var(--t-small);
+    color: var(--steel);
+  }
+
+  /* Отточие между строкой и суммой, как в распечатанной смете. */
+  .est-lines li::after {
+    content: "";
+    order: 1;
+    flex: 1;
+    min-width: 1.5rem;
+    border-bottom: 1px dotted rgb(var(--moon-rgb) / .3);
+  }
+
+  .est-lines li span:last-child {
+    order: 2;
+    color: var(--moon);
+    white-space: nowrap;
+  }
+
+  .est-note {
+    margin: .9rem 0 0;
+    font-size: var(--t-small);
+    line-height: 1.5;
+    color: var(--steel);
+  }
+
+  .est-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 1.75rem;
+  }
+
+  .est-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: calc(var(--z-header) - 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .7rem var(--gutter) calc(.7rem + env(safe-area-inset-bottom));
+    color: #fff;
+    background: linear-gradient(180deg, #1a55c9, #0e398f);
+    box-shadow: 0 -12px 32px rgb(0 0 0 / .35), inset 0 1px 0 rgb(255 255 255 / .5);
+    transition: transform .3s var(--ease);
+  }
+
+  .est-bar[data-hidden="true"] {
+    transform: translateY(110%);
+  }
+
+  /* Сумма занимает всё место до кнопки и переносится после тире. */
+  .est-bar__value {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: clamp(.85rem, 4.2vw, 1rem);
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  .est-bar .btn {
+    flex: none;
+  }
+
+  @media (min-width: 1100px) {
+    .est-bar {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .est-sign__value {
+      animation: none;
+    }
+  }
+
+  .notice--estimate {
+    margin-top: 1.5rem;
+    border-color: rgb(var(--led-rgb) / .6);
+  }
+
+  .notice--estimate p + p {
+    margin-top: .5rem;
+    white-space: pre-line;
+  }
+
+  /* Продюсер: под расчётом и в контактах. */
+  .producer {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .producer__photo {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    border-radius: 50%;
+    color: #fff;
+    background: linear-gradient(135deg, #1a55c9, #0e398f);
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: 1.1rem;
+    box-shadow: 0 0 0 2px var(--night), 0 0 0 3px rgb(var(--led-rgb) / .6);
+  }
+
+  .producer__text {
+    display: grid;
+    gap: .2rem;
+  }
+
+  .producer__name {
+    font-family: var(--ff-display);
+    font-weight: 400;
+    font-size: 1.05rem;
+    color: var(--moon);
+  }
+
+  .producer__role {
+    font-size: var(--t-small);
+    color: var(--steel);
+  }
+
+  .producer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1.25rem;
+    margin-top: .3rem;
+    font-size: var(--t-small);
+  }
+
+  .producer__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    color: var(--moon);
+    text-decoration: underline;
+    text-decoration-color: rgb(var(--moon-rgb) / .35);
+    text-underline-offset: .2em;
+  }
+
+  /* Отзывы: цитата крупно, подпись под ней, три колонки через линии. */
+  .quotes {
+    display: grid;
+    gap: 2.5rem 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 900px) {
+    .quotes {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .quote {
+    display: grid;
+    align-content: space-between;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .quote__text {
+    margin: 0;
+    font-family: var(--ff-display);
+    font-weight: 300;
+    font-size: var(--t-h4);
+    line-height: 1.3;
+    color: var(--moon);
+    quotes: "«" "»";
+  }
+
+  :lang(en) .quote__text {
+    quotes: "\201C" "\201D";
+  }
+
+  .quote__text::before {
+    content: open-quote;
+  }
+
+  .quote__text::after {
+    content: close-quote;
+  }
+
+  .quote__author {
+    display: grid;
+    gap: .15rem;
+    margin: 0;
+    font-size: var(--t-small);
+    color: var(--moon);
+  }
+
+  .quote__role {
+    color: var(--steel);
+  }
 }

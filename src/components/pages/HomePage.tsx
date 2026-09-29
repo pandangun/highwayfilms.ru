@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { preconnect } from "react-dom";
 import VideoHero from "@/components/VideoHero";
 import DirIndex from "@/components/DirIndex";
 import CaseList from "@/components/CaseList";
 import ClientStrip from "@/components/ClientStrip";
+import Testimonials from "@/components/Testimonials";
 import Steps from "@/components/Steps";
 import TitleSequence from "@/components/road/TitleSequence";
 import KmPost from "@/components/road/KmPost";
@@ -52,6 +54,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
 
       <CaseList locale={locale} featured />
       <ClientStrip locale={locale} />
+      <Testimonials locale={locale} />
 
       {/* Что снимаем: оглавление без роликов — ролики ждут в разделах,
           здесь только кадр направления у курсора. */}
@@ -71,6 +74,9 @@ export default function HomePage({ locale }: { locale: Locale }) {
               still: directionStill[item.key],
             }))}
           />
+          <Link href={withLocalePath("/estimate", locale)} className="btn btn--line mt-12">
+            {locale === "en" ? "Estimate your project" : "Посчитать смету"}
+          </Link>
         </div>
       </section>
 

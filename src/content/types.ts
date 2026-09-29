@@ -25,6 +25,11 @@ export type ServicePage = {
   };
   formats: { title: string; lead?: string; items: Format[] };
   included: { title: string; items: Pair[]; note: string };
+  /**
+   * Три масштаба проекта: что входит в каждый. Цены уровней — priceTiers в
+   * src/lib/pricing.ts, по порядку.
+   */
+  tiers?: { title: string; items: { name: string; facts: Pair[] }[] };
   process: { title: string; items: Step[] };
   faq: { title: string; items: Qa[] };
   invite: { title: string; text: string };

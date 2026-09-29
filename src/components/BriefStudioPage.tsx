@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense, useState } from "react";
 import Field from "@/components/Field";
 import FormStatus from "@/components/FormStatus";
+import EstimateNote from "@/components/EstimateNote";
 import PageHead from "@/components/PageHead";
 import SubmitButton from "@/components/SubmitButton";
 
@@ -26,7 +27,7 @@ function Section({
   return (
     <section id={`brief-${stepKey}`} className="brief-section">
       <div className="brief-section__head">
-        <span className="step__num">{index}</span>
+        <span className="route-node">{index}</span>
         <div>
           <h2 className="display display--h3">{title}</h2>
           <p className="mt-3 text-steel">{description}</p>
@@ -145,6 +146,10 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
 
           <Suspense fallback={null}>
             <FormStatus locale={locale} kind="brief" />
+          </Suspense>
+
+          <Suspense fallback={null}>
+            <EstimateNote locale={locale} />
           </Suspense>
 
           <Section index={1} stepKey="project" title={steps[0].title} description={steps[0].description}>

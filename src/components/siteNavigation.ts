@@ -31,6 +31,7 @@ export const footerServiceItems: SiteNavItem[] = [
 export const footerStudioItems: SiteNavItem[] = [
   { href: "/about", ru: "О студии", en: "Studio" },
   { href: "/articles", ru: "Статьи", en: "Articles" },
+  { href: "/estimate", ru: "Смета онлайн", en: "Estimate" },
   { href: "/brief", ru: "Бриф", en: "Brief" },
   { href: "/client", ru: "Кабинет клиента", en: "Client room" },
   { href: "/contacts", ru: "Контакты", en: "Contacts" },

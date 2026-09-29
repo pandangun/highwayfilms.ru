@@ -33,6 +33,7 @@ const ROUTES = [
   "/about",
   "/contacts",
   "/brief",
+  "/estimate",
   "/client",
   "/client/demo-project",
   "/articles",
@@ -40,6 +41,7 @@ const ROUTES = [
   "/en",
   "/en/weddings",
   "/en/commercials",
+  "/en/estimate",
 ];
 
 /** Страницы, на которые с главной есть ссылка, — для сверки переходов. */

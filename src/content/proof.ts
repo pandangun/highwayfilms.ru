@@ -372,3 +372,77 @@ export const clientLogos: ClientLogo[] = [
   { name: "Технопарк «Орбита»", mark: "orbita", placeholder: true },
   { name: "VOLNA", mark: "volna", placeholder: true },
 ];
+
+/**
+ * Продюсер, который ведёт заявки: лицо и имя рядом с расчётом и в
+ * контактах. Телефон и Telegram — общие студийные (src/content/site.ts).
+ * ЗАГЛУШКА: имя выдуманное, фото нет — вместо него инициалы.
+ */
+export type Producer = {
+  name: Record<"ru" | "en", string>;
+  role: Record<"ru" | "en", string>;
+  initials: string;
+  /** Фото, public/images/team — квадрат от 400 px. */
+  photo?: string;
+  placeholder?: boolean;
+};
+
+export const producer: Producer = {
+  name: { ru: "Андрей Соколов", en: "Andrey Sokolov" },
+  role: { ru: "продюсер, ответит на вопросы и посчитает смету", en: "producer, answers questions and prepares the estimate" },
+  initials: "АС",
+  placeholder: true,
+};
+
+/** Отзывы клиентов. ЗАГЛУШКИ: авторы и слова выдуманы, компании — из заглушек выше. */
+export type Testimonial = {
+  id: string;
+  placeholder?: boolean;
+  ru: { quote: string; author: string; role: string };
+  en: { quote: string; author: string; role: string };
+};
+
+export const testimonials: Testimonial[] = [
+  {
+    id: "nordline",
+    placeholder: true,
+    ru: {
+      quote: "Смету прислали на следующий день после брифа, и итог сошёлся с ней до рубля. Датчик в ролике выглядит лучше, чем на выставке.",
+      author: "Марина Ковалёва",
+      role: "маркетинг NORDLINE",
+    },
+    en: {
+      quote: "The estimate came the day after the brief, and the final bill matched it to the rouble. The sensor looks better on screen than at the trade show.",
+      author: "Marina Kovaleva",
+      role: "marketing, NORDLINE",
+    },
+  },
+  {
+    id: "rostra",
+    placeholder: true,
+    ru: {
+      quote: "Снимали в работающей клинике и ни разу не помешали операциям. Врачи потом просили ролик себе.",
+      author: "Олег Дьяченко",
+      role: "главный врач клиники «Ростра»",
+    },
+    en: {
+      quote: "They shot in a working clinic and never got in the way of surgery. The doctors later asked for copies of the film.",
+      author: "Oleg Dyachenko",
+      role: "chief physician, Rostra Clinic",
+    },
+  },
+  {
+    id: "labirint",
+    placeholder: true,
+    ru: {
+      quote: "За одну ночь сняли погоню, на которую другие просили три смены. Тизер крутим в рекламе второй месяц.",
+      author: "Ирина Белова",
+      role: "директор сети квестов «Лабиринт»",
+    },
+    en: {
+      quote: "They shot in one night a chase others quoted three days for. The teaser has been running in our ads for two months.",
+      author: "Irina Belova",
+      role: "director, Labyrinth escape rooms",
+    },
+  },
+];

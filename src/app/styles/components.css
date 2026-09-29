@@ -936,6 +936,24 @@
     color: var(--moon);
   }
 
+  /* Тот же узел маршрута в строке заголовка: шаги брифа и калькулятора. */
+  .route-node {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 1.9rem;
+    height: 1.9rem;
+    border: 2px solid var(--led);
+    border-radius: 50%;
+    box-shadow: 0 0 16px rgb(var(--led-rgb) / .4);
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: .72rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--moon);
+  }
+
   /* Щит срока стоит первым, у самой разметки, — как указатель на съезде.
      В разметке он после описания: так его читают экранные читалки. */
   .step__time {
@@ -1008,6 +1026,93 @@
 
   @media (prefers-reduced-motion: reduce) {
     .steps::before { animation: none; }
+  }
+
+  /* ─────────────────────────────
+     Уровни проекта под ценой «от»: три колонки через линии — название
+     уровня, цена, что входит.
+     ───────────────────────────── */
+  .tiers {
+    margin-top: clamp(3.5rem, 7vw, 5.5rem);
+    text-align: left;
+  }
+
+  .tiers__title {
+    margin: 0 0 2rem;
+    font-family: var(--ff-display);
+    font-weight: 400;
+    font-size: var(--t-h4);
+    text-align: center;
+  }
+
+  .tiers__list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .tier {
+    display: grid;
+    align-content: start;
+    gap: .45rem;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tier__name {
+    margin: 0;
+    font-size: var(--t-small);
+    color: var(--led);
+  }
+
+  .tier__price {
+    margin: 0 0 .75rem;
+    font-family: var(--ff-display);
+    font-weight: 300;
+    font-size: var(--t-h3);
+    line-height: 1.1;
+    color: var(--moon);
+  }
+
+  .tier__facts {
+    display: grid;
+    gap: .7rem;
+    margin: 0;
+  }
+
+  .tier__facts dt {
+    font-size: var(--t-micro);
+    color: var(--haze);
+  }
+
+  .tier__facts dd {
+    margin: .15rem 0 0;
+    font-size: var(--t-small);
+    line-height: 1.45;
+    color: var(--moon);
+  }
+
+  @media (min-width: 900px) {
+    .tiers__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .tier {
+      padding: 2rem 1.75rem;
+      border-bottom: 0;
+      border-right: 1px solid var(--line);
+    }
+
+    .tier:first-child {
+      padding-left: 0;
+    }
+
+    .tier:last-child {
+      padding-right: 0;
+      border-right: 0;
+    }
   }
 
   /* ─────────────────────────────

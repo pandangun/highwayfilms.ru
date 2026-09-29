@@ -1,6 +1,12 @@
 import type { Locale } from "@/components/siteNavigation";
 import { processSteps } from "@/content/home";
 import type { ServicePage } from "@/content/types";
+import { formatRub, priceTiers } from "@/lib/pricing";
+
+type TierKey = keyof typeof priceTiers;
+
+/** Цена уровня проекта для текстов — из pricing.ts, чтобы цифры не расходились. */
+const tier = (key: TierKey, level: 0 | 1 | 2, locale: Locale) => formatRub(priceTiers[key][level], locale);
 
 export type ServiceSlug = "commercials" | "corporate" | "music-videos" | "ai" | "videoproduction";
 
@@ -17,7 +23,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
       meta: {
         title: "Рекламные ролики — съёмка в Санкт-Петербурге и Москве | Highway Films",
         description:
-          "Снимаем рекламные ролики для ТВ, интернета и маркетплейсов. Версии на 6, 15 и 30 секунд из одной съёмки. От 150 000 ₽.",
+          `Снимаем рекламные ролики для ТВ, интернета и маркетплейсов. Версии на 6, 15 и 30 секунд из одной съёмки. От ${tier("commercials", 0, "ru")}.`,
       },
       hero: {
         title: "Рекламные ролики",
@@ -58,13 +64,30 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         ],
         note: "Отдельно считаем актёров, аренду локаций и реквизит, сложную графику и права на музыку. Всё это видно в смете до старта.",
       },
+      tiers: {
+        title: "Масштаб проекта",
+        items: [
+          {
+            name: "Один день",
+            facts: [{ label: "Смены", value: "одна" }, { label: "Группа", value: "до 6 человек" }, { label: "На выходе", value: "ролик и версии на 6, 15 и 30 секунд" }],
+          },
+          {
+            name: "Кампания",
+            facts: [{ label: "Смены", value: "две-три" }, { label: "Группа", value: "с актёрами и художником-постановщиком" }, { label: "На выходе", value: "3–5 роликов под разные площадки" }],
+          },
+          {
+            name: "Большой продакшн",
+            facts: [{ label: "Смены", value: "от трёх, павильон" }, { label: "Группа", value: "от 15 человек" }, { label: "На выходе", value: "ТВ-версия, графика и VFX" }],
+          },
+        ],
+      },
       process: { title: "Как идёт работа", items: processSteps.ru },
       faq: {
         title: "Вопросы о рекламе",
         items: [
           {
             q: "Сколько стоит рекламный ролик?",
-            a: "От 150 000 ₽ за ролик с одной сменой и небольшой командой. Цену двигают число смен, актёры, локации, графика и количество версий. Смету присылаем в течение рабочего дня после брифа.",
+            a: `От ${tier("commercials", 0, "ru")} за ролик с одной сменой и небольшой командой, кампания из нескольких роликов — от ${tier("commercials", 1, "ru")}, большой продакшн — от ${tier("commercials", 2, "ru")}. Цену двигают число смен, актёры, локации, графика и количество версий. Смету присылаем в течение рабочего дня после брифа.`,
           },
           {
             q: "Можно сразу получить версии для маркетплейса, соцсетей и ТВ?",
@@ -82,6 +105,14 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
             q: "Добавите графику или 3D?",
             a: "Да: анимацию характеристик, разрез устройства, композитинг. Предложим графику там, где камерой это не показать.",
           },
+          {
+            q: "Как оплачивать?",
+            a: "Как удобно: целиком или по этапам — договоримся под проект. Перед съёмкой нужна предоплата.",
+          },
+          {
+            q: "Можно срочно?",
+            a: "Да. Сжимаем сроки, в том числе до 48 часов, если проект это позволяет. К смете добавляется 30–50%.",
+          },
         ],
       },
       invite: {
@@ -96,7 +127,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
       meta: {
         title: "Commercials — production in Saint Petersburg and Moscow | Highway Films",
         description:
-          "Commercials for TV, online and marketplaces. 6, 15 and 30-second versions from one shoot. From RUB 150,000.",
+          `Commercials for TV, online and marketplaces. 6, 15 and 30-second versions from one shoot. From ${tier("commercials", 0, "en")}.`,
       },
       hero: {
         title: "Commercials",
@@ -131,13 +162,30 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         ],
         note: "Cast, location hire, props, complex graphics and music licences are priced separately. You see all of it in the estimate before we start.",
       },
+      tiers: {
+        title: "Project scale",
+        items: [
+          {
+            name: "One day",
+            facts: [{ label: "Shoot days", value: "one" }, { label: "Crew", value: "up to 6" }, { label: "Delivery", value: "a spot plus 6, 15 and 30 s versions" }],
+          },
+          {
+            name: "Campaign",
+            facts: [{ label: "Shoot days", value: "two or three" }, { label: "Crew", value: "with cast and a production designer" }, { label: "Delivery", value: "3–5 spots for different platforms" }],
+          },
+          {
+            name: "Full production",
+            facts: [{ label: "Shoot days", value: "three or more, studio stage" }, { label: "Crew", value: "15 or more" }, { label: "Delivery", value: "TV version, graphics and VFX" }],
+          },
+        ],
+      },
       process: { title: "How the work goes", items: processSteps.en },
       faq: {
         title: "About commercials",
         items: [
           {
             q: "How much does a commercial cost?",
-            a: "From RUB 150,000 for a spot with one shoot day and a small crew. Shoot days, cast, locations, graphics and the number of versions move the price. The estimate comes within one working day after the brief.",
+            a: `From ${tier("commercials", 0, "en")} for a spot with one shoot day and a small crew, from ${tier("commercials", 1, "en")} for a campaign of several spots, from ${tier("commercials", 2, "en")} for a full production. Shoot days, cast, locations, graphics and the number of versions move the price. The estimate comes within one working day after the brief.`,
           },
           {
             q: "Can we get marketplace, social and TV versions at once?",
@@ -154,6 +202,14 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
           {
             q: "Can you add graphics or 3D?",
             a: "Yes: animated specs, product cutaways, compositing. We suggest graphics where a camera can't show the thing.",
+          },
+          {
+            q: "How do we pay?",
+            a: "However suits you: in full or by stage, agreed per project. A prepayment is due before the shoot.",
+          },
+          {
+            q: "Can you do it urgently?",
+            a: "Yes. We compress the schedule, down to 48 hours when the project allows. Urgency adds 30–50% to the estimate.",
           },
         ],
       },
@@ -172,7 +228,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
       meta: {
         title: "Корпоративное видео и фильмы о компании | Highway Films",
         description:
-          "Фильмы о компании и производстве, интервью, ролики для найма и мероприятий. Санкт-Петербург и Москва. От 180 000 ₽.",
+          `Фильмы о компании и производстве, интервью, ролики для найма и мероприятий. Санкт-Петербург и Москва. От ${tier("corporate", 0, "ru")}.`,
       },
       hero: {
         title: "Корпоративное видео",
@@ -213,13 +269,30 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         ],
         note: "Отдельно считаем дополнительные смены, аэросъёмку, диктора и анимацию.",
       },
+      tiers: {
+        title: "Масштаб проекта",
+        items: [
+          {
+            name: "Фильм о компании",
+            facts: [{ label: "Смены", value: "одна" }, { label: "Интервью", value: "до трёх" }, { label: "На выходе", value: "фильм до 3 минут" }],
+          },
+          {
+            name: "Производство и люди",
+            facts: [{ label: "Смены", value: "две-три, несколько площадок" }, { label: "Интервью", value: "до шести" }, { label: "На выходе", value: "фильм до 7 минут и нарезки" }],
+          },
+          {
+            name: "Несколько городов",
+            facts: [{ label: "Смены", value: "от четырёх" }, { label: "Съёмка", value: "с аэросъёмкой и графикой" }, { label: "На выходе", value: "версии на двух языках" }],
+          },
+        ],
+      },
       process: { title: "Как идёт работа", items: processSteps.ru },
       faq: {
         title: "Вопросы о корпоративном видео",
         items: [
           {
             q: "Сколько стоит фильм о компании?",
-            a: "От 180 000 ₽ за фильм с одной сменой и тремя интервью. Если производство в нескольких городах или нужна аэросъёмка, это отдельные строки в смете.",
+            a: `От ${tier("corporate", 0, "ru")} за фильм с одной сменой и тремя интервью. Фильм о производстве на нескольких площадках — от ${tier("corporate", 1, "ru")}, съёмка в нескольких городах с аэросъёмкой — от ${tier("corporate", 2, "ru")}. Каждая позиция расписана в смете.`,
           },
           {
             q: "Наши сотрудники никогда не снимались. Это проблема?",
@@ -232,6 +305,14 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
           {
             q: "Из одного фильма можно сделать ролики для соцсетей?",
             a: "Да. Короткие вертикальные версии закладываем в план съёмки сразу.",
+          },
+          {
+            q: "Как оплачивать?",
+            a: "Как удобно: целиком или по этапам — договоримся под проект. Перед съёмкой нужна предоплата.",
+          },
+          {
+            q: "Можно срочно?",
+            a: "Да. Сжимаем сроки, в том числе до 48 часов, если проект это позволяет. К смете добавляется 30–50%.",
           },
         ],
       },
@@ -247,7 +328,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
       meta: {
         title: "Corporate video and company films | Highway Films",
         description:
-          "Company and production films, interviews, hiring and event videos. Saint Petersburg and Moscow. From RUB 180,000.",
+          `Company and production films, interviews, hiring and event videos. Saint Petersburg and Moscow. From ${tier("corporate", 0, "en")}.`,
       },
       hero: {
         title: "Corporate video",
@@ -282,13 +363,30 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         ],
         note: "Extra shoot days, aerial footage, voice-over and animation are priced separately.",
       },
+      tiers: {
+        title: "Project scale",
+        items: [
+          {
+            name: "Company film",
+            facts: [{ label: "Shoot days", value: "one" }, { label: "Interviews", value: "up to three" }, { label: "Delivery", value: "a film up to 3 min" }],
+          },
+          {
+            name: "Production and people",
+            facts: [{ label: "Shoot days", value: "two or three, several sites" }, { label: "Interviews", value: "up to six" }, { label: "Delivery", value: "a film up to 7 min and cutdowns" }],
+          },
+          {
+            name: "Several cities",
+            facts: [{ label: "Shoot days", value: "four or more" }, { label: "Shoot", value: "with aerial footage and graphics" }, { label: "Delivery", value: "versions in two languages" }],
+          },
+        ],
+      },
       process: { title: "How the work goes", items: processSteps.en },
       faq: {
         title: "About corporate video",
         items: [
           {
             q: "How much does a company film cost?",
-            a: "From RUB 180,000 for a film with one shoot day and three interviews. Several cities or aerial footage are separate lines in the estimate.",
+            a: `From ${tier("corporate", 0, "en")} for a film with one shoot day and three interviews. A production film across several sites starts at ${tier("corporate", 1, "en")}, several cities with aerial footage at ${tier("corporate", 2, "en")}. Every item is spelled out in the estimate.`,
           },
           {
             q: "Our people have never been on camera. Is that a problem?",
@@ -301,6 +399,14 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
           {
             q: "Can one film also give us social videos?",
             a: "Yes. Short vertical versions go into the shoot plan from the start.",
+          },
+          {
+            q: "How do we pay?",
+            a: "However suits you: in full or by stage, agreed per project. A prepayment is due before the shoot.",
+          },
+          {
+            q: "Can you do it urgently?",
+            a: "Yes. We compress the schedule, down to 48 hours when the project allows. Urgency adds 30–50% to the estimate.",
           },
         ],
       },
@@ -319,7 +425,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
       meta: {
         title: "Съёмка музыкальных клипов | Highway Films",
         description:
-          "Клипы с сюжетом, перформанс, лайв-сессии. Концепция, съёмка, монтаж и цвет. Санкт-Петербург и Москва. От 120 000 ₽.",
+          `Клипы с сюжетом, перформанс, лайв-сессии. Концепция, съёмка, монтаж и цвет. Санкт-Петербург и Москва. От ${tier("music-videos", 0, "ru")}.`,
       },
       hero: {
         title: "Музыкальные клипы",
@@ -348,13 +454,30 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         ],
         note: "Отдельно считаем актёров, аренду локаций, хореографа и спецэффекты.",
       },
+      tiers: {
+        title: "Масштаб проекта",
+        items: [
+          {
+            name: "Перформанс",
+            facts: [{ label: "Смены", value: "одна" }, { label: "Локации", value: "одна-две" }, { label: "На выходе", value: "клип и вертикальный тизер" }],
+          },
+          {
+            name: "История",
+            facts: [{ label: "Смены", value: "две" }, { label: "В кадре", value: "актёры, 2–3 локации" }, { label: "На выходе", value: "клип, тизер и нарезки" }],
+          },
+          {
+            name: "Постановка",
+            facts: [{ label: "Смены", value: "от двух, павильон" }, { label: "Эффекты", value: "свет, дым, спецэффекты, графика" }, { label: "На выходе", value: "клип и версии для площадок" }],
+          },
+        ],
+      },
       process: { title: "Как идёт работа", items: processSteps.ru },
       faq: {
         title: "Вопросы о клипах",
         items: [
           {
             q: "Сколько стоит клип?",
-            a: "От 120 000 ₽ за клип с одной сменой. Сюжет с актёрами, несколько локаций и спецэффекты увеличивают смету, каждая позиция в ней расписана.",
+            a: `От ${tier("music-videos", 0, "ru")} за клип с одной сменой, клип-история с актёрами — от ${tier("music-videos", 1, "ru")}, постановка в павильоне со спецэффектами — от ${tier("music-videos", 2, "ru")}. Каждая позиция в смете расписана.`,
           },
           {
             q: "У меня нет идеи, только трек. Что дальше?",
@@ -363,6 +486,14 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
           {
             q: "Можно снять клип и тизеры за один день?",
             a: "Да. Кадры для вертикальных тизеров снимаем в ту же смену.",
+          },
+          {
+            q: "Как оплачивать?",
+            a: "Как удобно: целиком или по этапам — договоримся под проект. Перед съёмкой нужна предоплата.",
+          },
+          {
+            q: "Можно срочно?",
+            a: "Да. Сжимаем сроки, в том числе до 48 часов, если проект это позволяет. К смете добавляется 30–50%.",
           },
         ],
       },
@@ -378,7 +509,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
       meta: {
         title: "Music video production | Highway Films",
         description:
-          "Narrative videos, performance, live sessions. Concept, shoot, edit and grade. Saint Petersburg and Moscow. From RUB 120,000.",
+          `Narrative videos, performance, live sessions. Concept, shoot, edit and grade. Saint Petersburg and Moscow. From ${tier("music-videos", 0, "en")}.`,
       },
       hero: {
         title: "Music videos",
@@ -407,13 +538,30 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         ],
         note: "Cast, location hire, a choreographer and special effects are priced separately.",
       },
+      tiers: {
+        title: "Project scale",
+        items: [
+          {
+            name: "Performance",
+            facts: [{ label: "Shoot days", value: "one" }, { label: "Locations", value: "one or two" }, { label: "Delivery", value: "video and vertical teaser" }],
+          },
+          {
+            name: "Story",
+            facts: [{ label: "Shoot days", value: "two" }, { label: "On screen", value: "cast, 2–3 locations" }, { label: "Delivery", value: "video, teaser and cutdowns" }],
+          },
+          {
+            name: "Staged production",
+            facts: [{ label: "Shoot days", value: "two or more, studio stage" }, { label: "Effects", value: "light, haze, practical effects, graphics" }, { label: "Delivery", value: "video and platform versions" }],
+          },
+        ],
+      },
       process: { title: "How the work goes", items: processSteps.en },
       faq: {
         title: "About music videos",
         items: [
           {
             q: "How much does a music video cost?",
-            a: "From RUB 120,000 for a video with one shoot day. A story with actors, several locations and effects raise the estimate; every item is spelled out.",
+            a: `From ${tier("music-videos", 0, "en")} for a video with one shoot day, from ${tier("music-videos", 1, "en")} for a story with cast, from ${tier("music-videos", 2, "en")} for a staged production with effects on a studio stage. Every item is spelled out in the estimate.`,
           },
           {
             q: "I only have the track, no idea yet. What next?",
@@ -422,6 +570,14 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
           {
             q: "Can we shoot the video and teasers in one day?",
             a: "Yes. Footage for vertical teasers is filmed on the same day.",
+          },
+          {
+            q: "How do we pay?",
+            a: "However suits you: in full or by stage, agreed per project. A prepayment is due before the shoot.",
+          },
+          {
+            q: "Can you do it urgently?",
+            a: "Yes. We compress the schedule, down to 48 hours when the project allows. Urgency adds 30–50% to the estimate.",
           },
         ],
       },
@@ -440,7 +596,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
       meta: {
         title: "AI-ролики на заказ — реклама на нейросетях | Highway Films",
         description:
-          "Рекламные и имиджевые ролики на генеративных моделях: предметка, персонажи, миры. От 60 000 ₽, срок 5–10 дней.",
+          `Рекламные и имиджевые ролики на генеративных моделях: предметка, персонажи, миры. От ${tier("ai", 0, "ru")}, срок 5–10 дней.`,
       },
       hero: {
         title: "AI-ролики",
@@ -476,6 +632,23 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         ],
         note: "Логотип, упаковку и лица сотрудников генерация пока передаёт неточно. Их снимаем камерой и совмещаем с AI-кадрами.",
       },
+      tiers: {
+        title: "Масштаб проекта",
+        items: [
+          {
+            name: "Ролик",
+            facts: [{ label: "Хронометраж", value: "до 30 секунд" }, { label: "Срок", value: "5–10 дней" }, { label: "Версии", value: "16:9 и 9:16" }],
+          },
+          {
+            name: "Персонажи и миры",
+            facts: [{ label: "Хронометраж", value: "до 60 секунд" }, { label: "Срок", value: "2–3 недели" }, { label: "Звук", value: "голос и музыка" }],
+          },
+          {
+            name: "Серия или гибрид",
+            facts: [{ label: "Формат", value: "серия роликов или живая съёмка с генерацией" }, { label: "Срок", value: "от 3 недель" }, { label: "Версии", value: "под все площадки" }],
+          },
+        ],
+      },
       process: {
         title: "Как идёт работа",
         items: [
@@ -505,6 +678,14 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
             q: "Что вы не делаете?",
             a: "Не используем чужие лица без согласия, не имитируем реальных людей и не делаем дипфейки.",
           },
+          {
+            q: "Как оплачивать?",
+            a: "Как удобно: целиком или по этапам — договоримся под проект. Перед съёмкой нужна предоплата.",
+          },
+          {
+            q: "Можно срочно?",
+            a: "Да. Сжимаем сроки, в том числе до 48 часов, если проект это позволяет. К смете добавляется 30–50%.",
+          },
         ],
       },
       invite: {
@@ -519,7 +700,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
       meta: {
         title: "AI video production — generative commercials | Highway Films",
         description:
-          "Commercials and brand films made with generative models: products, characters, worlds. From RUB 60,000, 5–10 days.",
+          `Commercials and brand films made with generative models: products, characters, worlds. From ${tier("ai", 0, "en")}, 5–10 days.`,
       },
       hero: {
         title: "AI films",
@@ -555,6 +736,23 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         ],
         note: "Generation still gets logos, packaging and real employees' faces wrong. We film those and combine them with AI shots.",
       },
+      tiers: {
+        title: "Project scale",
+        items: [
+          {
+            name: "Spot",
+            facts: [{ label: "Length", value: "up to 30 s" }, { label: "Turnaround", value: "5–10 days" }, { label: "Versions", value: "16:9 and 9:16" }],
+          },
+          {
+            name: "Characters and worlds",
+            facts: [{ label: "Length", value: "up to 60 s" }, { label: "Turnaround", value: "2–3 weeks" }, { label: "Sound", value: "voice and music" }],
+          },
+          {
+            name: "Series or hybrid",
+            facts: [{ label: "Format", value: "a series, or live action with generation" }, { label: "Turnaround", value: "3 weeks or more" }, { label: "Versions", value: "for every platform" }],
+          },
+        ],
+      },
       process: {
         title: "How the work goes",
         items: [
@@ -584,6 +782,14 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
             q: "What won't you do?",
             a: "We don't use people's faces without consent, imitate real people or make deepfakes.",
           },
+          {
+            q: "How do we pay?",
+            a: "However suits you: in full or by stage, agreed per project. A prepayment is due before the shoot.",
+          },
+          {
+            q: "Can you do it urgently?",
+            a: "Yes. We compress the schedule, down to 48 hours when the project allows. Urgency adds 30–50% to the estimate.",
+          },
         ],
       },
       invite: {
@@ -601,7 +807,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
       meta: {
         title: "Видеопродакшн полного цикла в Санкт-Петербурге | Highway Films",
         description:
-          "Сценарий, съёмка, монтаж, графика и звук в одной студии. Реклама, корпоративное видео, клипы. От 150 000 ₽.",
+          `Сценарий, съёмка, монтаж, графика и звук в одной студии. Реклама, корпоративное видео, клипы. От ${tier("videoproduction", 0, "ru")}.`,
       },
       hero: {
         title: "Видеопродакшн полного цикла",
@@ -630,6 +836,23 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         ],
         note: "Цена «от» — ролик с одной сменой. Остальное считаем строками в смете: смены, актёры, локации, графика.",
       },
+      tiers: {
+        title: "Масштаб проекта",
+        items: [
+          {
+            name: "Ролик под ключ",
+            facts: [{ label: "Смены", value: "одна" }, { label: "Этапы", value: "сценарий, съёмка, монтаж, графика, звук" }, { label: "На выходе", value: "ролик и версии под площадки" }],
+          },
+          {
+            name: "Кампания",
+            facts: [{ label: "Смены", value: "две-три" }, { label: "Группа", value: "продюсер, режиссёр, оператор, художник" }, { label: "На выходе", value: "серия роликов под площадки" }],
+          },
+          {
+            name: "Большой проект",
+            facts: [{ label: "Смены", value: "от четырёх, несколько городов" }, { label: "Группа", value: "от 15 человек" }, { label: "На выходе", value: "фильм, рекламная кампания и графика" }],
+          },
+        ],
+      },
       process: { title: "Как идёт работа", items: processSteps.ru },
       faq: {
         title: "Вопросы о продакшне",
@@ -646,6 +869,14 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
             q: "Можно сделать несколько версий из одной съёмки?",
             a: "Да. Закладываем это в список сцен, чтобы одна смена дала ролики разной длины и формата.",
           },
+          {
+            q: "Как оплачивать?",
+            a: "Как удобно: целиком или по этапам — договоримся под проект. Перед съёмкой нужна предоплата.",
+          },
+          {
+            q: "Можно срочно?",
+            a: "Да. Сжимаем сроки, в том числе до 48 часов, если проект это позволяет. К смете добавляется 30–50%.",
+          },
         ],
       },
       invite: {
@@ -660,7 +891,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
       meta: {
         title: "Full-cycle video production in Saint Petersburg | Highway Films",
         description:
-          "Script, shoot, edit, graphics and sound in one studio. Commercials, corporate films, music videos. From RUB 150,000.",
+          `Script, shoot, edit, graphics and sound in one studio. Commercials, corporate films, music videos. From ${tier("videoproduction", 0, "en")}.`,
       },
       hero: {
         title: "Full-cycle production",
@@ -689,6 +920,23 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         ],
         note: "The starting price is a spot with one shoot day. The rest is itemised: shoot days, cast, locations, graphics.",
       },
+      tiers: {
+        title: "Project scale",
+        items: [
+          {
+            name: "Turnkey spot",
+            facts: [{ label: "Shoot days", value: "one" }, { label: "Stages", value: "script, shoot, edit, graphics, sound" }, { label: "Delivery", value: "a spot plus platform versions" }],
+          },
+          {
+            name: "Campaign",
+            facts: [{ label: "Shoot days", value: "two or three" }, { label: "Crew", value: "producer, director, DoP, production designer" }, { label: "Delivery", value: "a series of spots for platforms" }],
+          },
+          {
+            name: "Large project",
+            facts: [{ label: "Shoot days", value: "four or more, several cities" }, { label: "Crew", value: "15 or more" }, { label: "Delivery", value: "a film, an ad campaign and graphics" }],
+          },
+        ],
+      },
       process: { title: "How the work goes", items: processSteps.en },
       faq: {
         title: "About production",
@@ -701,6 +949,14 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
           {
             q: "Can one shoot give several versions?",
             a: "Yes. We plan it in the shot list so one shoot day gives videos of different lengths and formats.",
+          },
+          {
+            q: "How do we pay?",
+            a: "However suits you: in full or by stage, agreed per project. A prepayment is due before the shoot.",
+          },
+          {
+            q: "Can you do it urgently?",
+            a: "Yes. We compress the schedule, down to 48 hours when the project allows. Urgency adds 30–50% to the estimate.",
           },
         ],
       },

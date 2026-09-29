@@ -30,6 +30,7 @@ const LONG_TEXT_FIELDS = [
   "technicalRequirements",
   "assets",
   "message",
+  "estimate",
 ];
 
 function getStringValue(value: FormDataEntryValue | null) {

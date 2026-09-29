@@ -48,6 +48,9 @@ export default function WeddingsPage({ locale }: { locale: Locale }) {
               </article>
             ))}
           </div>
+          <Link href={withLocalePath("/estimate?service=weddings", locale)} className="btn btn--line mt-12">
+            {locale === "en" ? "Estimate your day" : "Посчитать свой день"}
+          </Link>
 
           <h3 className="display display--h3 mt-24">{c.extras.title}</h3>
           <div className="mt-8 border-t border-line">
