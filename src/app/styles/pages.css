@@ -1030,7 +1030,13 @@
     overflow-wrap: anywhere;
   }
 
+  /* Телефон, почта и соцсети — главные действия на телефоне: зона касания
+     44 px, а отрицательные поля не дают строке вырасти. */
   .contact-list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    margin-block: -.6rem;
     transition: color .25s ease;
   }
 

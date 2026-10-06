@@ -33,6 +33,9 @@ const contentSecurityPolicy = [
 
 const nextConfig: NextConfig = {
   compress: true,
+  // Драйверы базы кабинета грузим из node_modules как есть: PGlite
+  // тянет WebAssembly, pg — нативные модули, собирать их бандлером незачем.
+  serverExternalPackages: ["@electric-sql/pglite", "pg"],
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],

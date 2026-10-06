@@ -7,6 +7,8 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
+        // Кабинет пары и студии закрыт: там личные проекты.
+        disallow: ["/cabinet", "/studio", "/k/", "/premiere/", "/api/"],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

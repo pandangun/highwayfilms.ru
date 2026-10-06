@@ -76,3 +76,6 @@ next-env.d.ts
 .vercel
 .codex/
 .env*.local
+
+# кабинет: локальная база и файлы
+/.cabinet-data/
