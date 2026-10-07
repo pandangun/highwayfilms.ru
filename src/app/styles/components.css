@@ -43,6 +43,33 @@
     box-shadow: 0 0 32px rgb(var(--led-rgb) / .35);
   }
 
+  /* Фары: при наведении по главной кнопке один раз проходит блик — как
+     свет по дорожному знаку. Блик под текстом, над фоном кнопки. */
+  .btn--primary {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .btn--primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(105deg, rgb(var(--led-rgb) / 0) 22%, rgb(var(--led-rgb) / .6) 42%, rgb(255 255 255 / 1) 50%, rgb(var(--led-rgb) / .6) 58%, rgb(var(--led-rgb) / 0) 78%);
+    transform: translateX(-110%);
+    pointer-events: none;
+  }
+
+  .btn--primary:is(:hover, :focus-visible)::after {
+    transform: translateX(110%);
+    transition: transform .85s var(--ease);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn--primary::after { display: none; }
+  }
+
   .btn--line {
     border: 1px solid var(--line-strong);
     color: var(--moon);
@@ -642,6 +669,150 @@
 
   @media (prefers-reduced-motion: reduce) {
     .screen-mask { display: none; }
+  }
+
+  /* ─────────────────────────────
+     Кинозал: тот же шоурил поверх сайта — со звуком, с начала и целиком.
+     Свет гаснет, кадр встаёт с полями, как на экране кинотеатра; вокруг
+     уголки видоискателя и таймкод, которые гаснут, пока смотришь.
+     ───────────────────────────── */
+  .screen[data-cinema] {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--z-drawer) + 2);
+    height: auto;
+    min-height: 0;
+    background: #000;
+    animation: lights-down .7s var(--ease) both;
+  }
+
+  @keyframes lights-down {
+    from { opacity: 0; }
+  }
+
+  .screen[data-cinema] :is(.screen__shade, .screen__caption, .screen-mask) {
+    display: none;
+  }
+
+  /* Кадр целиком: в обычном экране он обрезан под окно. */
+  .screen[data-cinema] :is(video, img) {
+    object-fit: contain !important;
+  }
+
+  .screen[data-cinema]:has(.cinema[data-awake="false"]) {
+    cursor: none;
+  }
+
+  .cinema {
+    --cinema-edge: clamp(14px, 3vw, 36px);
+    --cinema-corner: clamp(18px, 2.4vw, 34px);
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    color: #fff;
+  }
+
+  .cinema > :not(.cinema__bar) {
+    pointer-events: none;
+  }
+
+  .cinema > * {
+    transition: opacity .5s ease;
+  }
+
+  .cinema[data-awake="false"] > * {
+    opacity: 0;
+  }
+
+  .cinema__corner {
+    position: absolute;
+    width: var(--cinema-corner);
+    height: var(--cinema-corner);
+    border: 0 solid rgb(255 255 255 / .55);
+  }
+
+  .cinema__corner--tl { top: var(--cinema-edge); left: var(--cinema-edge); border-top-width: 1.5px; border-left-width: 1.5px; }
+  .cinema__corner--tr { top: var(--cinema-edge); right: var(--cinema-edge); border-top-width: 1.5px; border-right-width: 1.5px; }
+  .cinema__corner--bl { bottom: var(--cinema-edge); left: var(--cinema-edge); border-bottom-width: 1.5px; border-left-width: 1.5px; }
+  .cinema__corner--br { bottom: var(--cinema-edge); right: var(--cinema-edge); border-bottom-width: 1.5px; border-right-width: 1.5px; }
+
+  .cinema__title {
+    position: absolute;
+    top: calc(var(--cinema-edge) + .35rem);
+    left: calc(var(--cinema-edge) + var(--cinema-corner) + .9rem);
+    font-size: var(--t-micro);
+    letter-spacing: .04em;
+    color: rgb(255 255 255 / .78);
+  }
+
+  .cinema__bar {
+    position: absolute;
+    left: calc(var(--cinema-edge) + var(--cinema-corner) + .9rem);
+    right: calc(var(--cinema-edge) + var(--cinema-corner) + .9rem);
+    bottom: calc(var(--cinema-edge) + env(safe-area-inset-bottom));
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    pointer-events: auto;
+  }
+
+  /* Таймкод монтажки: часы, минуты, секунды, кадр. */
+  .cinema__tc {
+    min-width: 7.6em;
+    font-size: var(--t-small);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .04em;
+    color: rgb(255 255 255 / .86);
+  }
+
+  .cinema__track {
+    position: relative;
+    flex: 1;
+    height: 28px;
+    cursor: pointer;
+  }
+
+  .cinema__track::before,
+  .cinema__track span {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    margin-top: -1px;
+  }
+
+  .cinema__track::before {
+    background: rgb(255 255 255 / .2);
+  }
+
+  .cinema__track span {
+    background: var(--led);
+    box-shadow: 0 0 10px var(--led);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  /* Узкий телефон стоя: полоса хода — отдельной строкой во всю ширину. */
+  @media (max-width: 639px) {
+    .cinema__bar {
+      flex-wrap: wrap;
+      row-gap: .2rem;
+    }
+
+    .cinema__track {
+      order: -1;
+      flex-basis: 100%;
+    }
+
+    .cinema__tc {
+      margin-right: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .screen[data-cinema] { animation: none; }
   }
 
   /* Переключатель роликов раздела: номер и линия, которая дорастает за

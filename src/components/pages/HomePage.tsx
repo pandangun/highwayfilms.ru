@@ -11,7 +11,7 @@ import KmPost from "@/components/road/KmPost";
 import { homeContent } from "@/content/home";
 import { type Locale, withLocalePath } from "@/components/siteNavigation";
 import { formatFrom, priceFrom } from "@/lib/pricing";
-import { directionStill, heroOrigin } from "@/lib/media";
+import { directionLoop, directionStill, heroOrigin } from "@/lib/media";
 import { SITE_URL } from "@/lib/metadata";
 
 /**
@@ -48,6 +48,8 @@ export default function HomePage({ locale }: { locale: Locale }) {
         fullscreenLabel={c.hero.fullscreen}
         pauseLabel={c.hero.pause}
         playLabel={c.hero.play}
+        cinemaLabel={c.hero.cinema}
+        closeLabel={c.hero.close}
       />
 
       <TitleSequence signs={c.drive.signs} title={c.intro.title} lead={c.intro.text} />
@@ -72,6 +74,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
               text: item.text,
               price: formatFrom(priceFrom[item.key], locale),
               still: directionStill[item.key],
+              loop: directionLoop[item.key],
             }))}
           />
           <Link href={withLocalePath("/estimate", locale)} className="btn btn--line mt-12">

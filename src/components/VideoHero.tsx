@@ -1,9 +1,10 @@
 "use client";
 
 import type { ElementType } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { Maximize2, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import clsx from "clsx";
+import HeroCinema from "@/components/HeroCinema";
 import StudioPlayer from "@/components/StudioPlayer";
 import { useLoopWindow } from "@/components/useLoopWindow";
 import { heroMedia, heroWindow } from "@/lib/media";
@@ -19,6 +20,9 @@ interface VideoHeroProps {
   fullscreenLabel?: string;
   pauseLabel?: string;
   playLabel?: string;
+  /** Кинозал: подпись в углу и кнопка выхода. */
+  cinemaLabel?: string;
+  closeLabel?: string;
   headingAs?: ElementType;
 }
 
@@ -37,7 +41,14 @@ const CAPTION_VISIBLE_MS = 10_000;
  * Первый экран главной — шоурил на весь экран.
  *
  * Воспроизведением занимается StudioPlayer — здесь только обвязка: титры,
- * звук, полноэкранный режим и маскировка экрана при загрузке.
+ * звук, кинозал и маскировка экрана при загрузке.
+ *
+ * Кинозал («На весь экран»): тот же видеоэлемент встаёт поверх сайта,
+ * свет гаснет, шоурил идёт с начала со звуком и целиком, без обрезки
+ * кадра; вокруг — уголки видоискателя и таймкод. Закончился ролик или
+ * нажали Esc — экран возвращается, звук выключается, фоновый показ
+ * продолжается. На iPhone полноэкранный режим для элемента не дают —
+ * там, как и раньше, системный плеер.
  */
 export default function VideoHero({
   title = "Highway Films",
@@ -47,6 +58,8 @@ export default function VideoHero({
   fullscreenLabel = "На весь экран",
   pauseLabel = "Пауза",
   playLabel = "Смотреть",
+  cinemaLabel = "Шоурил",
+  closeLabel = "Закрыть",
   headingAs: HeadingTag = "h1",
 }: VideoHeroProps) {
   const heroRef = useRef<HTMLElement>(null);
@@ -57,8 +70,13 @@ export default function VideoHero({
   /** Пауза кнопкой: шоурил играет сам, и остановить его должно быть можно. */
   const [isPaused, setIsPaused] = useState(false);
   const [isCaptionVisible, setIsCaptionVisible] = useState(true);
+  const [isCinema, setIsCinema] = useState(false);
+  const fullscreenButtonRef = useRef<HTMLButtonElement>(null);
+  /** Кинозал открыт в настоящем полноэкранном режиме — выход из него закрывает и кинозал. */
+  const inFullscreenRef = useRef(false);
 
-  useLoopWindow(videoRef, isPlaying, heroWindow);
+  // В кинозале ролик идёт до конца один раз, без петли.
+  useLoopWindow(videoRef, isPlaying && !isCinema, heroWindow);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -85,11 +103,45 @@ export default function VideoHero({
     }
   };
 
+  const closeCinema = () => {
+    const video = videoRef.current;
+    if (document.fullscreenElement) void document.exitFullscreen().catch(() => {});
+    inFullscreenRef.current = false;
+    setIsCinema(false);
+    setIsMuted(true);
+    if (video) video.muted = true;
+    fullscreenButtonRef.current?.focus({ preventScroll: true });
+  };
+
   const handleOpenFullscreen = async () => {
     const video = videoRef.current as FullscreenCapableVideoElement | null;
     const hero = heroRef.current as FullscreenCapableElement | null;
 
     if (!video) return;
+
+    // Кинозал — там, где элемент можно развернуть на весь экран (компьютер,
+    // Android). На iPhone — системный плеер, как раньше.
+    if (hero && document.fullscreenEnabled && typeof hero.requestFullscreen === "function") {
+      setIsCinema(true);
+      setIsPaused(false);
+      setIsCaptionVisible(false);
+      setIsMuted(false);
+      video.muted = false;
+      video.currentTime = heroWindow.start;
+      void video.play().catch(() => {
+        /* браузер вправе отказать */
+      });
+      try {
+        await hero.requestFullscreen();
+        inFullscreenRef.current = true;
+        // Телефон в кинозале — боком: ролик широкий. Где нельзя — не страшно.
+        const orientation = screen.orientation as ScreenOrientation & { lock?: (value: string) => Promise<void> };
+        void orientation?.lock?.("landscape").catch(() => {});
+      } catch {
+        /* без полного экрана кинозал просто закрывает окно браузера */
+      }
+      return;
+    }
 
     if (video.paused) {
       setIsPaused(false);
@@ -121,8 +173,54 @@ export default function VideoHero({
     }
   };
 
+  const onCinemaEvent = useEffectEvent((event: Event) => {
+    const video = videoRef.current;
+    if (event.type === "fullscreenchange") {
+      if (inFullscreenRef.current && !document.fullscreenElement) closeCinema();
+      return;
+    }
+    if (event.type === "timeupdate") {
+      if (video && video.currentTime >= heroWindow.end - 0.1) closeCinema();
+      return;
+    }
+    const key = event as KeyboardEvent;
+    if (key.key === "Escape") {
+      closeCinema();
+    } else if (key.key === " " && !(key.target as HTMLElement | null)?.closest("button")) {
+      key.preventDefault();
+      setIsPaused((value) => !value);
+    } else if (video && (key.key === "ArrowLeft" || key.key === "ArrowRight")) {
+      const shift = key.key === "ArrowLeft" ? -5 : 5;
+      video.currentTime = Math.min(heroWindow.end - 0.2, Math.max(heroWindow.start, video.currentTime + shift));
+    }
+  });
+
+  // Пока открыт кинозал: страница под ним не прокручивается, Esc и пробел
+  // работают, конец ролика и выход из полного экрана закрывают кинозал.
+  useEffect(() => {
+    if (!isCinema) return;
+    const video = videoRef.current;
+    const root = document.documentElement;
+    const { overflow, scrollbarGutter } = root.style;
+    root.style.overflow = "hidden";
+    // Место под полосу прокрутки на время сеанса не нужно — иначе справа
+    // у кинозала оставалась бы полоска страницы.
+    root.style.scrollbarGutter = "auto";
+    const listener = (event: Event) => onCinemaEvent(event);
+    document.addEventListener("fullscreenchange", listener);
+    window.addEventListener("keydown", listener);
+    video?.addEventListener("timeupdate", listener);
+    return () => {
+      root.style.overflow = overflow;
+      root.style.scrollbarGutter = scrollbarGutter;
+      document.removeEventListener("fullscreenchange", listener);
+      window.removeEventListener("keydown", listener);
+      video?.removeEventListener("timeupdate", listener);
+    };
+  }, [isCinema]);
+
   return (
-    <section ref={heroRef} className="screen" data-lane="off">
+    <section ref={heroRef} className="screen" data-lane="off" data-cinema={isCinema || undefined}>
       <StudioPlayer
         source={heroMedia}
         label={title}
@@ -189,7 +287,7 @@ export default function VideoHero({
                   )}
                   {isMuted ? muteLabel : unmuteLabel}
                 </button>
-                <button type="button" onClick={handleOpenFullscreen} className="screen-control" aria-label={fullscreenLabel}>
+                <button ref={fullscreenButtonRef} type="button" onClick={handleOpenFullscreen} className="screen-control" aria-label={fullscreenLabel}>
                   <Maximize2 className="h-4 w-4" strokeWidth={1.5} aria-hidden />
                   <span className="hidden sm:inline">{fullscreenLabel}</span>
                 </button>
@@ -200,6 +298,19 @@ export default function VideoHero({
       </div>
 
       <div className="screen-mask" aria-hidden />
+
+      {isCinema ? (
+        <HeroCinema
+          videoRef={videoRef}
+          title={cinemaLabel}
+          isPaused={isPaused}
+          isMuted={isMuted}
+          onTogglePause={() => setIsPaused((value) => !value)}
+          onToggleMute={handleToggleMute}
+          onClose={closeCinema}
+          labels={{ pause: pauseLabel, play: playLabel, mute: muteLabel, unmute: unmuteLabel, close: closeLabel }}
+        />
+      ) : null}
     </section>
   );
 }

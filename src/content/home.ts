@@ -22,6 +22,9 @@ export type HomeContent = {
     fullscreen: string;
     pause: string;
     play: string;
+    /** Кинозал: подпись над таймкодом и кнопка выхода. */
+    cinema: string;
+    close: string;
   };
   intro: { title: string; text: string };
   /** Щиты с преимуществами, которые пролетают над трассой. */
@@ -109,6 +112,8 @@ export const homeContent: Record<Locale, HomeContent> = {
       fullscreen: "На весь экран",
       pause: "Пауза",
       play: "Смотреть",
+      cinema: "Шоурил 2026",
+      close: "Закрыть",
     },
     intro: {
       title: "Снимаем рекламу, фильмы о компаниях, клипы и свадьбы",
@@ -193,6 +198,8 @@ export const homeContent: Record<Locale, HomeContent> = {
       fullscreen: "Full screen",
       pause: "Pause",
       play: "Play",
+      cinema: "Showreel 2026",
+      close: "Close",
     },
     intro: {
       title: "Commercials, company films, music videos and weddings",

@@ -209,6 +209,22 @@ export const directionStill: Record<PricedKey, string> = {
   videoproduction: "/images/stills/videoproduction-02.jpg",
 };
 
+/**
+ * Живые кадры «Что снимаем»: три секунды того же ролика раздела, начиная
+ * ровно с кадра-постера, без звука. Играют на компьютере при наведении.
+ * Нарезаны из public/video/<раздел>/…-01.mp4 (у полного цикла — -02).
+ */
+const loop = (key: string) => ({ mp4: mediaPath(`/video/dir/${key}.mp4`), av1: mediaPath(`/video/dir/${key}.av1.mp4`) });
+
+export const directionLoop: Record<PricedKey, { mp4: string; av1: string }> = {
+  commercials: loop("commercials"),
+  corporate: loop("corporate"),
+  "music-videos": loop("music-videos"),
+  weddings: loop("weddings"),
+  ai: loop("ai"),
+  videoproduction: loop("videoproduction"),
+};
+
 /** Первый экран «О студии»: нарезка из шоурила по всем направлениям. */
 export const aboutReel: MediaSource = {
   mp4: mediaPath("/video/about/about-01.mp4"),

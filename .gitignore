@@ -62,6 +62,8 @@ next-env.d.ts
 !/public/video/weddings/
 !/public/video/videoproduction/
 !/public/video/about/
+# Живые кадры «Что снимаем»: трёхсекундные петли без звука.
+!/public/video/dir/
 !/public/video/ai/
 /public/video/ai/*
 !/public/video/ai/ai-01.mp4

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { allowsVideo } from "@/lib/videoSource";
 
 export type DirIndexItem = {
   key: string;
@@ -11,6 +12,8 @@ export type DirIndexItem = {
   text: string;
   price: string;
   still: string;
+  /** Три секунды движения поверх кадра — на компьютере при наведении. */
+  loop?: { mp4: string; av1: string };
 };
 
 /** Зазор между кадром и строкой под ним, px. */
@@ -26,11 +29,19 @@ const GAP = 14;
  * наведения нет, поэтому кадр — узкой полосой над каждой строкой.
  *
  * Кадры декоративные (alt пустой): строку описывает её название.
+ *
+ * Кадр оживает: при наведении поверх него проявляется трёхсекундная
+ * петля того же ролика. Видео подключается при первом наведении на
+ * строку, не раньше; без мыши, при экономии трафика и при просьбе
+ * системы меньше двигать остаётся неподвижный кадр.
  */
 export default function DirIndex({ items }: { items: DirIndexItem[] }) {
   const boxRef = useRef<HTMLDivElement>(null);
   const peekRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<number | null>(null);
+  /** Строки, чьи петли уже подключены: грузятся только после наведения. */
+  const [armed, setArmed] = useState<Record<string, true>>({});
+  const loopsAllowed = useRef<boolean | null>(null);
 
   // Куда тянется кадр (aim) и где он сейчас (at), в координатах списка.
   const aim = useRef({ x: 0, y: 0 });
@@ -42,6 +53,25 @@ export default function DirIndex({ items }: { items: DirIndexItem[] }) {
   const snap = useRef(true);
 
   useEffect(() => () => cancelAnimationFrame(frame.current), []);
+
+  // Играет только петля под курсором, остальные стоят.
+  useEffect(() => {
+    const videos = peekRef.current?.querySelectorAll<HTMLVideoElement>("video[data-index]");
+    videos?.forEach((video) => {
+      if (Number(video.dataset.index) === active) {
+        video.currentTime = 0;
+        void video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, [active, armed]);
+
+  const arm = (item: DirIndexItem) => {
+    if (!item.loop || armed[item.key]) return;
+    loopsAllowed.current ??= window.matchMedia("(hover: hover) and (pointer: fine)").matches && allowsVideo({ ambient: true });
+    if (loopsAllowed.current) setArmed((current) => ({ ...current, [item.key]: true }));
+  };
 
   const place = () => {
     const peek = peekRef.current;
@@ -112,6 +142,7 @@ export default function DirIndex({ items }: { items: DirIndexItem[] }) {
                 pointerX.current = event.clientX;
                 followPointer();
                 setActive(index);
+                arm(item);
               }}
               onFocus={(event) => {
                 // С клавиатуры: кадр над серединой строки.
@@ -142,6 +173,30 @@ export default function DirIndex({ items }: { items: DirIndexItem[] }) {
         {items.map((item, index) => (
           <span key={item.key} className="dir-index__shot" data-on={index === active}>
             <Image src={item.still} alt="" fill sizes="(min-width: 1725px) 500px, 29vw" loading="lazy" className="object-cover" />
+            {item.loop && armed[item.key] ? (
+              <video
+                data-index={index}
+                ref={(video) => {
+                  // React не ставит muted при первом рендере, а без него нет автозапуска.
+                  if (video) {
+                    video.muted = true;
+                    video.defaultMuted = true;
+                  }
+                }}
+                muted
+                loop
+                playsInline
+                autoPlay={index === active}
+                preload="auto"
+                disablePictureInPicture
+                onPlaying={(event) => {
+                  event.currentTarget.dataset.ready = "true";
+                }}
+              >
+                <source src={item.loop.av1} type='video/mp4; codecs="av01.0.05M.08"' />
+                <source src={item.loop.mp4} type="video/mp4" />
+              </video>
+            ) : null}
           </span>
         ))}
       </div>

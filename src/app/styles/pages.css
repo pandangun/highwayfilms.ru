@@ -1187,6 +1187,21 @@
     scale: 1;
   }
 
+  /* Петля проявляется поверх кадра, когда реально пошла. */
+  .dir-index__shot video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .3s ease;
+  }
+
+  .dir-index__shot video[data-ready="true"] {
+    opacity: 1;
+  }
+
   .dir-index__shot {
     position: absolute;
     inset: 0;

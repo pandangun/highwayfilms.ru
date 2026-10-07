@@ -650,4 +650,30 @@
       min-width: 44px;
     }
   }
+
+  /* ─────────────────────────────
+     Предрассветная дымка. Страница — дорога из Москвы в Петербург; к её
+     концу у горизонта чуть светлеет, будто подъезжаем к городу под утро.
+     Только где браузер умеет анимацию по прокрутке; в остальных — ночь,
+     как была. Слой под содержимым, кликам не мешает.
+     ───────────────────────────── */
+  @supports (animation-timeline: scroll()) {
+    body::before {
+      content: "";
+      position: fixed;
+      inset: auto 0 0;
+      z-index: -1;
+      height: 70vh;
+      pointer-events: none;
+      background: radial-gradient(120% 90% at 50% 100%, rgb(var(--led-rgb) / .16), rgb(var(--led-rgb) / .05) 45%, rgb(var(--led-rgb) / 0) 72%);
+      opacity: 0;
+      animation: dawn linear both;
+      animation-timeline: scroll(root);
+    }
+
+    @keyframes dawn {
+      0%, 60% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  }
 }
