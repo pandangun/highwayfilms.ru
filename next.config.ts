@@ -32,6 +32,11 @@ const contentSecurityPolicy = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  // Корневых layout'ов три ((ru), (en), (cabinet)), общего нет — свою
+  // страницу 404 для любых адресов даёт только global-not-found.
+  experimental: {
+    globalNotFound: true,
+  },
   compress: true,
   // Драйверы базы кабинета грузим из node_modules как есть: PGlite
   // тянет WebAssembly, pg — нативные модули, собирать их бандлером незачем.

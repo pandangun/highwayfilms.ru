@@ -48,9 +48,9 @@ function compile(gl: WebGLRenderingContext, type: number, source: string) {
  * Живая ночная трасса на WebGL. Прокрутка двигает камеру вперёд, мышь
  * поворачивает взгляд и фары, на телефоне то же делает наклон.
  *
- * Рисует только пока видна на экране. Если WebGL нет или пользователь
- * просит меньше движения, остаётся один неподвижный кадр либо постер
- * из CSS — под канвасом всегда лежит фон секции.
+ * Рисует только пока видна на экране. Если пользователь просит меньше
+ * движения, остаётся один неподвижный кадр. Если WebGL нет, под канвасом
+ * лежит кадр трассы из CSS, а щиты всё равно летят от прокрутки.
  */
 export default function RoadScene({ mode, progressRef, length = 420, onFrame, className }: RoadSceneProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -64,6 +64,40 @@ export default function RoadScene({ mode, progressRef, length = 420, onFrame, cl
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Без WebGL дорогу не нарисовать, но щиты и финальная фраза всё равно
+    // идут от прокрутки: кадр считаем сами, камера смотрит прямо. Под
+    // щитами — неподвижный кадр трассы из CSS. Канвас при этом скрыт,
+    // поэтому размеры берём у сцены вокруг него.
+    const fallback = () => {
+      canvas.dataset.state = "fallback";
+      const stage = canvas.parentElement ?? canvas;
+      let raf = 0;
+      const frame = () => {
+        raf = 0;
+        const height = stage.clientHeight;
+        onFrameRef.current?.({
+          z: mode === "drive" ? (progressRef?.current ?? 0) * length : 0,
+          yaw: 0,
+          pitch: -0.02,
+          sway: 0,
+          width: stage.clientWidth,
+          height,
+          focal: F * height,
+        });
+      };
+      const kick = () => {
+        if (!raf) raf = requestAnimationFrame(frame);
+      };
+      window.addEventListener("scroll", kick, { passive: true });
+      window.addEventListener("resize", kick);
+      kick();
+      return () => {
+        if (raf) cancelAnimationFrame(raf);
+        window.removeEventListener("scroll", kick);
+        window.removeEventListener("resize", kick);
+      };
+    };
+
     // Контекст WebGL, компиляция шейдера и первый кадр — заметная работа,
     // а сцена стоит ниже шоурила. Поднимаем её, когда браузер освободится
     // после загрузки или когда до сцены останется экран прокрутки, — не
@@ -76,26 +110,17 @@ export default function RoadScene({ mode, progressRef, length = 420, onFrame, cl
         stencil: false,
         powerPreference: "high-performance",
       });
-      if (!gl) {
-        canvas.dataset.state = "fallback";
-        return;
-      }
+      if (!gl) return fallback();
       gl.getExtension("OES_standard_derivatives");
 
       const vs = compile(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
       const fs = compile(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
       const program = gl.createProgram();
-      if (!vs || !fs || !program) {
-        canvas.dataset.state = "fallback";
-        return;
-      }
+      if (!vs || !fs || !program) return fallback();
       gl.attachShader(program, vs);
       gl.attachShader(program, fs);
       gl.linkProgram(program);
-      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        canvas.dataset.state = "fallback";
-        return;
-      }
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return fallback();
       gl.useProgram(program);
 
       // Один треугольник на весь экран.

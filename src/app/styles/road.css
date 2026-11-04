@@ -639,6 +639,19 @@
   }
 
   @media (pointer: coarse) {
+    /* Ссылки подвала под палец: 44 px, отступы между ними тут же. */
+    .finale__list a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding-block: 0;
+    }
+
+    /* Подчёркивание — под текстом, а не у края зоны касания. */
+    .finale__list a::after {
+      bottom: calc(50% - .8em);
+    }
+
     .finale__meta a {
       display: inline-flex;
       align-items: center;

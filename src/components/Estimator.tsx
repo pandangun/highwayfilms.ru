@@ -206,7 +206,6 @@ export default function Estimator({
                         <span className="est-extra__label">{label.label}</span>
                         <span className="est-extra__hint">{label.hint}</span>
                       </span>
-                      <span className="est-extra__price num">+{formatNumber(extra.price, locale)}</span>
                       <span className="est-stepper">
                         <button
                           type="button"
@@ -228,6 +227,8 @@ export default function Estimator({
                           <Plus className="h-4 w-4" strokeWidth={1.5} aria-hidden />
                         </button>
                       </span>
+                      {/* Цена — последней, как у строк с флажком: все цены в одну колонку. */}
+                      <span className="est-extra__price num">+{formatNumber(extra.price, locale)}</span>
                     </>
                   ) : (
                     <label className="est-extra__toggle">

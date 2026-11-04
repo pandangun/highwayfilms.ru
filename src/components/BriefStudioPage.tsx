@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { Suspense, useState } from "react";
 import Field from "@/components/Field";
 import FormStatus from "@/components/FormStatus";
 import EstimateNote from "@/components/EstimateNote";
 import PageHead from "@/components/PageHead";
+import KmPost from "@/components/road/KmPost";
 import SubmitButton from "@/components/SubmitButton";
 
 type Locale = "ru" | "en";
@@ -57,7 +57,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
     {
       key: "project",
       title: t("Что нужно снять", "What needs filming"),
-      description: t("Тип проекта, задача, сроки и бюджет, если он уже есть.", "Project type, task, timing and budget if you have one."),
+      description: t("Тип проекта, задача, сроки и бюджет, если он уже есть.", "Project type, task, timing and budget if you have one."),
     },
     {
       key: "audience",
@@ -72,7 +72,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
     {
       key: "production",
       title: t("Формат и выдача", "Format and delivery"),
-      description: t("Какие версии нужны на выходе и что уже есть на руках.", "Which versions you need and what you already have."),
+      description: t("Какие версии нужны на выходе и что уже есть на руках.", "Which versions you need and what you already have."),
     },
     {
       key: "contact",
@@ -118,6 +118,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHead
+        km={<KmPost lang={locale} />}
         title={t("Бриф", "Brief")}
         lead={t(
           "Десять минут на ответы — и в течение рабочего дня мы присылаем смету и срок. Заполняйте только то, что уже известно: пустые поля отправке не мешают.",
@@ -174,7 +175,7 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
                   rows={5}
                   className="input"
                   placeholder={t(
-                    "Что нужно снять, для какого запуска и почему именно сейчас",
+                    "Что нужно снять, для какого запуска и почему именно сейчас",
                     "What needs filming, for which launch and why now",
                   )}
                 />
@@ -393,8 +394,11 @@ export function BriefStudioPage({ locale }: { locale: Locale }) {
               <label className="consent">
                 <input type="checkbox" name="agree" value="yes" required />
                 <span>
-                  {t("Даю согласие на обработку данных по ", "I agree to data processing under the ")}
-                  <Link href={privacyHref}>{t("политике конфиденциальности", "privacy policy")}</Link>
+                  {t("Даю согласие на обработку данных по ", "I agree to data processing under the ")}
+                  {/* В новой вкладке: иначе заполненный бриф пропадёт. */}
+                  <a href={privacyHref} target="_blank" rel="noopener">
+                    {t("политике конфиденциальности", "privacy policy")}
+                  </a>
                 </span>
               </label>
               <SubmitButton className="btn btn--primary" pendingLabel={t("Отправляем…", "Sending…")}>

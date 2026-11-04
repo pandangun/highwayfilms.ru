@@ -85,6 +85,12 @@
     font-size: var(--t-micro);
   }
 
+  @media (pointer: coarse) {
+    .btn--sm {
+      min-height: 44px;
+    }
+  }
+
   .btn--block {
     width: 100%;
   }
@@ -1511,6 +1517,8 @@
     font-size: var(--t-body);
     line-height: 1.5;
     transition: border-color .25s ease;
+    /* Браузер прокручивает к незаполненному полю — подпись не под шапкой. */
+    scroll-margin-top: calc(var(--header-h) + 3rem);
   }
 
   .input::placeholder {
@@ -1526,9 +1534,37 @@
     border-bottom-color: var(--led);
   }
 
+  /* Не заполнено обязательное — видно после попытки отправить. */
+  .input:user-invalid {
+    border-bottom-color: var(--cta-hi);
+  }
+
+  /* Пустой выбор и пустая дата — приглушённо, как подсказка в поле. */
+  select.input:has(option[value=""]:checked),
+  input[type="date"].input:not(:focus):invalid::-webkit-datetime-edit {
+    color: var(--haze);
+  }
+
   textarea.input {
     min-height: 7.5rem;
     resize: vertical;
+  }
+
+  /* На телефоне пустое поле — в три строки и растёт по мере текста:
+     пять пустых строк подряд превращали бриф в полупустые экраны. */
+  @media (max-width: 767px) {
+    textarea.input {
+      min-height: calc(3lh + 1.45rem);
+      max-height: 24rem;
+      field-sizing: content;
+    }
+
+    /* Где поле само не растёт — те же три строки, дальше прокрутка. */
+    @supports not (field-sizing: content) {
+      textarea.input {
+        height: calc(3lh + 1.45rem);
+      }
+    }
   }
 
   select.input {

@@ -50,8 +50,8 @@ export const siteStrings: Record<Locale, SiteStrings> = {
     menuClose: "Закрыть меню",
     menuLabel: "Главное меню",
     home: "На главную",
-    city: "Санкт-Петербург и Москва",
-    footerLine: "Видеостудия. Реклама, корпоративное видео, клипы, свадьбы и AI-ролики.",
+    city: "Санкт‑Петербург и Москва",
+    footerLine: "Видеостудия. Реклама, корпоративное видео, клипы, свадьбы и AI‑ролики.",
     rights: "Highway Films",
     privacy: "Политика конфиденциальности",
     labels: {
@@ -61,7 +61,7 @@ export const siteStrings: Record<Locale, SiteStrings> = {
       city: "Города",
     },
     footer: {
-      about: "Видеостудия в Санкт‑Петербурге и Москве",
+      about: "Видеостудия в Санкт‑Петербурге и Москве",
       services: "Направления",
       studio: "Студия",
       contact: "Связаться",

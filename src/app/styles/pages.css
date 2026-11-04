@@ -154,6 +154,12 @@
     color: var(--moon);
   }
 
+  @media (pointer: coarse) {
+    .brief-index a {
+      padding-block: .6rem;
+    }
+  }
+
   .brief-form {
     display: grid;
     gap: 0;
@@ -306,7 +312,7 @@
 
   /* Разделы политики — не заголовки глав: кегль скромнее, чем в статьях. */
   .prose.legal h2 {
-    font-size: var(--t-h4);
+    font-size: clamp(1.35rem, 1.1rem + .6vw, 1.55rem);
     line-height: 1.15;
   }
 
@@ -316,8 +322,9 @@
     font-size: min(var(--t-h1), 8.2vw);
   }
 
-  .legal {
-    max-width: 46em;
+  /* С двумя классами — иначе .prose ниже перебивает ширину и кегль. */
+  .prose.legal {
+    max-width: 36em;
     font-size: 1.0625rem;
   }
 
@@ -1454,10 +1461,39 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto auto;
     align-items: center;
-    gap: .5rem 1rem;
+    gap: .5rem .9rem;
     min-height: 4.4rem;
     padding: .7rem 0;
     border-bottom: 1px solid var(--line);
+  }
+
+  /* Строка со счётчиком: подпись с отступом под флажок, чтобы все
+     подписи начинались с одной вертикали, цена — справа, как у флажков. */
+  .est-extra > .est-extra__text {
+    padding-left: calc(1.3rem + .9rem);
+  }
+
+  .est-extra__price {
+    justify-self: end;
+    min-width: 4.5em;
+    text-align: right;
+  }
+
+  /* На телефоне подписи не хватает места рядом со счётчиком: счётчик и
+     цена — второй строкой, под подписью. */
+  @media (max-width: 639px) {
+    .est-extra > .est-extra__text {
+      grid-column: 1 / -1;
+    }
+
+    .est-extra > .est-stepper {
+      justify-self: start;
+      margin-left: calc(1.3rem + .9rem);
+    }
+
+    .est-extra > .est-extra__price {
+      grid-column: -2 / -1;
+    }
   }
 
   .est-extra__toggle {
@@ -1491,6 +1527,42 @@
     border-color: var(--led);
     background-size: 55% 55%;
     box-shadow: 0 0 14px rgb(var(--led-rgb) / .45);
+  }
+
+  /* Галочки и кнопки выбора в брифе и заявках — той же лампой, что в
+     калькуляторе, а не системными контролами. */
+  :is(.choice, .consent) input {
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color .2s ease, box-shadow .2s ease, background-size .2s var(--ease);
+    background: linear-gradient(var(--led), var(--led)) center / 0 0 no-repeat;
+  }
+
+  :is(.choice, .consent) input[type="radio"] {
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--led) 0 60%, transparent 62%) center / 0 0 no-repeat;
+  }
+
+  :is(.choice, .consent):hover input {
+    border-color: rgb(var(--moon-rgb) / .5);
+  }
+
+  :is(.choice, .consent) input:checked {
+    border-color: var(--led);
+    background-size: 55% 55%;
+    box-shadow: 0 0 14px rgb(var(--led-rgb) / .45);
+  }
+
+  /* Ошибка заполнения — после попытки отправить, белым, как .notice--error. */
+  .consent input:user-invalid {
+    border-color: var(--cta-hi);
+    box-shadow: 0 0 0 1px var(--cta-hi);
+  }
+
+  .dir-tile__price {
+    flex-basis: 100%;
   }
 
   .est-extra__text {
@@ -1533,8 +1605,8 @@
   .est-stepper button {
     display: grid;
     place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
     color: var(--moon);
     transition: background-color .2s ease;
   }

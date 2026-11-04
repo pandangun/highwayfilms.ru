@@ -21,15 +21,16 @@ export const metadata: Metadata = {
 
 // Подставляется на билде (например, из CI). Фолбэк — сегодняшняя дата.
 const UPDATED_AT = "2026-09-23"; // день последней правки текста
+const UPDATED_LABEL = "23 сентября 2026";
 
 const SECTIONS = [
   { id: "operator", title: "1. Термины и оператор" },
   { id: "scope", title: "2. Область действия" },
   { id: "data", title: "3. Какие данные мы обрабатываем" },
   { id: "purposes", title: "4. Цели обработки" },
-  { id: "legal", title: "5. Правовые основания (152-ФЗ)" },
+  { id: "legal", title: "5. Правовые основания (152‑ФЗ)" },
   { id: "sharing", title: "6. Передача третьим лицам" },
-  { id: "localization", title: "7. Локализация и хранение данных (242-ФЗ)" },
+  { id: "localization", title: "7. Локализация и хранение данных (242‑ФЗ)" },
   { id: "security", title: "8. Меры безопасности" },
   { id: "cookies", title: "9. Cookies и аналитика" },
   { id: "rights", title: "10. Права субъекта ПДн" },
@@ -63,21 +64,16 @@ export default function PrivacyPage() {
         })}
       </Script>
 
-      {/* Переход к тексту для клавиатуры и скринридеров. */}
-      <a href="#content" className="visually-hidden focus:not-sr-only">
-        Перейти к содержимому
-      </a>
-
       {/* Header */}
-      <header className="max-w-3xl">
+      <header>
         <h1 className="display display--h1 legal-title">Политика конфиденциальности</h1>
         <p className="mt-6 text-small text-steel">
-          Дата обновления: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>
+          Дата обновления: <time dateTime={UPDATED_AT} className="num">{UPDATED_LABEL}</time>
         </p>
         <p className="lead">
           Эта политика описывает, какие данные мы получаем на сайте, с какой целью используем
           и какие у вас есть права. Документ подготовлен в соответствии с Федеральным законом
-          № 152-ФЗ «О персональных данных».
+          № 152‑ФЗ «О персональных данных».
         </p>
       </header>
 
@@ -87,12 +83,12 @@ export default function PrivacyPage() {
         <aside className="h-max lg:sticky lg:top-28">
           <nav aria-label="Содержание" className="text-sm">
             <p className="mb-4 text-moon">Содержание</p>
-            <ol className="space-y-1">
+            <ol className="lg:space-y-1">
               {SECTIONS.map((s) => (
                 <li key={s.id}>
                   <a
                     href={`#${s.id}`}
-                    className="text-steel transition-colors hover:text-moon"
+                    className="inline-block py-2 text-steel transition-colors hover:text-moon lg:py-0"
                   >
                     {s.title}
                   </a>
@@ -127,8 +123,8 @@ export default function PrivacyPage() {
           <section id="data" className="legal-section">
             <h2>3. Какие данные мы обрабатываем</h2>
             <ul>
-              <li>Контактные данные из формы: имя, e-mail, телефон, текст сообщения.</li>
-              <li>Технические данные: IP-адрес, cookies, сведения о браузере/устройстве, URL-реферер.</li>
+              <li>Контактные данные из формы: имя, e‑mail, телефон, текст сообщения.</li>
+              <li>Технические данные: IP‑адрес, cookies, сведения о браузере/устройстве, URL‑реферер.</li>
               <li>Переписка в мессенджерах/почте (если вы инициировали контакт).</li>
             </ul>
           </section>
@@ -144,7 +140,7 @@ export default function PrivacyPage() {
           </section>
 
           <section id="legal" className="legal-section">
-            <h2>5. Правовые основания (152-ФЗ)</h2>
+            <h2>5. Правовые основания (152‑ФЗ)</h2>
             <ul>
               <li>Согласие субъекта персональных данных.</li>
               <li>Исполнение договора или действий по вашей инициативе до его заключения.</li>
@@ -164,7 +160,7 @@ export default function PrivacyPage() {
           </section>
 
           <section id="localization" className="legal-section">
-            <h2>7. Локализация и хранение данных (242-ФЗ)</h2>
+            <h2>7. Локализация и хранение данных (242‑ФЗ)</h2>
             <p>
               Персональные данные граждан РФ, собираемые через сайт, регистрируются, систематизируются,
               накапливаются и хранятся на серверах, расположенных на территории Российской Федерации.
@@ -214,13 +210,6 @@ export default function PrivacyPage() {
               </table>
             </div>
 
-            <p className="mt-2">
-              Настройки cookies:{" "}
-              <button type="button" data-cmp="open" >
-                изменить согласие
-              </button>
-              .
-            </p>
           </section>
 
           <section id="rights" className="legal-section">
@@ -247,7 +236,7 @@ export default function PrivacyPage() {
             <h2>12. Обновления политики</h2>
             <p>
               Актуальная версия всегда доступна по адресу <span className="text-moon">/privacy</span>.
-              Дата обновления: <time dateTime={UPDATED_AT}>{UPDATED_AT}</time>.
+              Дата обновления: <time dateTime={UPDATED_AT} className="num">{UPDATED_LABEL}</time>.
             </p>
           </section>
 

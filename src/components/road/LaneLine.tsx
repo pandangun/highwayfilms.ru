@@ -46,7 +46,8 @@ export default function LaneLine({ lang }: { lang: "ru" | "en" }) {
       line.style.setProperty("--lane-offset", `${(y * 1.6) % 96}px`);
       const kmText = String(Math.round((y / max) * ROUTE_KM));
       if (km.textContent !== kmText) km.textContent = kmText;
-      line.dataset.hidden = cover > 0.55 ? "true" : "false";
+      // Подвал подъехал к верху экрана — разметка гаснет, не заезжая под шапку.
+      line.dataset.hidden = cover > 0.55 || top < vh * 0.35 ? "true" : "false";
       line.style.setProperty("--lane-end", `${Math.max(0, vh - top)}px`);
       // Разметка подвала едет, пока подвал на экране, и встаёт вместе
       // с прокруткой. 72 px — шаг штриха в road.css.

@@ -242,7 +242,7 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         title: "Что снимаем",
         items: [
           {
-            title: "Фильм о компании",
+            title: "Фильм о компании",
             text: "История, люди, производство. Его показывают на сайте, выставках и встречах с партнёрами.",
           },
           {
@@ -273,11 +273,11 @@ export const servicePages: Record<ServiceSlug, Record<Locale, ServicePage>> = {
         title: "Масштаб проекта",
         items: [
           {
-            name: "Фильм о компании",
+            name: "Фильм о компании",
             facts: [{ label: "Смены", value: "одна" }, { label: "Интервью", value: "до трёх" }, { label: "На выходе", value: "фильм до 3 минут" }],
           },
           {
-            name: "Производство и люди",
+            name: "Производство и люди",
             facts: [{ label: "Смены", value: "две-три, несколько площадок" }, { label: "Интервью", value: "до шести" }, { label: "На выходе", value: "фильм до 7 минут и нарезки" }],
           },
           {

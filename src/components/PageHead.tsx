@@ -9,10 +9,13 @@ import clsx from "clsx";
 export default function PageHead({
   title,
   lead,
+  km,
   children,
   className,
 }: {
   title: string;
+  /** Отметка «км» над заголовком, как на остальных страницах трассы. */
+  km?: ReactNode;
   lead?: ReactNode;
   children?: ReactNode;
   className?: string;
@@ -20,6 +23,7 @@ export default function PageHead({
   return (
     <header className={clsx("page-head", className)}>
       <div className="wrap">
+        {km}
         <h1 className="display display--h1 max-w-[14ch]">{title}</h1>
         {lead ? <p className="lead">{lead}</p> : null}
         {children}
